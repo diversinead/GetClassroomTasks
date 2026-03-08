@@ -1,0 +1,12 @@
+[
+  {
+    "course": {
+      "id": "manual_bus_man",
+      "name": "112BMA_5 (2026)"
+    },
+    "assignments": [
+      {"due": "Due 27 Mar", "title": "Business Management U3 AOS 2"},
+      {"due": "Due 1 Jun", "title": "Business Management U3 AOS 3"}
+    ]
+  }
+]

@@ -225,8 +225,11 @@ def main():
         except FileNotFoundError:
             existing_data = {}
         
+        EXCLUDED_COURSES = {'LLibrary Space'}
         all_data = []
         for course in courses:
+            if course['name'] in EXCLUDED_COURSES:
+                continue
             print(f"Course: {course['name']}")
             coursework = get_coursework(driver, course['id'])
             

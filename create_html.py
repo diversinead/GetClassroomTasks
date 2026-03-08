@@ -2,7 +2,8 @@ import json
 import webbrowser
 import os
 import sys
-from datetime import datetime
+import re
+from datetime import datetime, timedelta
 
 # Get student name from command line argument
 if len(sys.argv) > 1:
@@ -40,34 +41,133 @@ term_dates = {
     ]
 }
 
+timetable_student1 = """
+<tr>
+    <td><strong>MON</strong></td>
+    <td>Digital Art</td>
+    <td>Digital Art</td>
+    <td>French</td>
+    <td>Philosophy</td>
+    <td>Philosophy</td>
+</tr>
+<tr>
+    <td><strong>TUE</strong></td>
+    <td>French</td>
+    <td>English</td>
+    <td>Maths</td>
+    <td>Humanities</td>
+    <td>Pos Ed</td>
+</tr>
+<tr>
+    <td><strong>WED</strong></td>
+    <td>Food</td>
+    <td>Food</td>
+    <td>Maths</td>
+    <td>English</td>
+    <td>English</td>
+</tr>
+<tr>
+    <td><strong>THUR</strong></td>
+    <td>Leadership</td>
+    <td>Leadership</td>
+    <td>English</td>
+    <td>Science</td>
+    <td>Science</td>
+</tr>
+<tr>
+    <td><strong>FRI</strong></td>
+    <td>Volleyball</td>
+    <td>Volleyball</td>
+    <td>Humanities</td>
+    <td>Maths</td>
+    <td>Maths</td>
+</tr>
+"""
+
+timetable_student2 = """
+<tr>
+    <td><strong>MON</strong></td>
+    <td>Phys Ed</td>
+    <td>Phys Ed</td>
+    <td>Bus Man</td>
+    <td>Maths</td>
+    <td>Accounting</td>
+</tr>
+<tr>
+    <td><strong>TUE</strong></td>
+    <td>Phys Ed</td>
+    <td>Maths</td>
+    <td>Pos Ed</td>
+    <td>Sociology</td>
+    <td>English</td>
+</tr>
+<tr>
+    <td><strong>WED</strong></td>
+    <td>Bus Man</td>
+    <td>Bus Man</td>
+    <td>Phys Ed</td>
+    <td>Maths</td>
+    <td>Maths</td>
+</tr>
+<tr>
+    <td><strong>THUR</strong></td>
+    <td>Accounting</td>
+    <td>Accounting</td>
+    <td>English</td>
+    <td>Sociology</td>
+    <td>Sociology</td>
+</tr>
+<tr>
+    <td><strong>FRI</strong></td>
+    <td>English</td>
+    <td>English</td>
+    <td>Sociology</td>
+    <td>Accounting</td>
+    <td>Bus Man</td>
+</tr>
+"""
+
+if student_name.lower() == "dara":
+    timetable_rows = timetable_student1
+else:
+    timetable_rows = timetable_student2
+
 def get_term_week(date_str):
     try:
-        # Parse date from strings like "Due 4 Mar"
-        match = date_str.replace('Due ', '').strip()
-        for term, weeks in term_dates.items():
+        clean = date_str.replace('Due ', '').strip()
+        month_map = {'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
+
+        if re.search(r'yesterday', clean, re.I):
+            assign_date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+        else:
+            year_match = re.search(r'\b(\d{4})\b', clean)
+            year = int(year_match.group(1)) if year_match else 2026
+            # "DD Mon" e.g. "19 Mar"
+            m = re.search(r'(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)', clean, re.I)
+            if m:
+                day, month = int(m.group(1)), month_map.get(m.group(2).capitalize(), 0)
+            else:
+                # "Mon DD" e.g. "Mar 11" or "Mar 11, 9:00 AM"
+                m = re.search(r'(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})', clean, re.I)
+                if m:
+                    month, day = month_map.get(m.group(1).capitalize(), 0), int(m.group(2))
+                else:
+                    return '', ''
+            if not month:
+                return '', ''
+            assign_date = datetime(year, month, day)
+
+        for term_name, weeks in term_dates.items():
             for start, end, week_num in weeks:
-                start_date = datetime.strptime(start, '%Y-%m-%d')
-                end_date = datetime.strptime(end, '%Y-%m-%d')
-                # Try to parse the assignment date
-                try:
-                    parts = match.split()
-                    if len(parts) >= 2:
-                        day = int(parts[0])
-                        month_map = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
-                        month = month_map.get(parts[1], 0)
-                        if month:
-                            assign_date = datetime(2026, month, day)
-                            if start_date <= assign_date <= end_date:
-                                return term, week_num
-                except:
-                    pass
+                if datetime.strptime(start, '%Y-%m-%d') <= assign_date <= datetime.strptime(end, '%Y-%m-%d'):
+                    return term_name, week_num
     except:
         pass
     return '', ''
 
 # Load existing status data if it exists
 try:
-    with open('assignment_status.json', 'r') as f:
+    with open(f'assignment_status_{student_name}.json', 'r') as f:
         status_data = json.load(f)
 except FileNotFoundError:
     status_data = {}
@@ -101,11 +201,18 @@ subject_names = {
     '77PHI1_1 (2026)': 'Philosophy',
     '77MAT.G (2026)': 'Maths',
     '77HUM.G (2026)': 'Humanities',
-    '77POS.G (2026)': 'Pos Ed',
+    '77POS.G (2026)': 'Pos Ed 7',
     '77FOO1_5 (2026)': 'Food',
     '77LEA.G (2026)': 'Leadership',
     '77SCI.G (2026)': 'Science',
     '77VOLB_2 (2026)': 'Volleyball',
+    '111SOC_2 (2026)': 'Sociology',
+    '111POS.G (2026)': 'Pos Ed',
+    '112BMA_5 (2026)': 'Business Mgt',
+    '111ENG_3 (2026)': 'English',
+    '111ACC_1 (2026)': 'Accounting',
+    '111PED_2 (2026) DBA': 'PE',
+    '111GMA_3 (2026)': 'Maths',
     'LLibrary Space': 'Library'
 }
 
@@ -115,24 +222,25 @@ def get_display_name(course_name):
 # Build table rows
 subjects = set()
 table_rows = ""
+EXCLUDED_SUBJECTS = {'Library'}
 for course_data in data:
     course = course_data['course']
     assignments = course_data['assignments']
-    
-    if assignments:
+
+    if assignments and get_display_name(course['name']) not in EXCLUDED_SUBJECTS:
         display_name = get_display_name(course['name'])
         subjects.add(display_name)
         for assignment in assignments:
-            task_key = f"{course['name']}||{assignment['title']}"
+            task_key = f"{course['name']}||{assignment['title']}||{assignment['due']}"
             current_status = status_data.get(task_key, 'Not Started')
             
             table_rows += f'<tr>\n'
             table_rows += f'  <td class="subject">{display_name}</td>\n'
             table_rows += f'  <td>{assignment["title"]}</td>\n'
-            table_rows += f'  <td>{assignment["due"]}</td>\n'
+            table_rows += f'  <td>{assignment["due"].replace("Due ", "", 1)}</td>\n'
             term, week = get_term_week(assignment["due"])
-            table_rows += f'  <td>{term}</td>\n'
-            table_rows += f'  <td>Week {week}</td>\n'
+            table_rows += f'  <td>{str(term).replace("Term ", "", 1)}</td>\n'
+            table_rows += f'  <td>{week}</td>\n'
             table_rows += f'  <td><select class="status-select" data-key="{task_key}" onchange="saveStatus(this)">\n'
             for status in ['Not Started', 'In Progress', 'Completed']:
                 selected = 'selected' if status == current_status else ''
@@ -217,46 +325,7 @@ html = """
                     <th>P4</th>
                     <th>P5</th>
                 </tr>
-                <tr>
-                    <td><strong>MON</strong></td>
-                    <td>Digital Art</td>
-                    <td>Digital Art</td>
-                    <td>French</td>
-                    <td>Philosophy</td>
-                    <td>Philosophy</td>
-                </tr>
-                <tr>
-                    <td><strong>TUE</strong></td>
-                    <td>French</td>
-                    <td>English</td>
-                    <td>Maths</td>
-                    <td>Humanities</td>
-                    <td>Pos Ed</td>
-                </tr>
-                <tr>
-                    <td><strong>WED</strong></td>
-                    <td>Food</td>
-                    <td>Food</td>
-                    <td>Maths</td>
-                    <td>English</td>
-                    <td>English</td>
-                </tr>
-                <tr>
-                    <td><strong>THUR</strong></td>
-                    <td>Leadership</td>
-                    <td>Leadership</td>
-                    <td>English</td>
-                    <td>Science</td>
-                    <td>Science</td>
-                </tr>
-                <tr>
-                    <td><strong>FRI</strong></td>
-                    <td>Volleyball</td>
-                    <td>Volleyball</td>
-                    <td>Humanities</td>
-                    <td>Maths</td>
-                    <td>Maths</td>
-                </tr>
+                 """ + timetable_rows + """
             </table>
         </div>
     </div>
@@ -316,7 +385,7 @@ html = """
         rows.forEach(row => {
             const term = row.cells[3].textContent;
             const week = row.cells[4].textContent;
-            if (term && week) weeks.add(`${term} ${week}`);
+            if (term && week) weeks.add(`Term ${term} Week ${week}`);
         });
         const weekFilter = document.getElementById('weekFilter');
         [...weeks].sort((a, b) => {
@@ -332,24 +401,38 @@ html = """
             weekFilter.appendChild(opt);
         });
         
+        function applyStatuses(statuses) {
+            document.querySelectorAll('.status-select').forEach(select => {
+                const key = select.getAttribute('data-key');
+                if (statuses[key]) select.value = statuses[key];
+            });
+            updateGantt();
+        }
+
         function saveStatus(selectElement) {
             const key = selectElement.getAttribute('data-key');
             const status = selectElement.value;
-            
-            let statuses = JSON.parse(localStorage.getItem('assignmentStatuses') || '{}');
-            statuses[key] = status;
-            localStorage.setItem('assignmentStatuses', JSON.stringify(statuses));
+            fetch('/save_status', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({key, status})
+            }).catch(() => {
+                // Fallback: persist in localStorage when opened as a plain file
+                const statuses = JSON.parse(localStorage.getItem('assignmentStatuses') || '{}');
+                statuses[key] = status;
+                localStorage.setItem('assignmentStatuses', JSON.stringify(statuses));
+            });
             filterTable();
         }
-        
+
         window.onload = function() {
-            const statuses = JSON.parse(localStorage.getItem('assignmentStatuses') || '{}');
-            document.querySelectorAll('.status-select').forEach(select => {
-                const key = select.getAttribute('data-key');
-                if (statuses[key]) {
-                    select.value = statuses[key];
-                }
-            });
+            fetch('/statuses')
+                .then(r => r.json())
+                .then(statuses => applyStatuses(statuses))
+                .catch(() => {
+                    // Fallback to localStorage when opened as a plain file
+                    applyStatuses(JSON.parse(localStorage.getItem('assignmentStatuses') || '{}'));
+                });
         };
         
         function applyFilters() {
@@ -376,7 +459,7 @@ html = """
                 
                 const matchesSearch = assignmentCell.includes(search) || subjectCell.toLowerCase().includes(search);
                 const matchesSubject = selectedSubjects.includes(subjectCell);
-                const matchesWeek = !week || `${termCell} ${weekCell}` === week;
+                const matchesWeek = !week || `Term ${termCell} Week ${weekCell}` === week;
                 const matchesStatus = !hideCompleted || status !== 'Completed';
                 
                 rows[i].style.display = (matchesSearch && matchesSubject && matchesWeek && matchesStatus) ? '' : 'none';
@@ -400,12 +483,25 @@ html = """
         const subjectColors = {};
         
         function parseDueDate(dueStr) {
-            const match = dueStr.match(/(\\d{1,2})\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
+            if (/yesterday/i.test(dueStr)) {
+                const d = new Date();
+                d.setDate(d.getDate() - 1);
+                return d;
+            }
+            const monthMap = {Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11};
+            const yearMatch = dueStr.match(/\\b(\\d{4})\\b/);
+            const year = yearMatch ? parseInt(yearMatch[1]) : 2026;
+            // Format: "DD Mon" e.g. "19 Mar"
+            let match = dueStr.match(/(\\d{1,2})\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i);
             if (match) {
-                const day = parseInt(match[1]);
-                const monthMap = {Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11};
-                const month = monthMap[match[2]];
-                return new Date(2026, month, day);
+                const monthKey = match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase();
+                return new Date(year, monthMap[monthKey], parseInt(match[1]));
+            }
+            // Format: "Mon DD" e.g. "Mar 11" or "Mar 11, 9:00 AM"
+            match = dueStr.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+(\\d{1,2})/i);
+            if (match) {
+                const monthKey = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
+                return new Date(year, monthMap[monthKey], parseInt(match[2]));
             }
             return null;
         }
@@ -433,15 +529,16 @@ html = """
             const hideCompleted = document.getElementById('hideCompleted').checked;
             
             const tasks = [];
-            const statuses = JSON.parse(localStorage.getItem('assignmentStatuses') || '{}');
-            const termDates = """ + json.dumps(term_dates) + """;
+            const statuses = {};
+            document.querySelectorAll('.status-select').forEach(s => { statuses[s.getAttribute('data-key')] = s.value; });
+            const termDates =""" + json.dumps(term_dates) + """;
             
             allData.forEach(course => {
                 if (selectedSubjects.includes(getDisplayName(course.course.name))) {
                     course.assignments.forEach(assignment => {
                         const dueDate = parseDueDate(assignment.due);
                         if (dueDate) {
-                            const taskKey = `${course.course.name}||${assignment.title}`;
+                            const taskKey = `${course.course.name}||${assignment.title}||${assignment.due}`;
                             const status = statuses[taskKey] || 'Not Started';
                             
                             if (hideCompleted && status === 'Completed') return;
@@ -474,7 +571,7 @@ html = """
                                     subject: getDisplayName(course.course.name),
                                     title: assignment.title,
                                     due: dueDate,
-                                    dueStr: assignment.due,
+                                    dueStr: assignment.due.replace(/^Due\s+/, ''),
                                     status: status,
                                     termWeek: termWeek
                                 });
@@ -587,8 +684,6 @@ html = """
             
             document.getElementById('ganttChart').innerHTML = ganttHtml;
         }
-        
-        updateGantt();
     </script>
 </body>
 </html>
@@ -597,5 +692,6 @@ html = """
 with open(f'assignments_{student_name}.html', 'w', encoding='utf-8') as f:
     f.write(html)
 
-print(f"Opening assignments_{student_name}.html in browser...")
-webbrowser.open('file://' + os.path.abspath(f'assignments_{student_name}.html'))
+if '--no-browser' not in sys.argv:
+    print(f"Opening assignments_{student_name}.html in browser...")
+    webbrowser.open('file://' + os.path.abspath(f'assignments_{student_name}.html'))
