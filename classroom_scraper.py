@@ -9,6 +9,7 @@ import time
 import json
 import base64
 import sys
+import shutil
 
 from jproperties import Properties
 
@@ -208,7 +209,20 @@ def get_coursework(driver, course_id):
     
     return driver.execute_script(script)
 
+def backup_data():
+    import os
+    backup_dir = 'data/backup'
+    if os.path.exists(backup_dir):
+        shutil.rmtree(backup_dir)
+    os.makedirs(backup_dir)
+    for filename in os.listdir('data'):
+        src = os.path.join('data', filename)
+        if os.path.isfile(src):
+            shutil.copy2(src, backup_dir)
+    print(f"Data backed up to {backup_dir}")
+
 def main():
+    backup_data()
     driver = setup_driver()
     
     try:
@@ -252,14 +266,13 @@ def main():
             json.dump(all_data, f, indent=2)
         
         print(f"Data saved to {output_file}")
-        print("\nGenerating HTML...")
         
     finally:
         driver.quit()
     
     # Auto-run create_html after scraping
     import subprocess
-    subprocess.run(['python', 'create_html.py', student_name])
+    subprocess.run(['python', 'create_html.py', student_name, '--no-browser'])
 
 if __name__ == "__main__":
     main()

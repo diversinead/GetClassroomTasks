@@ -466,15 +466,26 @@ html = """
             }
         }
         
+        let sortState = {col: -1, asc: true};
         function sortTable(col) {
+            const asc = sortState.col === col ? !sortState.asc : true;
+            sortState = {col, asc};
+
             const table = document.getElementById('assignmentTable');
-            const rows = Array.from(table.rows).slice(1);
-            const sorted = rows.sort((a, b) => {
-                const aVal = a.cells[col].textContent;
-                const bVal = b.cells[col].textContent;
-                return aVal.localeCompare(bVal);
+            const rows = Array.from(table.tBodies[0].rows);
+            rows.sort((a, b) => {
+                const aVal = a.cells[col].textContent.trim();
+                const bVal = b.cells[col].textContent.trim();
+                const n = parseFloat(aVal) - parseFloat(bVal);
+                const cmp = isNaN(n) ? aVal.localeCompare(bVal) : n;
+                return asc ? cmp : -cmp;
             });
-            sorted.forEach(row => table.tBodies[0].appendChild(row));
+            rows.forEach(row => table.tBodies[0].appendChild(row));
+
+            document.querySelectorAll('#assignmentTable th').forEach((th, i) => {
+                th.textContent = th.textContent.replace(/ [▲▼]$/, '');
+                if (i === col) th.textContent += asc ? ' ▲' : ' ▼';
+            });
         }
         
         // Gantt chart code

@@ -200,25 +200,25 @@
 <tr>
   <td class="subject">Business Mgt</td>
   <td>Note taking: Motivational strategies</td>
-  <td>Mar 11, 9:00 AM</td>
-  <td>1</td>
-  <td>7</td>
-  <td><select class="status-select" data-key="112BMA_5 (2026)||Note taking: Motivational strategies||Due Mar 11, 9:00 AM" onchange="saveStatus(this)">
-    <option value="Not Started" >Not Started</option>
+  <td>Tomorrow, 9:00 AM</td>
+  <td></td>
+  <td></td>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Note taking: Motivational strategies||Due Tomorrow, 9:00 AM" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
     <option value="In Progress" >In Progress</option>
-    <option value="Completed" selected>Completed</option>
+    <option value="Completed" >Completed</option>
   </select></td>
 </tr>
 <tr>
   <td class="subject">Business Mgt</td>
   <td>Motivational theories similarities and differences</td>
-  <td>Yesterday, 2:02 PM</td>
+  <td>Mar 6, 2:02 PM</td>
   <td>1</td>
   <td>6</td>
-  <td><select class="status-select" data-key="112BMA_5 (2026)||Motivational theories similarities and differences||Due Yesterday, 2:02 PM" onchange="saveStatus(this)">
-    <option value="Not Started" >Not Started</option>
+  <td><select class="status-select" data-key="112BMA_5 (2026)||Motivational theories similarities and differences||Due Mar 6, 2:02 PM" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
     <option value="In Progress" >In Progress</option>
-    <option value="Completed" selected>Completed</option>
+    <option value="Completed" >Completed</option>
   </select></td>
 </tr>
 <tr>
@@ -295,11 +295,23 @@
 </tr>
 <tr>
   <td class="subject">English</td>
-  <td>Homework Week 6 - Paragraph Prompt 4</td>
-  <td>Mar 10, 4:30 PM</td>
+  <td>Homework Week 7 - Paragraph Prompt 5</td>
+  <td>Mar 17, 4:30 PM</td>
   <td>1</td>
-  <td>7</td>
-  <td><select class="status-select" data-key="111ENG_3 (2026)||Homework Week 6 - Paragraph Prompt 4||Due Mar 10, 4:30 PM" onchange="saveStatus(this)">
+  <td>8</td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Homework Week 7 - Paragraph Prompt 5||Due Mar 17, 4:30 PM" onchange="saveStatus(this)">
+    <option value="Not Started" selected>Not Started</option>
+    <option value="In Progress" >In Progress</option>
+    <option value="Completed" >Completed</option>
+  </select></td>
+</tr>
+<tr>
+  <td class="subject">English</td>
+  <td>Homework Week 6 - Paragraph Prompt 4</td>
+  <td>4:30 PM</td>
+  <td></td>
+  <td></td>
+  <td><select class="status-select" data-key="111ENG_3 (2026)||Homework Week 6 - Paragraph Prompt 4||Due 4:30 PM" onchange="saveStatus(this)">
     <option value="Not Started" selected>Not Started</option>
     <option value="In Progress" >In Progress</option>
     <option value="Completed" >Completed</option>
@@ -485,19 +497,30 @@
             }
         }
         
+        let sortState = {col: -1, asc: true};
         function sortTable(col) {
+            const asc = sortState.col === col ? !sortState.asc : true;
+            sortState = {col, asc};
+
             const table = document.getElementById('assignmentTable');
-            const rows = Array.from(table.rows).slice(1);
-            const sorted = rows.sort((a, b) => {
-                const aVal = a.cells[col].textContent;
-                const bVal = b.cells[col].textContent;
-                return aVal.localeCompare(bVal);
+            const rows = Array.from(table.tBodies[0].rows);
+            rows.sort((a, b) => {
+                const aVal = a.cells[col].textContent.trim();
+                const bVal = b.cells[col].textContent.trim();
+                const n = parseFloat(aVal) - parseFloat(bVal);
+                const cmp = isNaN(n) ? aVal.localeCompare(bVal) : n;
+                return asc ? cmp : -cmp;
             });
-            sorted.forEach(row => table.tBodies[0].appendChild(row));
+            rows.forEach(row => table.tBodies[0].appendChild(row));
+
+            document.querySelectorAll('#assignmentTable th').forEach((th, i) => {
+                th.textContent = th.textContent.replace(/ [▲▼]$/, '');
+                if (i === col) th.textContent += asc ? ' ▲' : ' ▼';
+            });
         }
         
         // Gantt chart code
-        const allData = [{"course": {"id": "21811099722", "name": "111SOC_2 (2026)"}, "assignments": [{"due": "Due Jan 27, 2027", "title": "Holiday Homework"}]}, {"course": {"id": "841423453638", "name": "111POS.G (2026)"}, "assignments": [{"due": "Due Feb 3", "title": "Semester One"}, {"due": "Due Feb 3", "title": "Design A Class Flag"}, {"due": "Due Feb 3", "title": "Due Feb 3"}]}, {"course": {"id": "23779713213", "name": "112BMA_5 (2026)"}, "assignments": [{"due": "Due Mar 11, 9:00\u202fAM", "title": "Note taking: Motivational strategies"}, {"due": "Due Yesterday, 2:02\u202fPM", "title": "Motivational theories similarities and differences"}, {"due": "Due Mar 4, 9:00\u202fAM", "title": "Lawrence and Noria's four drive theory"}, {"due": "Due Mar 2, 11:16\u202fAM", "title": "Locke and Latham's goal setting theory"}, {"due": "Due Feb 27, 2:02\u202fPM", "title": "Maslow's hierarchy of needs"}, {"due": "Due Feb 11, 9:00\u202fAM", "title": "Homework: Corporate Culture"}, {"due": "Due 27 Mar", "title": "Business Management U3 AOS 2"}, {"due": "Due 1 Jun", "title": "Business Management U3 AOS 3"}]}, {"course": {"id": "21848906235", "name": "YYear 11 2026"}, "assignments": []}, {"course": {"id": "21811022008", "name": "111PED_2 (2026) DBA"}, "assignments": []}, {"course": {"id": "21810755252", "name": "111GMA_3 (2026)"}, "assignments": []}, {"course": {"id": "23667903582", "name": "111ENG_3 (2026)"}, "assignments": [{"due": "Due Mar 10, 4:30\u202fPM", "title": "Homework Week 6 - Paragraph Prompt 4"}, {"due": "Due Feb 17, 4:30\u202fPM", "title": "Homework Week 3 - Quote Bank"}, {"due": "Due Feb 27, 11:00\u202fAM", "title": "Klaus Renft Analysis Questions"}, {"due": "Due Feb 26, 12:15\u202fPM", "title": "Reading Task Thursday 26th Feb - The Socialist Man"}, {"due": "Due Feb 17", "title": "Tuesday 17.02 Lesson - Reading Task"}, {"due": "Due Feb 12, 12:14\u202fPM", "title": "Venn Diagram - Stasi Museum and Bunjilaka"}]}, {"course": {"id": "21810517330", "name": "111ACC_1 (2026)"}, "assignments": [{"due": "Due Jan 30", "title": "Orientation and Holiday homework"}]}, {"course": {"id": "53723945291", "name": "LLibrary Space"}, "assignments": [{"due": "Due Mar 19, 2024", "title": "ILD Collaborative Story"}, {"due": "Due Aug 18, 2025", "title": "BOOK TOK VIDEO COMPETITION"}, {"due": "Due Aug 15, 2025", "title": "LIT FEST WRITING COMPETITION"}, {"due": "Due Jun 16, 2022, 1:00\u202fPM", "title": "Library Scavenger Hunt"}, {"due": "Due Jun 20, 2022, 10:00\u202fAM", "title": "Match the book cover to the passage competition"}, {"due": "Due Jun 20, 2022, 10:00\u202fAM", "title": "Guess who's reading? competition"}, {"due": "Due Jun 20, 2022, 10:00\u202fAM", "title": "Book Spine Poetry"}, {"due": "Due Feb 9, 2022, 11:59\u202fAM", "title": "Question"}, {"due": "Due Feb 9, 2022, 11:59\u202fAM", "title": "Library Lovers' Day: Tell us about a book that you LOVE! <3"}, {"due": "Due Dec 6, 2023", "title": "What was everyone's favourite holiday read?"}, {"due": "Due Jun 3, 2021, 1:10\u202fPM", "title": "Book Balderdash - Phase 02"}, {"due": "Due Jun 2, 2021, 11:00\u202fAM", "title": "Book Balderdash"}, {"due": "Due Jun 4, 2021, 12:00\u202fPM", "title": "Book Week Dress Up"}, {"due": "Due Aug 28, 2020", "title": "LIBRARY BINGO\u2013 a week-long game..."}, {"due": "Due Aug 28, 2020, 12:00\u202fPM", "title": "'Recreate a Book Cover in Iso' competition"}]}];
+        const allData = [{"course": {"id": "21811099722", "name": "111SOC_2 (2026)"}, "assignments": [{"due": "Due Jan 27, 2027", "title": "Holiday Homework"}]}, {"course": {"id": "841423453638", "name": "111POS.G (2026)"}, "assignments": [{"due": "Due Feb 3", "title": "Semester One"}, {"due": "Due Feb 3", "title": "Design A Class Flag"}, {"due": "Due Feb 3", "title": "Due Feb 3"}]}, {"course": {"id": "23779713213", "name": "112BMA_5 (2026)"}, "assignments": [{"due": "Due Tomorrow, 9:00\u202fAM", "title": "Note taking: Motivational strategies"}, {"due": "Due Mar 6, 2:02\u202fPM", "title": "Motivational theories similarities and differences"}, {"due": "Due Mar 4, 9:00\u202fAM", "title": "Lawrence and Noria's four drive theory"}, {"due": "Due Mar 2, 11:16\u202fAM", "title": "Locke and Latham's goal setting theory"}, {"due": "Due Feb 27, 2:02\u202fPM", "title": "Maslow's hierarchy of needs"}, {"due": "Due Feb 11, 9:00\u202fAM", "title": "Homework: Corporate Culture"}, {"due": "Due 27 Mar", "title": "Business Management U3 AOS 2"}, {"due": "Due 1 Jun", "title": "Business Management U3 AOS 3"}]}, {"course": {"id": "21848906235", "name": "YYear 11 2026"}, "assignments": []}, {"course": {"id": "21811022008", "name": "111PED_2 (2026) DBA"}, "assignments": []}, {"course": {"id": "21810755252", "name": "111GMA_3 (2026)"}, "assignments": []}, {"course": {"id": "23667903582", "name": "111ENG_3 (2026)"}, "assignments": [{"due": "Due Mar 17, 4:30\u202fPM", "title": "Homework Week 7 - Paragraph Prompt 5"}, {"due": "Due 4:30\u202fPM", "title": "Homework Week 6 - Paragraph Prompt 4"}, {"due": "Due Feb 17, 4:30\u202fPM", "title": "Homework Week 3 - Quote Bank"}, {"due": "Due Feb 27, 11:00\u202fAM", "title": "Klaus Renft Analysis Questions"}, {"due": "Due Feb 26, 12:15\u202fPM", "title": "Reading Task Thursday 26th Feb - The Socialist Man"}, {"due": "Due Feb 17", "title": "Tuesday 17.02 Lesson - Reading Task"}, {"due": "Due Feb 12, 12:14\u202fPM", "title": "Venn Diagram - Stasi Museum and Bunjilaka"}]}, {"course": {"id": "21810517330", "name": "111ACC_1 (2026)"}, "assignments": [{"due": "Due Jan 30", "title": "Orientation and Holiday homework"}]}];
         const colors = ['#1a73e8', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#00bcd4', '#009688', '#4caf50', '#ff9800', '#ff5722', '#795548', '#607d8b'];
         const subjectColors = {};
         
