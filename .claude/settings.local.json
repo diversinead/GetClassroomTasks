@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find C:UsersdiverIdeaProjectsGetClassroomTasks -type f -name *assignment* -o -name *Assignment*)",
+      "Bash(mv assignments.html homework.html)",
+      "Bash(mv assignments_server.py homework_server.py)",
+      "Bash(mv assignments_data.json homework_data.json)"
+    ]
+  }
+}

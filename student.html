@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasks 2026</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; padding: 20px; font-size: 13px; background: #f4f4f4; }
+  h2 { color: #2a7a7a; margin: 0 0 4px; }
+  .subtitle { color: #666; margin: 0 0 16px; font-size: 12px; }
+
+  .controls { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .toggle-group { display: flex; gap: 6px; }
+  .toggle-btn { padding: 7px 16px; border-radius: 6px; border: 2px solid #ccc; background: #fff;
+                cursor: pointer; font-size: 13px; font-weight: 600; color: #555; }
+  .toggle-btn.t-type.active { background: #555; color: #fff; border-color: #555; }
+  .toggle-btn.t-add { border-color: #27ae60; }
+  .toggle-btn.t-add.active { background: #27ae60; color: #fff; border-color: #27ae60; }
+  .toggle-btn.t-term.active { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+  .toggle-btn.t-formtype.active { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+
+  select.filter { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px;
+                  background: #fff; cursor: pointer; }
+  select.filter:focus { outline: none; border-color: #2a7a7a; }
+
+  .spacer { flex: 1; }
+
+  /* Type badges */
+  .type-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .type-a { background: #e8f5e9; color: #2a7a7a; }
+  .type-h { background: #e3f2fd; color: #1a5fb4; }
+
+  /* Form card */
+  .form-card { background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+               padding: 16px 20px; margin-bottom: 14px; }
+  .form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+  .form-field { display: flex; flex-direction: column; gap: 4px; }
+  .form-field.grow { flex: 1; min-width: 160px; }
+  .form-field label { font-weight: 600; color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .form-field input, .form-field select { padding: 7px 10px; border: 1px solid #ddd; border-radius: 6px;
+                                          font-size: 13px; background: #fafafa; }
+  .form-field input:focus, .form-field select:focus { outline: none; border-color: #2a7a7a; background: #fff; }
+  .form-actions { display: flex; gap: 6px; align-items: flex-end; }
+  .btn-submit { padding: 8px 20px; border-radius: 6px; border: none; background: #2a7a7a; color: #fff;
+                font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .btn-submit:hover { background: #1f5c5c; }
+  .btn-cancel { padding: 8px 14px; border-radius: 6px; border: 2px solid #ccc; background: #fff; color: #555;
+                font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .btn-cancel:hover { background: #f5f5f5; }
+  .toast { margin-top: 8px; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 12px; display: none; }
+  .toast.success { background: #d4edda; color: #155724; display: block; }
+  .toast.error   { background: #f8d7da; color: #721c24; display: block; }
+
+  /* Table */
+  table { border-collapse: collapse; width: 100%; background: #fff; border-radius: 8px;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  thead tr { background: #2a7a7a; color: #fff; }
+  th { padding: 10px 14px; text-align: left; cursor: pointer; user-select: none; white-space: nowrap; }
+  th:hover { background: #1f5c5c; }
+  th:last-child { cursor: default; }
+  th:last-child:hover { background: #2a7a7a; }
+  td { padding: 7px 14px; border-bottom: 1px solid #e8e8e8; }
+  tr:last-child td { border-bottom: none; }
+  tr.odd  { background: #f9f9f9; }
+  tr.even { background: #fff; }
+  tr:hover { background: #f0f7f7 !important; }
+
+  td.dim { color: #aaa; }
+  td.subject-eddie { font-weight: 700; color: #2a7a7a; }
+  td.subject-dara  { font-weight: 700; color: #1a5fb4; }
+
+  .status-sel { padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;
+                cursor: pointer; background: #fafafa; }
+  .status-sel.s-done  { color: #888; }
+  .status-sel.s-prog  { color: #e67e22; font-weight: 600; }
+  .status-sel.s-start { color: #c0392b; }
+  .status-sel:focus { outline: none; }
+
+  .btn-edit { background: none; border: none; cursor: pointer; color: #ccc; font-size: 13px; padding: 0 4px; }
+  .btn-edit:hover { color: #2a7a7a; }
+  .btn-del { background: none; border: none; cursor: pointer; color: #ccc; font-size: 13px; padding: 0 4px; }
+  .btn-del:hover { color: #c0392b; }
+
+  .empty { text-align: center; padding: 30px; color: #aaa; font-style: italic; }
+  .count { color: #888; font-size: 12px; margin-top: 8px; }
+
+  /* Notes */
+  .note-cell { position: relative; cursor: pointer; text-align: center; min-width: 32px; }
+  .note-icon { font-size: 14px; opacity: 0.3; }
+  .note-icon.has-note { opacity: 1; }
+  .note-popover { position: fixed; z-index: 100;
+                  background: #fff; border: 1px solid #ddd; border-radius: 8px;
+                  box-shadow: 0 4px 16px rgba(0,0,0,0.15); padding: 12px; width: 280px; }
+  .note-popover textarea { width: 100%; height: 80px; border: 1px solid #ddd; border-radius: 6px;
+                           padding: 8px; font-size: 12px; font-family: Arial, sans-serif; resize: vertical; }
+  .note-popover textarea:focus { outline: none; border-color: #2a7a7a; }
+  .note-popover-actions { display: flex; gap: 6px; margin-top: 8px; justify-content: flex-end; }
+  .note-popover-actions button { padding: 5px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .note-save { border: none; background: #2a7a7a; color: #fff; }
+  .note-save:hover { background: #1f5c5c; }
+  .note-close { border: 1px solid #ccc; background: #fff; color: #555; }
+  .note-close:hover { background: #f5f5f5; }
+
+  /* Inline editing */
+  .ie-sel { padding: 4px 6px; border: 1px solid #2a7a7a; border-radius: 4px; font-size: 12px;
+            background: #fff; cursor: pointer; max-width: 130px; }
+  .ie-input { padding: 4px 6px; border: 1px solid #2a7a7a; border-radius: 4px; font-size: 12px;
+              background: #fff; width: 100%; min-width: 100px; }
+  .ie-input:focus, .ie-sel:focus { outline: none; border-color: #1f5c5c; }
+  tr.editing td { background: #f0f7f7 !important; }
+
+  /* Timetable */
+  .timetable-section { background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                        margin-bottom: 14px; overflow: hidden; }
+  .timetable-header { padding: 12px 20px; cursor: pointer; display: flex; justify-content: space-between;
+                       align-items: center; background: #f8f9fa; }
+  .timetable-header:hover { background: #eef2f2; }
+  .timetable-header h3 { color: #2a7a7a; margin: 0; font-size: 14px; }
+  .timetable-toggle { font-size: 16px; color: #2a7a7a; }
+  .timetable-content { padding: 16px 20px; display: none; }
+  .timetable-content.show { display: block; }
+  .timetable { border-collapse: collapse; width: 100%; }
+  .timetable th, .timetable td { padding: 8px 14px; border: 1px solid #e0e0e0; text-align: center; font-size: 12px; }
+  .timetable th { background: #2a7a7a; color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .timetable td { background: #fafafa; }
+</style>
+</head>
+<body>
+
+<h2 id="pageTitle"></h2>
+<p class="subtitle">Albert Park College</p>
+
+<div class="timetable-section">
+  <div class="timetable-header" onclick="toggleTimetable()">
+    <h3 id="timetableTitle">Timetable</h3>
+    <span class="timetable-toggle" id="timetableToggle">&#x25BC;</span>
+  </div>
+  <div class="timetable-content" id="timetableContent">
+    <table class="timetable">
+      <thead><tr><th>Day</th><th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th></tr></thead>
+      <tbody id="timetableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="toggle-group">
+    <button class="toggle-btn t-type active" id="tf-all" onclick="setTypeFilter('all')">All</button>
+    <button class="toggle-btn t-type" id="tf-assessment" onclick="setTypeFilter('assessment')">Assessments</button>
+    <button class="toggle-btn t-type" id="tf-homework" onclick="setTypeFilter('homework')">Homework</button>
+  </div>
+
+  <select class="filter" id="termFilter" onchange="renderTable()"><option value="">All Terms</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+  <select class="filter" id="weekFilter" onchange="renderTable()"><option value="">All Weeks</option></select>
+  <select class="filter" id="subjectFilter" onchange="renderTable()"><option value="">All Subjects</option></select>
+  <select class="filter" id="statusFilter" onchange="renderTable()">
+    <option value="">All Statuses</option>
+    <option>Not Started</option>
+    <option>In Progress</option>
+    <option>Completed</option>
+  </select>
+
+  <span class="spacer"></span>
+  <button class="toggle-btn t-add" id="addBtn" onclick="toggleForm()">+ Add</button>
+</div>
+
+<div class="form-card" id="formCard" style="display:none">
+  <!-- Type toggle -->
+  <div class="form-row" style="margin-bottom:12px">
+    <div class="form-field">
+      <label>Type</label>
+      <div class="toggle-group">
+        <button class="toggle-btn t-formtype active" id="ftype-assessment" onclick="setFormType('assessment')">Assessment</button>
+        <button class="toggle-btn t-formtype" id="ftype-homework" onclick="setFormType('homework')">Homework</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared fields -->
+  <div class="form-row">
+    <div class="form-field">
+      <label>Term</label>
+      <select id="formTermSel" onchange="onTermChange()">
+        <option value="1">Term 1</option><option value="2">Term 2</option>
+        <option value="3">Term 3</option><option value="4">Term 4</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Week</label>
+      <select id="formWeekSel" onchange="onWeekChange()"></select>
+    </div>
+    <div class="form-field">
+      <label>Due</label>
+      <select id="formDueSel"></select>
+    </div>
+    <div class="form-field">
+      <label>Subject</label>
+      <select id="formSubjectSel"></select>
+    </div>
+    <div class="form-field grow">
+      <label id="detailLabel">Assessment</label>
+      <input type="text" id="formDetailInput" placeholder="e.g. AOS 1" onkeydown="if(event.key==='Enter') submitForm()">
+    </div>
+    <div class="form-field">
+      <label>Status</label>
+      <select id="formStatusSel"><option>Not Started</option><option>In Progress</option><option>Completed</option></select>
+    </div>
+  </div>
+
+  <div class="form-row" style="margin-top:12px">
+    <div class="form-actions">
+      <button class="btn-submit" id="submitBtn" onclick="submitForm()">Add</button>
+      <button class="btn-cancel" id="cancelBtn" style="display:none" onclick="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th onclick="sortBy('type')">Type</th>
+      <th onclick="sortBy('term')">Term</th>
+      <th onclick="sortBy('week')">Week</th>
+      <th onclick="sortBy('dateRange')">Date Range</th>
+      <th onclick="sortBy('due')">Due</th>
+      <th onclick="sortBy('subject')">Subject</th>
+      <th onclick="sortBy('detail')">Detail</th>
+      <th>Notes</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+<p class="count" id="countLabel"></p>
+
+<script>
+  const WEEK_STARTS = {
+    1: ['2026-01-27','2026-02-02','2026-02-09','2026-02-16','2026-02-23',
+        '2026-03-02','2026-03-09','2026-03-16','2026-03-23','2026-03-30'],
+    2: ['2026-04-20','2026-04-27','2026-05-04','2026-05-11','2026-05-18',
+        '2026-05-25','2026-06-01','2026-06-08','2026-06-15','2026-06-22'],
+    3: ['2026-07-13','2026-07-20','2026-07-27','2026-08-03','2026-08-10',
+        '2026-08-17','2026-08-24','2026-08-31','2026-09-07','2026-09-14'],
+    4: ['2026-10-05','2026-10-12']
+  };
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const DAYNAMES = ['Mon','Tue','Wed','Thu','Fri'];
+
+  function getWeekStart(term, week) {
+    const starts = WEEK_STARTS[term];
+    if (!starts || !starts[week - 1]) return null;
+    return new Date(starts[week - 1] + 'T00:00:00');
+  }
+  function fmtDate(d) { return d.getDate() + ' ' + MONTHS[d.getMonth()]; }
+  function getDateRange(term, week) {
+    const mon = getWeekStart(term, week);
+    if (!mon) return '';
+    const fri = new Date(mon); fri.setDate(fri.getDate() + 4);
+    return mon.getMonth() === fri.getMonth()
+      ? mon.getDate() + '-' + fri.getDate() + ' ' + MONTHS[mon.getMonth()]
+      : fmtDate(mon) + ' - ' + fmtDate(fri);
+  }
+  function getWeekDates(term, week) {
+    const mon = getWeekStart(term, week);
+    if (!mon) return [];
+    const dates = [];
+    for (let i = 0; i < 5; i++) {
+      const d = new Date(mon); d.setDate(d.getDate() + i);
+      dates.push({ label: DAYNAMES[i] + ' ' + fmtDate(d), value: fmtDate(d) });
+    }
+    return dates;
+  }
+
+  const SUBJECTS = {
+    eddie: ['Accounting','Business Mgt','English','Maths','Physical Education','Pos Ed','Sociology'],
+    dara: ['Digital Art','English','Food','French','Humanities','Leadership','Maths','Philosophy','Pos Ed','Science','Volleyball']
+  };
+
+  // ── State ───────────────────────────────────────────────────────────────
+  const student = window.location.pathname.replace(/^\//, '');
+  let assessmentData = null;
+  let homeworkData = { eddie: [], dara: [] };
+  let typeFilter = 'all';
+  let sortCol = 'term';
+  let sortAsc = true;
+  let formType = 'assessment';
+  let tableRows = [];
+  let inlineEdit = null;
+
+  // ── Data loading ────────────────────────────────────────────────────────
+  async function loadData() {
+    try {
+      const [aResp, hResp] = await Promise.all([
+        fetch('/api/assessments/data'),
+        fetch('/api/homework/data')
+      ]);
+      assessmentData = await aResp.json();
+      homeworkData = await hResp.json();
+    } catch (e) {}
+    populateFilters();
+    renderTable();
+  }
+
+  // ── Unified row builder ─────────────────────────────────────────────────
+  function getRows() {
+    const rows = [];
+
+    // Assessment rows
+    if (assessmentData && assessmentData[student]) {
+      for (const term of [1, 2, 3, 4]) {
+        const weeks = assessmentData[student][String(term)] || [];
+        for (const w of weeks) {
+          w.assessments.forEach((a, idx) => {
+            const txt = typeof a === 'string' ? a : a.text;
+            const status = typeof a === 'string' ? 'Not Started' : (a.status || 'Not Started');
+            const colonIdx = txt.indexOf(': ');
+            const subj = colonIdx > 0 ? txt.substring(0, colonIdx) : '';
+            const detail = colonIdx > 0 ? txt.substring(colonIdx + 2) : txt;
+            const notes = typeof a === 'string' ? '' : (a.notes || '');
+            rows.push({
+              type: 'Assessment', term, week: w.week,
+              dateRange: getDateRange(term, w.week), due: (typeof a === 'string' ? w.date : (a.due || w.date)),
+              subject: subj, detail, status, text: txt, notes,
+              _aTerm: term, _aWeek: w.week, _aIndex: idx
+            });
+          });
+        }
+      }
+    }
+
+    // Homework rows
+    if (homeworkData && homeworkData[student]) {
+      for (const entry of homeworkData[student]) {
+        rows.push({
+          type: 'Homework', term: entry.term, week: entry.week,
+          dateRange: getDateRange(entry.term, entry.week), due: entry.due,
+          subject: entry.subject, detail: entry.title, status: entry.status,
+          notes: entry.notes || '', _hId: entry.id
+        });
+      }
+    }
+
+    return rows;
+  }
+
+  // ── Filters ─────────────────────────────────────────────────────────────
+  function populateFilters() {
+    const rows = getRows();
+    const weeks = [...new Set(rows.map(r => r.week))].sort((a, b) => a - b);
+    const subjects = [...new Set(rows.map(r => r.subject).filter(Boolean))].sort();
+
+    const weekSel = document.getElementById('weekFilter');
+    const prevWeek = weekSel.value;
+    weekSel.innerHTML = '<option value="">All Weeks</option>';
+    weeks.forEach(w => { const o = document.createElement('option'); o.value = w; o.textContent = 'Week ' + w; weekSel.appendChild(o); });
+    weekSel.value = prevWeek;
+
+    const subjSel = document.getElementById('subjectFilter');
+    const prevSubj = subjSel.value;
+    subjSel.innerHTML = '<option value="">All Subjects</option>';
+    subjects.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; subjSel.appendChild(o); });
+    subjSel.value = prevSubj;
+  }
+
+  function setTypeFilter(t) {
+    typeFilter = t;
+    ['all','assessment','homework'].forEach(id => document.getElementById('tf-' + id).classList.toggle('active', id === t));
+    renderTable();
+  }
+
+  function sortBy(col) {
+    if (sortCol === col) sortAsc = !sortAsc;
+    else { sortCol = col; sortAsc = true; }
+    renderTable();
+  }
+
+  // ── Render table ────────────────────────────────────────────────────────
+  function renderTable() {
+    const term = document.getElementById('termFilter').value;
+    const week = document.getElementById('weekFilter').value;
+    const subject = document.getElementById('subjectFilter').value;
+    const status = document.getElementById('statusFilter').value;
+    let rows = getRows().filter(r =>
+      (typeFilter === 'all' || r.type.toLowerCase() === typeFilter) &&
+      (!term    || String(r.term) === term) &&
+      (!week    || String(r.week) === week) &&
+      (!subject || r.subject      === subject) &&
+      (!status  || r.status       === status)
+    );
+
+    rows.sort((a, b) => {
+      const av = a[sortCol] ?? '', bv = b[sortCol] ?? '';
+      const n = typeof av === 'number' ? av - bv : String(av).localeCompare(String(bv));
+      return sortAsc ? n : -n;
+    });
+
+    tableRows = rows;
+
+    const tbody = document.getElementById('tableBody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="10" class="empty">No tasks found.</td></tr>';
+      document.getElementById('countLabel').textContent = '';
+      return;
+    }
+
+    const subjClass = 'subject-' + student;
+
+    tbody.innerHTML = rows.map((r, i) => {
+      const typeBadge = r.type === 'Assessment'
+        ? '<span class="type-badge type-a">Assessment</span>'
+        : '<span class="type-badge type-h">Homework</span>';
+      const sSel = r.status === 'Completed' ? 's-done' : r.status === 'In Progress' ? 's-prog' : 's-start';
+
+      let statusChange;
+      if (r.type === 'Assessment') {
+        statusChange = `updateStatus('assessment',${r._aTerm},${r._aWeek},${r._aIndex},this)`;
+      } else {
+        statusChange = `updateStatus('homework',${r._hId},null,null,this)`;
+      }
+
+      return `<tr class="${i % 2 === 0 ? 'odd' : 'even'}">
+        <td>${typeBadge}</td>
+        <td class="dim">${r.term || ''}</td>
+        <td class="dim">${r.week || ''}</td>
+        <td style="white-space:nowrap">${r.dateRange || ''}</td>
+        <td>${r.due || ''}</td>
+        <td class="${subjClass}">${r.subject}</td>
+        <td>${r.detail}</td>
+        <td class="note-cell" onclick="toggleNotePopover(${i}, event)" title="${r.notes ? r.notes.replace(/"/g, '&quot;') : 'Click to add note'}">
+          <span class="note-icon ${r.notes ? 'has-note' : ''}">&#x1F4AC;</span>
+        </td>
+        <td><select class="status-sel ${sSel}" onchange="${statusChange}">
+          <option ${r.status==='Not Started'?'selected':''}>Not Started</option>
+          <option ${r.status==='In Progress'?'selected':''}>In Progress</option>
+          <option ${r.status==='Completed'?'selected':''}>Completed</option>
+        </select></td>
+        <td>
+          <button class="btn-edit" title="Edit" onclick="startInlineEdit(${i})">&#x270E;</button>
+          <button class="btn-del" title="Delete" onclick="deleteItem('${r.type === 'Assessment' ? 'assessment' : 'homework'}',${r.type === 'Assessment' ? `${r._aTerm},${r._aWeek},${r._aIndex}` : r._hId})">&#x2715;</button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('countLabel').textContent = `${rows.length} task${rows.length !== 1 ? 's' : ''}`;
+  }
+
+  // ── Status update ───────────────────────────────────────────────────────
+  async function updateStatus(type, a1, a2, a3, sel) {
+    sel.className = 'status-sel ' + (sel.value==='Completed' ? 's-done' : sel.value==='In Progress' ? 's-prog' : 's-start');
+    if (type === 'assessment') {
+      await fetch('/api/assessments/update_status', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student, term: a1, week: a2, index: a3, status: sel.value }) });
+    } else {
+      await fetch('/api/homework/update_status', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: a1, status: sel.value }) });
+    }
+  }
+
+  // ── Form controls ───────────────────────────────────────────────────────
+  function toggleForm() {
+    const card = document.getElementById('formCard');
+    const btn = document.getElementById('addBtn');
+    const show = card.style.display === 'none';
+    card.style.display = show ? '' : 'none';
+    btn.classList.toggle('active', show);
+  }
+
+  function setFormType(t) {
+    formType = t;
+    document.getElementById('ftype-assessment').classList.toggle('active', t === 'assessment');
+    document.getElementById('ftype-homework').classList.toggle('active', t === 'homework');
+    document.getElementById('detailLabel').textContent = t === 'assessment' ? 'Assessment' : 'Title';
+    document.getElementById('formDetailInput').placeholder = t === 'assessment' ? 'e.g. AOS 1' : 'e.g. Chapter 5 Review';
+  }
+
+  function onTermChange() {
+    populateWeekDropdown();
+  }
+
+  function populateWeekDropdown() {
+    const term = parseInt(document.getElementById('formTermSel').value);
+    const sel = document.getElementById('formWeekSel');
+    sel.innerHTML = '';
+    const starts = WEEK_STARTS[term] || [];
+    for (let w = 1; w <= starts.length; w++) {
+      const range = getDateRange(term, w);
+      const opt = document.createElement('option');
+      opt.value = w;
+      opt.textContent = `Week ${w}  (${range})`;
+      sel.appendChild(opt);
+    }
+    onWeekChange();
+  }
+
+  function onWeekChange() {
+    const term = parseInt(document.getElementById('formTermSel').value);
+    const week = parseInt(document.getElementById('formWeekSel').value);
+    const sel = document.getElementById('formDueSel');
+    sel.innerHTML = '';
+    const dates = getWeekDates(term, week);
+    dates.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d.value;
+      opt.textContent = d.label;
+      sel.appendChild(opt);
+    });
+  }
+
+  function populateSubjects() {
+    const sel = document.getElementById('formSubjectSel');
+    sel.innerHTML = '';
+    (SUBJECTS[student] || []).forEach(sub => {
+      const o = document.createElement('option');
+      o.value = o.textContent = sub;
+      sel.appendChild(o);
+    });
+  }
+
+  // ── Submit ──────────────────────────────────────────────────────────────
+  async function submitForm() {
+    const term = parseInt(document.getElementById('formTermSel').value);
+    const week = parseInt(document.getElementById('formWeekSel').value);
+    const due = document.getElementById('formDueSel').value;
+    const subject = document.getElementById('formSubjectSel').value;
+    const detail = document.getElementById('formDetailInput').value.trim();
+    const status = document.getElementById('formStatusSel').value;
+
+    if (formType === 'assessment') {
+      const assessment = detail ? subject + ': ' + detail : subject;
+      if (!assessment) { showToast('Please enter an assessment.', false); return; }
+
+      const resp = await fetch('/api/assessments/add', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student, term, week, date: due, assessment, status }) });
+      const result = await resp.json();
+      if (result.ok) {
+        document.getElementById('formDetailInput').value = '';
+        showToast('Assessment added!', true);
+        await loadData();
+      } else { showToast(result.error || 'Error saving.', false); }
+
+    } else {
+      if (!detail) { showToast('Please enter a title.', false); return; }
+
+      const resp = await fetch('/api/homework/add', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student, subject, title: detail, due, term, week, status }) });
+      const result = await resp.json();
+      if (result.ok) {
+        document.getElementById('formDetailInput').value = '';
+        showToast('Homework added!', true);
+        await loadData();
+      } else { showToast(result.error || 'Error saving.', false); }
+    }
+  }
+
+  // ── Inline edit ──────────────────────────────────────────────────────────
+  function startInlineEdit(rowIndex) {
+    if (inlineEdit) cancelInlineEdit();
+    const r = tableRows[rowIndex];
+    if (!r) return;
+
+    const tr = document.getElementById('tableBody').children[rowIndex];
+    inlineEdit = { type: r.type, data: r, tr, originalHTML: tr.innerHTML };
+    tr.className = 'editing';
+
+    const cells = tr.children;
+    const subjectOpts = (SUBJECTS[student] || []).map(s =>
+      `<option value="${s}" ${s===r.subject?'selected':''}>${s}</option>`).join('');
+
+    // Term select
+    cells[1].innerHTML = `<select class="ie-sel ie-term" onchange="ieTermChanged(this)">
+      <option value="1" ${r.term==1?'selected':''}>1</option><option value="2" ${r.term==2?'selected':''}>2</option>
+      <option value="3" ${r.term==3?'selected':''}>3</option><option value="4" ${r.term==4?'selected':''}>4</option></select>`;
+
+    // Week select
+    iePopulateWeek(cells[2], r.term, r.week);
+
+    // Date Range (read-only, auto-updates)
+    cells[3].textContent = getDateRange(r.term, r.week);
+    cells[3].style.whiteSpace = 'nowrap';
+
+    // Due select
+    iePopulateDue(cells[4], r.term, r.week, r.due);
+
+    // Subject select
+    cells[5].innerHTML = `<select class="ie-sel ie-subject">${subjectOpts}</select>`;
+
+    // Detail input
+    cells[6].innerHTML = `<input type="text" class="ie-input ie-detail" value="${(r.detail || '').replace(/"/g, '&quot;')}"
+      onkeydown="if(event.key==='Enter') saveInlineEdit(); if(event.key==='Escape') cancelInlineEdit();">`;
+
+    // Notes - leave as-is during inline edit
+    cells[7].innerHTML = `<span class="note-icon ${r.notes ? 'has-note' : ''}">&#x1F4AC;</span>`;
+
+    // Status select
+    cells[8].innerHTML = `<select class="ie-sel ie-status">
+      <option ${r.status==='Not Started'?'selected':''}>Not Started</option>
+      <option ${r.status==='In Progress'?'selected':''}>In Progress</option>
+      <option ${r.status==='Completed'?'selected':''}>Completed</option></select>`;
+
+    // Actions: Save / Cancel
+    cells[9].innerHTML = `<button class="btn-edit" title="Save" onclick="saveInlineEdit()" style="color:#27ae60">&#x2713;</button>
+      <button class="btn-del" title="Cancel" onclick="cancelInlineEdit()">&#x2715;</button>`;
+
+    tr.querySelector('.ie-detail').focus();
+  }
+
+  function iePopulateWeek(cell, term, selectedWeek) {
+    const starts = WEEK_STARTS[term] || [];
+    let html = '<select class="ie-sel ie-week" onchange="ieWeekChanged(this)">';
+    for (let w = 1; w <= starts.length; w++) {
+      html += `<option value="${w}" ${w==selectedWeek?'selected':''}>W${w} (${getDateRange(term, w)})</option>`;
+    }
+    cell.innerHTML = html + '</select>';
+  }
+
+  function iePopulateDue(cell, term, week, selectedDue) {
+    const dates = getWeekDates(term, week);
+    let html = '<select class="ie-sel ie-due">';
+    let matched = false;
+    dates.forEach(d => {
+      const sel = d.value === selectedDue ? 'selected' : '';
+      if (sel) matched = true;
+      html += `<option value="${d.value}" ${sel}>${d.label}</option>`;
+    });
+    if (!matched && selectedDue) {
+      html = `<option value="${selectedDue}" selected>${selectedDue}</option>` + html.replace('<select class="ie-sel ie-due">', '');
+      html = '<select class="ie-sel ie-due">' + html;
+    }
+    cell.innerHTML = html + '</select>';
+  }
+
+  function ieTermChanged(sel) {
+    const tr = sel.closest('tr');
+    const term = parseInt(sel.value);
+    iePopulateWeek(tr.children[2], term, 1);
+    tr.children[3].textContent = getDateRange(term, 1);
+    iePopulateDue(tr.children[4], term, 1, '');
+  }
+
+  function ieWeekChanged(sel) {
+    const tr = sel.closest('tr');
+    const term = parseInt(tr.querySelector('.ie-term').value);
+    const week = parseInt(sel.value);
+    tr.children[3].textContent = getDateRange(term, week);
+    iePopulateDue(tr.children[4], term, week, '');
+  }
+
+  async function saveInlineEdit() {
+    if (!inlineEdit) return;
+    const tr = inlineEdit.tr;
+    const term = parseInt(tr.querySelector('.ie-term').value);
+    const week = parseInt(tr.querySelector('.ie-week').value);
+    const due = tr.querySelector('.ie-due').value;
+    const subject = tr.querySelector('.ie-subject').value;
+    const detail = tr.querySelector('.ie-detail').value.trim();
+    const status = tr.querySelector('.ie-status').value;
+    const orig = inlineEdit.data;
+
+    if (inlineEdit.type === 'Assessment') {
+      const assessment = detail ? subject + ': ' + detail : subject;
+      if (!assessment) return;
+
+      if (term !== orig._aTerm || week !== orig._aWeek) {
+        // Term/week changed - delete and re-add
+        await fetch('/api/assessments/delete', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student, term: orig._aTerm, week: orig._aWeek, index: orig._aIndex }) });
+        await fetch('/api/assessments/add', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student, term, week, date: due, assessment, status }) });
+      } else {
+        await fetch('/api/assessments/edit', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student, term, week, index: orig._aIndex, assessment, due }) });
+        await fetch('/api/assessments/update_status', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student, term, week, index: orig._aIndex, status }) });
+      }
+    } else {
+      if (!detail) return;
+      await fetch('/api/homework/edit', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: orig._hId, subject, title: detail, due, term, week, status }) });
+    }
+
+    inlineEdit = null;
+    await loadData();
+  }
+
+  function cancelInlineEdit() {
+    if (!inlineEdit) return;
+    inlineEdit.tr.innerHTML = inlineEdit.originalHTML;
+    inlineEdit.tr.className = tableRows.indexOf(inlineEdit.data) % 2 === 0 ? 'odd' : 'even';
+    inlineEdit = null;
+  }
+
+  // ── Delete ──────────────────────────────────────────────────────────────
+  async function deleteItem(type, ...args) {
+    if (!confirm('Remove this item?')) return;
+    if (type === 'assessment') {
+      const [term, week, index] = args;
+      await fetch('/api/assessments/delete', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student, term, week, index }) });
+    } else {
+      const [id] = args;
+      await fetch('/api/homework/delete', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, student }) });
+    }
+    await loadData();
+  }
+
+  // ── Notes popover ──────────────────────────────────────────────────────
+  let openPopover = null;
+
+  function toggleNotePopover(rowIndex, evt) {
+    evt.stopPropagation();
+    closeNotePopover();
+    const r = tableRows[rowIndex];
+    if (!r) return;
+
+    const cell = evt.currentTarget;
+    const rect = cell.getBoundingClientRect();
+    const pop = document.createElement('div');
+    pop.className = 'note-popover';
+    pop.onclick = (e) => e.stopPropagation();
+    pop.innerHTML = `<textarea id="noteText">${(r.notes || '').replace(/</g, '&lt;')}</textarea>
+      <div class="note-popover-actions">
+        <button class="note-close" onclick="closeNotePopover()">Cancel</button>
+        <button class="note-save" onclick="saveNote(${rowIndex})">Save</button>
+      </div>`;
+    document.body.appendChild(pop);
+
+    // Position: open upward if near bottom of viewport
+    const popHeight = 160;
+    const spaceBelow = window.innerHeight - rect.bottom;
+    if (spaceBelow < popHeight) {
+      pop.style.bottom = (window.innerHeight - rect.top + 4) + 'px';
+      pop.style.top = 'auto';
+    } else {
+      pop.style.top = (rect.bottom + 4) + 'px';
+    }
+    pop.style.left = Math.max(8, rect.left + rect.width / 2 - 140) + 'px';
+
+    openPopover = pop;
+    pop.querySelector('textarea').focus();
+  }
+
+  function closeNotePopover() {
+    if (openPopover) { openPopover.remove(); openPopover = null; }
+  }
+
+  async function saveNote(rowIndex) {
+    const r = tableRows[rowIndex];
+    const notes = document.getElementById('noteText').value;
+    if (r.type === 'Assessment') {
+      await fetch('/api/assessments/update_notes', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student, term: r._aTerm, week: r._aWeek, index: r._aIndex, notes }) });
+    } else {
+      await fetch('/api/homework/update_notes', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: r._hId, notes }) });
+    }
+    closeNotePopover();
+    await loadData();
+  }
+
+  // Close popover when clicking outside
+  document.addEventListener('click', () => closeNotePopover());
+
+  // ── Toast ───────────────────────────────────────────────────────────────
+  function showToast(msg, ok) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + (ok ? 'success' : 'error');
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  // ── Timetable ──────────────────────────────────────────────────────────
+  const TIMETABLES = {
+    eddie: [
+      ['MON', 'Phys Ed', 'Phys Ed', 'Bus Man', 'Maths', 'Accounting'],
+      ['TUE', 'Phys Ed', 'Maths', 'Pos Ed', 'Sociology', 'English'],
+      ['WED', 'Bus Man', 'Bus Man', 'Phys Ed', 'Maths', 'Maths'],
+      ['THUR', 'Accounting', 'Accounting', 'English', 'Sociology', 'Sociology'],
+      ['FRI', 'English', 'English', 'Sociology', 'Accounting', 'Bus Man']
+    ],
+    dara: [
+      ['MON', 'Digital Art', 'Digital Art', 'French', 'Philosophy', 'Philosophy'],
+      ['TUE', 'French', 'English', 'Maths', 'Humanities', 'Pos Ed'],
+      ['WED', 'Food', 'Food', 'Maths', 'English', 'English'],
+      ['THUR', 'Leadership', 'Leadership', 'English', 'Science', 'Science'],
+      ['FRI', 'Volleyball', 'Volleyball', 'Humanities', 'Maths', 'Maths']
+    ]
+  };
+
+  function toggleTimetable() {
+    const content = document.getElementById('timetableContent');
+    const toggle = document.getElementById('timetableToggle');
+    content.classList.toggle('show');
+    toggle.innerHTML = content.classList.contains('show') ? '&#x25B2;' : '&#x25BC;';
+  }
+
+  function renderTimetable() {
+    const rows = TIMETABLES[student] || [];
+    document.getElementById('timetableBody').innerHTML = rows.map(r =>
+      `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`
+    ).join('');
+  }
+
+  // ── Init ────────────────────────────────────────────────────────────────
+  const displayName = student.charAt(0).toUpperCase() + student.slice(1);
+  document.title = displayName + "'s Tasks 2026 \u2013 Albert Park College";
+  document.getElementById('pageTitle').textContent = '\uD83D\uDCCB ' + displayName + "'s Tasks 2026";
+  document.getElementById('timetableTitle').textContent = '\uD83D\uDCC5 ' + displayName + "'s Timetable";
+  renderTimetable();
+  populateSubjects();
+  populateWeekDropdown();
+  loadData();
+</script>
+</body>
+</html>

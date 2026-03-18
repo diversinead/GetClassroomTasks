@@ -5,34 +5,84 @@
         "week": 5,
         "date": "23–27 Feb",
         "assessments": [
-          "General Maths: GA 1",
-          "Accounting: AOS 1",
-          "Bus Man: AOS 1"
+          {
+            "text": "Maths: GA 1",
+            "status": "Completed",
+            "due": "23 Feb",
+            "notes": ""
+          },
+          {
+            "text": "Accounting: AOS 1",
+            "status": "Completed",
+            "due": "26 Feb",
+            "notes": ""
+          },
+          {
+            "text": "Accounting: AOS 1",
+            "status": "Completed",
+            "due": "27 Feb",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 7,
         "date": "9–13 Mar",
         "assessments": [
-          "Physical Education: AOS 1a",
-          "English - Practice Assessment - Stasiland"
+          {
+            "text": "Physical Education: AOS 1a",
+            "status": "Completed",
+            "due": "9 Mar",
+            "notes": ""
+          },
+          {
+            "text": "English: Practice Assessment - Stasiland",
+            "status": "Completed",
+            "due": "10 Mar",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 9,
         "date": "23–27 Mar",
         "assessments": [
-          "Sociology: AOS 1",
-          "English: Stasiland"
+          {
+            "text": "Sociology: AOS 1",
+            "status": "Not Started",
+            "due": "24 Mar",
+            "notes": ""
+          },
+          {
+            "text": "English: Stasiland",
+            "status": "Not Started",
+            "due": "27 Mar",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 10,
         "date": "30 Mar–2 Apr",
         "assessments": [
-          "General Maths: GA 2",
-          "Physical Education: AOS 1b",
-          "Accounting: AOS 2a"
+          {
+            "text": "Maths: GA 2",
+            "status": "Not Started",
+            "due": "30 Mar",
+            "notes": ""
+          },
+          {
+            "text": "Physical Education: AOS 1b",
+            "status": "Not Started",
+            "due": "30 Mar",
+            "notes": ""
+          },
+          {
+            "text": "Accounting: AOS 2a",
+            "status": "Not Started",
+            "due": "2 Apr",
+            "notes": ""
+          }
         ]
       }
     ],
@@ -41,73 +91,126 @@
         "week": 1,
         "date": "20–24 Apr",
         "assessments": [
-          "General Maths: GA 3"
+          {
+            "text": "General Maths: GA 3",
+            "status": "Not Started",
+            "due": "20 Apr",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 2,
         "date": "27 Apr–1 May",
         "assessments": [
-          "Bus Man: AOS 2"
+          {
+            "text": "Bus Man: AOS 2",
+            "status": "Not Started",
+            "due": "27 Apr",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 3,
         "date": "4–8 May",
         "assessments": [
-          "English: AOS 1a"
+          {
+            "text": "English: AOS 1a",
+            "status": "Not Started",
+            "due": "4 May",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 4,
         "date": "11–15 May",
         "assessments": [
-          "Bus Man: AOS 3"
+          {
+            "text": "Bus Man: AOS 3",
+            "status": "Not Started",
+            "due": "11 May",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 5,
         "date": "18–22 May",
         "assessments": [
-          "English: AOS 1b",
-          "General Maths: GA 4",
-          "Physical Education: AOS 2"
+          {
+            "text": "English: AOS 1b",
+            "status": "Not Started",
+            "due": "18 May",
+            "notes": ""
+          },
+          {
+            "text": "General Maths: GA 4",
+            "status": "Not Started",
+            "due": "18 May",
+            "notes": ""
+          },
+          {
+            "text": "Physical Education: AOS 2",
+            "status": "Not Started",
+            "due": "18 May",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 6,
         "date": "25–29 May",
         "assessments": [
-          "Accounting: AOS 2b"
+          {
+            "text": "Accounting: AOS 2b",
+            "status": "Not Started",
+            "due": "25 May",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 7,
         "date": "1–5 Jun",
         "assessments": [
-          "Sociology: AOS 2",
-          "Bus Man: AOS 3"
-        ]
-      },
-      {
-        "week": 8,
-        "date": "8–12 Jun",
-        "assessments": [
-          "Start of Unit 2 – Assessment dates will be released in Term 2"
+          {
+            "text": "Sociology: AOS 2",
+            "status": "Not Started",
+            "due": "1 Jun",
+            "notes": ""
+          },
+          {
+            "text": "Bus Man: AOS 3",
+            "status": "Not Started",
+            "due": "1 Jun",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 9,
         "date": "15–19 Jun",
         "assessments": [
-          "17 Jun: Year 11 exams start"
+          {
+            "text": "EXAMS: Year 11 exams",
+            "status": "Not Started",
+            "due": "15 Jun",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 10,
         "date": "22–26 Jun",
         "assessments": [
-          "Year 11 exams"
+          {
+            "text": "EXAMS: Year 11 exams",
+            "status": "Not Started",
+            "due": "22 Jun",
+            "notes": ""
+          }
         ]
       }
     ],
@@ -120,21 +223,48 @@
         "week": 7,
         "date": "9–13 Mar",
         "assessments": [
-          "English - Summative Assessment - Write Fantasy Story"
+          {
+            "text": "English: Summative Assessment - Write Fantasy Story",
+            "status": "Completed",
+            "due": "9 Mar",
+            "notes": ""
+          }
         ]
       },
       {
         "week": 8,
         "date": "16–20 Mar",
         "assessments": [
-          "Humanities - Aboriginal and Torres Strait Islander history"
+          {
+            "text": "Humanities: Aboriginal and Torres Strait Islander history",
+            "status": "Completed",
+            "due": "16 Mar",
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "week": 9,
+        "date": "25 Mar",
+        "assessments": [
+          {
+            "text": "Food: Practical Cook",
+            "status": "Not Started",
+            "due": "25 Mar",
+            "notes": "Hi folks,\njust checking in to let you know that your child will be doing their 'Melbourne Cafe' food assessment next Wednesday. They have completed a food order and together with their partner they will be creating their cafe style dish. I'm very excited to see what they will create. If you could have a chat with them and encourage them to be organised that would be fabulous!\nThanks\nCaro Flood"
+          }
         ]
       },
       {
         "week": 10,
         "date": "30 Mar",
         "assessments": [
-          "French - ID summary paragraph (Unit 2)"
+          {
+            "text": "French: ID summary paragraph (Unit 2)",
+            "status": "Not Started",
+            "due": "30 Mar",
+            "notes": ""
+          }
         ]
       }
     ],

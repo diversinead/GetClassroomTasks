@@ -1,6 +1,6 @@
-# School Hub – Albert Park College 2026
+# School Hub - Albert Park College 2026
 
-A local web app for tracking **assessments** and **assignments** for Eddie (Year 11) and Dara (Year 7).
+A local web app for tracking **assessments** and **homework** for Eddie (Year 11) and Dara (Year 7) at Albert Park College.
 
 ---
 
@@ -10,124 +10,176 @@ A local web app for tracking **assessments** and **assignments** for Eddie (Year
 python start.py
 ```
 
-This starts both servers and opens `launcher.html` in your browser. From the launcher you can navigate to any section.
+This starts the server on **port 8080** and opens the launcher in your browser. From the launcher, click Eddie or Dara to open their task page in a new tab.
 
 ---
 
 ## Project Structure
 
 ```
-├── Assessments/              # Assessment dates system
-├── Assignments/              # Assignments tracking system
-├── ClassroomScraper/         # Legacy Google Classroom scraper (kept for reference)
-├── launcher.html             # Main entry point (open this in a browser)
-└── start.py                  # Starts both servers and opens the launcher
+GetClassroomTasks/
+├── server.py                      # Unified server (port 8080)
+├── start.py                       # Starts server and opens launcher
+├── launcher.html                  # Home page - select Eddie or Dara
+├── student.html                   # Per-student task page (assessments + homework)
+├── Assessments/
+│   └── assessments_data.json      # Assessment data
+├── Homework/
+│   └── homework_data.json         # Homework data
+└── ClassroomScraper/              # Legacy Google Classroom scraper (kept for reference)
 ```
 
 ---
 
-## Assessments
+## How It Works
 
-Tracks scheduled assessment dates by term and week for both students.
+### Launcher (`/`)
+The launcher page presents two cards - one for Eddie, one for Dara. Clicking either opens their task page in a new tab.
 
-**Server:** `python Assessments/assessments_server.py` → [http://localhost:8081](http://localhost:8081)
+### Student Page (`/eddie` or `/dara`)
 
-| URL | Page |
-|-----|------|
-| `http://localhost:8081/` | View assessments table |
-| `http://localhost:8081/admin` | Add / delete assessments |
+Each student has a single page that combines both **assessments** and **homework** in one unified table.
 
-### View page (`assessments.html`)
-- Filter by **All / Eddie only / Dara only**
-- Switch between **Term 1 – 4**
-- Eddie's assessments shown in **teal**, Dara's in **blue**
+#### Timetable
+A collapsible timetable section at the top of the page shows the student's weekly class schedule (Day / P1-P5). Click the header to expand or collapse.
 
-### Admin page (`admin.html`)
-- Select student, term, and week (dates auto-fill from known term calendar)
-- Type the assessment name and click **Add**
-- Right panel shows all current assessments — tick/untick terms and weeks to collapse them, click **✕** to delete
+#### Filters
+- **Type toggle**: All / Assessments / Homework
+- **Dropdowns**: Term, Week, Subject, Status
 
-### Data file (`Assessments/assessments_data.json`)
-All assessment data is stored here. Structure:
+#### Table
+Columns: **Type** | **Term** | **Week** | **Date Range** | **Due** | **Subject** | **Detail** | **Status** | **Actions**
+
+- **Type** -badge indicating Assessment (green) or Homework (blue)
+- **Date Range** -auto-computed from the term/week (e.g. "16-20 Mar")
+- **Due** -the specific due date for the item
+- **Status** -inline dropdown (Not Started / In Progress / Completed), saves immediately on change
+- **Actions** -edit and delete buttons per row
+
+#### Inline Editing
+Click the pencil icon on any row to edit it in place. All fields become editable dropdowns/inputs:
+- **Term/Week** -cascading dropdowns (changing term updates week options)
+- **Due** -dropdown of weekday dates within the selected week
+- **Subject** -dropdown of the student's subjects
+- **Detail** -text input
+- **Status** -dropdown
+
+Press **Enter** to save, **Escape** to cancel, or use the tick/cross buttons.
+
+If an assessment's term or week is changed, it is automatically moved to the new location.
+
+#### Adding Items
+Click the green **+ Add** button to reveal the add form. Select Assessment or Homework type, then fill in:
+- **Term** (dropdown 1-4)
+- **Week** (dropdown with date ranges)
+- **Due** (dropdown of individual dates in the week)
+- **Subject** (dropdown)
+- **Detail/Title** (text input)
+- **Status** (dropdown)
+
+The form stays open after adding for quick entry of multiple items.
+
+---
+
+## Data Files
+
+### Assessments (`Assessments/assessments_data.json`)
+
+Organised by student, then term, then week:
+
 ```json
 {
-  "eddie": { "1": [ {"week": 5, "date": "23–27 Feb", "assessments": ["..."]} ], "2": [...], "3": [...], "4": [...] },
-  "dara":  { "1": [...], "2": [...], "3": [...], "4": [...] }
+  "eddie": {
+    "1": [
+      {
+        "week": 5,
+        "date": "23 Feb",
+        "assessments": [
+          { "text": "Maths: GA 1", "status": "Not Started", "due": "23 Feb" }
+        ]
+      }
+    ],
+    "2": [], "3": [], "4": []
+  },
+  "dara": { "1": [], "2": [], "3": [], "4": [] }
 }
 ```
 
----
+### Homework (`Homework/homework_data.json`)
 
-## Assignments
+Flat list per student with auto-incrementing IDs:
 
-Tracks individual assignments (homework, tasks, projects) for both students.
-
-**Server:** `python Assignments/assignments_server.py` → [http://localhost:8082](http://localhost:8082)
-
-| URL | Page |
-|-----|------|
-| `http://localhost:8082/` | View assignments table |
-| `http://localhost:8082/admin` | Add / delete assignments |
-
-### View page (`assignments.html`)
-- Filter by student, term, week, subject, and status
-- Sort by any column
-- Update **status** (Not Started / In Progress / Completed) inline — saves automatically
-
-### Admin page (`admin.html`)
-- Select student → subject dropdown updates to that student's subjects
-- Fill in title, due date, term, week, and starting status
-- Right panel lists all assignments — update status or delete with **✕**
-
-### Data file (`Assignments/assignments_data.json`)
 ```json
 {
-  "next_id": 5,
+  "next_id": 3,
   "eddie": [
-    {"id": 1, "subject": "English", "title": "Essay draft", "due": "Mar 27", "term": 1, "week": 9, "status": "In Progress"}
+    { "id": 1, "subject": "English", "title": "Essay draft", "due": "27 Mar", "term": 1, "week": 9, "status": "In Progress" }
   ],
   "dara": []
 }
 ```
 
-### Known subjects
+---
+
+## API Endpoints
+
+All served by `server.py` on port 8080.
+
+### Assessment Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/assessments/data` | Get all assessment data (auto-normalised) |
+| POST | `/api/assessments/add` | Add assessment `{student, term, week, date, assessment, status}` |
+| POST | `/api/assessments/edit` | Edit assessment text/due `{student, term, week, index, assessment, due}` |
+| POST | `/api/assessments/update_status` | Update status `{student, term, week, index, status}` |
+| POST | `/api/assessments/delete` | Delete assessment `{student, term, week, index}` |
+
+### Homework Endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/homework/data` | Get all homework data |
+| POST | `/api/homework/add` | Add homework `{student, subject, title, due, term, week, status}` |
+| POST | `/api/homework/edit` | Edit homework `{id, subject, title, due, term, week, status}` |
+| POST | `/api/homework/update_status` | Update status `{id, status}` |
+| POST | `/api/homework/delete` | Delete homework `{id, student}` |
+
+---
+
+## Known Subjects
+
 | Eddie (Year 11) | Dara (Year 7) |
 |-----------------|---------------|
 | Accounting, Business Mgt, English, Maths, Physical Education, Pos Ed, Sociology | Digital Art, English, Food, French, Humanities, Leadership, Maths, Philosophy, Pos Ed, Science, Volleyball |
 
 ---
 
-## Term Calendar
+## Term Calendar 2026
 
-| Term | Dates |
-|------|-------|
-| Term 1 | 27 Jan – 2 Apr 2026 |
-| Term 2 | 20 Apr – 26 Jun 2026 |
-| Term 3 | 13 Jul – 18 Sep 2026 |
-| Term 4 | 5 Oct – onwards |
+| Term | Weeks | Dates |
+|------|-------|-------|
+| Term 1 | 10 weeks | 27 Jan - 2 Apr |
+| Term 2 | 10 weeks | 20 Apr - 26 Jun |
+| Term 3 | 10 weeks | 13 Jul - 18 Sep |
+| Term 4 | 2+ weeks | 5 Oct - onwards |
 
 ---
 
 ## ClassroomScraper (Legacy)
 
-The original system that scraped assignments directly from Google Classroom via Selenium. Kept in `ClassroomScraper/` in case it's needed again.
+The original system that scraped assignments directly from Google Classroom via Selenium. Kept in `ClassroomScraper/` for reference.
 
 ```bash
-# Scrape fresh data from Google Classroom
 python ClassroomScraper/classroom_scraper.py eddie
 python ClassroomScraper/classroom_scraper.py dara
-
-# Generate HTML and serve it
 python ClassroomScraper/server.py eddie
-python ClassroomScraper/server.py dara
 ```
 
 | File | Description |
 |------|-------------|
-| `classroom_scraper.py` | Logs into Google Classroom via Selenium, scrapes assignments |
-| `create_html.py` | Generates `assignments_<student>.html` from scraped + manual data |
-| `server.py` | Serves the generated HTML at `http://localhost:8080/` |
-| `data/classroom_data_*.json` | Scraped assignment data |
-| `data/manual_tasks_*.json` | Manually added tasks |
-| `data/assignment_status_*.json` | Persisted task statuses |
-| `config/config.properties` | Login credentials (not committed to git) |
+| `classroom_scraper.py` | Scrapes assignments from Google Classroom via Selenium |
+| `create_html.py` | Generates HTML views with timetable, Gantt chart, filters |
+| `server.py` | Serves generated HTML with status persistence |
+| `data/` | Scraped data, manual tasks, and status files |
+| `config/config.properties` | Login credentials (not committed) |
