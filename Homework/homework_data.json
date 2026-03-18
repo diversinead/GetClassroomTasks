@@ -6,7 +6,7 @@
       "id": 1,
       "subject": "Maths",
       "title": "Education Perfect - Homework",
-      "due": "Mar 20",
+      "due": "20 Mar",
       "term": 1,
       "week": 8,
       "status": "Not Started"
@@ -15,7 +15,7 @@
       "id": 2,
       "subject": "Science",
       "title": "Education Perfect - Homework",
-      "due": "Mar 27",
+      "due": "27 Mar",
       "term": 1,
       "week": 9,
       "status": "Not Started"
