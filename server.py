@@ -81,8 +81,9 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(json.dumps(data, ensure_ascii=False))
         elif self.path == '/api/todos/data':
             data = read_json(TODOS_FILE)
-            reset_todos_if_new_day(data)
-            write_json(TODOS_FILE, data)
+            if data.get('last_reset') != date.today().isoformat():
+                reset_todos_if_new_day(data)
+                write_json(TODOS_FILE, data)
             self.send_json(json.dumps(data, ensure_ascii=False))
         else:
             self.send_response(404)
