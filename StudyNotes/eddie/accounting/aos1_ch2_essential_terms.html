@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 2 - Accounting for Small Business</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; padding: 20px 16px 40px; }
+h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #6b6a64; margin-bottom: 16px; }
+#search { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; outline: none; margin-bottom: 18px; }
+#search:focus { border-color: #888; }
+.cat { margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid; }
+.cat-head { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+.cat-head-text { font-size: 13px; font-weight: 600; }
+.cat-head-right { display: flex; gap: 8px; align-items: center; }
+.cat-head small { font-size: 12px; opacity: 0.65; }
+.cat-arrow { font-size: 11px; opacity: 0.5; }
+.cat-body.collapsed { display: none; }
+.term { border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+.term-title { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; user-select: none; }
+.term-title:hover { background: rgba(0,0,0,0.03); }
+.arrow { font-size: 11px; color: #999; }
+.term-body { display: none; padding: 0 14px 12px; }
+.term-body.open { display: block; background: rgba(255,255,255,0.5); }
+.term-def { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 8px; }
+.term-eg { display: inline-block; border-radius: 6px; padding: 6px 10px; font-size: 12px; margin-bottom: 4px; }
+.term-note { display: block; font-size: 12px; color: #888; margin-top: 6px; font-style: italic; }
+.hot-badge { position: relative; display: inline-flex; align-items: center; gap: 3px; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; font-weight: 400; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+.footer { text-align: center; font-size: 11px; color: #aaa; margin-top: 10px; }
+.purple { border-color: #AFA9EC; } .purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; } .purple .term-eg { background: #EEEDFE; color: #3C3489; }
+.teal { border-color: #5DCAA5; } .teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; } .teal .term-eg { background: #E1F5EE; color: #085041; }
+.coral { border-color: #D85A30; } .coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; } .coral .term-eg { background: #FAECE7; color: #4A1B0C; }
+.amber { border-color: #BA7517; } .amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; } .amber .term-eg { background: #FAEEDA; color: #412402; }
+.blue { border-color: #378ADD; } .blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; } .blue .term-eg { background: #E6F1FB; color: #042C53; }
+.pink { border-color: #D4537E; } .pink .cat-head { background: rgba(237,147,177,0.2); color: #4B1528; } .pink .term-eg { background: #FBEAF0; color: #4B1528; }
+</style>
+</head>
+<body>
+<h1>VCE Accounting — Chapter 2</h1>
+<p class="subtitle">Accounting for Small Business · tap any term to expand</p>
+<input id="search" type="text" placeholder="Search terms..." oninput="filterTerms(this.value)">
+<div id="list"></div>
+<p class="footer">Based on VCE Accounting Units 1 &amp; 2 (7th ed.) study design</p>
+<script>
+var data = [
+  { cat: "2.1 The Concept of a Small Business", color: "purple", hot: false, items: [
+    { term: "Small business", def: "A business that is independently owned and operated, with a relatively small number of employees and low revenue compared to larger corporations.", eg: "A local hairdresser, a family-run cafe, or a sole trader plumber." },
+    { term: "Sole trader", def: "A business owned and operated by one person. The simplest and most common business structure.", eg: "A freelance graphic designer who runs their own ABN and keeps all the profits." },
+    { term: "Partnership", def: "A business owned by two or more people who share profits, losses and responsibilities.", eg: "Two friends who open a legal firm together and split the income 50/50." },
+    { term: "Private company", def: "A business structure where ownership is divided into shares held privately. Legally separate from its owners.", eg: "A small construction firm set up as Pty Ltd." },
+    { term: "Unlimited liability", def: "The owner is personally responsible for ALL debts of the business — even if it means selling personal assets.", eg: "A sole trader whose business fails may have to sell their car or home to repay debts." },
+    { term: "Limited liability", def: "The owner's personal assets are protected — they can only lose what they invested in the business.", eg: "A shareholder in a Pty Ltd company can only lose their share investment, not their house." }
+  ]},
+  { cat: "2.2 The Role of Accounting in Small Business", color: "teal", hot: false, items: [
+    { term: "Role of accounting", def: "Accounting helps business owners record transactions, prepare reports, and make informed decisions about the future of their business.", eg: "Using profit figures to decide whether to hire a new employee or cut costs." },
+    { term: "Internal users", def: "People inside the business who use accounting information to make decisions.", eg: "The business owner reviewing monthly profit to decide on a price increase." },
+    { term: "External users", def: "People outside the business who use accounting information.", eg: "A bank assessing a loan application, or the ATO reviewing tax returns." },
+    { term: "Decision making", def: "The process of using financial information to choose between different courses of action.", eg: "Comparing revenue vs expenses to decide whether to expand to a second location." },
+    { term: "Recording transactions", def: "Writing down every financial event that affects the business in an accurate and timely way.", eg: "Logging a $500 sale the moment it happens rather than at the end of the week." }
+  ]},
+  { cat: "2.3 Financial Data vs Financial Information", color: "coral", hot: false, items: [
+    { term: "Financial data", def: "Raw, unprocessed facts and figures about business transactions — on their own they have little meaning.", eg: "A list of numbers: $500, $1200, $340. Without context, these mean nothing." },
+    { term: "Financial information", def: "Data that has been processed, organised and presented in a meaningful way so it can be used to make decisions.", eg: "A profit report showing Revenue $50,000 minus Expenses $35,000 = Profit $15,000." },
+    { term: "The difference", def: "Data is the raw input. Information is the useful output after data has been processed and given context.", eg: "Sales receipts = data. An Income Statement summarising those receipts = information." }
+  ]},
+  { cat: "2.4 Qualitative Characteristics of Accounting", color: "amber", hot: true, items: [
+    { term: "Qualitative characteristics", def: "The qualities that make financial information useful and trustworthy for decision making.", eg: "A financial report that is accurate, timely and easy to understand is high quality." },
+    { term: "Relevance", def: "Information must be useful and help the user make a decision. If it does not influence a decision, it is not relevant.", eg: "Reporting this month's cash balance is relevant to deciding whether to pay a supplier now." },
+    { term: "Reliability", def: "Information must be accurate, verifiable and free from bias — based on real evidence.", eg: "Recording a sale from an actual receipt rather than from memory." },
+    { term: "Comparability", def: "Information should be consistent over time so results can be compared across different periods.", eg: "Using the same accounting method each year so this year's profit can be fairly compared to last year's." },
+    { term: "Understandability", def: "Information should be presented clearly so that users can understand it without being accounting experts.", eg: "Using clear labels and logical layout in a Balance Sheet rather than unexplained codes." },
+    { term: "Timeliness", def: "Information must be provided quickly enough to still be useful for decision making.", eg: "Receiving last month's profit report this week — not six months later when it is too late to act." }
+  ]},
+  { cat: "2.5 Accounting Assumptions", color: "blue", hot: true, items: [
+    { term: "Accounting assumptions", def: "Foundational rules that accountants follow when preparing reports to ensure consistency and reliability.", eg: "All businesses follow the same assumptions so their reports are comparable." },
+    { term: "Entity assumption", def: "The business is treated as completely separate from its owner. Personal transactions are never mixed with business transactions.", eg: "The owner's home loan never appears on the business Balance Sheet." },
+    { term: "Going concern assumption", def: "It is assumed the business will continue to operate into the foreseeable future and is not about to shut down.", eg: "Assets are recorded at cost rather than what we would get if we sold everything today." },
+    { term: "Accounting period assumption", def: "The life of a business is divided into set time periods (usually 12 months) so performance can be regularly measured.", eg: "Preparing a profit report for the year ended 30 June 2025." },
+    { term: "Historical cost assumption", def: "Assets are recorded at their original purchase price, not their current market value.", eg: "A building bought for $400,000 ten years ago is still recorded at $400,000 even if it is now worth $700,000." },
+    { term: "Accrual assumption", def: "Revenue and expenses are recorded when they are earned or incurred — not necessarily when cash is received or paid.", eg: "A sale made in June is recorded in June even if the customer does not pay until August." }
+  ]},
+  { cat: "2.6 Ethics and Business Decision-Making", color: "pink", hot: true, items: [
+    { term: "Ethics in accounting", def: "Acting honestly, fairly and responsibly when recording and reporting financial information.", eg: "Not inflating revenue figures to make the business look more profitable than it is." },
+    { term: "Integrity", def: "Being honest and having strong moral principles in all financial reporting and business dealings.", eg: "An accountant who reports a loss accurately rather than hiding it to impress the owner." },
+    { term: "Confidentiality", def: "Keeping a client's or business's financial information private and not sharing it with unauthorised people.", eg: "An accountant not discussing a client's tax details with other clients." },
+    { term: "Financial considerations", def: "Decisions based on the impact on profit, cash flow or the financial health of the business.", eg: "Choosing the cheaper supplier to reduce costs and improve profit." },
+    { term: "Social considerations", def: "Decisions that take into account the impact on people — employees, customers and the community.", eg: "Paying staff fairly even when it reduces profit, because it is the right thing to do." },
+    { term: "Environmental considerations", def: "Decisions that consider the impact on the natural environment, even if it costs more.", eg: "Choosing recyclable packaging over cheaper non-recyclable options." },
+    { term: "Ethical dilemma", def: "A situation where a financially beneficial decision conflicts with what is morally right.", eg: "A business could save money by dumping waste illegally — but that harms the environment and community." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic — appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

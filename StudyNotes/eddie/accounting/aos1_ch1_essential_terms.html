@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 1 - Essential Accounting Terms</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; padding: 20px 16px 40px; }
+h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #6b6a64; margin-bottom: 16px; }
+#search { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; outline: none; margin-bottom: 18px; }
+#search:focus { border-color: #888; }
+.cat { margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid; }
+.cat-head { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+.cat-head-text { font-size: 13px; font-weight: 600; }
+.cat-head-right { display: flex; gap: 8px; align-items: center; }
+.cat-head small { font-size: 12px; opacity: 0.65; }
+.cat-arrow { font-size: 11px; opacity: 0.5; }
+.cat-body.collapsed { display: none; }
+.term { border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+.term-title { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; user-select: none; }
+.term-title:hover { background: rgba(0,0,0,0.03); }
+.arrow { font-size: 11px; color: #999; }
+.term-body { display: none; padding: 0 14px 12px; }
+.term-body.open { display: block; background: rgba(255,255,255,0.5); }
+.term-def { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 8px; }
+.term-eg { display: inline-block; border-radius: 6px; padding: 6px 10px; font-size: 12px; margin-bottom: 4px; }
+.term-note { display: block; font-size: 12px; color: #888; margin-top: 6px; font-style: italic; }
+.hot-badge { position: relative; display: inline-flex; align-items: center; gap: 3px; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; font-weight: 400; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+.footer { text-align: center; font-size: 11px; color: #aaa; margin-top: 10px; }
+.purple { border-color: #AFA9EC; } .purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; } .purple .term-eg { background: #EEEDFE; color: #3C3489; }
+.teal { border-color: #5DCAA5; } .teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; } .teal .term-eg { background: #E1F5EE; color: #085041; }
+.coral { border-color: #D85A30; } .coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; } .coral .term-eg { background: #FAECE7; color: #4A1B0C; }
+.amber { border-color: #BA7517; } .amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; } .amber .term-eg { background: #FAEEDA; color: #412402; }
+.blue { border-color: #378ADD; } .blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; } .blue .term-eg { background: #E6F1FB; color: #042C53; }
+.gray { border-color: #888780; } .gray .cat-head { background: rgba(180,178,169,0.18); color: #2C2C2A; } .gray .term-eg { background: #F1EFE8; color: #2C2C2A; }
+</style>
+</head>
+<body>
+<h1>VCE Accounting — Chapter 1</h1>
+<p class="subtitle">Essential Accounting Terms · tap any term to expand</p>
+<input id="search" type="text" placeholder="Search terms..." oninput="filterTerms(this.value)">
+<div id="list"></div>
+<p class="footer">Based on VCE Accounting Units 1 &amp; 2 study design</p>
+<script>
+var data = [
+  { cat: "The Big Picture", color: "purple", hot: false, items: [
+    { term: "Accounting", def: "The process of recording, reporting and analysing a business's financial transactions.", eg: "Writing down every sale and expense so you know how the business is going." },
+    { term: "Financial reports", def: "Documents that summarise the financial position or performance of a business.", eg: "A Balance Sheet or Income Statement given to the owner at the end of the year." },
+    { term: "Entity concept", def: "The business is treated as completely separate from its owner — their finances must never be mixed.", eg: "Even if you own the business, your personal mortgage does not appear on the business balance sheet." },
+    { term: "Accounting period", def: "The set time span covered by a financial report — usually 12 months.", eg: "A report for the year ended 30 June 2025 covers that full 12-month period." }
+  ]},
+  { cat: "Assets", color: "teal", hot: false, items: [
+    { term: "Asset", def: "Something the business owns or controls that has future economic value.", eg: "Cash, equipment, a delivery van, money owed by customers." },
+    { term: "Current asset", def: "An asset expected to be used or turned into cash within 12 months.", eg: "Cash at bank, accounts receivable, inventory." },
+    { term: "Non-current asset", def: "An asset the business intends to keep and use for more than 12 months.", eg: "Buildings, equipment, vehicles, furniture." },
+    { term: "Cash at bank", def: "Money held in the business bank account.", eg: "The $5,000 sitting in the business cheque account." },
+    { term: "Accounts receivable", def: "Money owed to the business by customers who bought on credit.", eg: "A client was invoiced $1,200 but has not paid yet." },
+    { term: "Inventory", def: "Goods the business holds for the purpose of selling.", eg: "A shoe shop's stock of shoes sitting on the shelves." },
+    { term: "Prepaid expenses", def: "Expenses paid in advance that have not been used up yet.", eg: "Paying 6 months of insurance upfront — the unused months are an asset." }
+  ]},
+  { cat: "Liabilities", color: "coral", hot: false, items: [
+    { term: "Liability", def: "A debt or obligation the business owes to someone else.", eg: "A bank loan, unpaid supplier invoices, GST owed to the ATO." },
+    { term: "Current liability", def: "A debt that must be repaid within 12 months.", eg: "Accounts payable, bank overdraft, GST payable." },
+    { term: "Non-current liability", def: "A debt that does not need to be repaid for more than 12 months.", eg: "A 5-year bank loan, long-term equipment finance." },
+    { term: "Accounts payable", def: "Money the business owes to suppliers for goods or services already received.", eg: "You bought stock on credit — the unpaid invoice is accounts payable." },
+    { term: "Bank overdraft", def: "When the business bank account goes into a negative balance.", eg: "The account shows -$2,000 — the business owes the bank $2,000." },
+    { term: "Loan", def: "Money borrowed from a bank or other lender that must be repaid with interest.", eg: "A $20,000 business loan from NAB to buy equipment." }
+  ]},
+  { cat: "Owner's Equity", color: "amber", hot: false, items: [
+    { term: "Owner's equity", def: "The owner's financial stake in the business — what is left after all debts are paid.", eg: "If assets = $80,000 and liabilities = $30,000, owner's equity = $50,000." },
+    { term: "Capital", def: "The label used for owner's equity in a sole trader business.", eg: "The owner put in $40,000 to start the business — that is the starting capital." },
+    { term: "Drawings", def: "Money or goods the owner takes out of the business for personal use.", eg: "The owner transfers $500 from the business account to their personal account each week." },
+    { term: "Revenue", def: "Income earned by the business from its normal trading activities.", eg: "A plumber charges $300 for a job — that $300 is revenue." },
+    { term: "Expense", def: "A cost incurred to run the business and generate revenue.", eg: "Rent, wages, electricity, advertising." },
+    { term: "Profit", def: "When revenue is greater than expenses over a period.", eg: "Revenue $50,000 minus Expenses $35,000 = Profit $15,000." },
+    { term: "Loss", def: "When expenses are greater than revenue over a period.", eg: "Revenue $20,000 minus Expenses $25,000 = Loss $5,000." }
+  ]},
+  { cat: "The Accounting Equation", color: "blue", hot: false, items: [
+    { term: "Accounting equation", def: "Assets = Liabilities + Owner's Equity. Both sides must always be equal.", eg: "Assets $68,200 = Liabilities $20,000 + Owner's Equity $48,200" },
+    { term: "Balance Sheet", def: "A financial report showing what a business owns and owes at a specific date.", eg: "A snapshot of the business financial position on 30 June." },
+    { term: "Solvency", def: "Whether a business can pay its debts as they fall due.", eg: "If a business has plenty of cash to pay upcoming bills, it is solvent." }
+  ]},
+  { cat: "1.3 Key Principles", color: "gray", hot: true, items: [
+    { term: "Going concern", def: "The assumption that the business will continue operating into the future.", eg: "Reports are prepared assuming the business will not shut down next month." },
+    { term: "Historical cost", def: "Assets are recorded at the price originally paid, not their current market value.", eg: "A car bought for $30,000 stays on the books at $30,000 even if it is now worth $20,000." },
+    { term: "Reliability", def: "Financial information should be based on verifiable evidence.", eg: "Using a receipt or invoice to record a transaction rather than guessing." },
+    { term: "Relevance", def: "Financial information should be useful for making decisions.", eg: "Reporting profit figures that help the owner decide whether to expand." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic — tested in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

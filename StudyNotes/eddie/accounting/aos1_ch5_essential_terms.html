@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 5 - Establishing a Small Business</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; padding: 20px 16px 40px; }
+h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #6b6a64; margin-bottom: 16px; }
+#search { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; outline: none; margin-bottom: 18px; }
+#search:focus { border-color: #888; }
+.cat { margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid; }
+.cat-head { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+.cat-head-text { font-size: 13px; font-weight: 600; }
+.cat-head-right { display: flex; gap: 8px; align-items: center; }
+.cat-head small { font-size: 12px; opacity: 0.65; }
+.cat-arrow { font-size: 11px; opacity: 0.5; }
+.cat-body.collapsed { display: none; }
+.term { border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+.term-title { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; user-select: none; }
+.term-title:hover { background: rgba(0,0,0,0.03); }
+.arrow { font-size: 11px; color: #999; }
+.term-body { display: none; padding: 0 14px 12px; }
+.term-body.open { display: block; background: rgba(255,255,255,0.5); }
+.term-def { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 8px; }
+.term-eg { display: inline-block; border-radius: 6px; padding: 6px 10px; font-size: 12px; margin-bottom: 4px; }
+.term-note { display: block; font-size: 12px; color: #888; margin-top: 6px; font-style: italic; }
+.hot-badge { position: relative; display: inline-flex; align-items: center; gap: 3px; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; font-weight: 400; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+.compare-wrap { margin-bottom: 18px; border-radius: 10px; overflow: hidden; border: 1px solid #AFA9EC; }
+.compare-toggle { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; user-select: none; font-size: 13px; font-weight: 600; background: rgba(206,203,246,0.3); color: #3C3489; }
+.compare-body { display: none; overflow-x: auto; }
+.compare-body.open { display: block; }
+table.ct { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 480px; background: #fff; }
+table.ct th { padding: 8px 10px; text-align: left; font-weight: 600; background: #1a1a18; color: #fff; }
+table.ct td { padding: 7px 10px; border-bottom: 1px solid rgba(0,0,0,0.07); vertical-align: top; line-height: 1.45; }
+table.ct tr:nth-child(even) td { background: rgba(0,0,0,0.025); }
+.tag { display: inline-block; font-size: 10px; border-radius: 3px; padding: 1px 5px; font-weight: 600; margin-right: 3px; }
+.tag-g { background: #E1F5EE; color: #085041; }
+.tag-r { background: #FAECE7; color: #4A1B0C; }
+.compare-note { font-size: 11px; padding: 6px 12px 8px; font-style: italic; color: #666; border-top: 1px solid rgba(0,0,0,0.07); background: #fff; }
+.footer { text-align: center; font-size: 11px; color: #aaa; margin-top: 10px; }
+.purple { border-color: #AFA9EC; } .purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; } .purple .term-eg { background: #EEEDFE; color: #3C3489; }
+.teal { border-color: #5DCAA5; } .teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; } .teal .term-eg { background: #E1F5EE; color: #085041; }
+.coral { border-color: #D85A30; } .coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; } .coral .term-eg { background: #FAECE7; color: #4A1B0C; }
+.amber { border-color: #BA7517; } .amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; } .amber .term-eg { background: #FAEEDA; color: #412402; }
+.blue { border-color: #378ADD; } .blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; } .blue .term-eg { background: #E6F1FB; color: #042C53; }
+</style>
+</head>
+<body>
+<h1>VCE Accounting — Chapter 5</h1>
+<p class="subtitle">Establishing a Small Business · tap any term to expand</p>
+<input id="search" type="text" placeholder="Search terms..." oninput="filterTerms(this.value)">
+
+<div class="compare-wrap">
+  <div class="compare-toggle" onclick="toggleC(this)">
+    <span>&#128202; Business Ownership Structures — comparison table</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="compare-body">
+    <table class="ct">
+      <thead><tr><th>Feature</th><th>Sole Trader</th><th>Partnership</th><th>Private Company (Pty Ltd)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Owners</strong></td><td>1 person</td><td>2-20 people</td><td>1-50 shareholders</td></tr>
+        <tr><td><strong>Liability</strong></td><td><span class="tag tag-r">risk</span>Unlimited — personally liable</td><td><span class="tag tag-r">risk</span>Unlimited — each partner liable</td><td><span class="tag tag-g">safer</span>Limited — lose investment only</td></tr>
+        <tr><td><strong>Setup cost</strong></td><td><span class="tag tag-g">low</span>Very simple and cheap</td><td><span class="tag tag-g">low</span>Simple — agreement recommended</td><td><span class="tag tag-r">higher</span>More complex to register</td></tr>
+        <tr><td><strong>Decision making</strong></td><td><span class="tag tag-g">fast</span>Owner decides everything</td><td>Shared — can be slow if disagreement</td><td>Directors make decisions</td></tr>
+        <tr><td><strong>Profit sharing</strong></td><td>Owner keeps all profit</td><td>Split between partners as agreed</td><td>Paid as dividends to shareholders</td></tr>
+        <tr><td><strong>Continuity</strong></td><td><span class="tag tag-r">risk</span>Ends if owner dies or leaves</td><td><span class="tag tag-r">risk</span>Can dissolve if partner leaves</td><td><span class="tag tag-g">stable</span>Continues regardless of ownership</td></tr>
+        <tr><td><strong>Tax</strong></td><td>Taxed as personal income</td><td>Each partner taxed on their share</td><td>Company tax rate (25% small cos.)</td></tr>
+        <tr><td><strong>Example</strong></td><td>Local plumber, freelancer</td><td>Law firm, accounting practice</td><td>Family Pty Ltd, small builder</td></tr>
+      </tbody>
+    </table>
+    <p class="compare-note">&#128161; Exams often ask you to recommend a structure and justify it — focus on liability, cost and control.</p>
+  </div>
+</div>
+
+<div id="list"></div>
+<p class="footer">Based on VCE Accounting Units 1 &amp; 2 (7th ed.) study design</p>
+<script>
+var data = [
+  { cat: "5.1 Why Do People Go Into Small Business?", color: "purple", hot: false, items: [
+    { term: "Motivation to start a business", def: "The personal and financial reasons that drive someone to establish their own business rather than working for others.", eg: "Wanting to be your own boss, pursuing a passion, or seeing a gap in the market." },
+    { term: "Independence", def: "The freedom to make your own decisions about how the business is run without answering to an employer.", eg: "A chef who leaves a restaurant to open their own cafe so they can set the menu and hours." },
+    { term: "Financial reward", def: "The potential to earn more income than as an employee — especially if the business grows successfully.", eg: "A tradesperson who earns $80,000 as an employee but $150,000 running their own business." },
+    { term: "Personal satisfaction", def: "The sense of pride and fulfilment that comes from building and running your own business.", eg: "A florist who loves their craft and finds more meaning in running their own shop." },
+    { term: "Risk of business ownership", def: "The possibility of financial loss, business failure or personal liability that comes with owning a business.", eg: "A new cafe owner who invests $80,000 knowing they may not recover it if the business fails." }
+  ]},
+  { cat: "5.2 Types of Small Business Operations", color: "teal", hot: false, items: [
+    { term: "Service business", def: "A business that earns revenue by providing a service rather than selling physical goods.", eg: "A hairdresser, accountant, plumber, or personal trainer." },
+    { term: "Retail business", def: "A business that buys finished goods and resells them to customers at a higher price.", eg: "A clothing shop, supermarket, or hardware store." },
+    { term: "Wholesale business", def: "A business that buys goods in large quantities from manufacturers and sells them in smaller quantities to retailers.", eg: "A food distributor that buys in bulk from farms and sells to restaurants and cafes." },
+    { term: "Manufacturing business", def: "A business that makes products from raw materials and sells the finished goods.", eg: "A bakery that makes and sells its own bread and pastries." },
+    { term: "Online business", def: "A business that operates primarily through the internet, selling goods or services digitally.", eg: "An Etsy store selling handmade jewellery, or a business offering online tutoring." }
+  ]},
+  { cat: "5.3 Forms of Business Ownership", color: "coral", hot: true, items: [
+    { term: "Sole trader", def: "A business owned and operated by one person. The owner and business are legally the same entity.", eg: "A freelance graphic designer who runs their own ABN.", note: "Unlimited liability means the owner's personal assets can be used to pay business debts." },
+    { term: "Partnership", def: "A business owned by 2 or more people (up to 20) who share profits, losses and management responsibilities.", eg: "Two friends who open a physiotherapy clinic together and split profits 50/50.", note: "A written partnership agreement is strongly recommended to avoid disputes." },
+    { term: "Private company (Pty Ltd)", def: "A business structure where ownership is divided into shares held privately. It is a separate legal entity from its owners.", eg: "Smith Building Pty Ltd — the company can own assets and be sued separately from the owners." },
+    { term: "Unlimited liability", def: "The owner is personally responsible for ALL debts of the business — personal assets can be seized to pay debts.", eg: "A sole trader whose business owes $50,000 may have to sell personal savings or property to repay it." },
+    { term: "Limited liability", def: "Owners can only lose the amount they invested — personal assets are protected from business debts.", eg: "A shareholder who invested $10,000 in a Pty Ltd can only lose that $10,000 if the company fails." },
+    { term: "Separate legal entity", def: "The business is legally distinct from its owners — it can own property, enter contracts and be sued in its own name.", eg: "Apple Pty Ltd can sign a lease in the company's name, not the owner's personal name." }
+  ]},
+  { cat: "5.4 Franchises", color: "amber", hot: false, items: [
+    { term: "Franchise", def: "A business arrangement where the franchisee pays for the right to operate using the franchisor's brand, systems and products.", eg: "Opening a McDonald's restaurant — you pay for the right to use their name and system." },
+    { term: "Franchisor", def: "The company that owns the original brand and business model and grants licences to franchisees.", eg: "McDonald's, Subway and Jim's Mowing are all franchisors." },
+    { term: "Franchisee", def: "The individual or business that purchases the right to operate under the franchisor's brand and system.", eg: "A person who pays $300,000 to open and run their own Subway store." },
+    { term: "Franchise fee", def: "The upfront payment made by the franchisee to the franchisor for the right to use the brand and system.", eg: "Paying $50,000 to the franchisor before opening the business." },
+    { term: "Royalty", def: "An ongoing percentage of revenue paid by the franchisee to the franchisor, usually monthly.", eg: "Paying 5% of monthly sales to the franchisor as an ongoing royalty fee." },
+    { term: "Advantages of franchising", def: "Buying into a proven business model with brand recognition, training and support — reducing the risk of failure.", eg: "A franchisee benefits from national advertising and a loyal customer base from day one.", note: "Exams often ask you to weigh advantages vs disadvantages — know both sides." },
+    { term: "Disadvantages of franchising", def: "High upfront costs, ongoing royalty payments and limited freedom — must follow the franchisor's rules.", eg: "A franchisee cannot change the menu, pricing or store layout without franchisor approval." }
+  ]},
+  { cat: "5.5 Success and Failure of Small Businesses", color: "blue", hot: true, items: [
+    { term: "Factors for success", def: "Key elements that increase the likelihood of a business surviving and growing over time.", eg: "Good financial management, a clear market need, strong customer service and an experienced owner." },
+    { term: "Factors for failure", def: "Common reasons why small businesses fail, often within the first few years.", eg: "Poor cash flow management, lack of planning, too much competition or insufficient starting capital." },
+    { term: "Cash flow problems", def: "When a business does not have enough cash coming in to cover its outgoing payments — the most common cause of failure.", eg: "A business that is profitable on paper but cannot pay rent because customers are slow to pay." },
+    { term: "Undercapitalisation", def: "Starting a business without enough money to cover initial costs and sustain operations until it becomes profitable.", eg: "Opening a cafe with only $10,000 when the fit-out alone costs $40,000." },
+    { term: "Business plan", def: "A written document outlining the goals, strategies, target market, financial projections and operational plan for a business.", eg: "A new owner writes a plan showing expected costs, revenue and how the business will attract customers." },
+    { term: "Market research", def: "The process of gathering information about potential customers, competitors and market conditions before starting a business.", eg: "Surveying locals before opening a cafe to see if there is demand and who the competition is." },
+    { term: "Competition", def: "Other businesses offering similar products or services to the same target market.", eg: "A new gym struggling to attract members because there are already three established gyms nearby." }
+  ]}
+];
+
+function toggleC(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic — appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

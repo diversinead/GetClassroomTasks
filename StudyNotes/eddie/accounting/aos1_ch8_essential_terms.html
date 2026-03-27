@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 8</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; padding: 20px 16px 40px; }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #6b6a64; margin-bottom: 16px; }
+  #search { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; outline: none; margin-bottom: 18px; }
+  #search:focus { border-color: #888; }
+  .cat { margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid; }
+  .cat-head { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+  .cat-head-text { font-size: 13px; font-weight: 600; }
+  .cat-head-right { display: flex; gap: 8px; align-items: center; }
+  .cat-head small { font-size: 12px; opacity: 0.65; }
+  .cat-arrow { font-size: 11px; opacity: 0.5; }
+  .cat-body { display: block; }
+  .cat-body.collapsed { display: none; }
+  .term { border-top: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+  .term-title { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; user-select: none; }
+  .term-title:hover { background: rgba(0,0,0,0.03); }
+  .arrow { font-size: 11px; color: #999; }
+  .term-body { display: none; padding: 0 14px 12px; }
+  .term-body.open { display: block; background: rgba(255,255,255,0.5); }
+  .term-def { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 8px; }
+  .term-eg { display: inline-block; border-radius: 6px; padding: 6px 10px; font-size: 12px; margin-bottom: 4px; }
+  .term-note { display: block; font-size: 12px; color: #888; margin-top: 6px; font-style: italic; }
+
+  /* hot topic badge */
+  .hot-badge { position: relative; display: inline-flex; align-items: center; gap: 3px; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+  .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; font-weight: 400; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+  .hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+  .hot-badge:hover .tip { display: block; }
+
+  /* collapsible boxes */
+  .box-wrap { margin-bottom: 18px; border-radius: 10px; overflow: hidden; border: 1px solid; }
+  .box-wrap.teal  { border-color: #5DCAA5; }
+  .box-wrap.amber { border-color: #BA7517; }
+  .box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; user-select: none; font-size: 13px; font-weight: 600; }
+  .box-wrap.teal  .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+  .box-wrap.amber .box-toggle { background: rgba(239,159,39,0.18); color: #412402; }
+  .box-body { display: none; }
+  .box-body.open { display: block; }
+  .box-note { font-size: 11px; padding: 6px 12px 8px; font-style: italic; color: #666; border-top: 1px solid rgba(0,0,0,0.07); background: #fff; }
+
+  /* income statement */
+  .is { width: 100%; border-collapse: collapse; font-size: 12px; background: #fff; }
+  .is th { padding: 7px 12px; text-align: left; background: #1a1a18; color: #fff; font-weight: 600; }
+  .is th.num { text-align: right; }
+  .is td { padding: 6px 12px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .is td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .is tr.section td { font-weight: 700; background: #f0efeb; font-size: 12px; padding: 8px 12px; }
+  .is tr.indent td { padding-left: 24px; color: #333; }
+  .is tr.subtotal td { font-weight: 600; background: #fafaf8; border-top: 1px solid #ddd; }
+  .is tr.gross td { font-weight: 700; background: #E1F5EE; color: #085041; padding: 8px 12px; }
+  .is tr.total td { font-weight: 700; background: #1a1a18; color: #fff; padding: 8px 12px; }
+  .is tr.profit td { font-weight: 700; background: #E1F5EE; color: #085041; padding: 8px 12px; }
+  .is tr.loss td { font-weight: 700; background: #FAECE7; color: #4A1B0C; padding: 8px 12px; }
+  .is tr.label td { font-style: italic; font-size: 11px; color: #777; padding: 3px 12px 3px 24px; border-bottom: none; }
+
+  /* cash vs profit comparison */
+  .cvp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; background: #fff; }
+  .cvp-card { border-radius: 8px; padding: 10px 12px; font-size: 12px; }
+  .cvp-card.cash   { background: #E6F1FB; border: 1px solid #378ADD; }
+  .cvp-card.profit { background: #E1F5EE; border: 1px solid #5DCAA5; }
+  .cvp-card h3 { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+  .cvp-card.cash h3   { color: #042C53; }
+  .cvp-card.profit h3 { color: #085041; }
+  .cvp-card p { line-height: 1.5; color: #333; margin-bottom: 6px; }
+  .cvp-card .eg { background: #fff; border-radius: 5px; padding: 6px 8px; font-size: 11px; color: #444; }
+
+  .purple { border-color: #AFA9EC; }
+  .purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
+  .purple .term-eg { background: #EEEDFE; color: #3C3489; }
+  .teal   { border-color: #5DCAA5; }
+  .teal   .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
+  .teal   .term-eg { background: #E1F5EE; color: #085041; }
+  .coral  { border-color: #D85A30; }
+  .coral  .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+  .coral  .term-eg { background: #FAECE7; color: #4A1B0C; }
+  .amber  { border-color: #BA7517; }
+  .amber  .cat-head { background: rgba(239,159,39,0.18); color: #412402; }
+  .amber  .term-eg { background: #FAEEDA; color: #412402; }
+  .footer { text-align: center; font-size: 11px; color: #aaa; margin-top: 10px; }
+  @media (max-width: 480px) { .cvp-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting — Chapter 8</h1>
+<p class="subtitle">Income Statements for a Service Firm · tap any term to expand</p>
+<input id="search" type="text" placeholder="Search terms..." oninput="filterTerms(this.value)">
+
+<!-- INCOME STATEMENT WORKED EXAMPLE -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleBox(this)">
+    <span>📋 Income Statement — worked example</span>
+    <span class="cat-arrow">▼</span>
+  </div>
+  <div class="box-body">
+    <table class="is">
+      <thead><tr><th>Sarah's Café</th><th></th><th class="num">$</th><th class="num">$</th></tr></thead>
+      <tbody>
+        <tr><td colspan="4" style="padding:4px 12px;font-size:11px;font-style:italic;color:#666;background:#f9f9f7;">Income Statement — for the year ended 30 June 2025</td></tr>
+
+        <tr class="section"><td colspan="4">Revenue</td></tr>
+        <tr class="indent"><td>Sales revenue</td><td></td><td class="num">85,000</td><td></td></tr>
+        <tr class="label"><td colspan="4">↑ Total income earned from providing services/selling goods</td></tr>
+        <tr class="subtotal"><td>Total Revenue</td><td></td><td></td><td class="num">$ 85,000</td></tr>
+
+        <tr class="section"><td colspan="4">Less: Cost of Sales</td></tr>
+        <tr class="indent"><td>Cost of goods sold</td><td></td><td class="num">32,000</td><td></td></tr>
+        <tr class="label"><td colspan="4">↑ The direct cost of the goods that were sold</td></tr>
+        <tr class="gross"><td colspan="3">Gross Profit</td><td class="num">$ 53,000</td></tr>
+        <tr class="label"><td colspan="4">↑ Revenue $85,000 − Cost of Sales $32,000 = Gross Profit $53,000</td></tr>
+
+        <tr class="section"><td colspan="4">Less: Expenses</td></tr>
+        <tr class="indent"><td>Wages</td><td></td><td class="num">18,000</td><td></td></tr>
+        <tr class="indent"><td>Rent</td><td></td><td class="num">12,000</td><td></td></tr>
+        <tr class="indent"><td>Electricity</td><td></td><td class="num">2,400</td><td></td></tr>
+        <tr class="indent"><td>Advertising</td><td></td><td class="num">1,800</td><td></td></tr>
+        <tr class="indent"><td>Insurance</td><td></td><td class="num">1,200</td><td></td></tr>
+        <tr class="indent"><td>Depreciation — Equipment</td><td></td><td class="num">1,600</td><td></td></tr>
+        <tr class="label"><td colspan="4">↑ Non-cash expense — spreads the cost of an asset over its useful life</td></tr>
+        <tr class="subtotal"><td>Total Expenses</td><td></td><td></td><td class="num">$ 37,000</td></tr>
+
+        <tr class="profit"><td colspan="3">Net Profit</td><td class="num">$ 16,000</td></tr>
+        <tr class="label"><td colspan="4">↑ Gross Profit $53,000 − Total Expenses $37,000 = Net Profit $16,000</td></tr>
+      </tbody>
+    </table>
+    <p class="box-note">💡 Heading uses "for the year ended" — this covers a period, not a single date. A Net Loss appears when expenses exceed gross profit.</p>
+  </div>
+</div>
+
+<!-- CASH VS PROFIT -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleBox(this)">
+    <span>💡 Cash vs Profit — what's the difference?</span>
+    <span class="cat-arrow">▼</span>
+  </div>
+  <div class="box-body">
+    <div class="cvp-grid">
+      <div class="cvp-card cash">
+        <h3>Cash</h3>
+        <p>The actual money in the bank account. Recorded when money physically moves in or out.</p>
+        <div class="eg">A sale made in June but paid in August → recorded as cash in August only.</div>
+      </div>
+      <div class="cvp-card profit">
+        <h3>Profit</h3>
+        <p>Revenue earned minus expenses incurred — regardless of when cash is received or paid.</p>
+        <div class="eg">That same June sale → counted as revenue in June when it was earned.</div>
+      </div>
+    </div>
+    <div style="padding:10px 12px;background:#fff;font-size:12px;border-top:1px solid rgba(0,0,0,0.07);">
+      <strong>A business can be profitable but still run out of cash!</strong><br>
+      <span style="color:#666;">Eg: Net profit = $20,000 but $18,000 is tied up in unpaid customer invoices → only $2,000 actual cash available to pay bills.</span><br><br>
+      <span style="color:#888;font-style:italic;">💡 This is why both an Income Statement AND a Statement of Receipts &amp; Payments are needed.</span>
+    </div>
+  </div>
+</div>
+
+<div id="list"></div>
+<p class="footer">Based on VCE Accounting Units 1 &amp; 2 (7th ed.) study design</p>
+
+<script>
+const data = [
+  { cat: "8.1 Understanding the Income Statement", color: "purple", items: [
+    { term: "Income Statement", def: "A financial report showing the revenue earned and expenses incurred over a period of time, resulting in a net profit or net loss.", eg: "A report for the year ended 30 June 2025 showing Revenue $85,000 − Expenses $69,000 = Net Profit $16,000." },
+    { term: "Purpose of the Income Statement", def: "To measure the financial performance of a business over a period — showing whether it made a profit or a loss.", eg: "The owner uses the Income Statement to see if the business is earning enough to cover its costs." },
+    { term: "Revenue", def: "Income earned by the business from its normal trading activities during the period.", eg: "Sales revenue from a café — coffee, food and catering income." },
+    { term: "Expenses", def: "Costs incurred by the business in order to earn revenue during the period.", eg: "Wages, rent, electricity, advertising, insurance, depreciation." },
+    { term: "Net profit", def: "When total revenue exceeds total expenses — the business has earned more than it has spent.", eg: "Revenue $85,000 − Expenses $69,000 = Net Profit $16,000." },
+    { term: "Net loss", def: "When total expenses exceed total revenue — the business has spent more than it has earned.", eg: "Revenue $40,000 − Expenses $47,000 = Net Loss $7,000." },
+    { term: "Report heading", def: "Every Income Statement must show: business name, report type, and the period it covers.", eg: "Sarah's Café · Income Statement · For the year ended 30 June 2025", note: "Use 'for the year ended' — NOT 'as at'. The Income Statement covers a period of time." },
+  ]},
+  { cat: "8.2 Cash versus Profit", color: "teal", hot: true, items: [
+    { term: "Cash vs profit", def: "Cash is the actual money in the bank. Profit is revenue minus expenses — recorded when earned or incurred, not when cash moves.", eg: "A business can show a $20,000 profit but have very little cash if customers haven't paid yet." },
+    { term: "Accrual accounting", def: "Revenue and expenses are recorded when they are earned or incurred — not necessarily when cash is received or paid.", eg: "A June sale invoiced but unpaid is still counted as June revenue under accrual accounting." },
+    { term: "Cash accounting", def: "Revenue and expenses are only recorded when cash actually changes hands.", eg: "That same June sale is only recorded in August when the customer pays." },
+    { term: "Why a profitable business can fail", def: "If customers are slow to pay, a business may run out of cash to pay its own bills — even while showing a profit on paper.", eg: "A construction firm with $500,000 in outstanding invoices but no cash to pay wages this week." },
+    { term: "Depreciation", def: "A non-cash expense that spreads the cost of a long-term asset over its useful life — reduces profit but does not reduce cash.", eg: "Equipment costing $8,000 with a 5-year life → $1,600 depreciation expense per year, but no cash paid.", note: "Depreciation reduces profit but does NOT appear in the Statement of Receipts and Payments — it is not a cash payment." },
+  ]},
+  { cat: "8.3 Preparing an Income Statement", color: "coral", hot: true, items: [
+    { term: "Gross profit", def: "Revenue minus the direct cost of goods sold — before deducting operating expenses.", eg: "Sales $85,000 − Cost of goods sold $32,000 = Gross Profit $53,000." },
+    { term: "Cost of goods sold (COGS)", def: "The direct cost of producing or purchasing the goods that were sold during the period.", eg: "A café buying coffee beans, milk and food ingredients to make the products it sells." },
+    { term: "Gross profit margin", def: "Gross profit as a percentage of revenue — shows how efficiently the business produces or buys its goods.", eg: "Gross Profit $53,000 ÷ Revenue $85,000 × 100 = 62.4% gross profit margin." },
+    { term: "Operating expenses", def: "The ongoing costs of running the business that are not directly tied to producing goods — such as rent, wages and utilities.", eg: "Wages $18,000 + Rent $12,000 + Electricity $2,400 + Advertising $1,800 = $34,200 operating expenses." },
+    { term: "Net profit margin", def: "Net profit as a percentage of revenue — shows overall profitability after all costs.", eg: "Net Profit $16,000 ÷ Revenue $85,000 × 100 = 18.8% net profit margin.", note: "Exams often ask you to calculate AND interpret profit margins — always comment on whether it is good or bad and why." },
+    { term: "Bad debts", def: "Money owed by customers that is written off because it is unlikely to ever be collected.", eg: "A customer who owes $800 goes bankrupt — the $800 is recorded as a bad debt expense." },
+    { term: "Prepaid expenses", def: "Expenses paid in advance — the portion not yet used is an asset, not an expense.", eg: "Paying $1,200 annual insurance in July — by 30 June only $1,100 has been used, $100 remains prepaid." },
+    { term: "Accrued expenses", def: "Expenses incurred but not yet paid — must be recorded as an expense and a liability in the current period.", eg: "Electricity used in June but the bill arrives in July — it is still a June expense." },
+  ]},
+];
+
+function toggleBox(el) {
+  const body = el.nextElementSibling;
+  const arr = el.querySelector(".cat-arrow");
+  const open = body.classList.toggle("open");
+  arr.textContent = open ? "▲" : "▼";
+}
+
+function build(source) {
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  source.forEach(cat => {
+    if (!cat.items.length) return;
+    const div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    const hotBadge = cat.hot
+      ? `<div class="hot-badge">★ HOT TOPIC<div class="tip">High-frequency exam topic — questions on this section appear almost every year</div></div>`
+      : "";
+    const head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = `<span class="cat-head-text">${cat.cat}</span><div class="cat-head-right">${hotBadge}<small>${cat.items.length} terms</small><span class="cat-arrow">▼</span></div>`;
+    head.onclick = () => {
+      const body = div.querySelector(".cat-body");
+      const arr = head.querySelector(".cat-arrow");
+      const collapsed = body.classList.toggle("collapsed");
+      arr.textContent = collapsed ? "▶" : "▼";
+    };
+    div.appendChild(head);
+    const body = document.createElement("div");
+    body.className = "cat-body";
+    cat.items.forEach(item => {
+      const t = document.createElement("div");
+      t.className = "term";
+      const noteHtml = item.note ? `<span class="term-note">⚠ Exam tip: ${item.note}</span>` : "";
+      t.innerHTML = `
+        <div class="term-title" onclick="toggle(this)">
+          <span>${item.term}</span><span class="arrow">▼</span>
+        </div>
+        <div class="term-body">
+          <p class="term-def">${item.def}</p>
+          <span class="term-eg">Eg: ${item.eg}</span>
+          ${noteHtml}
+        </div>`;
+      body.appendChild(t);
+    });
+    div.appendChild(body);
+    list.appendChild(div);
+  });
+}
+
+function toggle(el) {
+  const body = el.nextElementSibling;
+  const arr = el.querySelector(".arrow");
+  const open = body.classList.toggle("open");
+  arr.textContent = open ? "▲" : "▼";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  const filtered = data.map(cat => ({
+    ...cat,
+    items: cat.items.filter(i => !q || i.term.toLowerCase().includes(q) || i.def.toLowerCase().includes(q))
+  }));
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>
