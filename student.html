@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Tasks 2026</title>
 <style>
   * { box-sizing: border-box; }
@@ -260,6 +260,15 @@
     return new Date(starts[week - 1] + 'T00:00:00');
   }
   function fmtDate(d) { return d.getDate() + ' ' + MONTHS[d.getMonth()]; }
+  function parseDueToNum(due) {
+    if (!due) return 99999;
+    const parts = due.trim().split(' ');
+    if (parts.length < 2) return 99999;
+    const day = parseInt(parts[0]);
+    const monthIdx = MONTHS.indexOf(parts[1]);
+    if (isNaN(day) || monthIdx < 0) return 99999;
+    return monthIdx * 100 + day;
+  }
   function fmtDueWithDay(due) {
     if (!due) return '';
     const parts = due.trim().split(' ');
@@ -409,7 +418,10 @@
     );
 
     rows.sort((a, b) => {
-      const av = a[sortCol] ?? '', bv = b[sortCol] ?? '';
+      let av = a[sortCol] ?? '', bv = b[sortCol] ?? '';
+      if (sortCol === 'due') {
+        av = parseDueToNum(av); bv = parseDueToNum(bv);
+      }
       const n = typeof av === 'number' ? av - bv : String(av).localeCompare(String(bv));
       return sortAsc ? n : -n;
     });

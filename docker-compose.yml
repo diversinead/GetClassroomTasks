@@ -8,4 +8,7 @@ services:
       - ./Assessments:/app/Assessments
       - ./Homework:/app/Homework
       - ./TodoLists:/app/TodoLists
+      - ./StudyNotes:/app/StudyNotes
+    environment:
+      - TZ=Australia/Melbourne
     restart: unless-stopped

@@ -10,6 +10,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSESSMENTS_FILE = os.path.join(BASE_DIR, 'Assessments', 'assessments_data.json')
 HOMEWORK_FILE = os.path.join(BASE_DIR, 'Homework', 'homework_data.json')
 TODOS_FILE = os.path.join(BASE_DIR, 'TodoLists', 'todo_data.json')
+STUDYNOTES_FILE = os.path.join(BASE_DIR, 'StudyNotes', 'studynotes.json')
 
 
 def read_json(path):
@@ -73,6 +74,18 @@ class Handler(BaseHTTPRequestHandler):
             self.serve_file('launcher.html', 'text/html')
         elif self.path in ('/eddie', '/dara'):
             self.serve_file('student.html', 'text/html')
+        elif self.path in ('/eddie/notes', '/dara/notes'):
+            self.serve_file('studynotes.html', 'text/html')
+        elif self.path.startswith('/studynotes/'):
+            rel = self.path[len('/studynotes/'):]
+            if '..' in rel or rel.startswith('/'):
+                self.send_response(403)
+                self.end_headers()
+                return
+            self.serve_file(os.path.join('StudyNotes', rel), 'text/html')
+        elif self.path == '/api/studynotes/data':
+            data = read_json(STUDYNOTES_FILE)
+            self.send_json(json.dumps(data, ensure_ascii=False))
         elif self.path == '/favicon.svg':
             self.serve_file('favicon.svg', 'image/svg+xml')
         elif self.path in ('/apple-touch-icon.png', '/apple-touch-icon-precomposed.png'):
@@ -349,6 +362,66 @@ class Handler(BaseHTTPRequestHandler):
                 items.pop(idx)
 
             write_json(TODOS_FILE, data)
+            self.send_json('{"ok": true}')
+
+        # ── Study Notes routes ─────────────────────────────────────
+        elif self.path == '/api/studynotes/add_aos':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            aos_name = body['name'].strip()
+            if not aos_name:
+                self.send_json('{"ok": false, "error": "Empty AOS name"}')
+                return
+            for subj in data[student]['subjects']:
+                if subj['name'] == subject_name and 'aos' in subj:
+                    subj['aos'].append({'name': aos_name, 'chapters': []})
+                    break
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/add_chapter':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            title = body['title'].strip()
+            file_path = body.get('file', '').strip()
+            aos_name = body.get('aos', '')
+            if not title:
+                self.send_json('{"ok": false, "error": "Empty title"}')
+                return
+            for subj in data[student]['subjects']:
+                if subj['name'] == subject_name:
+                    if 'aos' in subj and aos_name:
+                        for aos in subj['aos']:
+                            if aos['name'] == aos_name:
+                                aos['chapters'].append({'title': title, 'file': file_path})
+                                break
+                    elif 'chapters' in subj:
+                        subj['chapters'].append({'title': title, 'file': file_path})
+                    break
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/delete_chapter':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            aos_name = body.get('aos', '')
+            idx = int(body['index'])
+            for subj in data[student]['subjects']:
+                if subj['name'] == subject_name:
+                    if 'aos' in subj and aos_name:
+                        for aos in subj['aos']:
+                            if aos['name'] == aos_name:
+                                if 0 <= idx < len(aos['chapters']):
+                                    aos['chapters'].pop(idx)
+                                break
+                    elif 'chapters' in subj:
+                        if 0 <= idx < len(subj['chapters']):
+                            subj['chapters'].pop(idx)
+                    break
+            write_json(STUDYNOTES_FILE, data)
             self.send_json('{"ok": true}')
 
         else:
