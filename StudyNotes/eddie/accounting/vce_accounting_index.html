@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Full Index</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F4F3F0; color: #1C1C1A; font-size: 15px; line-height: 1.55; }
+h1 { background: #1C1C1A; color: #fff; padding: 22px 20px 10px; font-size: 22px; letter-spacing: -0.3px; }
+.subtitle { background: #1C1C1A; color: #AAA89F; padding: 0 20px 18px; font-size: 13px; }
+
+.controls { display: flex; gap: 8px; padding: 12px 12px 6px; flex-wrap: wrap; align-items: center; }
+#search { flex: 1; min-width: 180px; padding: 10px 14px; border: 2px solid #D0CEC6; border-radius: 8px; font-size: 14px; background: #fff; outline: none; }
+#search:focus { border-color: #378ADD; }
+#unitFilter { padding: 9px 12px; border: 2px solid #D0CEC6; border-radius: 8px; font-size: 13px; background: #fff; outline: none; cursor: pointer; }
+#unitFilter:focus { border-color: #378ADD; }
+
+.stats { padding: 4px 14px 10px; font-size: 12px; color: #888; }
+
+/* Chapter map legend */
+.legend { margin: 0 12px 10px; background: #fff; border: 1.5px solid #D0CEC6; border-radius: 10px; overflow: hidden; }
+.legend-toggle { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 600; font-size: 13px; background: rgba(133,183,235,0.22); color: #042C53; user-select: none; }
+.legend-body { display: none; padding: 10px 14px; }
+.legend-body.open { display: block; }
+.legend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 4px 16px; }
+.legend-row { display: flex; gap: 8px; align-items: baseline; font-size: 12px; padding: 3px 0; border-bottom: 1px solid #F0EEE8; }
+.legend-ch { font-weight: 700; min-width: 34px; color: #3C3489; }
+.legend-title { color: #444; }
+.legend-unit { font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 700; white-space: nowrap; }
+.u1 { background: #E1F5EE; color: #085041; }
+.u2 { background: #E6F1FB; color: #042C53; }
+
+/* index entries */
+#results { padding: 0 12px 20px; }
+.letter-group { margin-bottom: 4px; }
+.letter-head { font-size: 13px; font-weight: 800; color: #fff; background: #2C2C2A; padding: 4px 12px; border-radius: 6px; margin: 10px 0 4px; display: inline-block; min-width: 32px; text-align: center; }
+.entry { background: #fff; border: 1px solid #E8E6E0; border-radius: 7px; margin-bottom: 5px; padding: 9px 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; }
+.entry-term { font-weight: 600; font-size: 14px; flex: 1; min-width: 160px; }
+.entry-sub { font-weight: 400; font-size: 13px; color: #555; margin-left: 14px; }
+.entry-right { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.ch-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.ch-badge.u1 { background: #E1F5EE; color: #085041; border: 1px solid #5DCAA5; }
+.ch-badge.u2 { background: #E6F1FB; color: #042C53; border: 1px solid #378ADD; }
+.ch-badge.both { background: #FAEEDA; color: #412402; border: 1px solid #BA7517; }
+.pg { font-size: 11px; color: #888; }
+
+.no-results { text-align: center; color: #888; padding: 40px 20px; font-size: 14px; }
+
+.footer { text-align: center; color: #AAA; font-size: 11px; padding: 20px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &#9658; Full Index</h1>
+<p class="subtitle">Neville Box 7th Ed. &middot; All chapters, Units 1 &amp; 2 &middot; Search any term to find its chapter</p>
+
+<div class="controls">
+  <input id="search" type="text" placeholder="&#128269; Search any term or concept..." oninput="render()">
+  <select id="unitFilter" onchange="render()">
+    <option value="all">All Units</option>
+    <option value="1">Unit 1 only</option>
+    <option value="2">Unit 2 only</option>
+  </select>
+</div>
+<div class="stats" id="stats"></div>
+
+<!-- Chapter legend -->
+<div class="legend">
+  <div class="legend-toggle" onclick="var b=this.nextElementSibling; var open=b.classList.toggle('open'); this.querySelector('.arr').innerHTML=open?'&#9650;':'&#9660;';">
+    <span>&#128218; Chapter Reference Guide</span>
+    <span class="arr">&#9660;</span>
+  </div>
+  <div class="legend-body">
+    <div class="legend-grid">
+      <div class="legend-row"><span class="legend-ch">Ch 1</span><span class="legend-title">Let&apos;s go accounting!</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 2</span><span class="legend-title">Accounting for small business</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 3</span><span class="legend-title">Balance sheets for a small business</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 4</span><span class="legend-title">Single entry accounting for a small business</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 5</span><span class="legend-title">Establishing a small business</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 6</span><span class="legend-title">Investment opportunities</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 7</span><span class="legend-title">Recording and reporting cash flows</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 8</span><span class="legend-title">Income statements for a service firm</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 9</span><span class="legend-title">Accounting for credit transactions</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 10</span><span class="legend-title">Financing for a small business</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 11</span><span class="legend-title">Cash flow statements</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 12</span><span class="legend-title">Price-setting strategies</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 13</span><span class="legend-title">Evaluating the performance of a service business</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 14</span><span class="legend-title">Internal control</span><span class="legend-unit u1">Unit 1</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 15</span><span class="legend-title">The twofold effect of transactions</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 16</span><span class="legend-title">Cash records for a trading firm</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 17</span><span class="legend-title">Accounting for inventory</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 18</span><span class="legend-title">Managing a trading business</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 19</span><span class="legend-title">Credit transactions for a trading business</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 20</span><span class="legend-title">Income statements for a trading business</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 21</span><span class="legend-title">Cash flow statements for a trading business</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 22</span><span class="legend-title">Accounting for non-current assets</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 23</span><span class="legend-title">Reducing balance method of depreciation</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 24</span><span class="legend-title">Budgeting for a small business</span><span class="legend-unit u2">Unit 2</span></div>
+      <div class="legend-row"><span class="legend-ch">Ch 25</span><span class="legend-title">Headstart: Introduction to double entry accounting</span><span class="legend-unit u2">Unit 2</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="results"></div>
+<p class="footer">VCE Accounting — Neville Box 7th Ed. &middot; Full Index &middot; U1 = Unit 1, U2 = Unit 2</p>
+
+<script>
+// Each entry: { term, sub (optional subheading), pages, chapters: [{num, unit}] }
+// unit: 1 or 2
+var INDEX = [
+  { term: "account schedules", pages: "128, 299", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accountants", pages: "11", chapters: [{num:1,unit:1}] },
+  { term: "accounting", sub: "for bad debts", pages: "302", chapters: [{num:19,unit:2}] },
+  { term: "accounting", sub: "as a career", pages: "3", chapters: [{num:1,unit:1}] },
+  { term: "accounting", sub: "for credit transactions", pages: "120-9", chapters: [{num:9,unit:1}] },
+  { term: "accounting", sub: "and financial information", pages: "12-13", chapters: [{num:1,unit:1},{num:2,unit:1}] },
+  { term: "accounting", sub: "for inventory", pages: "249-62", chapters: [{num:17,unit:2}] },
+  { term: "accounting", sub: "for non-current assets", pages: "354-63", chapters: [{num:22,unit:2}] },
+  { term: "accounting", sub: "qualitative characteristics", pages: "13-14, 104", chapters: [{num:2,unit:1}] },
+  { term: "accounting", sub: "in the real world", pages: "4", chapters: [{num:1,unit:1}] },
+  { term: "accounting", sub: "role in small business", pages: "11-13", chapters: [{num:1,unit:1}] },
+  { term: "accounting", sub: "what is it?", pages: "3", chapters: [{num:1,unit:1}] },
+  { term: "accounting assumptions", pages: "15-16", chapters: [{num:2,unit:1}] },
+  { term: "accounting entity assumption", pages: "16", chapters: [{num:2,unit:1}] },
+  { term: "accounting equation", pages: "22, 24, 27, 222, 399, 401", chapters: [{num:3,unit:1},{num:15,unit:2}] },
+  { term: "accounting equation", sub: "and double entry accounting", pages: "415-20", chapters: [{num:25,unit:2}] },
+  { term: "accounting information, presenting", pages: "191-4, 320-3", chapters: [{num:13,unit:1}] },
+  { term: "accounting period", pages: "10, 105", chapters: [{num:1,unit:1},{num:8,unit:1}] },
+  { term: "accounting process", pages: "12", chapters: [{num:1,unit:1}] },
+  { term: "accounting reports", sub: "characteristics", pages: "13-14, 104", chapters: [{num:2,unit:1}] },
+  { term: "accounting reports", sub: "for loan applications", pages: "143-4", chapters: [{num:10,unit:1}] },
+  { term: "accounting reports", sub: "usefulness", pages: "13, 14, 109", chapters: [{num:2,unit:1}] },
+  { term: "accounting standards", pages: "13", chapters: [{num:1,unit:1}] },
+  { term: "accounting systems", sub: "computerised", pages: "45", chapters: [{num:4,unit:1}] },
+  { term: "accounting systems", sub: "single entry", pages: "43-4", chapters: [{num:4,unit:1}] },
+  { term: "accounting terms", pages: "5", chapters: [{num:1,unit:1}] },
+  { term: "accounts payable", pages: "5, 121-2, 225, 292", chapters: [{num:9,unit:1},{num:15,unit:2},{num:19,unit:2}] },
+  { term: "accounts payable", sub: "cash payments in", pages: "125, 294-5", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts payable", sub: "and GST", pages: "300", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts payable", sub: "individual records", pages: "123-4, 293-4, 298", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts payable payments schedule", pages: "394", chapters: [{num:24,unit:2}] },
+  { term: "accounts payable schedule", pages: "128, 299", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts payable turnover", pages: "304", chapters: [{num:19,unit:2}] },
+  { term: "accounts receivable", pages: "5, 121, 225, 292", chapters: [{num:9,unit:1},{num:15,unit:2},{num:19,unit:2}] },
+  { term: "accounts receivable", sub: "and GST", pages: "300", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts receivable", sub: "individual records", pages: "126-7, 296, 298-9", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts receivable", sub: "managing", pages: "128, 296", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts receivable collections schedule", pages: "393", chapters: [{num:24,unit:2}] },
+  { term: "accounts receivable schedule", pages: "128, 299", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "accounts receivable turnover", pages: "300-1", chapters: [{num:19,unit:2}] },
+  { term: "accrual basis of accounting assumption", pages: "15, 373, 377", chapters: [{num:2,unit:1},{num:22,unit:2}] },
+  { term: "accumulated depreciation", pages: "359", chapters: [{num:22,unit:2}] },
+  { term: "accurate record keeping", pages: "211", chapters: [{num:14,unit:1}] },
+  { term: "adjusted gross profit", pages: "275, 317", chapters: [{num:18,unit:2},{num:20,unit:2}] },
+  { term: "advertising purposes, inventory used for", pages: "271", chapters: [{num:18,unit:2}] },
+  { term: "All Ordinaries Index", pages: "75", chapters: [{num:6,unit:1}] },
+  { term: "amount banked", pages: "87, 88", chapters: [{num:7,unit:1}] },
+  { term: "amount received", pages: "86", chapters: [{num:7,unit:1}] },
+  { term: "analysis charts", pages: "418-19, 421-2", chapters: [{num:25,unit:2}] },
+  { term: "annual depreciation rate", pages: "358, 374", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "annual yield", pages: "74", chapters: [{num:6,unit:1}] },
+  { term: "applying for finance", pages: "143-4", chapters: [{num:10,unit:1}] },
+  { term: "asset control", pages: "212-13", chapters: [{num:14,unit:1}] },
+  { term: "asset registers", pages: "360-1", chapters: [{num:22,unit:2}] },
+  { term: "asset turnover", pages: "361-2", chapters: [{num:22,unit:2}] },
+  { term: "assets", pages: "5, 22, 24, 222, 224", chapters: [{num:1,unit:1},{num:3,unit:1},{num:15,unit:2}] },
+  { term: "assets", sub: "carrying value", pages: "359", chapters: [{num:22,unit:2}] },
+  { term: "Australian Business Number (ABN)", pages: "38", chapters: [{num:4,unit:1}] },
+  { term: "bad debts", sub: "accounting for", pages: "302", chapters: [{num:19,unit:2}] },
+  { term: "bad debts", sub: "partial repayment", pages: "303", chapters: [{num:19,unit:2}] },
+  { term: "balance sheets", pages: "5, 109, 143, 144", chapters: [{num:3,unit:1},{num:8,unit:1},{num:10,unit:1}] },
+  { term: "balance sheets", sub: "budgeted", pages: "385, 398-401", chapters: [{num:24,unit:2}] },
+  { term: "balance sheets", sub: "classified", pages: "24-6", chapters: [{num:3,unit:1}] },
+  { term: "balance sheets", sub: "and depreciation", pages: "377", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "balance sheets", sub: "format", pages: "23-4", chapters: [{num:3,unit:1}] },
+  { term: "balance sheets", sub: "and net profit", pages: "318", chapters: [{num:20,unit:2}] },
+  { term: "balance sheets", sub: "role", pages: "22", chapters: [{num:3,unit:1}] },
+  { term: "balance sheets", sub: "twofold effect of transactions on", pages: "221-2, 257, 259", chapters: [{num:15,unit:2}] },
+  { term: "bank reconciliation", pages: "213", chapters: [{num:14,unit:1}] },
+  { term: "bank statements", pages: "42", chapters: [{num:4,unit:1}] },
+  { term: "bankruptcy", pages: "303", chapters: [{num:19,unit:2}] },
+  { term: "bar graphs", pages: "194, 322", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "benchmarks", pages: "195, 323", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "book value", pages: "359", chapters: [{num:22,unit:2}] },
+  { term: "borrowing money", sub: "cost of interest", pages: "140-2", chapters: [{num:10,unit:1}] },
+  { term: "borrowing money", sub: "and credit rating", pages: "143", chapters: [{num:10,unit:1}] },
+  { term: "borrowing money", sub: "and gearing position", pages: "144-5", chapters: [{num:10,unit:1}] },
+  { term: "break-even analysis", pages: "175, 176-8", chapters: [{num:12,unit:1}] },
+  { term: "break-even formula", pages: "176", chapters: [{num:12,unit:1}] },
+  { term: "break-even graph", pages: "181", chapters: [{num:12,unit:1}] },
+  { term: "break-even point", pages: "176", chapters: [{num:12,unit:1}] },
+  { term: "brokerage fee", pages: "75", chapters: [{num:6,unit:1}] },
+  { term: "budget", pages: "384", chapters: [{num:24,unit:2}] },
+  { term: "budget variance reports", pages: "390-2", chapters: [{num:24,unit:2}] },
+  { term: "budget variances", pages: "390-1", chapters: [{num:24,unit:2}] },
+  { term: "budgeted accounting reports", pages: "385", chapters: [{num:24,unit:2}] },
+  { term: "budgeted balance sheets", pages: "385, 398-401", chapters: [{num:24,unit:2}] },
+  { term: "budgeted cash flow statements", pages: "143, 385-9", chapters: [{num:10,unit:1},{num:24,unit:2}] },
+  { term: "budgeted income statements", pages: "385, 395", chapters: [{num:24,unit:2}] },
+  { term: "budgeting", sub: "for small business", pages: "383-401", chapters: [{num:24,unit:2}] },
+  { term: "budgeting process", pages: "390", chapters: [{num:24,unit:2}] },
+  { term: "Business Activity Statement (BAS)", pages: "129", chapters: [{num:7,unit:1}] },
+  { term: "business documents", pages: "37-42", chapters: [{num:4,unit:1}] },
+  { term: "business documents", sub: "for a trading business", pages: "233-5", chapters: [{num:16,unit:2}] },
+  { term: "business ownership, forms of", pages: "54-7", chapters: [{num:5,unit:1}] },
+  { term: "buying and selling on credit", pages: "239-40", chapters: [{num:16,unit:2}] },
+  { term: "capital contribution of non-current assets", pages: "356", chapters: [{num:22,unit:2}] },
+  { term: "capital gain", pages: "65", chapters: [{num:6,unit:1}] },
+  { term: "carrying value", pages: "359, 374", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "cash", sub: "control of", pages: "212-13", chapters: [{num:14,unit:1}] },
+  { term: "cash", sub: "versus profit", pages: "105-6", chapters: [{num:8,unit:1}] },
+  { term: "cash flow activities", pages: "155-6", chapters: [{num:11,unit:1}] },
+  { term: "cash flow statements", pages: "5, 153-61", chapters: [{num:11,unit:1}] },
+  { term: "cash flow statements", sub: "budgeted", pages: "143, 385-9", chapters: [{num:10,unit:1},{num:24,unit:2}] },
+  { term: "cash flow statements", sub: "for a trading business", pages: "337-8", chapters: [{num:21,unit:2}] },
+  { term: "cash flows", sub: "classification of", pages: "155-7, 335-6", chapters: [{num:11,unit:1},{num:21,unit:2}] },
+  { term: "cash flows", sub: "recording and reporting", pages: "84-94", chapters: [{num:7,unit:1}] },
+  { term: "cash inflows", pages: "88, 104-6, 156-8, 335-6, 338, 385, 393", chapters: [{num:7,unit:1},{num:8,unit:1},{num:11,unit:1},{num:21,unit:2},{num:24,unit:2}] },
+  { term: "cash journals", pages: "35-6, 271", chapters: [{num:4,unit:1},{num:18,unit:2}] },
+  { term: "cash outflows", pages: "88, 105-6, 156-8, 335-6, 338, 385, 394", chapters: [{num:7,unit:1},{num:8,unit:1},{num:11,unit:1},{num:21,unit:2},{num:24,unit:2}] },
+  { term: "cash payments journal", pages: "36, 88, 125", chapters: [{num:4,unit:1},{num:7,unit:1},{num:9,unit:1}] },
+  { term: "cash receipts journal", pages: "35, 86-7", chapters: [{num:4,unit:1},{num:7,unit:1}] },
+  { term: "cash records for a trading business", pages: "232-41", chapters: [{num:16,unit:2}] },
+  { term: "cash return", pages: "65", chapters: [{num:6,unit:1}] },
+  { term: "cash shortage", pages: "389", chapters: [{num:24,unit:2}] },
+  { term: "cash surplus", pages: "389", chapters: [{num:24,unit:2}] },
+  { term: "classified balance sheets", pages: "24-6", chapters: [{num:3,unit:1}] },
+  { term: "collectibles", pages: "68", chapters: [{num:6,unit:1}] },
+  { term: "collection schedules", pages: "392-3", chapters: [{num:24,unit:2}] },
+  { term: "comparability", pages: "14, 15, 104, 227", chapters: [{num:2,unit:1},{num:15,unit:2}] },
+  { term: "compound interest", pages: "72", chapters: [{num:6,unit:1}] },
+  { term: "compound interest", sub: "and annual yields", pages: "74", chapters: [{num:6,unit:1}] },
+  { term: "compound interest", sub: "interest rate periods", pages: "72-3", chapters: [{num:6,unit:1}] },
+  { term: "compound interest formula", pages: "73", chapters: [{num:6,unit:1}] },
+  { term: "computerised accounting systems", pages: "45", chapters: [{num:4,unit:1}] },
+  { term: "contribution margin", pages: "176", chapters: [{num:12,unit:1}] },
+  { term: "cost of finance", pages: "140-2", chapters: [{num:10,unit:1}] },
+  { term: "cost of goods sold", pages: "318-19", chapters: [{num:20,unit:2}] },
+  { term: "cost of sales", pages: "224, 316, 319", chapters: [{num:15,unit:2},{num:20,unit:2}] },
+  { term: "cost prices of inventory, recording", pages: "251-3", chapters: [{num:17,unit:2}] },
+  { term: "credit", sub: "buying and selling on", pages: "239-40", chapters: [{num:16,unit:2}] },
+  { term: "credit notes", pages: "41, 259", chapters: [{num:4,unit:1},{num:17,unit:2}] },
+  { term: "credit purchases", pages: "291", chapters: [{num:19,unit:2}] },
+  { term: "credit purchases journal", pages: "293", chapters: [{num:19,unit:2}] },
+  { term: "credit rating", pages: "143", chapters: [{num:10,unit:1}] },
+  { term: "credit sales", pages: "291", chapters: [{num:19,unit:2}] },
+  { term: "credit sales journal", pages: "295", chapters: [{num:19,unit:2}] },
+  { term: "credit terms", pages: "291", chapters: [{num:19,unit:2}] },
+  { term: "credit transactions", pages: "121-2, 291-2", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "credit transactions", sub: "accounting for", pages: "120-9", chapters: [{num:9,unit:1}] },
+  { term: "credit transactions", sub: "recording", pages: "292-6", chapters: [{num:19,unit:2}] },
+  { term: "current assets", pages: "24, 93", chapters: [{num:3,unit:1},{num:7,unit:1}] },
+  { term: "current liabilities", pages: "24, 93", chapters: [{num:3,unit:1},{num:7,unit:1}] },
+  { term: "date column", pages: "86, 89", chapters: [{num:7,unit:1}] },
+  { term: "debentures", pages: "67", chapters: [{num:6,unit:1}] },
+  { term: "debt ratio", pages: "145, 199-200", chapters: [{num:10,unit:1},{num:13,unit:1}] },
+  { term: "decision-making and ethics", pages: "17", chapters: [{num:2,unit:1}] },
+  { term: "delivery dockets", pages: "41", chapters: [{num:4,unit:1}] },
+  { term: "depreciation", pages: "357", chapters: [{num:22,unit:2}] },
+  { term: "depreciation", sub: "and accounting reports", pages: "359", chapters: [{num:22,unit:2}] },
+  { term: "depreciation", sub: "and the balance sheet", pages: "377", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "depreciation", sub: "reducing balance method", pages: "373-5, 376, 377, 378", chapters: [{num:23,unit:2}] },
+  { term: "depreciation", sub: "straight-line method", pages: "276, 357-8, 373, 377, 378", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "depreciation expense", pages: "357-8, 373", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "depreciation rate", pages: "358, 374-5", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "discounts", sub: "for payment", pages: "291", chapters: [{num:19,unit:2}] },
+  { term: "discounts", sub: "modifying cash journals for", pages: "297-8", chapters: [{num:19,unit:2}] },
+  { term: "dividend", pages: "75", chapters: [{num:6,unit:1}] },
+  { term: "dividend yield", pages: "77", chapters: [{num:6,unit:1}] },
+  { term: "double entry accounting", pages: "94, 414-23", chapters: [{num:25,unit:2}] },
+  { term: "drawings of inventory", pages: "270", chapters: [{num:18,unit:2}] },
+  { term: "effective rate of interest", pages: "142", chapters: [{num:10,unit:1}] },
+  { term: "EFT payments", pages: "37, 88, 234", chapters: [{num:4,unit:1},{num:7,unit:1},{num:16,unit:2}] },
+  { term: "EFTPOS receipts", pages: "39, 235", chapters: [{num:4,unit:1},{num:16,unit:2}] },
+  { term: "entity assumption", pages: "16", chapters: [{num:2,unit:1}] },
+  { term: "equities", pages: "23", chapters: [{num:3,unit:1}] },
+  { term: "estimated life of asset", pages: "357", chapters: [{num:22,unit:2}] },
+  { term: "ethics", sub: "and business decision-making", pages: "17", chapters: [{num:2,unit:1}] },
+  { term: "ethics", sub: "and privacy", pages: "214", chapters: [{num:14,unit:1}] },
+  { term: "expenses", pages: "5, 105, 224, 336", chapters: [{num:1,unit:1},{num:8,unit:1},{num:15,unit:2},{num:21,unit:2}] },
+  { term: "external sources of finance", pages: "138-9", chapters: [{num:10,unit:1}] },
+  { term: "failure of small businesses", pages: "59-60", chapters: [{num:5,unit:1}] },
+  { term: "faithful representation", pages: "14, 27, 104, 125, 227, 258, 355, 356", chapters: [{num:2,unit:1},{num:3,unit:1},{num:9,unit:1},{num:15,unit:2},{num:17,unit:2},{num:22,unit:2}] },
+  { term: "favourable variance", pages: "390", chapters: [{num:24,unit:2}] },
+  { term: "feasibility studies", pages: "60", chapters: [{num:5,unit:1}] },
+  { term: "FIFO method", pages: "253, 261-2, 271", chapters: [{num:17,unit:2},{num:18,unit:2}] },
+  { term: "finance", sub: "applying for", pages: "143-4", chapters: [{num:10,unit:1}] },
+  { term: "finance", sub: "cost of", pages: "140-2", chapters: [{num:10,unit:1}] },
+  { term: "finance", sub: "sources of", pages: "138-40", chapters: [{num:10,unit:1}] },
+  { term: "financial advisors", pages: "11", chapters: [{num:1,unit:1}] },
+  { term: "financial data versus financial information", pages: "12-13", chapters: [{num:1,unit:1}] },
+  { term: "financial indicators", pages: "196-200", chapters: [{num:13,unit:1}] },
+  { term: "financial statements", sub: "links between", pages: "336, 338", chapters: [{num:21,unit:2}] },
+  { term: "financial transactions and balance sheet", pages: "26-7", chapters: [{num:3,unit:1}] },
+  { term: "fixed costs", pages: "176", chapters: [{num:12,unit:1}] },
+  { term: "flat rate interest", pages: "140, 141, 142", chapters: [{num:10,unit:1}] },
+  { term: "forms of business ownership", pages: "54-7", chapters: [{num:5,unit:1}] },
+  { term: "franchises", pages: "57-8", chapters: [{num:5,unit:1}] },
+  { term: "gains and losses", pages: "255-9, 275", chapters: [{num:17,unit:2},{num:18,unit:2}] },
+  { term: "gearing", pages: "144-5", chapters: [{num:10,unit:1}] },
+  { term: "general ledger", pages: "415, 419, 422", chapters: [{num:25,unit:2}] },
+  { term: "going concern assumption", pages: "16", chapters: [{num:2,unit:1}] },
+  { term: "government bonds", pages: "66", chapters: [{num:6,unit:1}] },
+  { term: "graphing break-even analysis", pages: "178-81", chapters: [{num:12,unit:1}] },
+  { term: "graphs for presenting accounting information", pages: "194, 322", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "gross profit", pages: "316", chapters: [{num:20,unit:2}] },
+  { term: "GST", pages: "38", chapters: [{num:4,unit:1}] },
+  { term: "GST", sub: "and accounts payable", pages: "300", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "GST", sub: "and accounts receivable", pages: "300", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "GST", sub: "calculating", pages: "129", chapters: [{num:7,unit:1}] },
+  { term: "GST", sub: "reporting for", pages: "92-3", chapters: [{num:7,unit:1}] },
+  { term: "GST liability", pages: "93", chapters: [{num:7,unit:1}] },
+  { term: "GST refund", pages: "93", chapters: [{num:7,unit:1}] },
+  { term: "identified cost method", pages: "253, 260-1, 270", chapters: [{num:17,unit:2},{num:18,unit:2}] },
+  { term: "income statements", pages: "5, 315, 336", chapters: [{num:8,unit:1},{num:20,unit:2},{num:21,unit:2}] },
+  { term: "income statements", sub: "budgeted", pages: "385, 395", chapters: [{num:24,unit:2}] },
+  { term: "income statements", sub: "for service businesses", pages: "11-14, 103-9, 191-4, 315", chapters: [{num:8,unit:1},{num:13,unit:1}] },
+  { term: "income statements", sub: "for trading businesses", pages: "314-25", chapters: [{num:20,unit:2}] },
+  { term: "incorporation", pages: "56", chapters: [{num:5,unit:1}] },
+  { term: "individual accounts payable records", pages: "123-4, 293-4, 298", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "individual accounts receivable records", pages: "126-7, 296, 298-9", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "industry averages", pages: "196, 324", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "inflation, impact on investments", pages: "70-1", chapters: [{num:6,unit:1}] },
+  { term: "interest, cost of", pages: "140-2", chapters: [{num:10,unit:1}] },
+  { term: "internal control procedures", pages: "211-12", chapters: [{num:14,unit:1}] },
+  { term: "internal sources of finance", pages: "138", chapters: [{num:10,unit:1}] },
+  { term: "inventory", pages: "223, 227, 233", chapters: [{num:15,unit:2},{num:16,unit:2}] },
+  { term: "inventory", sub: "accounting for", pages: "249-62", chapters: [{num:17,unit:2}] },
+  { term: "inventory", sub: "control of", pages: "213-14", chapters: [{num:14,unit:1}] },
+  { term: "inventory", sub: "FIFO method", pages: "253, 261-2, 271", chapters: [{num:17,unit:2},{num:18,unit:2}] },
+  { term: "inventory", sub: "identified cost method", pages: "253, 260-1, 270", chapters: [{num:17,unit:2},{num:18,unit:2}] },
+  { term: "inventory", sub: "losses and gains", pages: "255-9", chapters: [{num:17,unit:2}] },
+  { term: "inventory", sub: "managing", pages: "276-80", chapters: [{num:18,unit:2}] },
+  { term: "inventory", sub: "perpetual inventory system", pages: "253-5", chapters: [{num:17,unit:2}] },
+  { term: "inventory cards", pages: "254-6, 257, 258, 271", chapters: [{num:17,unit:2},{num:18,unit:2}] },
+  { term: "inventory methods", pages: "253-4", chapters: [{num:17,unit:2}] },
+  { term: "inventory sheet", pages: "250", chapters: [{num:17,unit:2}] },
+  { term: "inventory turnover", pages: "279, 280", chapters: [{num:18,unit:2}] },
+  { term: "investing", sub: "risk versus return", pages: "69", chapters: [{num:6,unit:1}] },
+  { term: "investing activities", pages: "155, 156, 157, 335, 336, 385", chapters: [{num:11,unit:1},{num:21,unit:2},{num:24,unit:2}] },
+  { term: "investments", sub: "calculating rates of return", pages: "69-71", chapters: [{num:6,unit:1}] },
+  { term: "investments", sub: "opportunities", pages: "65-8", chapters: [{num:6,unit:1}] },
+  { term: "investments", sub: "simple interest versus compound interest", pages: "71-4", chapters: [{num:6,unit:1}] },
+  { term: "invoices", pages: "40, 121, 233-4, 291-2", chapters: [{num:4,unit:1},{num:9,unit:1},{num:16,unit:2},{num:19,unit:2}] },
+  { term: "just-in-time ordering", pages: "277", chapters: [{num:18,unit:2}] },
+  { term: "key financial indicators", pages: "196-8", chapters: [{num:13,unit:1}] },
+  { term: "leasing", pages: "139", chapters: [{num:10,unit:1}] },
+  { term: "ledger accounts", pages: "415-16", chapters: [{num:25,unit:2}] },
+  { term: "liabilities", pages: "5, 22, 24-5, 222", chapters: [{num:1,unit:1},{num:3,unit:1},{num:15,unit:2}] },
+  { term: "liquidity", pages: "26, 92, 198-9", chapters: [{num:3,unit:1},{num:7,unit:1},{num:13,unit:1}] },
+  { term: "loan applications, accounting reports for", pages: "143-4", chapters: [{num:10,unit:1}] },
+  { term: "loans, flat rate versus reducing balance", pages: "140-1", chapters: [{num:10,unit:1}] },
+  { term: "losses and gains", sub: "accounting for", pages: "275", chapters: [{num:18,unit:2}] },
+  { term: "losses and gains", sub: "inventory", pages: "255-9", chapters: [{num:17,unit:2}] },
+  { term: "managing trading businesses", pages: "269-80", chapters: [{num:18,unit:2}] },
+  { term: "mark-up method", pages: "251", chapters: [{num:17,unit:2}] },
+  { term: "materials control", pages: "213-14", chapters: [{num:14,unit:1}] },
+  { term: "memos", pages: "42", chapters: [{num:4,unit:1}] },
+  { term: "net profit", pages: "275, 316", chapters: [{num:18,unit:2},{num:20,unit:2}] },
+  { term: "net profit margin", pages: "196, 324-5", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "net sales", pages: "316", chapters: [{num:20,unit:2}] },
+  { term: "nominal rate", pages: "74", chapters: [{num:6,unit:1}] },
+  { term: "non-current assets", pages: "24, 335, 336", chapters: [{num:3,unit:1},{num:21,unit:2}] },
+  { term: "non-current assets", sub: "accounting for", pages: "354-63", chapters: [{num:22,unit:2}] },
+  { term: "non-current assets", sub: "depreciation", pages: "356-9", chapters: [{num:22,unit:2}] },
+  { term: "non-current assets", sub: "managing", pages: "360-3", chapters: [{num:22,unit:2}] },
+  { term: "non-current liabilities", pages: "25", chapters: [{num:3,unit:1}] },
+  { term: "non-financial indicators", pages: "200-1", chapters: [{num:13,unit:1}] },
+  { term: "online investment accounts", pages: "66", chapters: [{num:6,unit:1}] },
+  { term: "operating activities", pages: "155, 156, 157, 335, 336, 385", chapters: [{num:11,unit:1},{num:21,unit:2},{num:24,unit:2}] },
+  { term: "overdraft", pages: "139", chapters: [{num:10,unit:1}] },
+  { term: "owner's equity", pages: "5, 22, 105, 109, 222, 225, 338", chapters: [{num:1,unit:1},{num:3,unit:1},{num:8,unit:1},{num:15,unit:2},{num:21,unit:2}] },
+  { term: "par value", pages: "74", chapters: [{num:6,unit:1}] },
+  { term: "partnerships", pages: "55-6", chapters: [{num:5,unit:1}] },
+  { term: "payment schedules", pages: "394-5", chapters: [{num:24,unit:2}] },
+  { term: "percentage mark-up", pages: "174-5", chapters: [{num:12,unit:1}] },
+  { term: "performance benchmarks", pages: "195, 323", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "period assumption", pages: "15, 107, 373", chapters: [{num:2,unit:1},{num:8,unit:1},{num:22,unit:2}] },
+  { term: "perpetual inventory system", pages: "253-5", chapters: [{num:17,unit:2}] },
+  { term: "physical protection of assets", pages: "211", chapters: [{num:14,unit:1}] },
+  { term: "physical stocktake", pages: "250-3, 255", chapters: [{num:17,unit:2}] },
+  { term: "pie charts", pages: "192-4, 320-2", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "price-setting strategies", pages: "173-81", chapters: [{num:12,unit:1}] },
+  { term: "privacy and ethics", pages: "214", chapters: [{num:14,unit:1}] },
+  { term: "profit", pages: "5, 105", chapters: [{num:1,unit:1},{num:8,unit:1}] },
+  { term: "profit", sub: "versus cash", pages: "105-6", chapters: [{num:8,unit:1}] },
+  { term: "profit", sub: "calculating", pages: "272-3", chapters: [{num:18,unit:2}] },
+  { term: "property", pages: "67", chapters: [{num:6,unit:1}] },
+  { term: "purchase invoice", pages: "233", chapters: [{num:16,unit:2}] },
+  { term: "purchase orders", pages: "41", chapters: [{num:4,unit:1}] },
+  { term: "purchases", pages: "233", chapters: [{num:16,unit:2}] },
+  { term: "purchases journal", pages: "122-3", chapters: [{num:9,unit:1}] },
+  { term: "purchases return", pages: "259, 298-9", chapters: [{num:17,unit:2},{num:19,unit:2}] },
+  { term: "qualitative characteristics of accounting", pages: "13-14, 104", chapters: [{num:2,unit:1}] },
+  { term: "qualitative characteristics", sub: "and balance sheets", pages: "27, 227", chapters: [{num:3,unit:1},{num:15,unit:2}] },
+  { term: "random checking", pages: "211", chapters: [{num:14,unit:1}] },
+  { term: "rate of return on assets", pages: "198", chapters: [{num:13,unit:1}] },
+  { term: "rate of return on investments", pages: "69-70", chapters: [{num:6,unit:1}] },
+  { term: "receipts", pages: "38", chapters: [{num:4,unit:1}] },
+  { term: "recommended retail price", pages: "174", chapters: [{num:12,unit:1}] },
+  { term: "recording and reporting cash flows", pages: "84-94", chapters: [{num:7,unit:1}] },
+  { term: "reducing balance method of depreciation", pages: "373-5, 376, 377, 378", chapters: [{num:23,unit:2}] },
+  { term: "relevance", pages: "14, 15, 104, 105, 227, 373, 377, 388", chapters: [{num:2,unit:1},{num:8,unit:1},{num:15,unit:2},{num:22,unit:2},{num:24,unit:2}] },
+  { term: "reporting for GST", pages: "92-3", chapters: [{num:7,unit:1}] },
+  { term: "residual value", pages: "357", chapters: [{num:22,unit:2}] },
+  { term: "retained profits", pages: "138", chapters: [{num:10,unit:1}] },
+  { term: "return on owner's investment (ROI)", pages: "145, 197, 325", chapters: [{num:10,unit:1},{num:13,unit:1},{num:20,unit:2}] },
+  { term: "revenues", pages: "5, 105, 233, 336", chapters: [{num:1,unit:1},{num:8,unit:1},{num:16,unit:2},{num:21,unit:2}] },
+  { term: "risk versus return", pages: "69", chapters: [{num:6,unit:1}] },
+  { term: "sales", pages: "233, 326", chapters: [{num:16,unit:2},{num:20,unit:2}] },
+  { term: "sales invoice", pages: "234", chapters: [{num:16,unit:2}] },
+  { term: "sales journal", pages: "126", chapters: [{num:9,unit:1}] },
+  { term: "sales returns", pages: "259, 298-9, 316", chapters: [{num:17,unit:2},{num:19,unit:2},{num:20,unit:2}] },
+  { term: "savings accounts", pages: "65", chapters: [{num:6,unit:1}] },
+  { term: "secured loans", pages: "139", chapters: [{num:10,unit:1}] },
+  { term: "security measures", pages: "213-14, 278", chapters: [{num:14,unit:1},{num:18,unit:2}] },
+  { term: "selling inventory", pages: "224-5", chapters: [{num:15,unit:2}] },
+  { term: "semi-variable costs", pages: "176", chapters: [{num:12,unit:1}] },
+  { term: "separation of duties", pages: "211", chapters: [{num:14,unit:1}] },
+  { term: "service businesses", sub: "evaluating the performance of", pages: "190-201", chapters: [{num:13,unit:1}] },
+  { term: "service businesses", sub: "income statements", pages: "11-14, 103-9, 191-4, 315", chapters: [{num:8,unit:1},{num:13,unit:1}] },
+  { term: "settlement discounts", pages: "291", chapters: [{num:19,unit:2}] },
+  { term: "share market", pages: "66, 74", chapters: [{num:6,unit:1}] },
+  { term: "share market report, reading", pages: "76-7", chapters: [{num:6,unit:1}] },
+  { term: "simple interest", pages: "71, 72", chapters: [{num:6,unit:1}] },
+  { term: "single entry accounting", pages: "35-6", chapters: [{num:4,unit:1}] },
+  { term: "single entry accounting", sub: "credit transactions", pages: "120-9", chapters: [{num:9,unit:1}] },
+  { term: "small business", sub: "accounting role in", pages: "11-13", chapters: [{num:1,unit:1}] },
+  { term: "small business", sub: "balance sheets", pages: "22-7", chapters: [{num:3,unit:1}] },
+  { term: "small business", sub: "budgeting for", pages: "383-401", chapters: [{num:24,unit:2}] },
+  { term: "small business", sub: "establishing", pages: "53-60", chapters: [{num:5,unit:1}] },
+  { term: "small business", sub: "financing for", pages: "137-45", chapters: [{num:10,unit:1}] },
+  { term: "small business", sub: "internal control", pages: "210-14", chapters: [{num:14,unit:1}] },
+  { term: "small business", sub: "ownership structure", pages: "54-7", chapters: [{num:5,unit:1}] },
+  { term: "small business", sub: "success and failure", pages: "59-60", chapters: [{num:5,unit:1}] },
+  { term: "sole proprietorships", pages: "54-5", chapters: [{num:5,unit:1}] },
+  { term: "source documents", pages: "37-41", chapters: [{num:4,unit:1}] },
+  { term: "sources of finance", pages: "138-40", chapters: [{num:10,unit:1}] },
+  { term: "stability", pages: "199-200", chapters: [{num:13,unit:1}] },
+  { term: "statements of receipts and payments", pages: "90-2, 104-5, 107, 155", chapters: [{num:7,unit:1},{num:8,unit:1},{num:11,unit:1}] },
+  { term: "stocktake", pages: "250-3", chapters: [{num:17,unit:2}] },
+  { term: "straight-line method of depreciation", pages: "357-8, 373, 376, 377, 378", chapters: [{num:22,unit:2},{num:23,unit:2}] },
+  { term: "subsidiary records", pages: "122, 292", chapters: [{num:9,unit:1},{num:19,unit:2}] },
+  { term: "success and failure of small businesses", pages: "59-60", chapters: [{num:5,unit:1}] },
+  { term: "sundries", pages: "123", chapters: [{num:9,unit:1}] },
+  { term: "sundry payments", pages: "89, 92", chapters: [{num:7,unit:1}] },
+  { term: "sundry receipts", pages: "87", chapters: [{num:7,unit:1}] },
+  { term: "superannuation", pages: "68", chapters: [{num:6,unit:1}] },
+  { term: "T-form balance sheet", pages: "23", chapters: [{num:3,unit:1}] },
+  { term: "taxation, impact on investments", pages: "70", chapters: [{num:6,unit:1}] },
+  { term: "term deposits", pages: "66", chapters: [{num:6,unit:1}] },
+  { term: "term loans", pages: "139", chapters: [{num:10,unit:1}] },
+  { term: "timeliness", pages: "14, 104, 227", chapters: [{num:2,unit:1},{num:15,unit:2}] },
+  { term: "trade credit", pages: "138-9", chapters: [{num:10,unit:1}] },
+  { term: "trading businesses", sub: "business documents", pages: "233-5", chapters: [{num:16,unit:2}] },
+  { term: "trading businesses", sub: "cash flow statements", pages: "337-8", chapters: [{num:21,unit:2}] },
+  { term: "trading businesses", sub: "credit transactions", pages: "290-304", chapters: [{num:19,unit:2}] },
+  { term: "trading businesses", sub: "income statements", pages: "314-25", chapters: [{num:20,unit:2}] },
+  { term: "trading businesses", sub: "inventory management", pages: "276-80", chapters: [{num:18,unit:2}] },
+  { term: "transactions", sub: "effect on the balance sheet", pages: "221-2", chapters: [{num:15,unit:2}] },
+  { term: "trend analysis", pages: "193, 195, 321-2", chapters: [{num:13,unit:1},{num:20,unit:2}] },
+  { term: "trusts", pages: "68", chapters: [{num:6,unit:1}] },
+  { term: "twofold effect", sub: "of transactions on balance sheet", pages: "221-2", chapters: [{num:15,unit:2}] },
+  { term: "twofold effect", sub: "of depreciation on accounting reports", pages: "359", chapters: [{num:22,unit:2}] },
+  { term: "twofold effect", sub: "of inventory gains/losses", pages: "257, 259", chapters: [{num:17,unit:2}] },
+  { term: "understandability", pages: "14, 24, 104, 109, 191, 193, 227, 320, 322, 337, 338", chapters: [{num:2,unit:1},{num:3,unit:1},{num:8,unit:1},{num:13,unit:1},{num:15,unit:2},{num:20,unit:2},{num:21,unit:2}] },
+  { term: "unfavourable variance", pages: "391", chapters: [{num:24,unit:2}] },
+  { term: "unsecured loans", pages: "139", chapters: [{num:10,unit:1}] },
+  { term: "usefulness of accounting reports", pages: "13, 14, 109", chapters: [{num:2,unit:1},{num:8,unit:1}] },
+  { term: "users of financial information", pages: "13", chapters: [{num:1,unit:1},{num:2,unit:1}] },
+  { term: "valuation of non-current assets", pages: "355-6", chapters: [{num:22,unit:2}] },
+  { term: "variable costs", pages: "176", chapters: [{num:12,unit:1}] },
+  { term: "variance reports (budgets)", pages: "390-1", chapters: [{num:24,unit:2}] },
+  { term: "verifiability", pages: "14, 27, 42, 87, 88, 104, 125, 227, 355, 388", chapters: [{num:2,unit:1},{num:3,unit:1},{num:4,unit:1},{num:7,unit:1},{num:9,unit:1},{num:15,unit:2},{num:22,unit:2},{num:24,unit:2}] },
+  { term: "working capital", pages: "25-6", chapters: [{num:3,unit:1}] },
+  { term: "working capital ratio", pages: "26, 199", chapters: [{num:3,unit:1},{num:13,unit:1}] }
+];
+
+function getUnit(chapters) {
+  var hasU1 = false; var hasU2 = false;
+  for (var i = 0; i < chapters.length; i++) {
+    if (chapters[i].unit === 1) hasU1 = true;
+    if (chapters[i].unit === 2) hasU2 = true;
+  }
+  if (hasU1 && hasU2) return "both";
+  if (hasU1) return "1";
+  return "2";
+}
+
+function buildBadge(ch) {
+  var cls = ch.unit === 1 ? "u1" : "u2";
+  return '<span class="ch-badge ' + cls + '">Ch ' + ch.num + '</span>';
+}
+
+function render() {
+  var q = document.getElementById("search").value.toLowerCase().trim();
+  var uf = document.getElementById("unitFilter").value;
+
+  var filtered = [];
+  for (var i = 0; i < INDEX.length; i++) {
+    var e = INDEX[i];
+    var fullterm = e.term + (e.sub ? " " + e.sub : "");
+    if (q && fullterm.toLowerCase().indexOf(q) === -1 && e.pages.indexOf(q) === -1) continue;
+    var unit = getUnit(e.chapters);
+    if (uf === "1" && unit === "2") continue;
+    if (uf === "2" && unit === "1") continue;
+    filtered.push(e);
+  }
+
+  filtered.sort(function(a, b) {
+    var ta = a.term.toLowerCase();
+    var tb = b.term.toLowerCase();
+    if (ta < tb) return -1;
+    if (ta > tb) return 1;
+    var sa = (a.sub || "").toLowerCase();
+    var sb = (b.sub || "").toLowerCase();
+    if (sa < sb) return -1;
+    if (sa > sb) return 1;
+    return 0;
+  });
+
+  document.getElementById("stats").innerHTML = "Showing " + filtered.length + " of " + INDEX.length + " entries";
+
+  var results = document.getElementById("results");
+  results.innerHTML = "";
+
+  if (filtered.length === 0) {
+    results.innerHTML = '<div class="no-results">No entries found. Try a different search term.</div>';
+    return;
+  }
+
+  var currentLetter = "";
+  var letterDiv = null;
+
+  for (var j = 0; j < filtered.length; j++) {
+    var entry = filtered[j];
+    var letter = entry.term.charAt(0).toUpperCase();
+    if (q) letter = null;
+
+    if (!q && letter !== currentLetter) {
+      currentLetter = letter;
+      var lhead = document.createElement("div");
+      lhead.className = "letter-head";
+      lhead.innerHTML = letter;
+      results.appendChild(lhead);
+    }
+
+    var div = document.createElement("div");
+    div.className = "entry";
+
+    var termHtml = '<span class="entry-term">' + entry.term;
+    if (entry.sub) termHtml += ' <span class="entry-sub">&#9658; ' + entry.sub + '</span>';
+    termHtml += '</span>';
+
+    var badges = "";
+    for (var k = 0; k < entry.chapters.length; k++) {
+      badges += buildBadge(entry.chapters[k]);
+    }
+
+    var unit = getUnit(entry.chapters);
+    var pgClass = "";
+
+    div.innerHTML = termHtml + '<div class="entry-right">' + badges + '<span class="pg">p.' + entry.pages + '</span></div>';
+    results.appendChild(div);
+  }
+}
+
+render();
+</script>
+</body>
+</html>

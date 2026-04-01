@@ -100,6 +100,18 @@
   .sub-quiz-link { padding-left: 56px; }
   .sub-add-row { padding-left: 56px; border-top: 1px solid #f0f0f0; }
 
+  /* Inline index */
+  .index-section { border-top: 1px solid #eee; }
+  .index-header { padding: 10px 16px; cursor: pointer; display: flex; justify-content: space-between;
+                  align-items: center; user-select: none; }
+  .index-header:hover { background: #f8f9fa; }
+  .index-header span { font-size: 13px; font-weight: 700; }
+  .index-chevron { font-size: 11px; color: #aaa; transition: transform 0.2s; }
+  .index-section.open .index-chevron { transform: rotate(90deg); }
+  .index-body { display: none; border-top: 1px solid #eee; }
+  .index-section.open .index-body { display: block; }
+  .index-iframe { width: 100%; border: none; min-height: 300px; }
+
   /* Delete button */
   .chapter-row { display: flex; align-items: center; border-top: 1px solid #f0f0f0; }
   .chapter-row .chapter-link { flex: 1; border-top: none; }
@@ -344,7 +356,8 @@
       const hasAos = Array.isArray(subject.aos);
       const chapters = subject.chapters || [];
       const hasLinks = Array.isArray(subject.links) && subject.links.length > 0;
-      const hasContent = hasLinks || (hasAos
+      const hasIndex = !!subject.index;
+      const hasContent = hasLinks || hasIndex || (hasAos
         ? subject.aos.length > 0 && subject.aos.some(a => a.chapters && a.chapters.length > 0)
         : chapters.length > 0);
 
@@ -360,6 +373,20 @@
         ).join('') + '</div>';
       }
       bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddLinkForm(this,'${sn}')">+ Link</button></div>`;
+
+      // Inline index
+      if (subject.index) {
+        bodyHtml += `
+          <div class="index-section">
+            <div class="index-header" onclick="this.parentElement.classList.toggle('open')">
+              <span style="color:${themeColor}">Index</span>
+              <span class="index-chevron">&#x25B6;</span>
+            </div>
+            <div class="index-body">
+              <iframe class="index-iframe" src="/studynotes/${subject.index}" onload="this.style.height = this.contentDocument.body.scrollHeight + 20 + 'px'"></iframe>
+            </div>
+          </div>`;
+      }
 
       if (hasAos) {
         for (const aos of subject.aos) {
@@ -401,7 +428,7 @@
                   </div>
                 </div>`;
             }
-            aosInnerHtml += `<div class="add-row indent"><button class="add-btn" onclick="showAddSubsectionForm(this,'${sn}','${an}')">+ Subsection</button></div>`;
+            // No + Subsection button — subsections are managed via the JSON file
           } else {
             // Original flat structure: chapters + quizzes directly under AOS
             let chaptersHtml = '';
