@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Unit 1 AOS1a Ch1: The Musculoskeletal System</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.7em; color: #1C1C1A; padding: 28px 16px 4px; letter-spacing: -0.5px; }
+.subtitle { text-align: center; color: #666; font-size: 0.93em; margin-bottom: 18px; font-style: italic; }
+#search { display: block; width: calc(100% - 32px); max-width: 560px; margin: 0 auto 22px; padding: 10px 14px; border: 2px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; }
+#search:focus { outline: none; border-color: #3B82C4; }
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+.section-label { text-align: center; font-size: 0.78em; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; padding: 10px 0 4px; }
+
+/* ACCORDION */
+.cat { border-radius: 10px; margin: 0 12px 14px; border: 2px solid #ccc; overflow: visible; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; border-radius: 8px 8px 0 0; user-select: none; }
+.cat-head-text { font-weight: 700; font-size: 1em; flex: 1; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head-right small { font-size: 11px; opacity: 0.7; }
+.cat-arrow { font-size: 12px; }
+.cat-body { padding: 6px 10px 10px; }
+.cat-body.collapsed { display: none; }
+.term { border-radius: 7px; margin-bottom: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; cursor: pointer; font-weight: 600; font-size: 0.93em; background: rgba(255,255,255,0.55); }
+.term-title:hover { background: rgba(255,255,255,0.85); }
+.arrow { font-size: 11px; color: #888; margin-left: 6px; flex-shrink: 0; }
+.term-body { display: none; padding: 10px 14px 11px; background: rgba(255,255,255,0.4); font-size: 0.88em; }
+.term-body.open { display: block; }
+.term-def { margin-bottom: 5px; }
+.term-eg { display: block; font-style: italic; color: #555; margin-top: 4px; }
+.term-note { display: block; margin-top: 7px; font-style: italic; font-size: 0.92em; color: #7B3C00; }
+
+/* HOT BADGE */
+.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* COLOUR THEMES */
+.cat.purple { border-color: #AFA9EC; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); }
+.cat.purple .term-body { background: rgba(238,237,254,0.5); }
+.cat.teal { border-color: #5DCAA5; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); }
+.cat.teal .term-body { background: rgba(225,245,238,0.5); }
+.cat.coral { border-color: #D85A30; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); }
+.cat.coral .term-body { background: rgba(250,236,231,0.5); }
+.cat.amber { border-color: #BA7517; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); }
+.cat.amber .term-body { background: rgba(250,238,218,0.5); }
+.cat.blue { border-color: #378ADD; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); }
+.cat.blue .term-body { background: rgba(230,241,251,0.5); }
+.cat.pink { border-color: #D4537E; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); }
+.cat.pink .term-body { background: rgba(251,234,240,0.5); }
+.cat.gray { border-color: #888780; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); }
+.cat.gray .term-body { background: rgba(241,239,232,0.5); }
+
+/* BOX PANELS */
+.box-wrap { border-radius: 10px; margin: 0 12px 14px; border: 2px solid #ccc; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-wrap.pink { border-color: #D4537E; }
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 0.95em; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.28); }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.25); }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.2); }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.28); }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.25); }
+.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.2); }
+.box-body { display: none; padding: 14px 14px 10px; background: #fff; }
+.box-body.open { display: block; }
+.box-note { margin-top: 10px; font-style: italic; font-size: 0.87em; color: #444; background: #f9f7ee; border-left: 3px solid #BA7517; padding: 6px 10px; border-radius: 4px; }
+
+/* TABLES */
+.ct { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+.ct th { background: #2C2C2A; color: #fff; padding: 8px 10px; text-align: left; }
+.ct td { padding: 7px 10px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+.ct tr:last-child td { border-bottom: none; }
+.ct tr:nth-child(even) td { background: #F7F6F0; }
+.mt { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+.mt th { background: #085041; color: #fff; padding: 8px 10px; text-align: left; }
+.mt td { padding: 6px 10px; border-bottom: 1px solid #e0ede9; vertical-align: top; }
+.mt tr:nth-child(even) td { background: #F0FAF6; }
+.mt tr:last-child td { border-bottom: none; }
+.jt { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+.jt th { background: #3C3489; color: #fff; padding: 8px 10px; text-align: left; }
+.jt td { padding: 6px 10px; border-bottom: 1px solid #e8e8f8; vertical-align: top; }
+.jt tr:nth-child(even) td { background: #F4F3FE; }
+.jt tr:last-child td { border-bottom: none; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 5px; margin-right: 4px; }
+.tag-g { background: #D4EDDA; color: #155724; }
+.tag-r { background: #FADBD8; color: #7B241C; }
+.tag-b { background: #D6EAF8; color: #1A5276; }
+.tag-a { background: #FDEBD0; color: #784212; }
+
+/* FORMULA / FCARD */
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.fcard { background: #FFFDF5; border: 1px solid #E6C97A; border-radius: 8px; padding: 12px 14px; }
+.fcard h3 { font-size: 0.92em; color: #412402; margin-bottom: 5px; }
+.formula { font-family: 'Courier New', monospace; background: #FFF3CC; border-radius: 5px; padding: 5px 9px; font-size: 0.9em; color: #412402; margin-bottom: 7px; font-weight: 700; }
+.fcard p { font-size: 0.84em; color: #555; margin-bottom: 6px; }
+
+/* BONE GRID */
+.bone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 10px; margin-bottom: 8px; }
+.bone-card { background: #EEF3FB; border: 1px solid #9BBCE0; border-radius: 8px; padding: 11px 13px; }
+.bone-card h4 { font-size: 0.88em; color: #042C53; margin-bottom: 4px; font-weight: 700; }
+.bone-card p { font-size: 0.81em; color: #333; }
+.bone-card .eg { font-style: italic; color: #378ADD; font-size: 0.8em; margin-top: 3px; }
+
+/* DIAGRAM WRAPPER */
+.diagram-wrap { margin: 0 12px 14px; border-radius: 10px; overflow: hidden; border: 2px solid #AFA9EC; background: #fff; }
+.diagram-head { background: rgba(206,203,246,0.35); padding: 10px 14px; font-weight: 700; font-size: 0.95em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.diagram-body { display: none; padding: 14px; background: #fff; }
+.diagram-body.open { display: block; }
+.diagram-caption { font-size: 0.82em; color: #555; font-style: italic; text-align: center; margin-top: 8px; }
+svg text { font-family: Georgia, serif; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 1: The Musculoskeletal System &middot; Live it Up 5th ed. &middot; tap any term to expand</p>
+<input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
+
+<!-- =========================================================
+     DIAGRAMS
+     ========================================================= -->
+<p class="section-label">&#128200; Diagrams &amp; Visual Panels</p>
+
+<!-- DIAGRAM 1: SYNOVIAL JOINT CROSS-SECTION -->
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#129520; Diagram: Synovial Joint Cross-Section (Knee)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body open">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 520 370" xmlns="http://www.w3.org/2000/svg" style="max-width:520px;width:100%;display:inline-block;">
+        <!-- FEMUR bone -->
+        <rect x="185" y="10" width="150" height="90" rx="18" fill="#F5E6C8" stroke="#C8A870" stroke-width="2"/>
+        <rect x="205" y="18" width="110" height="74" rx="12" fill="#FBF3E2"/>
+        <text x="260" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#7A5A10">FEMUR</text>
+        <text x="260" y="68" text-anchor="middle" font-size="10" fill="#9A7A30">(thigh bone)</text>
+        <!-- spongy bone hint inside femur -->
+        <ellipse cx="260" cy="58" rx="30" ry="14" fill="none" stroke="#D4B870" stroke-width="1" stroke-dasharray="3,2"/>
+
+        <!-- ARTICULAR CARTILAGE top -->
+        <rect x="185" y="98" width="150" height="14" rx="4" fill="#A8D8C0" stroke="#5DCAA5" stroke-width="1.5"/>
+        <text x="350" y="109" font-size="10" fill="#085041" font-weight="bold">Articular cartilage</text>
+        <line x1="338" y1="107" x2="338" y2="107" stroke="#085041" stroke-width="1"/>
+
+        <!-- JOINT CAPSULE sides -->
+        <rect x="155" y="100" width="30" height="130" rx="8" fill="#D4B896" stroke="#A07840" stroke-width="1.5"/>
+        <rect x="335" y="100" width="30" height="130" rx="8" fill="#D4B896" stroke="#A07840" stroke-width="1.5"/>
+        <text x="100" y="148" font-size="10" fill="#6B4C20" font-weight="bold" text-anchor="middle">Joint</text>
+        <text x="100" y="160" font-size="10" fill="#6B4C20" font-weight="bold" text-anchor="middle">capsule</text>
+        <line x1="120" y1="155" x2="153" y2="155" stroke="#6B4C20" stroke-width="1" marker-end="url(#arr)"/>
+
+        <!-- SYNOVIAL MEMBRANE -->
+        <path d="M 185 112 Q 180 165 185 218" fill="none" stroke="#E2729A" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <path d="M 335 112 Q 340 165 335 218" fill="none" stroke="#E2729A" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <text x="415" y="148" font-size="10" fill="#9B2457" font-weight="bold" text-anchor="middle">Synovial</text>
+        <text x="415" y="160" font-size="10" fill="#9B2457" font-weight="bold" text-anchor="middle">membrane</text>
+        <line x1="393" y1="155" x2="338" y2="148" stroke="#9B2457" stroke-width="1"/>
+
+        <!-- SYNOVIAL FLUID -->
+        <ellipse cx="260" cy="165" rx="74" ry="50" fill="rgba(100,190,240,0.18)" stroke="#378ADD" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="260" y="158" text-anchor="middle" font-size="10" fill="#1A5276" font-weight="bold">Synovial fluid</text>
+        <text x="260" y="171" text-anchor="middle" font-size="9" fill="#1A5276">(lubricates &amp; nourishes)</text>
+
+        <!-- LIGAMENT left -->
+        <path d="M 168 108 Q 145 165 168 222" fill="none" stroke="#E29020" stroke-width="3"/>
+        <text x="52" y="200" font-size="10" fill="#784212" font-weight="bold" text-anchor="middle">Ligament</text>
+        <text x="52" y="212" font-size="9" fill="#784212" text-anchor="middle">(bone-to-bone)</text>
+        <line x1="85" y1="206" x2="148" y2="185" stroke="#784212" stroke-width="1"/>
+
+        <!-- MENISCUS -->
+        <ellipse cx="225" cy="218" rx="28" ry="9" fill="#8BC4A0" stroke="#3A7A5A" stroke-width="1.5"/>
+        <ellipse cx="295" cy="218" rx="28" ry="9" fill="#8BC4A0" stroke="#3A7A5A" stroke-width="1.5"/>
+        <text x="260" y="248" text-anchor="middle" font-size="10" fill="#1C5C3A" font-weight="bold">Menisci</text>
+        <text x="260" y="260" text-anchor="middle" font-size="9" fill="#1C5C3A">(fibrocartilage pads — knee only)</text>
+        <line x1="240" y1="245" x2="232" y2="228" stroke="#1C5C3A" stroke-width="1"/>
+        <line x1="280" y1="245" x2="288" y2="228" stroke="#1C5C3A" stroke-width="1"/>
+
+        <!-- ARTICULAR CARTILAGE bottom -->
+        <rect x="185" y="228" width="150" height="14" rx="4" fill="#A8D8C0" stroke="#5DCAA5" stroke-width="1.5"/>
+
+        <!-- TIBIA bone -->
+        <rect x="185" y="240" width="150" height="90" rx="18" fill="#F5E6C8" stroke="#C8A870" stroke-width="2"/>
+        <rect x="205" y="248" width="110" height="74" rx="12" fill="#FBF3E2"/>
+        <text x="260" y="282" text-anchor="middle" font-size="13" font-weight="bold" fill="#7A5A10">TIBIA</text>
+        <text x="260" y="298" text-anchor="middle" font-size="10" fill="#9A7A30">(shin bone)</text>
+
+        <!-- BURSAE hint -->
+        <ellipse cx="172" cy="165" rx="10" ry="16" fill="rgba(180,140,220,0.35)" stroke="#8060AA" stroke-width="1.2"/>
+        <text x="52" y="252" font-size="10" fill="#4A2080" font-weight="bold" text-anchor="middle">Bursa</text>
+        <text x="52" y="263" font-size="9" fill="#4A2080" text-anchor="middle">(reduces friction)</text>
+        <line x1="80" y1="258" x2="162" y2="175" stroke="#4A2080" stroke-width="1"/>
+
+        <!-- PERIOSTEUM hint -->
+        <text x="415" y="280" font-size="10" fill="#5A3A00" font-weight="bold" text-anchor="middle">Periosteum</text>
+        <text x="415" y="292" font-size="9" fill="#5A3A00" text-anchor="middle">(outer bone layer)</text>
+        <line x1="393" y1="285" x2="337" y2="270" stroke="#5A3A00" stroke-width="1"/>
+
+        <!-- Arrow marker -->
+        <defs>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#6B4C20"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; Exam tip: Ligament = bone-to-bone | Tendon = muscle-to-bone | Articular cartilage covers bone ENDS | Menisci exist at the KNEE only</p>
+  </div>
+</div>
+
+<!-- DIAGRAM 2: PLANES OF MOVEMENT -->
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#9654;&#65039; Diagram: Planes &amp; Axes of Movement</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body open">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" style="max-width:560px;width:100%;display:inline-block;">
+        <!-- SAGITTAL PLANE panel -->
+        <rect x="10" y="10" width="165" height="300" rx="12" fill="rgba(230,241,251,0.6)" stroke="#378ADD" stroke-width="2"/>
+        <text x="92" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#042C53">SAGITTAL PLANE</text>
+        <!-- stick figure side view -->
+        <circle cx="92" cy="75" r="16" fill="#F5E6C8" stroke="#C8A870" stroke-width="1.5"/>
+        <line x1="92" y1="91" x2="92" y2="150" stroke="#555" stroke-width="2.5"/>
+        <line x1="92" y1="110" x2="68" y2="135" stroke="#555" stroke-width="2.5"/>
+        <line x1="92" y1="110" x2="116" y2="135" stroke="#555" stroke-width="2.5"/>
+        <line x1="92" y1="150" x2="72" y2="195" stroke="#555" stroke-width="2.5"/>
+        <line x1="92" y1="150" x2="112" y2="195" stroke="#555" stroke-width="2.5"/>
+        <!-- plane slice line -->
+        <line x1="92" y1="48" x2="92" y2="210" stroke="#378ADD" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <!-- axis line horizontal -->
+        <line x1="45" y1="130" x2="139" y2="130" stroke="#E29020" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="92" y="225" text-anchor="middle" font-size="10" fill="#042C53" font-weight="bold">Movements:</text>
+        <text x="92" y="240" text-anchor="middle" font-size="10" fill="#042C53">Flexion / Extension</text>
+        <text x="92" y="254" text-anchor="middle" font-size="10" fill="#042C53">Dorsi / Plantarflexion</text>
+        <text x="92" y="270" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Axis: Frontal (mediolateral)</text>
+        <text x="92" y="286" text-anchor="middle" font-size="10" fill="#378ADD" font-style="italic">Eg: running, cycling</text>
+
+        <!-- FRONTAL PLANE panel -->
+        <rect x="195" y="10" width="165" height="300" rx="12" fill="rgba(225,245,238,0.6)" stroke="#5DCAA5" stroke-width="2"/>
+        <text x="277" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#085041">FRONTAL PLANE</text>
+        <!-- stick figure front view arms out -->
+        <circle cx="277" cy="75" r="16" fill="#F5E6C8" stroke="#C8A870" stroke-width="1.5"/>
+        <line x1="277" y1="91" x2="277" y2="150" stroke="#555" stroke-width="2.5"/>
+        <line x1="277" y1="110" x2="245" y2="125" stroke="#555" stroke-width="2.5"/>
+        <line x1="277" y1="110" x2="309" y2="125" stroke="#555" stroke-width="2.5"/>
+        <line x1="277" y1="150" x2="257" y2="195" stroke="#555" stroke-width="2.5"/>
+        <line x1="277" y1="150" x2="297" y2="195" stroke="#555" stroke-width="2.5"/>
+        <!-- arrows showing abduction -->
+        <path d="M 245 115 L 228 108" stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrteal)" fill="none"/>
+        <path d="M 309 115 L 326 108" stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrteal)" fill="none"/>
+        <!-- plane slice -->
+        <line x1="277" y1="48" x2="277" y2="210" stroke="#5DCAA5" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="277" y="225" text-anchor="middle" font-size="10" fill="#085041" font-weight="bold">Movements:</text>
+        <text x="277" y="240" text-anchor="middle" font-size="10" fill="#085041">Abduction / Adduction</text>
+        <text x="277" y="254" text-anchor="middle" font-size="10" fill="#085041">Lateral flexion</text>
+        <text x="277" y="270" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Axis: Sagittal (AP)</text>
+        <text x="277" y="286" text-anchor="middle" font-size="10" fill="#5DCAA5" font-style="italic">Eg: star jump, shuffle</text>
+
+        <!-- TRANSVERSE PLANE panel -->
+        <rect x="380" y="10" width="165" height="300" rx="12" fill="rgba(250,236,231,0.6)" stroke="#D85A30" stroke-width="2"/>
+        <text x="462" y="32" text-anchor="middle" font-size="12" font-weight="bold" fill="#4A1B0C">TRANSVERSE PLANE</text>
+        <!-- stick figure with rotation arrow -->
+        <circle cx="462" cy="75" r="16" fill="#F5E6C8" stroke="#C8A870" stroke-width="1.5"/>
+        <line x1="462" y1="91" x2="462" y2="150" stroke="#555" stroke-width="2.5"/>
+        <line x1="462" y1="110" x2="435" y2="120" stroke="#555" stroke-width="2.5"/>
+        <line x1="462" y1="110" x2="489" y2="120" stroke="#555" stroke-width="2.5"/>
+        <line x1="462" y1="150" x2="442" y2="195" stroke="#555" stroke-width="2.5"/>
+        <line x1="462" y1="150" x2="482" y2="195" stroke="#555" stroke-width="2.5"/>
+        <!-- rotation arc -->
+        <path d="M 435 75 A 27 18 0 0 1 489 75" fill="none" stroke="#D85A30" stroke-width="2" stroke-dasharray="4,2"/>
+        <path d="M 489 75 L 492 67 M 489 75 L 497 78" fill="none" stroke="#D85A30" stroke-width="2"/>
+        <text x="462" y="225" text-anchor="middle" font-size="10" fill="#4A1B0C" font-weight="bold">Movements:</text>
+        <text x="462" y="240" text-anchor="middle" font-size="10" fill="#4A1B0C">Medial / Lateral rotation</text>
+        <text x="462" y="254" text-anchor="middle" font-size="10" fill="#4A1B0C">Pronation / Supination</text>
+        <text x="462" y="270" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Axis: Vertical (longitudinal)</text>
+        <text x="462" y="286" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">Eg: discus, golf swing</text>
+
+        <defs>
+          <marker id="arrteal" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#5DCAA5"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; Each plane has ONE perpendicular axis. Sagittal plane &rarr; frontal (mediolateral) axis. Frontal plane &rarr; sagittal (AP) axis. Transverse plane &rarr; vertical axis.</p>
+  </div>
+</div>
+
+<!-- DIAGRAM 3: LEVER SYSTEMS -->
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#9878;&#65039; Diagram: Three Classes of Levers</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body open">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 540 310" xmlns="http://www.w3.org/2000/svg" style="max-width:540px;width:100%;display:inline-block;">
+        <!-- KEY -->
+        <rect x="10" y="8" width="520" height="28" rx="6" fill="#F5F0E0"/>
+        <rect x="20" y="16" width="12" height="12" rx="2" fill="#3C3489"/>
+        <text x="38" y="26" font-size="11" fill="#3C3489" font-weight="bold">F = Fulcrum (joint)</text>
+        <rect x="155" y="16" width="12" height="12" rx="2" fill="#D85A30"/>
+        <text x="173" y="26" font-size="11" fill="#D85A30" font-weight="bold">E = Effort (muscle)</text>
+        <rect x="300" y="16" width="12" height="12" rx="2" fill="#5DCAA5"/>
+        <text x="318" y="26" font-size="11" fill="#085041" font-weight="bold">R = Resistance (load)</text>
+
+        <!-- ===== 1ST CLASS ===== -->
+        <text x="270" y="58" text-anchor="middle" font-size="13" font-weight="bold" fill="#1C1C1A">1st Class — F between E and R</text>
+        <!-- lever bar -->
+        <rect x="50" y="72" width="440" height="10" rx="4" fill="#C8A870"/>
+        <!-- Fulcrum triangle centre -->
+        <polygon points="270,82 248,110 292,110" fill="#3C3489"/>
+        <text x="270" y="124" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="bold">F</text>
+        <!-- Effort left -->
+        <line x1="90" y1="77" x2="90" y2="55" stroke="#D85A30" stroke-width="2.5" marker-end="url(#arre)"/>
+        <text x="90" y="50" text-anchor="middle" font-size="11" fill="#D85A30" font-weight="bold">E</text>
+        <!-- Resistance right -->
+        <line x1="450" y1="77" x2="450" y2="55" stroke="#5DCAA5" stroke-width="2.5" marker-end="url(#arrr)"/>
+        <text x="450" y="50" text-anchor="middle" font-size="11" fill="#085041" font-weight="bold">R</text>
+        <text x="270" y="140" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Eg: Neck extension — atlas (F), posterior neck muscles (E), head weight (R)</text>
+
+        <!-- ===== 2ND CLASS ===== -->
+        <text x="270" y="168" text-anchor="middle" font-size="13" font-weight="bold" fill="#1C1C1A">2nd Class — R between F and E</text>
+        <!-- lever bar -->
+        <rect x="50" y="180" width="440" height="10" rx="4" fill="#C8A870"/>
+        <!-- Fulcrum triangle left -->
+        <polygon points="90,190 68,218 112,218" fill="#3C3489"/>
+        <text x="90" y="232" text-anchor="middle" font-size="11" fill="#3C3489" font-weight="bold">F</text>
+        <!-- Resistance middle -->
+        <line x1="270" y1="185" x2="270" y2="163" stroke="#5DCAA5" stroke-width="2.5" marker-end="url(#arrr)"/>
+        <text x="270" y="158" text-anchor="middle" font-size="11" fill="#085041" font-weight="bold">R</text>
+        <!-- Effort right -->
+        <line x1="450" y1="185" x2="450" y2="163" stroke="#D85A30" stroke-width="2.5" marker-end="url(#arre)"/>
+        <text x="450" y="158" text-anchor="middle" font-size="11" fill="#D85A30" font-weight="bold">E</text>
+        <text x="270" y="248" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Eg: Calf raise — toes/metatarsals (F), body weight (R), gastrocnemius (E) | RAREST in body</text>
+
+        <!-- ===== 3RD CLASS ===== -->
+        <text x="270" y="270" text-anchor="middle" font-size="13" font-weight="bold" fill="#1C1C1A">3rd Class — E between F and R</text>
+        <!-- lever bar -->
+        <rect x="50" y="280" width="440" height="10" rx="4" fill="#C8A870"/>
+        <!-- Fulcrum left -->
+        <polygon points="90,290 68,306 112,306" fill="#3C3489"/>
+        <!-- Effort near fulcrum -->
+        <line x1="160" y1="284" x2="160" y2="272" stroke="#D85A30" stroke-width="2.5" marker-end="url(#arre)"/>
+        <text x="160" y="267" text-anchor="middle" font-size="11" fill="#D85A30" font-weight="bold">E</text>
+        <!-- Resistance far right -->
+        <line x1="450" y1="284" x2="450" y2="272" stroke="#5DCAA5" stroke-width="2.5" marker-end="url(#arrr)"/>
+        <text x="450" y="267" text-anchor="middle" font-size="11" fill="#085041" font-weight="bold">R</text>
+
+        <defs>
+          <marker id="arre" markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto">
+            <path d="M0,6 L3,0 L6,6 Z" fill="#D85A30"/>
+          </marker>
+          <marker id="arrr" markerWidth="6" markerHeight="6" refX="3" refY="6" orient="auto">
+            <path d="M0,6 L3,0 L6,6 Z" fill="#5DCAA5"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; 3rd class levers are MOST COMMON in the body — they sacrifice force for speed and range. Eg: elbow flexion (elbow=F, biceps insertion=E, hand=R). 2nd class is RAREST.</p>
+  </div>
+</div>
+
+<!-- DIAGRAM 4: MUSCLE FIBRE TYPES -->
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#128170; Diagram: Muscle Fibre Type Comparison</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body open">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 540 260" xmlns="http://www.w3.org/2000/svg" style="max-width:540px;width:100%;display:inline-block;">
+
+        <!-- TYPE I column -->
+        <rect x="20" y="10" width="155" height="240" rx="12" fill="rgba(230,241,251,0.5)" stroke="#378ADD" stroke-width="2"/>
+        <rect x="20" y="10" width="155" height="36" rx="12" fill="#378ADD"/>
+        <text x="97" y="28" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">TYPE I</text>
+        <text x="97" y="42" text-anchor="middle" font-size="10" fill="#fff">Slow Twitch (SO)</text>
+        <!-- fibre visual: thin dense red fibres -->
+        <line x1="50" y1="60" x2="50" y2="120" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="65" y1="58" x2="65" y2="118" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="80" y1="60" x2="80" y2="120" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="95" y1="58" x2="95" y2="118" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="110" y1="60" x2="110" y2="120" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="125" y1="58" x2="125" y2="118" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+        <line x1="140" y1="60" x2="140" y2="120" stroke="#C0392B" stroke-width="4" stroke-linecap="round"/>
+        <text x="97" y="60" text-anchor="middle" font-size="9" fill="#1A5276">many thin fibres</text>
+        <text x="97" y="140" text-anchor="middle" font-size="10" fill="#042C53">&#11093; Fatigue resistance: HIGH</text>
+        <text x="97" y="156" text-anchor="middle" font-size="10" fill="#042C53">&#128200; Force: LOW</text>
+        <text x="97" y="172" text-anchor="middle" font-size="10" fill="#042C53">&#9201; Contraction: SLOW</text>
+        <text x="97" y="188" text-anchor="middle" font-size="10" fill="#042C53">&#129411; Energy: AEROBIC</text>
+        <text x="97" y="204" text-anchor="middle" font-size="10" fill="#042C53">&#129413; Mitochondria: MANY</text>
+        <text x="97" y="222" text-anchor="middle" font-size="10" fill="#C0392B" font-style="italic">Marathon, cycling</text>
+        <text x="97" y="238" text-anchor="middle" font-size="10" fill="#C0392B" font-style="italic">long distance swim</text>
+
+        <!-- TYPE IIa column -->
+        <rect x="192" y="10" width="155" height="240" rx="12" fill="rgba(250,238,218,0.5)" stroke="#BA7517" stroke-width="2"/>
+        <rect x="192" y="10" width="155" height="36" rx="12" fill="#BA7517"/>
+        <text x="269" y="28" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">TYPE IIa</text>
+        <text x="269" y="42" text-anchor="middle" font-size="10" fill="#fff">Fast Oxidative (FOG)</text>
+        <!-- medium fibres pink -->
+        <line x1="218" y1="60" x2="218" y2="120" stroke="#D85A30" stroke-width="6" stroke-linecap="round"/>
+        <line x1="238" y1="58" x2="238" y2="118" stroke="#D85A30" stroke-width="6" stroke-linecap="round"/>
+        <line x1="258" y1="60" x2="258" y2="120" stroke="#D85A30" stroke-width="6" stroke-linecap="round"/>
+        <line x1="278" y1="58" x2="278" y2="118" stroke="#D85A30" stroke-width="6" stroke-linecap="round"/>
+        <line x1="298" y1="60" x2="298" y2="120" stroke="#D85A30" stroke-width="6" stroke-linecap="round"/>
+        <line x1="318" y1="58" x2="318" y2="118" stroke="#D85A30" stroke-width="6" stroke-linecap="round"/>
+        <text x="269" y="60" text-anchor="middle" font-size="9" fill="#412402">medium fibres</text>
+        <text x="269" y="140" text-anchor="middle" font-size="10" fill="#412402">&#11093; Fatigue resistance: MOD</text>
+        <text x="269" y="156" text-anchor="middle" font-size="10" fill="#412402">&#128200; Force: HIGH</text>
+        <text x="269" y="172" text-anchor="middle" font-size="10" fill="#412402">&#9201; Contraction: FAST</text>
+        <text x="269" y="188" text-anchor="middle" font-size="10" fill="#412402">&#129411; Energy: BOTH</text>
+        <text x="269" y="204" text-anchor="middle" font-size="10" fill="#412402">&#129413; Mitochondria: MANY</text>
+        <text x="269" y="222" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">800m, 1500m</text>
+        <text x="269" y="238" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">team sports</text>
+
+        <!-- TYPE IIx column -->
+        <rect x="364" y="10" width="155" height="240" rx="12" fill="rgba(250,236,231,0.5)" stroke="#D85A30" stroke-width="2"/>
+        <rect x="364" y="10" width="155" height="36" rx="12" fill="#D85A30"/>
+        <text x="441" y="28" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">TYPE IIx</text>
+        <text x="441" y="42" text-anchor="middle" font-size="10" fill="#fff">Fast Glycolytic (FG)</text>
+        <!-- thick pale fibres -->
+        <line x1="388" y1="60" x2="388" y2="120" stroke="#E8C0B0" stroke-width="10" stroke-linecap="round"/>
+        <line x1="412" y1="58" x2="412" y2="118" stroke="#E8C0B0" stroke-width="10" stroke-linecap="round"/>
+        <line x1="436" y1="60" x2="436" y2="120" stroke="#E8C0B0" stroke-width="10" stroke-linecap="round"/>
+        <line x1="460" y1="58" x2="460" y2="118" stroke="#E8C0B0" stroke-width="10" stroke-linecap="round"/>
+        <line x1="484" y1="60" x2="484" y2="118" stroke="#E8C0B0" stroke-width="10" stroke-linecap="round"/>
+        <text x="441" y="60" text-anchor="middle" font-size="9" fill="#4A1B0C">few thick pale fibres</text>
+        <text x="441" y="140" text-anchor="middle" font-size="10" fill="#4A1B0C">&#11093; Fatigue resistance: LOW</text>
+        <text x="441" y="156" text-anchor="middle" font-size="10" fill="#4A1B0C">&#128200; Force: VERY HIGH</text>
+        <text x="441" y="172" text-anchor="middle" font-size="10" fill="#4A1B0C">&#9201; Contraction: VERY FAST</text>
+        <text x="441" y="188" text-anchor="middle" font-size="10" fill="#4A1B0C">&#129411; Energy: ANAEROBIC</text>
+        <text x="441" y="204" text-anchor="middle" font-size="10" fill="#4A1B0C">&#129413; Mitochondria: FEW</text>
+        <text x="441" y="222" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">100m sprint</text>
+        <text x="441" y="238" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">powerlifting</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; The key exam distinguisher is FATIGUE RESISTANCE and ENERGY SYSTEM. Type I = endurance (red/dark). Type IIx = power (white/pale). Type IIa = in between.</p>
+  </div>
+</div>
+
+<!-- DIAGRAM 5: SLIDING FILAMENT -->
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#9881;&#65039; Diagram: Sliding Filament Theory — Steps</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 540 200" xmlns="http://www.w3.org/2000/svg" style="max-width:540px;width:100%;display:inline-block;">
+        <!-- 5 steps in boxes -->
+        <!-- Step 1 -->
+        <rect x="10" y="30" width="90" height="130" rx="8" fill="#EEF3FB" stroke="#378ADD" stroke-width="1.5"/>
+        <rect x="10" y="30" width="90" height="28" rx="8" fill="#378ADD"/>
+        <text x="55" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 1</text>
+        <text x="55" y="80" text-anchor="middle" font-size="10" fill="#042C53">Nerve impulse</text>
+        <text x="55" y="94" text-anchor="middle" font-size="10" fill="#042C53">arrives at</text>
+        <text x="55" y="108" text-anchor="middle" font-size="10" fill="#042C53">neuro-</text>
+        <text x="55" y="122" text-anchor="middle" font-size="10" fill="#042C53">muscular</text>
+        <text x="55" y="136" text-anchor="middle" font-size="10" fill="#042C53">junction</text>
+        <!-- arrow -->
+        <polygon points="104,95 116,88 116,102" fill="#888"/>
+
+        <!-- Step 2 -->
+        <rect x="120" y="30" width="90" height="130" rx="8" fill="#F4F3FE" stroke="#AFA9EC" stroke-width="1.5"/>
+        <rect x="120" y="30" width="90" height="28" rx="8" fill="#3C3489"/>
+        <text x="165" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 2</text>
+        <text x="165" y="80" text-anchor="middle" font-size="10" fill="#3C3489">ACh released</text>
+        <text x="165" y="94" text-anchor="middle" font-size="10" fill="#3C3489">into synaptic</text>
+        <text x="165" y="108" text-anchor="middle" font-size="10" fill="#3C3489">cleft; action</text>
+        <text x="165" y="122" text-anchor="middle" font-size="10" fill="#3C3489">potential in</text>
+        <text x="165" y="136" text-anchor="middle" font-size="10" fill="#3C3489">muscle fibre</text>
+        <polygon points="214,95 226,88 226,102" fill="#888"/>
+
+        <!-- Step 3 -->
+        <rect x="230" y="30" width="90" height="130" rx="8" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="1.5"/>
+        <rect x="230" y="30" width="90" height="28" rx="8" fill="#085041"/>
+        <text x="275" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 3</text>
+        <text x="275" y="80" text-anchor="middle" font-size="10" fill="#085041">Ca2+ released</text>
+        <text x="275" y="94" text-anchor="middle" font-size="10" fill="#085041">from SR;</text>
+        <text x="275" y="108" text-anchor="middle" font-size="10" fill="#085041">binds troponin;</text>
+        <text x="275" y="122" text-anchor="middle" font-size="10" fill="#085041">tropomyosin</text>
+        <text x="275" y="136" text-anchor="middle" font-size="10" fill="#085041">moves aside</text>
+        <polygon points="324,95 336,88 336,102" fill="#888"/>
+
+        <!-- Step 4 -->
+        <rect x="340" y="30" width="90" height="130" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="1.5"/>
+        <rect x="340" y="30" width="90" height="28" rx="8" fill="#412402"/>
+        <text x="385" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 4</text>
+        <text x="385" y="80" text-anchor="middle" font-size="10" fill="#412402">Myosin heads</text>
+        <text x="385" y="94" text-anchor="middle" font-size="10" fill="#412402">bind actin;</text>
+        <text x="385" y="108" text-anchor="middle" font-size="10" fill="#412402">cross-bridges</text>
+        <text x="385" y="122" text-anchor="middle" font-size="10" fill="#412402">form</text>
+        <polygon points="434,95 446,88 446,102" fill="#888"/>
+
+        <!-- Step 5 -->
+        <rect x="450" y="30" width="82" height="130" rx="8" fill="#FAECE7" stroke="#D85A30" stroke-width="1.5"/>
+        <rect x="450" y="30" width="82" height="28" rx="8" fill="#4A1B0C"/>
+        <text x="491" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">STEP 5</text>
+        <text x="491" y="80" text-anchor="middle" font-size="10" fill="#4A1B0C">Power stroke;</text>
+        <text x="491" y="94" text-anchor="middle" font-size="10" fill="#4A1B0C">actin pulled</text>
+        <text x="491" y="108" text-anchor="middle" font-size="10" fill="#4A1B0C">inward; ATP</text>
+        <text x="491" y="122" text-anchor="middle" font-size="10" fill="#4A1B0C">breaks cross-</text>
+        <text x="491" y="136" text-anchor="middle" font-size="10" fill="#4A1B0C">bridge; repeat</text>
+
+        <text x="270" y="185" text-anchor="middle" font-size="10" fill="#888" font-style="italic">Nerve impulse &#8594; ACh &#8594; Ca2+ &#8594; Cross-bridge &#8594; Power stroke (ATP needed to BREAK cross-bridges)</text>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; ATP is needed to BREAK cross-bridges (detach myosin from actin), not just to form them. This is the most commonly tested detail about sliding filament theory.</p>
+  </div>
+</div>
+
+<!-- ===================== TABLE PANELS ===================== -->
+<p class="section-label">&#128202; Reference Tables</p>
+
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129454; Functions of the Skeleton</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body open">
+    <div class="bone-grid">
+      <div class="bone-card"><h4>&#128736; Support</h4><p>Provides structural framework holding the body upright.</p><p class="eg">Vertebral column supports head and trunk</p></div>
+      <div class="bone-card"><h4>&#128737; Protection</h4><p>Shields vital organs from injury.</p><p class="eg">Skull protects brain; ribcage protects heart and lungs</p></div>
+      <div class="bone-card"><h4>&#9889; Movement</h4><p>Bones act as levers; muscles pull on them to create movement.</p><p class="eg">Femur and tibia form the lever system at the knee</p></div>
+      <div class="bone-card"><h4>&#128197; Blood Cell Production</h4><p>Red bone marrow produces red and white blood cells.</p><p class="eg">Femur, tibia, humerus</p></div>
+      <div class="bone-card"><h4>&#129510; Mineral Storage</h4><p>Stores calcium and phosphorus; released when needed.</p><p class="eg">Calcium stored in cortical bone matrix</p></div>
+      <div class="bone-card"><h4>&#127981; Energy Storage</h4><p>Yellow marrow stores fat as an energy reserve.</p><p class="eg">Diaphysis (shaft) of the femur</p></div>
+    </div>
+    <p class="box-note">&#128161; You must know ALL six functions. Memorise: Support, Protection, Movement, Blood cell production, Mineral storage, Energy storage.</p>
+  </div>
+</div>
+
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129458; Bone Classification by Shape</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="jt">
+        <thead><tr><th>Type</th><th>Description</th><th>Example</th><th>Role in Movement</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Long</strong></td><td>Length &gt; width; diaphysis and epiphyses</td><td>Femur, humerus, tibia</td><td>Primary lever bones</td></tr>
+          <tr><td><strong>Short</strong></td><td>Roughly cube-shaped</td><td>Carpals, tarsals</td><td>Absorb shock; gliding</td></tr>
+          <tr><td><strong>Flat</strong></td><td>Thin, broad, curved</td><td>Skull, sternum, scapula, ribs</td><td>Protection; muscle attachment</td></tr>
+          <tr><td><strong>Irregular</strong></td><td>Complex shapes</td><td>Vertebrae, pelvis</td><td>Weight-bearing; attachment</td></tr>
+          <tr><td><strong>Sesamoid</strong></td><td>Embedded in tendons</td><td>Patella (kneecap)</td><td>Reduce friction; redirect force</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The patella is the classic sesamoid bone. Students often forget it as the 5th type.</p>
+  </div>
+</div>
+
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Synovial Joint Types</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Joint Type</th><th>Movement Allowed</th><th>Body Example</th><th>Sport Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hinge</strong></td><td>Flexion &amp; extension only</td><td>Knee, elbow, ankle</td><td>Running, kicking</td></tr>
+          <tr><td><strong>Ball &amp; Socket</strong></td><td>All planes — most ROM</td><td>Hip, shoulder</td><td>Swimming, gymnastics</td></tr>
+          <tr><td><strong>Pivot</strong></td><td>Rotation only</td><td>Radioulnar, atlas-axis</td><td>Forearm rotation</td></tr>
+          <tr><td><strong>Condyloid</strong></td><td>Flexion, extension, ab/adduction</td><td>Wrist, knuckles (MCP)</td><td>Catching a ball</td></tr>
+          <tr><td><strong>Saddle</strong></td><td>Flexion, extension, ab/adduction</td><td>Thumb (carpometacarpal)</td><td>Gripping a racquet</td></tr>
+          <tr><td><strong>Gliding (Plane)</strong></td><td>Gliding/sliding only</td><td>Intercarpal, intertarsal</td><td>Foot landing from jump</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Ball and socket = MOST movement. Hinge = LEAST. Hip and shoulder are the two ball-and-socket joints you must know.</p>
+  </div>
+</div>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129520; Synovial Joint Structures</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Structure</th><th>Function</th><th>Exam note</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Articular cartilage</strong></td><td>Smooth hyaline cartilage on bone ends; reduces friction</td><td>Distinguish from fibrocartilage (meniscus)</td></tr>
+          <tr><td><strong>Synovial membrane</strong></td><td>Lines joint capsule; secretes synovial fluid</td><td>Source of lubrication</td></tr>
+          <tr><td><strong>Synovial fluid</strong></td><td>Lubricates and nourishes joint; shock absorber</td><td>&#9888; Explain its role in injury prevention</td></tr>
+          <tr><td><strong>Joint capsule</strong></td><td>Fibrous outer layer enclosing the joint</td><td>Holds the joint together</td></tr>
+          <tr><td><strong>Ligaments</strong></td><td>Bone-to-bone; stabilise joint; limit ROM</td><td>&#9888; NOT muscle — that is tendons</td></tr>
+          <tr><td><strong>Bursae</strong></td><td>Fluid-filled sacs; reduce friction between tissues</td><td>Inflamed bursae = bursitis</td></tr>
+          <tr><td><strong>Menisci</strong></td><td>Fibrocartilage pads at knee; absorb shock</td><td>Knee joint ONLY</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Most common mistake: &quot;ligaments connect muscle to bone&quot; — that is TENDONS. Ligaments = bone to bone.</p>
+  </div>
+</div>
+
+<div class="box-wrap green">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128170; Muscle Roles During Movement</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Role</th><th>Function</th><th>Example — Bicep Curl</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agonist</strong></td><td>Creates movement; contracts concentrically</td><td>Biceps brachii</td></tr>
+          <tr><td><strong>Antagonist</strong></td><td>Opposes agonist; controls speed</td><td>Triceps brachii</td></tr>
+          <tr><td><strong>Synergist</strong></td><td>Assists agonist; fine-tunes movement</td><td>Brachialis, brachioradialis</td></tr>
+          <tr><td><strong>Fixator</strong></td><td>Stabilises origin bone so agonist can work</td><td>Deltoid stabilises shoulder</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Practice: Squat (agonist = quadriceps, antagonist = hamstrings). Shoulder press, knee extension. Always name BOTH agonist and antagonist.</p>
+  </div>
+</div>
+
+<div class="box-wrap green">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129346; Key Muscles, Location &amp; Action</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Muscle</th><th>Location</th><th>Action (agonist for)</th><th>Sport</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Quadriceps</strong></td><td>Anterior thigh</td><td>Knee extension; hip flexion</td><td>Kicking, running, squatting</td></tr>
+          <tr><td><strong>Hamstrings</strong></td><td>Posterior thigh</td><td>Knee flexion; hip extension</td><td>Sprinting, jumping</td></tr>
+          <tr><td><strong>Gluteus maximus</strong></td><td>Buttock</td><td>Hip extension, lateral rotation</td><td>Sprinting, cycling, jumping</td></tr>
+          <tr><td><strong>Gastrocnemius</strong></td><td>Posterior lower leg</td><td>Plantarflexion; knee flexion</td><td>Running, jumping</td></tr>
+          <tr><td><strong>Tibialis anterior</strong></td><td>Anterior lower leg</td><td>Dorsiflexion; inversion</td><td>Running (swing phase)</td></tr>
+          <tr><td><strong>Biceps brachii</strong></td><td>Anterior upper arm</td><td>Elbow flexion; supination</td><td>Throwing, rowing</td></tr>
+          <tr><td><strong>Triceps brachii</strong></td><td>Posterior upper arm</td><td>Elbow extension</td><td>Pushing, throwing</td></tr>
+          <tr><td><strong>Deltoid</strong></td><td>Shoulder</td><td>Shoulder abduction</td><td>Swimming, throwing</td></tr>
+          <tr><td><strong>Pectoralis major</strong></td><td>Anterior chest</td><td>Shoulder flexion; horiz. adduction</td><td>Throwing, freestyle swim</td></tr>
+          <tr><td><strong>Latissimus dorsi</strong></td><td>Mid-lower back</td><td>Shoulder extension; adduction</td><td>Swimming, rowing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Focus on lower limb muscles for running/kicking questions. Quad vs hamstring and gastrocnemius vs tibialis anterior (antagonist pairs) are frequently tested.</p>
+  </div>
+</div>
+
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9889; Types of Muscle Contraction</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Type</th><th>What happens</th><th>Muscle length</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Concentric</strong></td><td>Shortens as it contracts; force &gt; resistance</td><td>Shortens</td><td>Lifting phase of bicep curl</td></tr>
+          <tr><td><strong>Eccentric</strong></td><td>Lengthens under tension; controls movement</td><td>Lengthens</td><td>Lowering in a squat; landing</td></tr>
+          <tr><td><strong>Isometric</strong></td><td>Contracts but NO change in length; no movement</td><td>No change</td><td>Holding a plank</td></tr>
+          <tr><td><strong>Isotonic</strong></td><td>Constant force; length changes (includes concentric + eccentric)</td><td>Changes</td><td>Free-weight exercise</td></tr>
+          <tr><td><strong>Isokinetic</strong></td><td>Constant speed; resistance varies</td><td>Changes</td><td>Specialised gym machines</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Eccentric contractions cause the most DOMS. Students often confuse eccentric with &quot;relaxing&quot; — it is still an ACTIVE contraction.</p>
+  </div>
+</div>
+
+<!-- ===================== TERM ACCORDION ===================== -->
+<p class="section-label">&#128218; Key Terms &amp; Definitions</p>
+<div id="list"></div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Chapter 1: The Musculoskeletal System &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var data = [
+  { cat: "1.1 Skeletal System — Bones & Structure", color: "blue", hot: false, items: [
+    { term: "Axial skeleton", def: "The central bony framework: skull, vertebral column, sternum and ribs. Forms the longitudinal axis of the body.", eg: "The spine and ribcage are axial skeleton — they protect the brain, spinal cord, heart and lungs." },
+    { term: "Appendicular skeleton", def: "The bones of the limbs and girdles (shoulder and pelvic) attached to the axial skeleton.", eg: "Femur, tibia, fibula, humerus, radius, ulna are all appendicular bones." },
+    { term: "Diaphysis", def: "The shaft (middle section) of a long bone, composed of compact cortical bone surrounding a medullary cavity.", eg: "The long middle portion of the femur is the diaphysis — it contains yellow marrow in adults." },
+    { term: "Epiphysis", def: "The rounded ends of a long bone, composed mainly of spongy (cancellous) bone covered by articular cartilage.", eg: "The proximal and distal epiphyses of the tibia form the knee and ankle joints." },
+    { term: "Periosteum", def: "Dense fibrous membrane covering the outer surface of bones (except articular surfaces). Contains blood vessels and osteoblasts.", eg: "Muscles attach to bone via tendons that merge into the periosteum." },
+    { term: "Compact (cortical) bone", def: "Dense, hard outer layer of bone arranged in concentric rings called osteons or Haversian systems.", eg: "The outer shell of the femur shaft is compact bone — it withstands bending forces during running." },
+    { term: "Spongy (cancellous) bone", def: "Lightweight inner bone with a honeycomb of trabeculae (struts). Found at epiphyses. Houses red bone marrow.", eg: "The head of the femur contains spongy bone — light yet strong under compression." },
+    { term: "Epiphyseal (growth) plate", def: "A layer of hyaline cartilage near each epiphysis where longitudinal bone growth occurs in children and adolescents.", eg: "A growth plate fracture in a young athlete can disrupt normal bone lengthening." }
+  ]},
+  { cat: "1.2 Joints — Structure & Classification", color: "purple", hot: true, items: [
+    { term: "Synovial joint", def: "Freely moveable joint with a synovial cavity, articular cartilage, synovial membrane and fluid. Also called diarthrosis.", eg: "The hip, knee, shoulder, and elbow are all synovial joints — the type most important for sport.", note: "All six synovial joint types are commonly examined. Know the movement AND a body example for each." },
+    { term: "Fibrous joint", def: "Bones joined by fibrous connective tissue; little or no movement. Also called synarthrosis.", eg: "Skull sutures are fibrous joints.", note: "Fibrous = immovable. Exams often test whether students can classify joint types by movement allowed." },
+    { term: "Cartilaginous joint", def: "Bones connected by cartilage; slight movement only. Also called amphiarthrosis.", eg: "Intervertebral discs and the pubic symphysis are cartilaginous joints." },
+    { term: "Range of Motion (ROM)", def: "The arc of movement possible at a joint, measured in degrees. Influenced by joint type, ligament tightness, muscle flexibility and surrounding tissue.", eg: "A gymnast demonstrates greater hip ROM due to increased flexibility of surrounding soft tissues." },
+    { term: "Ligament", def: "Dense fibrous connective tissue connecting bone to bone at a joint. Provides stability and limits excessive movement.", eg: "The ACL connects the femur to the tibia, preventing forward displacement of the tibia.", note: "CRITICAL: Ligament = bone-to-bone. Tendon = muscle-to-bone. This is the number one exam mistake in this topic." }
+  ]},
+  { cat: "1.3 Movement Terminology", color: "teal", hot: true, items: [
+    { term: "Flexion", def: "A decrease in the angle at a joint; brings body segments closer together.", eg: "Bending the knee during the take-off phase of a jump decreases the angle between thigh and lower leg.", note: "Dorsiflexion and plantarflexion are specific ankle forms — do not just call them flexion/extension." },
+    { term: "Extension", def: "An increase in the angle at a joint; moves body segments further apart.", eg: "Straightening the elbow during a tennis serve is elbow extension." },
+    { term: "Abduction", def: "Movement of a limb away from the midline of the body.", eg: "Raising the arm sideways during a star jump is shoulder abduction.", note: "ABduction = AWAY. ADduction = toward. The letter B in abduction is for going away (bye)." },
+    { term: "Adduction", def: "Movement of a limb toward the midline of the body.", eg: "Bringing the legs back together after a star jump is hip adduction." },
+    { term: "Rotation", def: "Movement of a bone around its own longitudinal axis. Medial (inward) or lateral (outward).", eg: "Turning the femur outward in a ballet plie is lateral (external) rotation." },
+    { term: "Circumduction", def: "Combination of flexion, extension, abduction and adduction — limb traces a cone shape.", eg: "Bowling in cricket involves shoulder circumduction.", note: "Circumduction is only possible at BALL-AND-SOCKET joints (shoulder and hip) — not at hinge joints." },
+    { term: "Dorsiflexion", def: "Ankle movement decreasing the angle between the top of the foot and the shin; toes point upward.", eg: "During the heel-strike phase of running, the foot is in dorsiflexion." },
+    { term: "Plantarflexion", def: "Ankle movement increasing the angle between the top of the foot and shin; toes point downward.", eg: "Pushing off the ground when sprinting involves powerful plantarflexion." },
+    { term: "Pronation", def: "Rotation of the forearm so the palm faces downward (posterior).", eg: "Turning your palm to face the floor from neutral is pronation." },
+    { term: "Supination", def: "Rotation of the forearm so the palm faces upward (anterior). Opposite of pronation.", eg: "Turning your palm upward to hold a bowl is supination." },
+    { term: "Inversion", def: "Turning the sole of the foot inward (medially).", eg: "A rolled ankle in basketball involves forced inversion beyond normal ROM." },
+    { term: "Eversion", def: "Turning the sole of the foot outward (laterally).", eg: "The foot everts slightly during midstance on uneven surfaces." }
+  ]},
+  { cat: "1.4 Muscular System — Structure", color: "coral", hot: false, items: [
+    { term: "Muscle fibre (myocyte)", def: "A single muscle cell — long, cylindrical, multinucleated. Contains myofibrils made up of sarcomeres.", eg: "One skeletal muscle contains thousands of individual muscle fibres bundled into fascicles." },
+    { term: "Myofibril", def: "Thread-like structures within muscle fibres containing contractile proteins actin (thin) and myosin (thick).", eg: "During contraction, myosin heads pull actin filaments inward." },
+    { term: "Sarcomere", def: "The basic functional unit of muscle contraction — the segment between two Z-lines containing actin and myosin.", eg: "As a muscle shortens, the sarcomeres within each myofibril shorten simultaneously." },
+    { term: "Tendon", def: "Dense connective tissue attaching muscle to bone; transmits contraction force to the skeleton.", eg: "The Achilles tendon connects the gastrocnemius and soleus to the calcaneus (heel bone).", note: "Tendon = muscle to bone. Tendinopathy (tendon injury) is common in running sports." },
+    { term: "Motor unit", def: "A single motor neuron and all the muscle fibres it innervates. More motor units recruited = greater force.", eg: "A maximal sprint recruits nearly all available motor units; threading a needle uses very few." }
+  ]},
+  { cat: "1.5 Sliding Filament Theory", color: "amber", hot: true, items: [
+    { term: "Sliding filament theory", def: "The mechanism of muscle contraction: myosin heads attach to actin, forming cross-bridges and pulling actin filaments toward the centre of the sarcomere, causing shortening.", eg: "When lifting a weight, thousands of sarcomeres shorten simultaneously as actin slides over myosin.", note: "Know the 5-step sequence: nerve impulse > ACh release > Ca2+ release from SR > cross-bridge formation > power stroke. Very common exam question." },
+    { term: "Acetylcholine (ACh)", def: "Neurotransmitter released at the neuromuscular junction that triggers an action potential in the muscle fibre.", eg: "ACh is released from the motor nerve terminal into the synaptic cleft when a nerve impulse arrives." },
+    { term: "Calcium ions (Ca2+)", def: "Trigger contraction by binding to troponin, moving tropomyosin off the myosin-binding sites on actin so cross-bridges can form.", eg: "Without Ca2+, tropomyosin blocks the binding sites and contraction cannot occur." },
+    { term: "Cross-bridge", def: "The temporary link formed between a myosin head and an actin binding site during muscle contraction.", eg: "During a sprint, billions of cross-bridges form and detach rapidly every second." },
+    { term: "ATP in contraction", def: "ATP is required to BREAK cross-bridges (detach the myosin head from actin and re-cock it) as well as to return Ca2+ to the sarcoplasmic reticulum.", eg: "Rigor mortis occurs because ATP is unavailable after death — myosin heads cannot detach from actin.", note: "ATP breaks cross-bridges, NOT forms them. This distinction is the most commonly tested detail of sliding filament theory." }
+  ]},
+  { cat: "1.6 Muscle Roles & Contraction Types", color: "blue", hot: true, items: [
+    { term: "Agonist (prime mover)", def: "The muscle primarily responsible for producing a movement. Typically contracts concentrically.", eg: "The quadriceps are the agonist during knee extension in a drop punt kick." },
+    { term: "Antagonist", def: "The muscle that opposes the agonist. Must relax or eccentrically contract to allow smooth movement.", eg: "The hamstrings are the antagonist during knee extension — they eccentrically control the speed of kicking.", note: "Always identify BOTH the agonist AND antagonist when analysing a movement in the exam." },
+    { term: "Concentric contraction", def: "Muscle shortens as it generates force. Force exceeds load.", eg: "The quadriceps contract concentrically when straightening the leg during the upward phase of a squat." },
+    { term: "Eccentric contraction", def: "Muscle lengthens while still generating tension — acts as a brake to control or decelerate movement.", eg: "The quadriceps contract eccentrically when lowering into a squat to control the descent.", note: "Eccentric contractions generate MORE force than concentric and cause more muscle damage — the primary cause of DOMS." },
+    { term: "Isometric contraction", def: "Muscle generates force but does not change length — no movement at the joint.", eg: "Holding a wall sit for 30 seconds — the quadriceps are under constant isometric tension." }
+  ]},
+  { cat: "1.7 Muscle Fibre Types", color: "pink", hot: true, items: [
+    { term: "Type I — slow oxidative (SO)", def: "Slow twitch fibres with high mitochondrial density, abundant myoglobin, high capillary supply, and exceptional fatigue resistance. Low force output.", eg: "Distance runners and cyclists have a high proportion of Type I fibres in leg muscles." },
+    { term: "Type IIa — fast oxidative glycolytic (FOG)", def: "Intermediate fast twitch fibres using both aerobic and anaerobic pathways. Moderately fatigue resistant.", eg: "800m and 1500m runners rely heavily on Type IIa fibres for sustained high-intensity effort." },
+    { term: "Type IIx — fast glycolytic (FG)", def: "Fast twitch fibres with few mitochondria, low myoglobin, large diameter, and very high force output. Fatigue rapidly.", eg: "A 100m sprinter or powerlifter relies predominantly on Type IIx fibres for explosive bursts." },
+    { term: "Size principle (recruitment)", def: "Motor units are recruited in order from smallest (Type I) to largest (Type IIx) as exercise intensity increases.", eg: "Light jogging recruits only Type I units; an all-out sprint recruits Type IIx units as well." }
+  ]},
+  { cat: "1.8 Levers & Biomechanics", color: "gray", hot: false, items: [
+    { term: "Lever", def: "A rigid bar (bone) rotating around a fixed point (joint) when a force (muscle) is applied to move a resistance (load).", eg: "The forearm is a lever — elbow is the fulcrum, biceps is the force, the hand/object is the load." },
+    { term: "Mechanical advantage (MA)", def: "Ratio of the effort arm to the load arm. MA greater than 1 = force advantage; MA less than 1 = speed and range advantage.", eg: "2nd class levers have MA greater than 1 (calf raise), allowing heavy loads with less muscle force." },
+    { term: "3rd class lever", def: "Most common lever in the body. Order: Axis-Force-Resistance. The effort (muscle) is between the fulcrum and the load. Sacrifices force for speed and range.", eg: "Elbow flexion: elbow (F), biceps insertion (E), hand and forearm (R).", note: "3rd class levers are the most common. 2nd class is the rarest. Know one example of each for the exam." }
+  ]}
+];
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

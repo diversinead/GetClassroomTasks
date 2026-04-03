@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Unit 1 AOS1a: Musculoskeletal System</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.7em; color: #1C1C1A; padding: 28px 16px 4px; letter-spacing: -0.5px; }
+.subtitle { text-align: center; color: #666; font-size: 0.93em; margin-bottom: 18px; font-style: italic; }
+#search { display: block; width: calc(100% - 32px); max-width: 560px; margin: 0 auto 22px; padding: 10px 14px; border: 2px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; }
+#search:focus { outline: none; border-color: #3B82C4; }
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+
+/* ---- ACCORDION CATS ---- */
+.cat { border-radius: 10px; margin: 0 12px 14px; border: 2px solid #ccc; overflow: visible; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; border-radius: 8px 8px 0 0; user-select: none; }
+.cat-head-text { font-weight: 700; font-size: 1em; flex: 1; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head-right small { font-size: 11px; opacity: 0.7; }
+.cat-arrow { font-size: 12px; }
+.cat-body { padding: 6px 10px 10px; }
+.cat-body.collapsed { display: none; }
+.term { border-radius: 7px; margin-bottom: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; cursor: pointer; font-weight: 600; font-size: 0.93em; background: rgba(255,255,255,0.55); }
+.term-title:hover { background: rgba(255,255,255,0.85); }
+.arrow { font-size: 11px; color: #888; margin-left: 6px; flex-shrink: 0; }
+.term-body { display: none; padding: 10px 14px 11px; background: rgba(255,255,255,0.4); font-size: 0.88em; }
+.term-body.open { display: block; }
+.term-def { margin-bottom: 5px; }
+.term-eg { display: block; font-style: italic; color: #555; margin-top: 4px; }
+.term-note { display: block; margin-top: 7px; font-style: italic; font-size: 0.92em; color: #7B3C00; }
+
+/* HOT BADGE */
+.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* COLOUR THEMES */
+.cat.purple { border-color: #AFA9EC; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); }
+.cat.purple .term-body { background: rgba(238,237,254,0.5); }
+.cat.teal { border-color: #5DCAA5; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); }
+.cat.teal .term-body { background: rgba(225,245,238,0.5); }
+.cat.coral { border-color: #D85A30; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); }
+.cat.coral .term-body { background: rgba(250,236,231,0.5); }
+.cat.amber { border-color: #BA7517; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); }
+.cat.amber .term-body { background: rgba(250,238,218,0.5); }
+.cat.blue { border-color: #378ADD; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); }
+.cat.blue .term-body { background: rgba(230,241,251,0.5); }
+.cat.pink { border-color: #D4537E; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); }
+.cat.pink .term-body { background: rgba(251,234,240,0.5); }
+.cat.gray { border-color: #888780; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); }
+.cat.gray .term-body { background: rgba(241,239,232,0.5); }
+
+/* ---- COLLAPSIBLE BOX PANELS ---- */
+.box-wrap { border-radius: 10px; margin: 0 12px 14px; border: 2px solid #ccc; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-wrap.pink { border-color: #D4537E; }
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 0.95em; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.28); }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.25); }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.2); }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.28); }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.25); }
+.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.2); }
+.box-body { display: none; padding: 14px 14px 10px; background: #fff; }
+.box-body.open { display: block; }
+.box-note { margin-top: 10px; font-style: italic; font-size: 0.87em; color: #444; background: #f9f7ee; border-left: 3px solid #BA7517; padding: 6px 10px; border-radius: 4px; }
+
+/* COMPARISON TABLE */
+.ct { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+.ct th { background: #2C2C2A; color: #fff; padding: 8px 10px; text-align: left; }
+.ct td { padding: 7px 10px; border-bottom: 1px solid #e8e8e8; vertical-align: top; }
+.ct tr:last-child td { border-bottom: none; }
+.ct tr:nth-child(even) td { background: #F7F6F0; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 5px; margin-right: 4px; }
+.tag-g { background: #D4EDDA; color: #155724; }
+.tag-r { background: #FADBD8; color: #7B241C; }
+.tag-b { background: #D6EAF8; color: #1A5276; }
+.tag-a { background: #FDEBD0; color: #784212; }
+
+/* FORMULA GRID */
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.fcard { background: #FFFDF5; border: 1px solid #E6C97A; border-radius: 8px; padding: 12px 14px; }
+.fcard h3 { font-size: 0.92em; color: #412402; margin-bottom: 5px; }
+.formula { font-family: 'Courier New', monospace; background: #FFF3CC; border-radius: 5px; padding: 5px 9px; font-size: 0.9em; color: #412402; margin-bottom: 7px; font-weight: 700; }
+.fcard p { font-size: 0.84em; color: #555; margin-bottom: 6px; }
+.worked { font-size: 0.83em; background: #F5F0E0; border-radius: 5px; padding: 6px 9px; color: #333; }
+
+/* MUSCLE TABLE */
+.mt { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+.mt th { background: #085041; color: #fff; padding: 8px 10px; text-align: left; }
+.mt td { padding: 6px 10px; border-bottom: 1px solid #e0ede9; vertical-align: top; }
+.mt tr:nth-child(even) td { background: #F0FAF6; }
+.mt tr:last-child td { border-bottom: none; }
+
+/* JOINT TABLE */
+.jt { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+.jt th { background: #3C3489; color: #fff; padding: 8px 10px; text-align: left; }
+.jt td { padding: 6px 10px; border-bottom: 1px solid #e8e8f8; vertical-align: top; }
+.jt tr:nth-child(even) td { background: #F4F3FE; }
+.jt tr:last-child td { border-bottom: none; }
+.num { text-align: right; }
+.label { font-style: italic; color: #666; font-size: 0.9em; }
+
+/* BONE CARD GRID */
+.bone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 8px; }
+.bone-card { background: #EEF3FB; border: 1px solid #9BBCE0; border-radius: 8px; padding: 11px 13px; }
+.bone-card h4 { font-size: 0.88em; color: #042C53; margin-bottom: 4px; font-weight: 700; }
+.bone-card p { font-size: 0.81em; color: #333; }
+.bone-card .eg { font-style: italic; color: #378ADD; font-size: 0.8em; margin-top: 3px; }
+
+/* SECTION LABEL */
+.section-label { text-align: center; font-size: 0.78em; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; padding: 6px 0 2px; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">How does the musculoskeletal system work to produce movement &middot; tap any term to expand</p>
+<input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
+
+<!-- ===================== VISUAL PANELS ===================== -->
+
+<p class="section-label">&#128200; Visual Reference Panels</p>
+
+<!-- BONE FUNCTIONS PANEL -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129454; Functions of the Skeleton</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body open">
+    <div class="bone-grid">
+      <div class="bone-card">
+        <h4>&#128736; Support</h4>
+        <p>Provides the structural framework that holds the body upright.</p>
+        <p class="eg">Eg: Vertebral column supports the head and trunk</p>
+      </div>
+      <div class="bone-card">
+        <h4>&#128737; Protection</h4>
+        <p>Shields vital organs from injury.</p>
+        <p class="eg">Eg: Skull protects the brain; ribcage protects heart &amp; lungs</p>
+      </div>
+      <div class="bone-card">
+        <h4>&#9889; Movement</h4>
+        <p>Bones act as levers; muscles pull on bones to create movement.</p>
+        <p class="eg">Eg: Femur &amp; tibia form the lever system at the knee</p>
+      </div>
+      <div class="bone-card">
+        <h4>&#128197; Blood Cell Production</h4>
+        <p>Red bone marrow in long bones produces red and white blood cells.</p>
+        <p class="eg">Eg: Femur, tibia, humerus</p>
+      </div>
+      <div class="bone-card">
+        <h4>&#129510; Mineral Storage</h4>
+        <p>Stores calcium and phosphorus; released into the blood when needed.</p>
+        <p class="eg">Eg: Calcium stored in the cortical bone matrix</p>
+      </div>
+      <div class="bone-card">
+        <h4>&#127981; Energy Storage</h4>
+        <p>Yellow marrow in long bones stores fat as an energy reserve.</p>
+        <p class="eg">Eg: Diaphysis (shaft) of the femur</p>
+      </div>
+    </div>
+    <p class="box-note">&#128161; Exam tip: You must know ALL six functions. &quot;Support, Protection, Movement, Blood cell production, Mineral storage, Energy storage&quot; — memorise this list.</p>
+  </div>
+</div>
+
+<!-- BONE CLASSIFICATION PANEL -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129458; Bone Classification by Shape</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="jt">
+        <thead><tr>
+          <th>Type</th><th>Description</th><th>Example</th><th>Role in Movement</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Long</strong></td><td>Length &gt; width; has a diaphysis (shaft) and epiphyses (ends)</td><td>Femur, humerus, tibia</td><td>Primary lever bones for movement</td></tr>
+          <tr><td><strong>Short</strong></td><td>Roughly cube-shaped; length &#8776; width</td><td>Carpals (wrist), tarsals (ankle)</td><td>Absorb shock; gliding movement</td></tr>
+          <tr><td><strong>Flat</strong></td><td>Thin, broad, curved</td><td>Skull, sternum, scapula, ribs</td><td>Muscle attachment; organ protection</td></tr>
+          <tr><td><strong>Irregular</strong></td><td>Complex shapes that don&#39;t fit other categories</td><td>Vertebrae, pelvis</td><td>Weight-bearing; muscle attachment</td></tr>
+          <tr><td><strong>Sesamoid</strong></td><td>Embedded within tendons</td><td>Patella (kneecap)</td><td>Reduce friction; redirect force</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The patella is the classic sesamoid bone exam example — always include it. Students often forget sesamoid as the 5th type.</p>
+  </div>
+</div>
+
+<!-- JOINT TYPES COMPARISON -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Synovial Joint Types &mdash; Comparison</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Joint Type</th><th>Movement Allowed</th><th>Example in Body</th><th>Sport Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hinge</strong></td><td>Flexion &amp; extension only (1 plane)</td><td>Knee, elbow, ankle</td><td>Running, kicking</td></tr>
+          <tr><td><strong>Ball &amp; Socket</strong></td><td>All planes — flexion, extension, abduction, adduction, rotation, circumduction</td><td>Hip, shoulder</td><td>Swimming, gymnastics</td></tr>
+          <tr><td><strong>Pivot</strong></td><td>Rotation only</td><td>Radioulnar joint, atlas-axis (neck)</td><td>Turning head, forearm rotation</td></tr>
+          <tr><td><strong>Condyloid</strong></td><td>Flexion, extension, abduction, adduction (no rotation)</td><td>Wrist, knuckles (MCP joints)</td><td>Catching a ball</td></tr>
+          <tr><td><strong>Saddle</strong></td><td>Flexion, extension, abduction, adduction (wide ROM)</td><td>Thumb (carpometacarpal)</td><td>Gripping a racquet</td></tr>
+          <tr><td><strong>Gliding (Plane)</strong></td><td>Gliding/sliding motion only</td><td>Intercarpal, intertarsal joints</td><td>Foot landing from a jump</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Ball and socket joints allow the MOST movement. Hinge joints allow the LEAST. The hip and shoulder are the two ball-and-socket joints you MUST know.</p>
+  </div>
+</div>
+
+<!-- SYNOVIAL JOINT STRUCTURE -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129520; Synovial Joint Structure</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Structure</th><th>Function</th><th>Exam relevance</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Articular Cartilage</strong></td><td>Smooth hyaline cartilage covering bone ends; reduces friction</td><td>&#9888; Distinguish from fibrocartilage (meniscus)</td></tr>
+          <tr><td><strong>Synovial Membrane</strong></td><td>Lines the joint capsule; secretes synovial fluid</td><td>Source of lubrication</td></tr>
+          <tr><td><strong>Synovial Fluid</strong></td><td>Lubricates and nourishes the joint; acts as shock absorber</td><td>&#9888; HOT — must explain its role in injury prevention</td></tr>
+          <tr><td><strong>Joint Capsule</strong></td><td>Fibrous outer layer enclosing the joint; stability</td><td>Holds the joint together</td></tr>
+          <tr><td><strong>Ligaments</strong></td><td>Bone-to-bone; stabilise the joint; prevent excessive ROM</td><td>&#9888; Ligament = bone-to-bone (NOT muscle)</td></tr>
+          <tr><td><strong>Bursae</strong></td><td>Fluid-filled sacs; reduce friction between tissues</td><td>Inflamed bursae = bursitis</td></tr>
+          <tr><td><strong>Menisci</strong></td><td>Fibrocartilage pads at the knee; absorb shock, deepen socket</td><td>Only at the knee joint</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Most common exam mistake: writing &quot;ligaments connect muscle to bone&quot; — that is TENDONS. Ligaments = bone to bone. Never mix these up.</p>
+  </div>
+</div>
+
+<!-- PLANES AND AXES -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129518; Planes &amp; Axes of Movement</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Plane</th><th>Axis</th><th>Movements</th><th>Sport Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sagittal</strong></td><td>Frontal (mediolateral)</td><td>Flexion, Extension, Dorsiflexion, Plantarflexion</td><td>Running, cycling, jumping</td></tr>
+          <tr><td><strong>Frontal (Coronal)</strong></td><td>Sagittal (anteroposterior)</td><td>Abduction, Adduction, Lateral flexion, Inversion, Eversion</td><td>Lateral shuffle, star jump</td></tr>
+          <tr><td><strong>Transverse (Horizontal)</strong></td><td>Vertical (longitudinal)</td><td>Rotation (medial/lateral), Pronation, Supination, Horizontal abduction/adduction</td><td>Discus throw, golf swing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Planes and axes are frequently tested. Each plane has ONE matching axis that is perpendicular to it. Running occurs in the sagittal plane — the most common everyday example.</p>
+  </div>
+</div>
+
+<!-- MUSCLE ACTIONS COMPARISON -->
+<div class="box-wrap green">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128170; Muscle Fibre Types &mdash; Comparison</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr>
+          <th>Feature</th>
+          <th><span class="tag tag-b">Type I</span> Slow Twitch</th>
+          <th><span class="tag tag-a">Type IIa</span> Fast Oxidative</th>
+          <th><span class="tag tag-r">Type IIx</span> Fast Glycolytic</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>Speed of contraction</strong></td><td>Slow</td><td>Fast</td><td>Very fast</td></tr>
+          <tr><td><strong>Fatigue resistance</strong></td><td>High (resistant)</td><td>Moderate</td><td>Low (fatigues quickly)</td></tr>
+          <tr><td><strong>Force produced</strong></td><td>Low</td><td>High</td><td>Very high</td></tr>
+          <tr><td><strong>Energy system</strong></td><td>Aerobic (oxidative)</td><td>Aerobic + anaerobic</td><td>Anaerobic (glycolytic)</td></tr>
+          <tr><td><strong>Mitochondria</strong></td><td>Many</td><td>Many</td><td>Few</td></tr>
+          <tr><td><strong>Myoglobin (colour)</strong></td><td>High (red)</td><td>High (red)</td><td>Low (white/pale)</td></tr>
+          <tr><td><strong>Sport example</strong></td><td>Marathon, long swim</td><td>800m, team sports</td><td>100m sprint, powerlifting</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Type I = endurance. Type IIx = power/speed. The key distinguisher is FATIGUE RESISTANCE and ENERGY SYSTEM — these are the most commonly tested rows.</p>
+  </div>
+</div>
+
+<!-- MUSCLE ROLES PANEL -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Muscle Roles During Movement</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Role</th><th>Function</th><th>Example — Bicep Curl</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Agonist (Prime Mover)</strong></td><td>Muscle that creates the movement; contracts concentrically</td><td>Biceps brachii</td></tr>
+          <tr><td><strong>Antagonist</strong></td><td>Opposes the agonist; relaxes/eccentrically contracts to control speed</td><td>Triceps brachii</td></tr>
+          <tr><td><strong>Synergist</strong></td><td>Assists the agonist; fine-tunes movement</td><td>Brachialis, brachioradialis</td></tr>
+          <tr><td><strong>Fixator / Stabiliser</strong></td><td>Stabilises the origin bone so the agonist can pull effectively</td><td>Deltoid stabilises shoulder</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; For any movement in the exam, you should be able to identify the agonist and antagonist. Practice with: squat (agonist = quadriceps, antagonist = hamstrings), shoulder press, knee extension.</p>
+  </div>
+</div>
+
+<!-- KEY MUSCLES REFERENCE -->
+<div class="box-wrap green">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129346; Key Muscles, Location &amp; Action</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Muscle</th><th>Location</th><th>Action (agonist for)</th><th>Sport</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Quadriceps</strong></td><td>Anterior thigh</td><td>Knee extension; hip flexion</td><td>Kicking, running, squatting</td></tr>
+          <tr><td><strong>Hamstrings</strong></td><td>Posterior thigh</td><td>Knee flexion; hip extension</td><td>Sprinting, jumping</td></tr>
+          <tr><td><strong>Gluteus maximus</strong></td><td>Buttock</td><td>Hip extension, lateral rotation</td><td>Sprinting, cycling, jumping</td></tr>
+          <tr><td><strong>Gastrocnemius</strong></td><td>Posterior lower leg</td><td>Plantarflexion; knee flexion</td><td>Running, jumping</td></tr>
+          <tr><td><strong>Tibialis anterior</strong></td><td>Anterior lower leg</td><td>Dorsiflexion; inversion</td><td>Walking, running (swing phase)</td></tr>
+          <tr><td><strong>Biceps brachii</strong></td><td>Anterior upper arm</td><td>Elbow flexion; forearm supination</td><td>Throwing, rowing</td></tr>
+          <tr><td><strong>Triceps brachii</strong></td><td>Posterior upper arm</td><td>Elbow extension</td><td>Pushing, throwing follow-through</td></tr>
+          <tr><td><strong>Deltoid</strong></td><td>Shoulder</td><td>Shoulder abduction (lateral fibres)</td><td>Swimming, throwing</td></tr>
+          <tr><td><strong>Pectoralis major</strong></td><td>Anterior chest</td><td>Shoulder flexion; horizontal adduction</td><td>Throwing, swimming freestyle</td></tr>
+          <tr><td><strong>Latissimus dorsi</strong></td><td>Mid-lower back</td><td>Shoulder extension; adduction; medial rotation</td><td>Swimming, rowing, pull-ups</td></tr>
+          <tr><td><strong>Rectus abdominis</strong></td><td>Anterior abdomen</td><td>Trunk flexion (spinal)</td><td>Sit-ups, gymnastics</td></tr>
+          <tr><td><strong>Erector spinae</strong></td><td>Posterior spine</td><td>Back extension; posture</td><td>Deadlift, rowing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Focus on lower limb muscles for running/kicking questions. Quadriceps vs hamstrings (antagonist pair) and gastrocnemius/tibialis anterior (antagonist pair at ankle) come up frequently.</p>
+  </div>
+</div>
+
+<!-- TYPES OF MUSCLE CONTRACTION -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9889; Types of Muscle Contraction</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Type</th><th>What happens</th><th>Muscle length</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Concentric</strong></td><td>Muscle shortens as it contracts; force &gt; resistance</td><td>Shortens</td><td>Bicep curl lifting phase; kicking a ball</td></tr>
+          <tr><td><strong>Eccentric</strong></td><td>Muscle lengthens under tension; controls movement</td><td>Lengthens</td><td>Lowering in a squat; landing from a jump</td></tr>
+          <tr><td><strong>Isometric</strong></td><td>Muscle contracts but does NOT change length; no movement</td><td>No change</td><td>Holding a plank; gripping a bat handle</td></tr>
+          <tr><td><strong>Isotonic</strong></td><td>Constant force; muscle length changes (includes concentric + eccentric)</td><td>Changes</td><td>Any free-weight exercise</td></tr>
+          <tr><td><strong>Isokinetic</strong></td><td>Constant speed; resistance varies with force output</td><td>Changes</td><td>Specialised gym machines; swimming</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Eccentric contractions cause the most DOMS (delayed onset muscle soreness) — a common exam link. Students often confuse eccentric with &quot;relaxing&quot; — it is still an ACTIVE contraction.</p>
+  </div>
+</div>
+
+<!-- LEVER SYSTEMS PANEL -->
+<div class="box-wrap pink">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9878;&#65039; Lever Systems in the Body</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Class</th><th>Order (F-A-R)</th><th>Advantage</th><th>Body Example</th><th>Sport Example</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>1st Class</strong></td>
+            <td>Force — Axis — Resistance (FAR or RAFboth sides)</td>
+            <td>Can produce force OR speed depending on distances</td>
+            <td>Neck extension: atlas (axis), head (resistance), posterior neck muscles (force)</td>
+            <td>Heading a soccer ball</td>
+          </tr>
+          <tr>
+            <td><strong>2nd Class</strong></td>
+            <td>Axis — Resistance — Force (ARF)</td>
+            <td>Force advantage — can move heavy loads</td>
+            <td>Plantarflexion: metatarsals (axis), body weight (resistance), gastrocnemius (force)</td>
+            <td>Calf raise, rising onto toes</td>
+          </tr>
+          <tr>
+            <td><strong>3rd Class</strong></td>
+            <td>Axis — Force — Resistance (AFR)</td>
+            <td>Speed/range advantage — most common in body</td>
+            <td>Elbow flexion: elbow (axis), biceps insertion (force), hand/forearm (resistance)</td>
+            <td>Throwing, kicking, batting</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; 3rd class levers are the MOST COMMON in the body — sacrifice force for speed and range. 2nd class is RAREST. A seesaw is 1st class; a wheelbarrow is 2nd class — good memory anchors.</p>
+  </div>
+</div>
+
+<!-- ===================== TERM ACCORDION ===================== -->
+<p class="section-label">&#128218; Key Terms &amp; Definitions</p>
+<div id="list"></div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Live it Up 5th ed. &middot; Study smart &#9733;</p>
+
+<script>
+var data = [
+  { cat: "1.1 Skeletal System — Bones & Structure", color: "blue", hot: false, items: [
+    { term: "Axial skeleton", def: "The central bony framework: skull, vertebral column, sternum, and ribs. Forms the longitudinal axis of the body.", eg: "The spine and ribcage are axial skeleton — they protect the brain, spinal cord, heart and lungs." },
+    { term: "Appendicular skeleton", def: "The bones of the limbs and girdles (shoulder and pelvic girdles) attached to the axial skeleton.", eg: "Femur, tibia, fibula, humerus, radius, ulna — all appendicular bones." },
+    { term: "Diaphysis", def: "The shaft (middle section) of a long bone, composed of compact cortical bone surrounding a medullary cavity.", eg: "The long middle portion of the femur is the diaphysis; it contains yellow marrow in adults." },
+    { term: "Epiphysis", def: "The rounded ends of a long bone, composed mainly of spongy (cancellous) bone covered by articular cartilage.", eg: "The proximal and distal epiphyses of the tibia form the knee and ankle joints respectively." },
+    { term: "Periosteum", def: "A dense fibrous membrane covering the outer surface of all bones (except articular surfaces). Contains blood vessels and osteoblasts.", eg: "Muscles attach to bone via tendons that merge into the periosteum." },
+    { term: "Compact (cortical) bone", def: "Dense, hard outer layer of bone arranged in concentric rings (osteons/Haversian systems). Provides strength and rigidity.", eg: "The outer shell of the femur shaft is compact bone — it withstands bending forces during running." },
+    { term: "Spongy (cancellous) bone", def: "Lightweight inner bone with a honeycomb of trabeculae (struts). Found at epiphyses. Houses red bone marrow.", eg: "The head of the femur contains spongy bone, which is light yet strong under compression." },
+    { term: "Ossification", def: "The process of bone formation. Endochondral ossification replaces a cartilage template with bone during growth.", eg: "Growth plates (epiphyseal plates) are sites of active ossification in adolescents." },
+    { term: "Epiphyseal (growth) plate", def: "A layer of hyaline cartilage near each epiphysis where longitudinal bone growth occurs in children and adolescents.", eg: "A growth plate fracture in a young athlete is serious — it can disrupt normal bone lengthening." }
+  ]},
+  { cat: "1.2 Joints — Structure & Classification", color: "purple", hot: true, items: [
+    { term: "Joint (articulation)", def: "The point where two or more bones meet. Classified by structure (fibrous, cartilaginous, synovial) and by movement allowed.", eg: "The knee is a synovial hinge joint; the skull sutures are fibrous (immovable) joints." },
+    { term: "Fibrous joint", def: "Bones joined by fibrous connective tissue; little or no movement. Also called synarthrosis.", eg: "Skull sutures and the distal tibiofibular joint are fibrous joints.", note: "Fibrous = immovable. Exams often test whether students can classify joint types by movement allowed." },
+    { term: "Cartilaginous joint", def: "Bones connected by cartilage; slight movement only. Also called amphiarthrosis.", eg: "The intervertebral discs (symphysis pubis, pubic symphysis) are cartilaginous joints." },
+    { term: "Synovial joint", def: "Freely moveable joint with a synovial cavity, articular cartilage, synovial membrane and fluid. Also called diarthrosis.", eg: "The hip, knee, shoulder, and elbow are all synovial joints — the type most important for sport.", note: "All six synovial joint types are commonly examined. Know the movement and a body example for each." },
+    { term: "Range of Motion (ROM)", def: "The arc of movement possible at a joint, measured in degrees. Influenced by joint type, ligament tightness, muscle flexibility and surrounding tissue.", eg: "A gymnast demonstrates greater hip ROM due to increased flexibility of surrounding soft tissues." },
+    { term: "Ligament", def: "Dense fibrous connective tissue connecting bone to bone at a joint. Provides stability and limits excessive movement.", eg: "The ACL (anterior cruciate ligament) connects the femur to the tibia, preventing forward displacement.", note: "CRITICAL: Ligament = bone-to-bone. Tendon = muscle-to-bone. Mixing these up is the #1 exam mistake in this AOS." }
+  ]},
+  { cat: "1.3 Movement Terminology", color: "teal", hot: true, items: [
+    { term: "Flexion", def: "A decrease in the angle at a joint; brings body segments closer together.", eg: "Bending the knee during the take-off phase of a jump decreases the angle between thigh and lower leg.", note: "Dorsiflexion (ankle) and plantarflexion are specific forms — do not call them just flexion/extension in the exam." },
+    { term: "Extension", def: "An increase in the angle at a joint; moves body segments further apart. The opposite of flexion.", eg: "Straightening the elbow during a tennis serve is elbow extension." },
+    { term: "Hyperextension", def: "Extension of a joint beyond the anatomical (neutral) position; beyond 180 degrees.", eg: "Arching the back in gymnastics involves hyperextension of the lumbar spine." },
+    { term: "Abduction", def: "Movement of a limb away from the midline of the body.", eg: "Raising the arm sideways from the body (star jump) is shoulder abduction.", note: "ABduction = AWAY from midline. ADduction = TOWARD midline. The 'b' in abduction is for 'bye' — going away." },
+    { term: "Adduction", def: "Movement of a limb toward the midline of the body. Opposite of abduction.", eg: "Bringing the legs back together after a star jump is hip adduction." },
+    { term: "Rotation", def: "Movement of a bone around its own longitudinal axis. Medial rotation (inward) or lateral rotation (outward).", eg: "Turning the femur outward in the hip joint during a ballet plie is lateral (external) rotation." },
+    { term: "Circumduction", def: "A combination of flexion, extension, abduction and adduction — the limb traces a cone shape.", eg: "Bowling in cricket involves shoulder circumduction.", note: "Circumduction is only possible at ball-and-socket joints (shoulder and hip) — not at hinge joints." },
+    { term: "Pronation", def: "Rotation of the forearm so the palm faces downward (posterior). Occurs at the radioulnar joint.", eg: "Turning your palm to face the floor from a neutral position is pronation." },
+    { term: "Supination", def: "Rotation of the forearm so the palm faces upward (anterior). Opposite of pronation.", eg: "Turning your palm upward to hold a bowl of soup is supination." },
+    { term: "Dorsiflexion", def: "Movement at the ankle that decreases the angle between the top of the foot and the shin; toes point upward.", eg: "During the heel-strike phase of running, the foot is in dorsiflexion." },
+    { term: "Plantarflexion", def: "Movement at the ankle that increases the angle between the top of the foot and the shin; toes point downward.", eg: "Pushing off the ground when sprinting involves powerful plantarflexion of the ankle." },
+    { term: "Inversion", def: "Turning the sole of the foot inward (medially).", eg: "A rolled ankle (common in basketball) involves forced inversion beyond normal ROM." },
+    { term: "Eversion", def: "Turning the sole of the foot outward (laterally). Opposite of inversion.", eg: "The foot everts slightly during the midstance phase of walking on uneven surfaces." },
+    { term: "Horizontal abduction", def: "Moving the arm away from the midline while in a horizontal (90-degree) position.", eg: "Drawing the arm back in a throwing action is horizontal abduction at the shoulder." },
+    { term: "Horizontal adduction", def: "Moving the arm toward the midline while in a horizontal position.", eg: "The follow-through of a tennis forehand involves shoulder horizontal adduction." }
+  ]},
+  { cat: "1.4 Muscular System — Structure", color: "coral", hot: false, items: [
+    { term: "Muscle fibre (myocyte)", def: "A single muscle cell — long, cylindrical, and multinucleated. Contains myofibrils made up of sarcomeres.", eg: "One skeletal muscle contains thousands of individual muscle fibres bundled together in fascicles." },
+    { term: "Myofibril", def: "Thread-like structures within muscle fibres that contain the contractile proteins actin (thin) and myosin (thick).", eg: "During contraction, myosin heads on thick filaments pull actin thin filaments inward." },
+    { term: "Sarcomere", def: "The basic functional unit of muscle contraction — the segment between two Z-lines containing actin and myosin filaments.", eg: "As a muscle shortens, the sarcomeres within each myofibril shorten simultaneously." },
+    { term: "Tendon", def: "Dense connective tissue attaching muscle to bone; transmits the force of contraction to the skeleton.", eg: "The Achilles tendon connects the gastrocnemius and soleus to the calcaneus (heel bone).", note: "Tendon = muscle to bone. Tendinopathy (tendon injury) is common in running sports." },
+    { term: "Epimysium", def: "Connective tissue sheath surrounding the entire muscle belly.", eg: "The epimysium merges with the tendon at each end of the muscle." },
+    { term: "Perimysium", def: "Connective tissue wrapping groups of muscle fibres into bundles called fascicles.", eg: "Each fascicle (bundle of fibres) is wrapped in perimysium within the muscle." },
+    { term: "Endomysium", def: "Connective tissue surrounding each individual muscle fibre.", eg: "Capillaries and nerve fibres travel through the endomysium to supply each muscle fibre." },
+    { term: "Motor unit", def: "A single motor neuron and all the muscle fibres it innervates. More motor units recruited = greater force.", eg: "A fine motor task (threading a needle) uses fewer motor units; a maximal sprint recruits nearly all available motor units." }
+  ]},
+  { cat: "1.5 Sliding Filament Theory", color: "amber", hot: true, items: [
+    { term: "Sliding filament theory", def: "The mechanism of muscle contraction: myosin heads attach to actin, forming cross-bridges and pulling actin filaments toward the centre of the sarcomere, causing shortening.", eg: "When lifting a weight, thousands of sarcomeres shorten simultaneously as actin slides over myosin.", note: "Know the 5-step sequence: nerve impulse > ACh release > Ca2+ release from SR > cross-bridge formation > power stroke. Very common exam question." },
+    { term: "Acetylcholine (ACh)", def: "Neurotransmitter released at the neuromuscular junction that triggers an action potential in the muscle fibre.", eg: "ACh is released from the motor nerve terminal into the synaptic cleft when a nerve impulse arrives." },
+    { term: "Sarcoplasmic reticulum (SR)", def: "Specialised smooth ER within muscle fibres that stores and releases calcium ions (Ca2+) needed for contraction.", eg: "When stimulated, the SR releases Ca2+ into the cytoplasm, enabling cross-bridge formation." },
+    { term: "Calcium ions (Ca2+)", def: "Trigger contraction by binding to troponin, moving tropomyosin off the myosin-binding sites on actin.", eg: "Without Ca2+, tropomyosin blocks the binding sites and contraction cannot occur." },
+    { term: "Cross-bridge", def: "The temporary link formed between a myosin head and an actin binding site during muscle contraction.", eg: "During a sprint, billions of cross-bridges form and detach rapidly every second." },
+    { term: "Power stroke", def: "The step in the cross-bridge cycle when the myosin head pivots, pulling the actin filament inward, then detaches and re-cocks using ATP.", eg: "Each power stroke shortens the sarcomere by only a few nanometres, but millions of sarcomeres acting together produce visible movement." },
+    { term: "ATP (adenosine triphosphate)", def: "The immediate energy currency of the muscle cell. Required for both cross-bridge detachment (to re-cock the myosin head) and for the Ca2+ pump to return Ca2+ to the SR.", eg: "Rigor mortis occurs because ATP is unavailable after death — myosin heads cannot detach from actin.", note: "ATP is needed to BREAK cross-bridges, not just form them. This distinction is commonly tested." }
+  ]},
+  { cat: "1.6 Muscle Roles & Contraction Types", color: "blue", hot: true, items: [
+    { term: "Agonist (prime mover)", def: "The muscle primarily responsible for producing a movement. Typically contracts concentrically.", eg: "The quadriceps are the agonist during knee extension in a drop punt kick." },
+    { term: "Antagonist", def: "The muscle that opposes the agonist. Must relax or eccentrically contract to allow smooth movement.", eg: "The hamstrings are the antagonist during knee extension — they eccentrically control the speed of kicking.", note: "In an exam question asking you to analyse a movement, always identify BOTH the agonist AND antagonist." },
+    { term: "Synergist", def: "A muscle that assists the agonist, often helping to stabilise or refine movement direction.", eg: "The brachialis is a synergist during a bicep curl, assisting the biceps brachii." },
+    { term: "Fixator", def: "A muscle that stabilises the origin of the agonist so it can exert force on the insertion effectively.", eg: "The rotator cuff muscles act as fixators at the shoulder during an overhead throw, stabilising the humeral head." },
+    { term: "Concentric contraction", def: "The muscle shortens as it generates force — the most common type of muscle action. Force exceeds load.", eg: "The quadriceps contract concentrically when straightening the leg during the upward phase of a squat." },
+    { term: "Eccentric contraction", def: "The muscle lengthens while still generating tension — acts as a brake to control or decelerate movement.", eg: "The quadriceps contract eccentrically when lowering into a squat to control the descent.", note: "Eccentric contractions generate MORE force than concentric and cause more muscle damage — the primary cause of DOMS." },
+    { term: "Isometric contraction", def: "Muscle generates force but does not change length — no movement at the joint.", eg: "Holding a wall sit position for 30 seconds — the quadriceps are under constant isometric tension." }
+  ]},
+  { cat: "1.7 Muscle Fibre Types", color: "pink", hot: true, items: [
+    { term: "Type I — slow oxidative (SO)", def: "Slow twitch fibres with high mitochondrial density, abundant myoglobin, high capillary supply, and exceptional fatigue resistance. Low force output.", eg: "Distance runners and cyclists have a high proportion of Type I fibres in leg muscles." },
+    { term: "Type IIa — fast oxidative glycolytic (FOG)", def: "Intermediate fast twitch fibres that use both aerobic and anaerobic pathways. Moderately fatigue resistant.", eg: "800m and 1500m runners rely heavily on Type IIa fibres for sustained high-intensity effort." },
+    { term: "Type IIx — fast glycolytic (FG)", def: "Fast twitch fibres with few mitochondria, low myoglobin, large diameter, and very high force output. Fatigue rapidly.", eg: "A 100m sprinter or powerlifter relies predominantly on Type IIx fibres for explosive bursts." },
+    { term: "Myoglobin", def: "An oxygen-binding protein in muscle fibres that stores and transports oxygen within the muscle cell.", eg: "Type I fibres appear dark/red due to high myoglobin content; Type IIx fibres appear pale/white.", note: "Myoglobin in muscle vs haemoglobin in blood — do not confuse these in exam answers about oxygen delivery." },
+    { term: "Recruitment (size principle)", def: "Motor units are recruited in order from smallest (Type I) to largest (Type IIx) as exercise intensity increases.", eg: "Light jogging recruits only Type I motor units; an all-out sprint recruits Type IIx units as well." }
+  ]},
+  { cat: "1.8 Levers & Biomechanics", color: "gray", hot: false, items: [
+    { term: "Lever", def: "A rigid bar (bone) that rotates around a fixed point (joint/fulcrum/axis) when a force (muscle) is applied to move a load (resistance/weight).", eg: "The forearm acts as a lever — elbow is the fulcrum, biceps is the force, the hand/object is the load." },
+    { term: "Fulcrum (axis of rotation)", def: "The fixed pivot point around which the lever rotates — in the body, this is the joint.", eg: "In elbow flexion, the elbow joint is the fulcrum." },
+    { term: "Mechanical advantage (MA)", def: "The ratio of the effort arm to the load arm. MA > 1 = force advantage; MA < 1 = speed/range advantage.", eg: "2nd class levers have MA > 1 (eg: calf raise), allowing heavy loads to be moved with relatively less muscle force." },
+    { term: "Effort arm (force arm)", def: "The perpendicular distance from the fulcrum to the line of action of the applied force (muscle).", eg: "In elbow flexion, the effort arm is the distance from the elbow joint to the biceps tendon insertion." },
+    { term: "Load arm (resistance arm)", def: "The perpendicular distance from the fulcrum to the resistance (weight/gravity).", eg: "In elbow flexion, the load arm is the distance from the elbow joint to the centre of mass of the forearm and hand." }
+  ]}
+];
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic — appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

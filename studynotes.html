@@ -132,17 +132,67 @@
   const isEddie = student === 'eddie';
   const themeColor = isEddie ? '#2a7a7a' : '#1a5fb4';
   let notesData = null;
+  let availableFiles = [];
+
+  async function loadFiles() {
+    const resp = await fetch('/api/studynotes/files');
+    availableFiles = await resp.json();
+  }
+  loadFiles();
+
+  function createFileSelect() {
+    const sel = document.createElement('select');
+    sel.className = 'file-input';
+    const blank = document.createElement('option');
+    blank.value = '';
+    blank.textContent = '— Select HTML file —';
+    sel.appendChild(blank);
+    for (const f of availableFiles) {
+      const opt = document.createElement('option');
+      opt.value = f;
+      opt.textContent = f;
+      sel.appendChild(opt);
+    }
+    return sel;
+  }
 
   document.getElementById('pageTitle').textContent =
     (isEddie ? "Eddie's" : "Dara's") + ' Study Notes 2026';
   document.querySelector('h2').style.color = themeColor;
   document.querySelector('.home-link').style.background = themeColor;
 
+  let openState = null;
+
+  function saveOpenState() {
+    const state = {};
+    document.querySelectorAll('.subject, .aos-section, .subsection, .index-section').forEach(el => {
+      const key = el.querySelector('h3, .aos-header span, .subsection-header span, .index-header span');
+      if (key) state[key.textContent.trim()] = el.classList.contains('open');
+    });
+    return state;
+  }
+
+  function restoreOpenState(state) {
+    if (!state) return;
+    document.querySelectorAll('.subject, .aos-section, .subsection, .index-section').forEach(el => {
+      const key = el.querySelector('h3, .aos-header span, .subsection-header span, .index-header span');
+      if (key && key.textContent.trim() in state) {
+        el.classList.toggle('open', state[key.textContent.trim()]);
+      }
+    });
+  }
+
   async function loadNotes() {
-    const resp = await fetch('/api/studynotes/data');
-    const data = await resp.json();
+    openState = saveOpenState();
+    const [notesResp, filesResp] = await Promise.all([
+      fetch('/api/studynotes/data'),
+      fetch('/api/studynotes/files')
+    ]);
+    const data = await notesResp.json();
+    availableFiles = await filesResp.json();
     notesData = data[student];
     renderNotes(notesData);
+    restoreOpenState(openState);
   }
 
   async function apiPost(url, body) {
@@ -202,16 +252,14 @@
     const titleInput = document.createElement('input');
     titleInput.className = 'title-input';
     titleInput.placeholder = (label || 'Chapter') + ' title';
-    const fileInput = document.createElement('input');
-    fileInput.className = 'file-input';
-    fileInput.placeholder = 'File path, e.g. eddie/accounting/aos1_ch2.html';
+    const fileSelect = createFileSelect();
     const saveBtn = document.createElement('button');
     saveBtn.className = 'save-btn';
     saveBtn.style.background = themeColor;
     saveBtn.textContent = 'Add';
     saveBtn.onclick = async function() {
       const title = titleInput.value.trim();
-      const file = fileInput.value.trim();
+      const file = fileSelect.value;
       if (!title) return;
       await apiPost('/api/studynotes/add_chapter', {
         student, subject: subjectName, aos: aosName || '', title, file, subsection: subsection || ''
@@ -223,8 +271,7 @@
     cancelBtn.textContent = 'Cancel';
     cancelBtn.onclick = function() { form.remove(); activeForm = null; };
     titleInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
-    fileInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
-    form.append(titleInput, fileInput, saveBtn, cancelBtn);
+    form.append(titleInput, fileSelect, saveBtn, cancelBtn);
     btn.closest('.add-row').after(form);
     activeForm = form;
     titleInput.focus();
@@ -275,16 +322,14 @@
     const titleInput = document.createElement('input');
     titleInput.className = 'title-input';
     titleInput.placeholder = 'Quiz title';
-    const fileInput = document.createElement('input');
-    fileInput.className = 'file-input';
-    fileInput.placeholder = 'File path, e.g. eddie/bus_man/quiz_topic1.html';
+    const fileSelect = createFileSelect();
     const saveBtn = document.createElement('button');
     saveBtn.className = 'save-btn';
     saveBtn.style.background = themeColor;
     saveBtn.textContent = 'Add';
     saveBtn.onclick = async function() {
       const title = titleInput.value.trim();
-      const file = fileInput.value.trim();
+      const file = fileSelect.value;
       if (!title) return;
       await apiPost('/api/studynotes/add_quiz', {
         student, subject: subjectName, aos: aosName, title, file, subsection: subsection || ''
@@ -295,9 +340,8 @@
     cancelBtn.className = 'cancel-btn';
     cancelBtn.textContent = 'Cancel';
     cancelBtn.onclick = function() { form.remove(); activeForm = null; };
-    titleInput.onkeydown = function(e) { if (e.key === 'Enter') fileInput.focus(); };
-    fileInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
-    form.append(titleInput, fileInput, saveBtn, cancelBtn);
+    titleInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    form.append(titleInput, fileSelect, saveBtn, cancelBtn);
     btn.closest('.add-row').after(form);
     activeForm = form;
     titleInput.focus();
@@ -415,7 +459,7 @@
               }
 
               aosInnerHtml += `
-                <div class="subsection${hasSubContent ? ' open' : ''}">
+                <div class="subsection">
                   <div class="subsection-header" onclick="this.parentElement.classList.toggle('open')">
                     <span style="color:${themeColor}">${sub.name}</span>
                     <span class="subsection-chevron">&#x25B6;</span>
@@ -428,7 +472,7 @@
                   </div>
                 </div>`;
             }
-            // No + Subsection button — subsections are managed via the JSON file
+            aosInnerHtml += `<div class="add-row indent"><button class="add-btn" onclick="showAddSubsectionForm(this,'${sn}','${an}')">+ AOS</button></div>`;
           } else {
             // Original flat structure: chapters + quizzes directly under AOS
             let chaptersHtml = '';
@@ -460,7 +504,7 @@
             : (aos.chapters && aos.chapters.length > 0) || (aos.quizzes && aos.quizzes.length > 0);
 
           bodyHtml += `
-            <div class="aos-section${aosHasContent ? ' open' : ''}">
+            <div class="aos-section">
               <div class="aos-header" onclick="this.parentElement.classList.toggle('open')">
                 <span style="color:${themeColor}">${aos.name}</span>
                 <span class="aos-chevron">&#x25B6;</span>
@@ -470,7 +514,7 @@
               </div>
             </div>`;
         }
-        bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddAosForm(this,'${sn}')">+ AOS</button></div>`;
+        // Top-level Unit add button removed — Units are managed via the JSON file
       } else {
         if (chapters.length > 0) {
           bodyHtml = '<ul class="chapter-list">' + chapters.map((ch, i) =>
@@ -489,7 +533,7 @@
         </div>
         <div class="subject-body">${bodyHtml}</div>`;
 
-      if (hasContent) section.classList.add('open');
+      // All sections start collapsed
       container.appendChild(section);
     }
   }

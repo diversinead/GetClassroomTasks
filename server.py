@@ -86,6 +86,15 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path == '/api/studynotes/data':
             data = read_json(STUDYNOTES_FILE)
             self.send_json(json.dumps(data, ensure_ascii=False))
+        elif self.path == '/api/studynotes/files':
+            studynotes_dir = os.path.join(BASE_DIR, 'StudyNotes')
+            files = []
+            for root, dirs, filenames in os.walk(studynotes_dir):
+                for fn in sorted(filenames):
+                    if fn.endswith('.html'):
+                        rel = os.path.relpath(os.path.join(root, fn), studynotes_dir).replace('\\', '/')
+                        files.append(rel)
+            self.send_json(json.dumps(files, ensure_ascii=False))
         elif self.path == '/favicon.svg':
             self.serve_file('favicon.svg', 'image/svg+xml')
         elif self.path in ('/apple-touch-icon.png', '/apple-touch-icon-precomposed.png'):

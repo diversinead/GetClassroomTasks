@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Ch1 Part A: Quiz &amp; Exam Practice</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.6em; color: #1C1C1A; padding: 24px 16px 4px; }
+.subtitle { text-align: center; color: #666; font-size: 0.9em; margin-bottom: 0; font-style: italic; padding-bottom: 16px; }
+
+/* ---- TABS ---- */
+.tab-bar { display: flex; gap: 0; border-bottom: 3px solid #3C3489; margin: 0 12px 20px; }
+.tab-btn { flex: 1; padding: 11px 10px; font-size: 0.95em; font-family: Georgia, serif; font-weight: 700; background: #E8E6F8; border: none; border-radius: 8px 8px 0 0; cursor: pointer; color: #3C3489; border: 2px solid #AFA9EC; border-bottom: none; margin-right: 4px; transition: background 0.15s; }
+.tab-btn:last-child { margin-right: 0; }
+.tab-btn.active { background: #3C3489; color: #fff; border-color: #3C3489; }
+.tab-btn:hover:not(.active) { background: #D0CCF0; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ---- SCORE BAR ---- */
+.score-bar { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 2px solid #AFA9EC; border-radius: 10px; margin: 0 12px 16px; padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+.score-label { font-size: 0.88em; color: #3C3489; font-weight: 700; }
+.score-val { font-size: 1.3em; font-weight: 700; color: #3C3489; }
+.score-btns { display: flex; gap: 8px; }
+.btn-reset { background: #E24B4A; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; font-family: Georgia, serif; font-weight: 700; }
+.btn-reset:hover { background: #C03030; }
+.progress-wrap { width: 100%; height: 8px; background: #E8E6F8; border-radius: 4px; overflow: hidden; }
+.progress-bar { height: 8px; background: #3C3489; border-radius: 4px; transition: width 0.4s; }
+
+/* ---- SECTION LABELS ---- */
+.section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 6px; }
+
+/* ---- QUESTION CARDS ---- */
+.q-card { background: #fff; border: 2px solid #ccc; border-radius: 10px; margin: 0 12px 14px; padding: 16px; }
+.q-card.correct { border-color: #5DCAA5; background: #F0FAF6; }
+.q-card.incorrect { border-color: #E24B4A; background: #FEF0F0; }
+.q-num { font-size: 0.75em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
+.q-text { font-size: 0.97em; font-weight: 700; color: #1C1C1A; margin-bottom: 12px; line-height: 1.5; }
+
+/* MULTIPLE CHOICE OPTIONS */
+.mc-options { display: flex; flex-direction: column; gap: 7px; }
+.mc-opt { display: flex; align-items: flex-start; gap: 10px; background: #F5F4EF; border: 1.5px solid #ddd; border-radius: 7px; padding: 9px 12px; cursor: pointer; font-size: 0.9em; transition: all 0.12s; }
+.mc-opt:hover:not(.locked) { background: #E8E6F8; border-color: #AFA9EC; }
+.mc-opt.selected-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; font-weight: 700; }
+.mc-opt.selected-incorrect { background: #FADBD8; border-color: #E24B4A; color: #7B241C; font-weight: 700; }
+.mc-opt.reveal-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.mc-opt.locked { cursor: default; }
+.opt-letter { font-weight: 700; color: #3C3489; flex-shrink: 0; min-width: 18px; }
+
+/* TRUE/FALSE */
+.tf-options { display: flex; gap: 10px; }
+.tf-btn { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; background: #F5F4EF; cursor: pointer; font-size: 0.95em; font-family: Georgia, serif; font-weight: 700; text-align: center; transition: all 0.12s; }
+.tf-btn:hover:not(.locked) { background: #E8E6F8; border-color: #AFA9EC; }
+.tf-btn.selected-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.tf-btn.selected-incorrect { background: #FADBD8; border-color: #E24B4A; color: #7B241C; }
+.tf-btn.reveal-correct { background: #D4EDDA; border-color: #5DCAA5; color: #155724; }
+.tf-btn.locked { cursor: default; }
+
+/* MATCHING */
+.match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.match-col-head { font-size: 0.78em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #888; padding-bottom: 4px; }
+.match-term { background: #EEF3FB; border: 1.5px solid #9BBCE0; border-radius: 7px; padding: 8px 11px; font-size: 0.88em; font-weight: 700; color: #042C53; margin-bottom: 6px; }
+.match-select { width: 100%; padding: 8px 10px; border: 1.5px solid #ddd; border-radius: 7px; font-size: 0.88em; font-family: Georgia, serif; background: #F5F4EF; cursor: pointer; margin-bottom: 6px; }
+.match-select.correct-sel { border-color: #5DCAA5; background: #D4EDDA; color: #155724; }
+.match-select.incorrect-sel { border-color: #E24B4A; background: #FADBD8; color: #7B241C; }
+.match-check-btn { background: #3C3489; color: #fff; border: none; border-radius: 7px; padding: 8px 18px; font-size: 0.88em; font-family: Georgia, serif; font-weight: 700; cursor: pointer; margin-top: 4px; }
+.match-check-btn:hover { background: #2A2460; }
+.match-check-btn:disabled { background: #aaa; cursor: default; }
+
+/* FEEDBACK */
+.q-feedback { margin-top: 10px; font-size: 0.88em; padding: 8px 12px; border-radius: 6px; display: none; line-height: 1.5; }
+.q-feedback.show { display: block; }
+.q-feedback.fb-correct { background: #D4EDDA; color: #155724; border-left: 4px solid #5DCAA5; }
+.q-feedback.fb-incorrect { background: #FADBD8; color: #7B241C; border-left: 4px solid #E24B4A; }
+.q-feedback.fb-info { background: #E8E6F8; color: #3C3489; border-left: 4px solid #3C3489; }
+
+/* ---- EXAM QUESTIONS ---- */
+.eq-card { background: #fff; border: 2px solid #BA7517; border-radius: 10px; margin: 0 12px 16px; overflow: hidden; }
+.eq-head { background: rgba(239,159,39,0.18); padding: 12px 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.eq-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.eq-type { font-size: 0.72em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: #412402; color: #fff; border-radius: 4px; padding: 2px 8px; }
+.eq-marks { font-size: 0.78em; font-weight: 700; color: #412402; background: #FAEEDA; border: 1px solid #BA7517; border-radius: 4px; padding: 2px 8px; }
+.eq-q { font-size: 0.96em; font-weight: 700; color: #1C1C1A; line-height: 1.5; padding: 12px 16px 0; }
+.eq-stimulus { font-size: 0.88em; color: #555; font-style: italic; background: #F9F7EE; border-left: 3px solid #BA7517; padding: 8px 12px; margin: 10px 16px 0; border-radius: 4px; }
+.eq-body { padding: 0 16px 14px; }
+.eq-answer-area { margin-top: 10px; width: 100%; min-height: 80px; padding: 10px; border: 1.5px solid #ddd; border-radius: 7px; font-family: Georgia, serif; font-size: 0.9em; resize: vertical; background: #FFFDF8; }
+.eq-answer-area:focus { outline: none; border-color: #BA7517; }
+.eq-reveal-btn { margin-top: 10px; background: #BA7517; color: #fff; border: none; border-radius: 7px; padding: 8px 18px; font-size: 0.88em; font-family: Georgia, serif; font-weight: 700; cursor: pointer; }
+.eq-reveal-btn:hover { background: #8B5500; }
+.eq-model { display: none; margin-top: 12px; }
+.eq-model.open { display: block; }
+.eq-model-head { font-size: 0.78em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #085041; margin-bottom: 6px; }
+.eq-model-body { background: #E1F5EE; border: 1.5px solid #5DCAA5; border-radius: 7px; padding: 12px 14px; font-size: 0.88em; line-height: 1.7; }
+.eq-model-body p { margin-bottom: 6px; }
+.eq-model-body p:last-child { margin-bottom: 0; }
+.mark-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.mark-tick { color: #5DCAA5; font-weight: 700; flex-shrink: 0; }
+.examiner-tip { margin-top: 10px; font-size: 0.86em; color: #4A1B0C; background: #FAECE7; border-left: 4px solid #D85A30; padding: 8px 11px; border-radius: 4px; }
+.examiner-tip strong { display: block; margin-bottom: 3px; }
+
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education — Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 1 Part A &middot; Quiz &amp; Exam Practice &middot; Sections 1.1–1.2</p>
+
+<!-- TAB BAR -->
+<div style="margin: 0 12px;">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('quiz')">&#127299; Quiz</button>
+    <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+  </div>
+</div>
+
+<!-- ================================================================
+     TAB 1: QUIZ
+     ================================================================ -->
+<div id="tab-quiz" class="tab-pane active">
+
+  <!-- SCORE BAR -->
+  <div class="score-bar">
+    <div>
+      <div class="score-label">Score</div>
+      <div class="score-val"><span id="score-correct">0</span> / <span id="score-total">0</span> answered</div>
+    </div>
+    <div style="flex:1; min-width:120px;">
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    </div>
+    <div class="score-btns">
+      <button class="btn-reset" onclick="resetQuiz()">&#8635; Reset All</button>
+    </div>
+  </div>
+
+  <!-- ---- MULTIPLE CHOICE ---- -->
+  <p class="section-label">&#127358; Multiple Choice</p>
+
+  <!-- Q1 -->
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following correctly describes the function of ligaments?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> Connect muscle to bone and transmit force to produce movement</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> Connect bone to bone and stabilise joints by limiting excessive movement</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> Secrete synovial fluid to lubricate the joint cavity</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> Absorb shock at the knee joint and deepen the tibial socket</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">Which joint type allows the greatest range of movement in all planes?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> Hinge joint</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> Condyloid joint</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> Ball and socket joint</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> Saddle joint</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">A sprinter pushes forcefully off the starting blocks. Which ankle movement is primarily responsible for this push-off?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> Dorsiflexion</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> Inversion</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> Eversion</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> Plantarflexion</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">The patella is an example of which bone type?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> Short bone</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> Flat bone</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> Irregular bone</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> Sesamoid bone</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">Which section of the vertebral column has 12 vertebrae and connects to the ribcage?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> Cervical</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> Lumbar</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> Thoracic</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> Sacrum</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">During a star jump, raising the arms out to the sides is an example of which movement?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> Adduction at the shoulder</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> Abduction at the shoulder</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> Flexion at the shoulder</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> Circumduction at the shoulder</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">The fibula is described as lateral to the tibia. What does lateral mean?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> Closer to the trunk of the body</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> Towards the midline of the body</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> Towards the outer side of the body</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> Towards the back of the body</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is a function of synovial fluid?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> Connect the femur to the tibia to prevent dislocation</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> Produce red blood cells within the joint cavity</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> Lubricate the joint and nourish the articular cartilage</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> Attach the quadriceps muscle to the patella</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <!-- ---- TRUE / FALSE ---- -->
+  <p class="section-label">&#9989; True or False</p>
+
+  <!-- TF1 -->
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">Tendons connect bone to bone and are responsible for stabilising joints.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <!-- TF2 -->
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">The hip joint is a ball and socket joint that allows movement in all planes.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <!-- TF3 -->
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">The cervical spine consists of 12 vertebrae.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <!-- TF4 -->
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">Dorsiflexion at the ankle occurs during the push-off phase of sprinting.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <!-- TF5 -->
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">The skeleton has six functions including support, protection, movement, blood cell production, mineral storage and energy storage.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <!-- TF6 -->
+  <div class="q-card" id="tf6">
+    <div class="q-num">Question 14 &mdash; True or False</div>
+    <div class="q-text">Menisci are found at every synovial joint in the body.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf6',false)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf6',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf6"></div>
+  </div>
+
+  <!-- TF7 -->
+  <div class="q-card" id="tf7">
+    <div class="q-num">Question 15 &mdash; True or False</div>
+    <div class="q-text">Circumduction is only possible at ball and socket joints such as the hip and shoulder.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf7',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf7',true)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf7"></div>
+  </div>
+
+  <!-- ---- MATCHING ---- -->
+  <p class="section-label">&#128279; Matching</p>
+
+  <!-- MATCH 1: Bones to classification -->
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each bone to its correct classification type.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Bone</div>
+          <div class="match-term">Femur</div>
+          <div class="match-term">Patella</div>
+          <div class="match-term">Sternum</div>
+          <div class="match-term">Vertebra</div>
+          <div class="match-term">Carpals</div>
+        </div>
+        <div>
+          <div class="match-col-head">Classification</div>
+          <select class="match-select" id="m1-1"><option value="">-- select --</option><option>Long bone</option><option>Short bone</option><option>Flat bone</option><option>Irregular bone</option><option>Sesamoid bone</option></select>
+          <select class="match-select" id="m1-2"><option value="">-- select --</option><option>Long bone</option><option>Short bone</option><option>Flat bone</option><option>Irregular bone</option><option>Sesamoid bone</option></select>
+          <select class="match-select" id="m1-3"><option value="">-- select --</option><option>Long bone</option><option>Short bone</option><option>Flat bone</option><option>Irregular bone</option><option>Sesamoid bone</option></select>
+          <select class="match-select" id="m1-4"><option value="">-- select --</option><option>Long bone</option><option>Short bone</option><option>Flat bone</option><option>Irregular bone</option><option>Sesamoid bone</option></select>
+          <select class="match-select" id="m1-5"><option value="">-- select --</option><option>Long bone</option><option>Short bone</option><option>Flat bone</option><option>Irregular bone</option><option>Sesamoid bone</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <!-- MATCH 2: Joint type to example -->
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 17 &mdash; Matching</div>
+    <div class="q-text">Match each joint type to a correct body example.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Joint Type</div>
+          <div class="match-term">Ball and socket</div>
+          <div class="match-term">Hinge</div>
+          <div class="match-term">Pivot</div>
+          <div class="match-term">Condyloid</div>
+          <div class="match-term">Gliding</div>
+        </div>
+        <div>
+          <div class="match-col-head">Body Example</div>
+          <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Knee joint</option><option>Hip joint</option><option>Wrist joint</option><option>Carpals of wrist</option><option>Atlas-axis (neck)</option></select>
+          <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Knee joint</option><option>Hip joint</option><option>Wrist joint</option><option>Carpals of wrist</option><option>Atlas-axis (neck)</option></select>
+          <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Knee joint</option><option>Hip joint</option><option>Wrist joint</option><option>Carpals of wrist</option><option>Atlas-axis (neck)</option></select>
+          <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Knee joint</option><option>Hip joint</option><option>Wrist joint</option><option>Carpals of wrist</option><option>Atlas-axis (neck)</option></select>
+          <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Knee joint</option><option>Hip joint</option><option>Wrist joint</option><option>Carpals of wrist</option><option>Atlas-axis (neck)</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <!-- MATCH 3: Movement terms -->
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 18 &mdash; Matching</div>
+    <div class="q-text">Match each anatomical movement to its correct definition.</div>
+    <div style="overflow-x:auto;">
+      <div class="match-wrap">
+        <div>
+          <div class="match-col-head">Movement</div>
+          <div class="match-term">Plantarflexion</div>
+          <div class="match-term">Pronation</div>
+          <div class="match-term">Eversion</div>
+          <div class="match-term">Abduction</div>
+          <div class="match-term">Circumduction</div>
+        </div>
+        <div>
+          <div class="match-col-head">Definition</div>
+          <select class="match-select" id="m3-1"><option value="">-- select --</option><option>Palm faces downward</option><option>Limb moves away from midline</option><option>Sole of foot turns outward</option><option>Toes point toward the ground</option><option>Limb traces a circular/cone path</option></select>
+          <select class="match-select" id="m3-2"><option value="">-- select --</option><option>Palm faces downward</option><option>Limb moves away from midline</option><option>Sole of foot turns outward</option><option>Toes point toward the ground</option><option>Limb traces a circular/cone path</option></select>
+          <select class="match-select" id="m3-3"><option value="">-- select --</option><option>Palm faces downward</option><option>Limb moves away from midline</option><option>Sole of foot turns outward</option><option>Toes point toward the ground</option><option>Limb traces a circular/cone path</option></select>
+          <select class="match-select" id="m3-4"><option value="">-- select --</option><option>Palm faces downward</option><option>Limb moves away from midline</option><option>Sole of foot turns outward</option><option>Toes point toward the ground</option><option>Limb traces a circular/cone path</option></select>
+          <select class="match-select" id="m3-5"><option value="">-- select --</option><option>Palm faces downward</option><option>Limb moves away from midline</option><option>Sole of foot turns outward</option><option>Toes point toward the ground</option><option>Limb traces a circular/cone path</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+
+</div><!-- end tab-quiz -->
+
+<!-- ================================================================
+     TAB 2: EXAM PRACTICE
+     ================================================================ -->
+<div id="tab-exam" class="tab-pane">
+
+  <p class="section-label">&#128221; Short Answer Questions</p>
+
+  <!-- SA1 -->
+  <div class="eq-card">
+    <div class="eq-head">
+      <div>
+        <div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">2 marks</span></div>
+      </div>
+    </div>
+    <div class="eq-q">Distinguish between a ligament and a tendon.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>A <strong>ligament</strong> is dense fibrous connective tissue that connects <strong>bone to bone</strong> at a joint, providing stability and limiting excessive range of motion. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>A <strong>tendon</strong> is dense connective tissue that connects <strong>muscle to bone</strong>, transmitting the force of muscular contraction to the skeleton to produce movement. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The most common error is reversing these definitions. You must state what each connects — "bone to bone" and "muscle to bone" are the key phrases that earn marks. Simply saying "ligaments hold joints together" is not enough for full marks.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA2 -->
+  <div class="eq-card">
+    <div class="eq-head">
+      <div>
+        <div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+      </div>
+    </div>
+    <div class="eq-q">Identify and describe THREE functions of the skeletal system.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p>Any THREE of the following (1 mark each):</p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Support</strong> — the skeleton provides the structural framework that holds the body upright (e.g. the vertebral column supports the head and trunk).</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Protection</strong> — bones shield vital organs from injury (e.g. the skull protects the brain; the ribcage protects the heart and lungs).</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Movement</strong> — bones act as levers; muscles pull on bones to produce movement at joints.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Blood cell production</strong> — red bone marrow found in long bones produces red and white blood cells.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Mineral storage</strong> — bones store calcium and phosphorus, which are released into the bloodstream when needed.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Energy storage</strong> — yellow bone marrow in the diaphysis (shaft) of long bones stores fat as an energy reserve.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always include an example to support each function — examiners look for this when deciding between full and partial marks. Naming the function alone (e.g. just writing "protection") is often insufficient.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA3 -->
+  <div class="eq-card">
+    <div class="eq-head">
+      <div>
+        <div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+      </div>
+    </div>
+    <div class="eq-q">Describe the structure and function of a synovial joint. In your answer, refer to at least FOUR structural features.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p>One mark per correctly named and described structural feature (any four):</p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Articular cartilage</strong> — smooth hyaline cartilage covering the ends of bones; reduces friction and absorbs shock during movement.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Synovial membrane</strong> — inner lining of the joint capsule that secretes synovial fluid.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Synovial fluid</strong> — viscous fluid within the joint cavity that lubricates the joint, reduces friction and nourishes the articular cartilage.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Joint capsule</strong> — fibrous outer sleeve enclosing the joint, providing stability.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Ligaments</strong> — connect bone to bone; reinforce the joint capsule and prevent excessive movement.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Bursae</strong> — fluid-filled sacs that reduce friction between tendons, muscles and bony prominences.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Menisci</strong> — fibrocartilage pads at the knee only; deepen the socket and absorb compressive forces.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Each structural feature must include its function — naming it alone scores zero. Common error: writing "ligaments hold muscles to bones" — this describes tendons, not ligaments, and will lose marks.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SA4 -->
+  <div class="eq-card">
+    <div class="eq-head">
+      <div>
+        <div class="eq-meta"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+      </div>
+    </div>
+    <div class="eq-q">Name the five sections of the vertebral column. For each, state the number of vertebrae and one function.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Cervical</strong> (7 vertebrae) — supports the head; atlas and axis allow the head to move up, down and side to side.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Thoracic</strong> (12 vertebrae) — connects the ribcage to the vertebral column.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Lumbar</strong> (5 vertebrae) — supports the weight of the body; provides attachment for large back muscles.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Sacrum</strong> (5 fused vertebrae) — forms the posterior wall of the pelvis; fused and immoveable.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Coccyx</strong> (4 fused vertebrae) — base of the vertebral column (tailbone); provides muscle attachment.</span></div>
+          <p style="margin-top:8px;font-style:italic;color:#555;">Award 1 mark per section correctly named with number of vertebrae + function. Accept partial marks if name and number are correct but function is missing.</p>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The sequence 7–12–5–5–4 is worth memorising. A common error is stating the sacrum and coccyx allow movement — they are fused and immoveable.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">&#128221; Extended Response Questions</p>
+
+  <!-- ER1 -->
+  <div class="eq-card">
+    <div class="eq-head">
+      <div>
+        <div class="eq-meta"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+      </div>
+    </div>
+    <div class="eq-q">Using a physical activity of your choice, identify THREE joints involved in the movement. For each joint, name the joint type, state the movements possible and identify the bones that form the joint.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" style="min-height:120px;" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer — Example: Running</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:8px;"><em>2 marks per joint (joint type + movements + bones forming it). Example using running:</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Hip joint</strong> — ball and socket joint, formed by the head of the femur and the acetabulum of the pelvis. Allows flexion, extension, abduction, adduction, rotation and circumduction. During running, primarily hip flexion and extension occur.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Knee joint</strong> — hinge joint, formed by the femur and tibia (with the fibula laterally). Allows flexion and extension only. During running, the knee flexes during swing phase and extends during push-off.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Ankle joint</strong> — hinge joint, formed by the tibia, fibula and talus. Allows dorsiflexion and plantarflexion. During running, dorsiflexion occurs at heel strike and plantarflexion at push-off.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Do not just name the joint and move on — you must state the TYPE (e.g. hinge, ball and socket), the BONES that form it, and the MOVEMENTS it allows. Missing any one of these elements will cost marks. Use sport-specific language to contextualise your answer.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ER2 -->
+  <div class="eq-card">
+    <div class="eq-head">
+      <div>
+        <div class="eq-meta"><span class="eq-type">Extended Response</span><span class="eq-marks">8 marks</span></div>
+      </div>
+    </div>
+    <div class="eq-stimulus">A 16-year-old athlete has been experiencing knee pain after training. An MRI scan reveals damage to the medial meniscus and anterior cruciate ligament (ACL) of the left knee.</div>
+    <div class="eq-q">Using your knowledge of the structure of synovial joints, explain the role of the medial meniscus and ACL in the knee joint, and describe how damage to these structures could affect the athlete's ability to train and compete.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" style="min-height:140px;" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:8px;"><em>Award marks across four areas (2 marks each):</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Role of the medial meniscus (2 marks):</strong> The medial meniscus is a C-shaped fibrocartilage pad located between the femur and tibia on the medial (inner) side of the knee. Its functions include absorbing and distributing compressive forces across the joint, deepening the tibial socket to improve joint stability, and acting as a shock absorber during weight-bearing activities such as running and jumping.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Role of the ACL (2 marks):</strong> The ACL (anterior cruciate ligament) connects the femur to the tibia and prevents the tibia from sliding anteriorly (forward) relative to the femur. It also provides rotational stability to the knee joint, which is critical during changes of direction and landing.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Impact of meniscus damage (2 marks):</strong> A torn medial meniscus reduces the knee joint's ability to absorb shock and distribute load evenly across the joint surface. This would cause pain, swelling and instability during weight-bearing activities. The athlete would likely be unable to run, jump or change direction effectively, significantly limiting training capacity and competition.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span><strong>Impact of ACL damage (2 marks):</strong> A ruptured ACL results in anterior instability of the knee — the tibia can slide forward on the femur. This causes significant pain, joint instability and loss of confidence in the knee, particularly during cutting, pivoting and landing movements. ACL injuries typically require surgical reconstruction and 9–12 months of rehabilitation, meaning the athlete would be unable to compete for an extended period.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Extended response questions reward structured, detailed answers. Use anatomical terminology throughout — "tibia slides anteriorly on the femur" scores higher than "the knee becomes unstable". Always link the injury back to how it affects function and performance. Avoid vague phrases like "it would hurt and they could not play sport."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ER3 -->
+  <div class="eq-card">
+    <div class="eq-head">
+      <div>
+        <div class="eq-meta"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+      </div>
+    </div>
+    <div class="eq-q">Explain how the structure of the vertebral column allows it to perform its key functions. In your answer, refer to specific sections of the vertebral column and the role of intervertebral discs.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" style="min-height:120px;" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p style="margin-bottom:8px;"><em>Award 1 mark per well-developed point, up to 6 marks:</em></p>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The vertebral column consists of 33 vertebrae arranged in five sections: cervical (7), thoracic (12), lumbar (5), sacrum (5 fused) and coccyx (4 fused), forming an S-shaped curve that helps distribute body weight and absorb shock.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The cervical section supports the skull and allows a wide range of head movement via the atlas (C1) and axis (C2) joints, which enable flexion, extension and rotation of the head.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The thoracic vertebrae articulate with the 12 pairs of ribs, connecting them to the vertebral column and forming the protective thoracic cage around the heart and lungs.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The lumbar vertebrae are the largest and strongest, reflecting their role in bearing the weight of the entire upper body and providing attachment for major postural muscles.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The sacrum and coccyx are fused vertebrae that form the posterior pelvis and tailbone; being fused they provide a stable base for the vertebral column and lower limb attachment.</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Intervertebral discs are fibrocartilage pads located between each pair of vertebrae. They act as shock absorbers, reducing the impact of compressive forces during activities such as running, jumping and lifting. They also allow slight movement between adjacent vertebrae, giving the spine its overall flexibility.</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The key to high marks here is linking STRUCTURE to FUNCTION — not just listing what each section is called, but explaining WHY it is structured that way. For example, lumbar vertebrae are larger BECAUSE they bear more weight. This cause-and-effect reasoning is what distinguishes Band 5–6 responses.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end tab-exam -->
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch1 Part A Quiz &amp; Exam Practice &middot; Live it Up 5th ed.</p>
+
+<script>
+/* ---- TABS ---- */
+function switchTab(name) {
+  var panes = document.querySelectorAll(".tab-pane");
+  var btns = document.querySelectorAll(".tab-btn");
+  for (var i = 0; i < panes.length; i++) { panes[i].className = "tab-pane"; }
+  for (var i = 0; i < btns.length; i++) { btns[i].className = "tab-btn"; }
+  document.getElementById("tab-" + name).className = "tab-pane active";
+  if (name === "quiz") { btns[0].className = "tab-btn active"; }
+  else { btns[1].className = "tab-btn active"; }
+}
+
+/* ---- SCORE TRACKING ---- */
+var totalQ = 18;
+var answered = 0;
+var correctCount = 0;
+
+function updateScore(gotIt) {
+  answered++;
+  if (gotIt) correctCount++;
+  document.getElementById("score-correct").textContent = correctCount;
+  document.getElementById("score-total").textContent = answered;
+  var pct = Math.round((answered / totalQ) * 100);
+  document.getElementById("progress-bar").style.width = pct + "%";
+}
+
+/* ---- MULTIPLE CHOICE ANSWERS ---- */
+var mcAnswers = {
+  mc1: { correct: "B", explanation: "Ligaments connect BONE TO BONE and stabilise joints. Tendons connect muscle to bone (A). Synovial membrane secretes fluid (C). Menisci deepen the knee socket (D)." },
+  mc2: { correct: "C", explanation: "Ball and socket joints (hip, shoulder) allow movement in all planes — flexion, extension, abduction, adduction, rotation and circumduction. Hinge joints allow the least movement (one plane only)." },
+  mc3: { correct: "D", explanation: "Plantarflexion (pointing the toes downward) is the push-off movement in sprinting. Dorsiflexion (toes up) occurs at heel strike, not push-off." },
+  mc4: { correct: "D", explanation: "The patella is embedded within the quadriceps tendon — the classic example of a sesamoid bone. Its function is to reduce friction and improve the mechanical advantage of the quadriceps." },
+  mc5: { correct: "C", explanation: "The thoracic section has 12 vertebrae (T1-T12) and articulates with the 12 pairs of ribs. Cervical = 7, Lumbar = 5, Sacrum = 5 fused." },
+  mc6: { correct: "B", explanation: "Raising the arms AWAY from the midline of the body is abduction. Adduction is returning them back toward the midline." },
+  mc7: { correct: "C", explanation: "Lateral means towards the outer side of the body. The fibula sits on the outer/lateral side of the tibia. Medial = towards midline. Proximal = closer to trunk. Posterior = towards the back." },
+  mc8: { correct: "C", explanation: "Synovial fluid lubricates the joint, reduces friction between articular surfaces and nourishes the avascular articular cartilage. It is secreted by the synovial membrane." }
+};
+
+function checkMC(opt, cardId, letter) {
+  var card = document.getElementById(cardId);
+  if (card.classList.contains("correct") || card.classList.contains("incorrect")) return;
+  var opts = card.querySelectorAll(".mc-opt");
+  var data = mcAnswers[cardId];
+  var correct = (letter === data.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add("locked");
+    var l = opts[i].querySelector(".opt-letter").textContent;
+    if (l === data.correct) opts[i].classList.add("reveal-correct");
+  }
+  opt.classList.remove("reveal-correct");
+  opt.classList.add(correct ? "selected-correct" : "selected-incorrect");
+  card.classList.add(correct ? "correct" : "incorrect");
+  var fb = document.getElementById("fb-" + cardId);
+  fb.textContent = (correct ? "&#9989; Correct! " : "&#10060; Incorrect. ") + data.explanation;
+  fb.innerHTML = (correct ? "&#9989; Correct! " : "&#10060; Incorrect. ") + data.explanation;
+  fb.className = "q-feedback show " + (correct ? "fb-correct" : "fb-incorrect");
+  updateScore(correct);
+}
+
+/* ---- TRUE/FALSE ---- */
+var tfAnswers = {
+  tf1: { correct: false, explanation: "FALSE. Tendons connect MUSCLE TO BONE. Ligaments connect bone to bone and stabilise joints." },
+  tf2: { correct: true, explanation: "TRUE. The hip is a ball and socket joint (head of femur in the acetabulum) allowing movement in all planes: flexion, extension, abduction, adduction, rotation and circumduction." },
+  tf3: { correct: false, explanation: "FALSE. The cervical spine has 7 vertebrae. It is the THORACIC section that has 12. Remember: 7-12-5-5-4." },
+  tf4: { correct: false, explanation: "FALSE. PLANTARFLEXION (toes pointing down) occurs during push-off in sprinting. Dorsiflexion (toes up) occurs at heel strike." },
+  tf5: { correct: true, explanation: "TRUE. The six functions are: support, protection, movement, blood cell production, mineral storage and energy storage. You must know all six." },
+  tf6: { correct: false, explanation: "FALSE. Menisci are found ONLY at the knee joint. They are fibrocartilage pads that deepen the tibial socket and absorb compressive forces." },
+  tf7: { correct: true, explanation: "TRUE. Circumduction combines flexion, extension, abduction and adduction in a cone-shaped motion. It requires movement in all planes, which is only possible at ball and socket joints." }
+};
+
+function checkTF(btn, cardId, userSaidTrue) {
+  var card = document.getElementById(cardId);
+  if (card.classList.contains("correct") || card.classList.contains("incorrect")) return;
+  var data = tfAnswers[cardId];
+  var correct = (userSaidTrue === data.correct);
+  var btns = card.querySelectorAll(".tf-btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add("locked");
+    var isTrue = (btns[i].textContent === "True");
+    if (isTrue === data.correct) btns[i].classList.add("reveal-correct");
+  }
+  btn.classList.remove("reveal-correct");
+  btn.classList.add(correct ? "selected-correct" : "selected-incorrect");
+  card.classList.add(correct ? "correct" : "incorrect");
+  var fb = document.getElementById("fb-" + cardId);
+  fb.innerHTML = (correct ? "&#9989; Correct! " : "&#10060; Incorrect. ") + data.explanation;
+  fb.className = "q-feedback show " + (correct ? "fb-correct" : "fb-incorrect");
+  updateScore(correct);
+}
+
+/* ---- MATCHING ---- */
+function checkMatch(matchId, answers, feedbackId) {
+  var card = document.getElementById(matchId);
+  var allCorrect = true;
+  var score = 0;
+  for (var key in answers) {
+    var sel = document.getElementById(key);
+    if (!sel) continue;
+    sel.disabled = true;
+    if (sel.value === answers[key]) {
+      sel.className = "match-select correct-sel";
+      score++;
+    } else {
+      sel.className = "match-select incorrect-sel";
+      allCorrect = false;
+    }
+  }
+  var total = Object.keys(answers).length;
+  var fb = document.getElementById(feedbackId);
+  var msg = score + " / " + total + " correct. ";
+  if (score === total) {
+    msg += "Perfect score!";
+    fb.className = "q-feedback show fb-correct";
+    card.classList.add("correct");
+  } else {
+    msg += "Incorrect answers are highlighted in red. Check the correct answers in your study notes.";
+    fb.className = "q-feedback show fb-incorrect";
+    card.classList.add("incorrect");
+  }
+  fb.textContent = msg;
+  var btn = card.querySelector(".match-check-btn");
+  if (btn) btn.disabled = true;
+  updateScore(score === total);
+}
+
+function checkMatch1() {
+  checkMatch("match1", {
+    "m1-1": "Long bone",
+    "m1-2": "Sesamoid bone",
+    "m1-3": "Flat bone",
+    "m1-4": "Irregular bone",
+    "m1-5": "Short bone"
+  }, "fb-match1");
+}
+
+function checkMatch2() {
+  checkMatch("match2", {
+    "m2-1": "Hip joint",
+    "m2-2": "Knee joint",
+    "m2-3": "Atlas-axis (neck)",
+    "m2-4": "Wrist joint",
+    "m2-5": "Carpals of wrist"
+  }, "fb-match2");
+}
+
+function checkMatch3() {
+  checkMatch("match3", {
+    "m3-1": "Toes point toward the ground",
+    "m3-2": "Palm faces downward",
+    "m3-3": "Sole of foot turns outward",
+    "m3-4": "Limb moves away from midline",
+    "m3-5": "Limb traces a circular/cone path"
+  }, "fb-match3");
+}
+
+/* ---- EXAM MODEL ANSWER TOGGLE ---- */
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle("open");
+  btn.textContent = open ? "&#128065; Hide Model Answer" : "&#128065; Show Model Answer";
+  btn.innerHTML = open ? "&#128065; Hide Model Answer" : "&#128065; Show Model Answer";
+}
+
+/* ---- RESET ---- */
+function resetQuiz() {
+  if (!confirm("Reset all quiz answers? This cannot be undone.")) return;
+  answered = 0;
+  correctCount = 0;
+  document.getElementById("score-correct").textContent = "0";
+  document.getElementById("score-total").textContent = "0";
+  document.getElementById("progress-bar").style.width = "0%";
+  var cards = document.querySelectorAll(".q-card");
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove("correct","incorrect");
+    var opts = cards[i].querySelectorAll(".mc-opt");
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].classList.remove("locked","selected-correct","selected-incorrect","reveal-correct");
+    }
+    var tfBtns = cards[i].querySelectorAll(".tf-btn");
+    for (var j = 0; j < tfBtns.length; j++) {
+      tfBtns[j].classList.remove("locked","selected-correct","selected-incorrect","reveal-correct");
+    }
+    var sels = cards[i].querySelectorAll(".match-select");
+    for (var j = 0; j < sels.length; j++) {
+      sels[j].className = "match-select";
+      sels[j].disabled = false;
+      sels[j].value = "";
+    }
+    var checkBtns = cards[i].querySelectorAll(".match-check-btn");
+    for (var j = 0; j < checkBtns.length; j++) {
+      checkBtns[j].disabled = false;
+    }
+    var fbs = cards[i].querySelectorAll(".q-feedback");
+    for (var j = 0; j < fbs.length; j++) {
+      fbs[j].className = "q-feedback";
+      fbs[j].textContent = "";
+    }
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE PE — Ch1 Part A: Overview &amp; Skeletal System</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4px; letter-spacing: -0.5px; }
+.subtitle { text-align: center; color: #666; font-size: 0.9em; margin-bottom: 6px; font-style: italic; }
+.nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 10px 12px 16px; }
+.nav-pill { background: #fff; border: 1.5px solid #ccc; border-radius: 20px; padding: 4px 12px; font-size: 0.8em; cursor: pointer; color: #444; transition: all 0.15s; }
+.nav-pill:hover { background: #3C3489; color: #fff; border-color: #3C3489; }
+
+/* SEARCH */
+.search-wrap { display: flex; align-items: center; gap: 8px; width: calc(100% - 32px); max-width: 560px; margin: 0 auto 22px; }
+#search { flex: 1; padding: 10px 14px; border: 2px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; font-family: Georgia, serif; }
+#search:focus { outline: none; border-color: #3C3489; }
+#search-clear { display: none; background: #E24B4A; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; cursor: pointer; font-weight: 700; }
+#search-clear.visible { display: block; }
+#search-count { font-size: 12px; color: #888; white-space: nowrap; min-width: 60px; }
+
+.footer { text-align: center; color: #999; font-size: 11px; padding: 30px 16px; }
+.section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 4px; }
+
+/* ---- ACCORDION CATS ---- */
+.cat { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: visible; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; border-radius: 8px 8px 0 0; user-select: none; gap: 8px; }
+.cat-head-text { font-weight: 700; font-size: 0.95em; flex: 1; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head-right small { font-size: 11px; opacity: 0.7; }
+.cat-arrow { font-size: 11px; }
+.cat-body { padding: 6px 10px 10px; }
+.cat-body.collapsed { display: none; }
+.term { border-radius: 7px; margin-bottom: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; cursor: pointer; font-weight: 600; font-size: 0.9em; background: rgba(255,255,255,0.55); gap: 8px; }
+.term-title:hover { background: rgba(255,255,255,0.85); }
+.term-title span:first-child { flex: 1; }
+.arrow { font-size: 11px; color: #888; flex-shrink: 0; }
+.term-body { display: none; padding: 10px 14px 11px; background: rgba(255,255,255,0.4); font-size: 0.87em; }
+.term-body.open { display: block; }
+.term-def { margin-bottom: 5px; }
+.term-eg { display: block; font-style: italic; color: #555; margin-top: 4px; }
+.term-note { display: block; margin-top: 7px; font-style: italic; font-size: 0.91em; color: #7B3C00; background: #FFF7EE; border-left: 3px solid #BA7517; padding: 4px 8px; border-radius: 3px; }
+
+/* HIGHLIGHT */
+.hl { background: #FFE066; border-radius: 2px; padding: 0 1px; }
+
+/* HOT BADGE */
+.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 200px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* COLOUR THEMES */
+.cat.purple { border-color: #AFA9EC; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.35); }
+.cat.purple .term-body { background: rgba(238,237,254,0.5); }
+.cat.teal { border-color: #5DCAA5; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.28); }
+.cat.teal .term-body { background: rgba(225,245,238,0.5); }
+.cat.coral { border-color: #D85A30; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); }
+.cat.coral .term-body { background: rgba(250,236,231,0.5); }
+.cat.amber { border-color: #BA7517; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.2); }
+.cat.amber .term-body { background: rgba(250,238,218,0.5); }
+.cat.blue { border-color: #378ADD; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.25); }
+.cat.blue .term-body { background: rgba(230,241,251,0.5); }
+.cat.pink { border-color: #D4537E; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.22); }
+.cat.pink .term-body { background: rgba(251,234,240,0.5); }
+.cat.gray { border-color: #888780; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.2); }
+.cat.gray .term-body { background: rgba(241,239,232,0.5); }
+
+/* BOX PANELS */
+.box-wrap { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-wrap.pink { border-color: #D4537E; }
+.box-wrap.coral { border-color: #D85A30; }
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 700; font-size: 0.93em; user-select: none; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.3); }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.35); }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.22); }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.3); }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.28); }
+.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.22); }
+.box-wrap.coral .box-toggle { background: rgba(240,153,123,0.25); }
+.box-body { display: none; padding: 14px; background: #fff; }
+.box-body.open { display: block; }
+.box-note { margin-top: 10px; font-style: italic; font-size: 0.86em; color: #444; background: #f9f7ee; border-left: 3px solid #BA7517; padding: 6px 10px; border-radius: 4px; }
+.exam-tip { margin: 8px 0; font-size: 0.86em; color: #4A1B0C; background: #FAECE7; border-left: 4px solid #D85A30; padding: 7px 11px; border-radius: 4px; }
+
+/* TABLES */
+.ct { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+.ct th { background: #2C2C2A; color: #fff; padding: 8px 10px; text-align: left; }
+.ct td { padding: 7px 10px; border-bottom: 1px solid #e8e8e8; vertical-align: top; text-align: left; }
+.ct tr:last-child td { border-bottom: none; }
+.ct tr:nth-child(even) td { background: #F7F6F0; }
+.mt { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.mt th { background: #085041; color: #fff; padding: 8px 10px; text-align: left; }
+.mt td { padding: 6px 10px; border-bottom: 1px solid #e0ede9; vertical-align: top; text-align: left; }
+.mt tr:nth-child(even) td { background: #F0FAF6; }
+.mt tr:last-child td { border-bottom: none; }
+.pt { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.pt th { background: #3C3489; color: #fff; padding: 8px 10px; text-align: left; }
+.pt td { padding: 7px 10px; border-bottom: 1px solid #e8e8f8; vertical-align: top; text-align: left; }
+.pt tr:nth-child(even) td { background: #F4F3FE; }
+.pt tr:last-child td { border-bottom: none; }
+
+/* DIAGRAM WRAPPER */
+.diagram-wrap { margin: 0 12px 12px; border-radius: 10px; overflow: hidden; border: 2px solid #5DCAA5; background: #fff; }
+.diagram-head { background: rgba(159,225,203,0.3); padding: 10px 14px; font-weight: 700; font-size: 0.93em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
+.diagram-head.blue { background: rgba(133,183,235,0.28); border-bottom: 2px solid #378ADD; }
+.diagram-head.purple { background: rgba(206,203,246,0.35); }
+.diagram-head.amber { background: rgba(239,159,39,0.22); }
+.diagram-body { display: none; padding: 16px 12px 12px; background: #fff; text-align: center; }
+.diagram-body.open { display: block; }
+.diagram-caption { font-size: 0.81em; color: #555; font-style: italic; text-align: center; margin-top: 8px; line-height: 1.5; }
+.diagram-wrap.blue { border-color: #378ADD; }
+.diagram-wrap.purple { border-color: #AFA9EC; }
+.diagram-wrap.amber { border-color: #BA7517; }
+svg text { font-family: Georgia, serif; }
+
+/* MINDMAP BOX */
+.mindmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 8px; }
+.mm-card { border-radius: 8px; padding: 10px 12px; font-size: 0.85em; }
+.mm-card h4 { font-size: 0.9em; font-weight: 700; margin-bottom: 4px; }
+.mm-card ul { padding-left: 14px; }
+.mm-card li { margin-bottom: 2px; font-size: 0.9em; }
+
+/* TAG */
+.tag { display: inline-block; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 6px; margin-right: 3px; }
+.tag-g { background: #D4EDDA; color: #155724; }
+.tag-r { background: #FADBD8; color: #7B241C; }
+.tag-b { background: #D6EAF8; color: #1A5276; }
+.tag-p { background: #E8E6FF; color: #3C3489; }
+
+/* NO RESULTS */
+#no-results { display: none; text-align: center; color: #999; padding: 30px; font-style: italic; }
+
+/* LIGHTBOX */
+.fig-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; background: #3C3489; color: #fff; border: none; border-radius: 7px; padding: 7px 14px; font-size: 0.84em; font-family: Georgia, serif; cursor: pointer; font-weight: 700; }
+.fig-btn:hover { background: #2A2460; }
+.lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+.lightbox-overlay.open { display: flex; }
+.lightbox-box { position: relative; background: #fff; border-radius: 12px; padding: 14px; max-width: 92vw; max-height: 92vh; display: flex; flex-direction: column; align-items: center; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+.lightbox-box img { max-width: 100%; max-height: 76vh; border-radius: 6px; object-fit: contain; }
+.lightbox-caption { font-size: 0.82em; color: #555; margin-top: 8px; font-style: italic; text-align: center; }
+.lightbox-close { position: absolute; top: -14px; right: -14px; background: #E24B4A; color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.lightbox-filename { font-size: 0.78em; color: #aaa; margin-top: 5px; font-family: monospace; }
+.lightbox-error { color: #E24B4A; font-size: 0.88em; margin-top: 10px; text-align: center; display: none; }
+.lightbox-error.show { display: block; }
+</style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
+<p class="subtitle">Chapter 1 Part A &middot; Sections 1.1&ndash;1.2: Overview &amp; The Skeletal System &middot; Live it Up 5th ed.</p>
+
+<!-- NAV PILLS -->
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('sec11')">1.1 Overview</span>
+  <span class="nav-pill" onclick="jumpTo('sec121')">1.2.1 Functions</span>
+  <span class="nav-pill" onclick="jumpTo('sec122')">1.2.2 Major Bones</span>
+  <span class="nav-pill" onclick="jumpTo('sec123')">1.2.3 Bone Types</span>
+  <span class="nav-pill" onclick="jumpTo('sec124')">1.2.4 Vertebral Column</span>
+  <span class="nav-pill" onclick="jumpTo('sec125')">1.2.5 Joints</span>
+  <span class="nav-pill" onclick="jumpTo('sec126')">1.2.6 Synovial Structure</span>
+  <span class="nav-pill" onclick="jumpTo('sec127')">1.2.7 Anatomical Position</span>
+  <span class="nav-pill" onclick="jumpTo('sec128')">1.2.8 Movements</span>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search terms, definitions..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ============================================================
+     SECTION 1.1 OVERVIEW
+     ============================================================ -->
+<p class="section-label" id="sec11">&#128200; 1.1 Overview of the Musculoskeletal System</p>
+
+<div class="diagram-wrap blue">
+  <div class="diagram-head blue" onclick="toggleB(this)">
+    <span>&#128202; Figure 1.1 — Musculoskeletal System Mind Map</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 620 280" xmlns="http://www.w3.org/2000/svg" style="max-width:620px;width:100%;display:inline-block;">
+      <!-- centre -->
+      <rect x="195" y="110" width="230" height="44" rx="10" fill="#E91E8C" stroke="#C0166E" stroke-width="2"/>
+      <text x="310" y="128" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Musculoskeletal System</text>
+      <text x="310" y="144" text-anchor="middle" font-size="10" fill="#fff">AOS 1a: How does it produce movement?</text>
+
+      <!-- skeletal left -->
+      <rect x="20" y="30" width="130" height="36" rx="8" fill="#7B6FC7" stroke="#5A4FAA" stroke-width="1.5"/>
+      <text x="85" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Skeletal System</text>
+      <line x1="150" y1="48" x2="195" y2="125" stroke="#7B6FC7" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- skeletal sub-boxes -->
+      <rect x="10" y="90" width="100" height="26" rx="6" fill="#DDDAF8" stroke="#AFA9EC" stroke-width="1.2"/>
+      <text x="60" y="108" text-anchor="middle" font-size="10" fill="#3C3489">Functions</text>
+      <rect x="10" y="124" width="100" height="26" rx="6" fill="#DDDAF8" stroke="#AFA9EC" stroke-width="1.2"/>
+      <text x="60" y="142" text-anchor="middle" font-size="10" fill="#3C3489">Major bones</text>
+      <rect x="10" y="158" width="100" height="26" rx="6" fill="#DDDAF8" stroke="#AFA9EC" stroke-width="1.2"/>
+      <text x="60" y="176" text-anchor="middle" font-size="10" fill="#3C3489">Types of joints</text>
+      <rect x="10" y="192" width="100" height="26" rx="6" fill="#DDDAF8" stroke="#AFA9EC" stroke-width="1.2"/>
+      <text x="60" y="206" text-anchor="middle" font-size="10" fill="#3C3489">Anat. positions</text>
+      <rect x="10" y="226" width="100" height="26" rx="6" fill="#DDDAF8" stroke="#AFA9EC" stroke-width="1.2"/>
+      <text x="60" y="244" text-anchor="middle" font-size="10" fill="#3C3489">Anat. movements</text>
+      <line x1="110" y1="103" x2="150" y2="103" stroke="#AFA9EC" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="110" y1="137" x2="150" y2="137" stroke="#AFA9EC" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="110" y1="171" x2="150" y2="171" stroke="#AFA9EC" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="110" y1="205" x2="150" y2="205" stroke="#AFA9EC" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="110" y1="239" x2="150" y2="239" stroke="#AFA9EC" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- levers centre bottom -->
+      <rect x="248" y="190" width="124" height="30" rx="8" fill="#FFB6C1" stroke="#D4537E" stroke-width="1.5"/>
+      <text x="310" y="210" text-anchor="middle" font-size="11" font-weight="bold" fill="#4B1528">Levers</text>
+      <line x1="310" y1="154" x2="310" y2="190" stroke="#D4537E" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- muscular right -->
+      <rect x="470" y="30" width="130" height="36" rx="8" fill="#E8854A" stroke="#C06030" stroke-width="1.5"/>
+      <text x="535" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Muscular System</text>
+      <line x1="425" y1="125" x2="470" y2="48" stroke="#E8854A" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- muscular sub-boxes -->
+      <rect x="510" y="90" width="100" height="26" rx="6" fill="#FFE5D0" stroke="#E8854A" stroke-width="1.2"/>
+      <text x="560" y="108" text-anchor="middle" font-size="10" fill="#6B2A00">Functions</text>
+      <rect x="510" y="124" width="100" height="26" rx="6" fill="#FFE5D0" stroke="#E8854A" stroke-width="1.2"/>
+      <text x="560" y="142" text-anchor="middle" font-size="10" fill="#6B2A00">Types of muscles</text>
+      <rect x="510" y="158" width="100" height="26" rx="6" fill="#FFE5D0" stroke="#E8854A" stroke-width="1.2"/>
+      <text x="560" y="176" text-anchor="middle" font-size="10" fill="#6B2A00">Major skeletal mm</text>
+      <rect x="510" y="192" width="100" height="26" rx="6" fill="#FFE5D0" stroke="#E8854A" stroke-width="1.2"/>
+      <text x="560" y="210" text-anchor="middle" font-size="10" fill="#6B2A00">Fibre types</text>
+      <rect x="510" y="226" width="100" height="26" rx="6" fill="#FFE5D0" stroke="#E8854A" stroke-width="1.2"/>
+      <text x="560" y="244" text-anchor="middle" font-size="10" fill="#6B2A00">Neural control</text>
+      <line x1="470" y1="103" x2="510" y2="103" stroke="#E8854A" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="470" y1="137" x2="510" y2="137" stroke="#E8854A" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="470" y1="171" x2="510" y2="171" stroke="#E8854A" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="470" y1="205" x2="510" y2="205" stroke="#E8854A" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="470" y1="239" x2="510" y2="239" stroke="#E8854A" stroke-width="1" stroke-dasharray="3,2"/>
+    </svg>
+    <p class="diagram-caption">The musculoskeletal system combines the skeletal and muscular systems. Together, they interact via levers to produce movement.</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.1 FUNCTIONS
+     ============================================================ -->
+<p class="section-label" id="sec121">&#129454; 1.2.1 Functions of the Skeletal System</p>
+
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Six Functions of the Skeleton</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Function</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Support</strong></td><td>Provides the structural framework that holds the body upright</td><td>Vertebral column supports the head and trunk</td></tr>
+          <tr><td><strong>Protection</strong></td><td>Shields vital organs from injury</td><td>Skull protects the brain; ribcage protects heart and lungs</td></tr>
+          <tr><td><strong>Movement</strong></td><td>Bones act as levers; muscles pull on bones to create movement</td><td>Femur and tibia form the lever system at the knee</td></tr>
+          <tr><td><strong>Blood cell production</strong></td><td>Red bone marrow in long bones produces red and white blood cells</td><td>Femur, tibia, humerus</td></tr>
+          <tr><td><strong>Mineral storage</strong></td><td>Stores calcium and phosphorus; released into blood when needed</td><td>Calcium stored in the cortical bone matrix</td></tr>
+          <tr><td><strong>Energy storage</strong></td><td>Yellow marrow in the diaphysis (shaft) stores fat as an energy reserve</td><td>Diaphysis of the femur</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; You must know ALL six functions. Memorise: Support, Protection, Movement, Blood cell production, Mineral storage, Energy storage.</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.2 MAJOR BONES — SVG SKELETON
+     ============================================================ -->
+<p class="section-label" id="sec122">&#129460; 1.2.2 Major Bones of the Skeletal System</p>
+
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#129460; Figure 1.5 — Major Bones of the Skeletal System</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <p class="diagram-caption">Labelled diagram of the major bones. Use correct anatomical terms in exams — <em>mandible</em> not jaw, <em>scapula</em> not shoulder blade, <em>patella</em> not kneecap, <em>clavicle</em> not collarbone.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_5_skeleton.png', 'Figure 1.5 — Major bones of the skeletal system (Live it Up 5th ed.)')">&#128247; Major bones of the skeletal system</button>
+    <button class="fig-btn" onclick="openLightbox('fig1_4_long_bone.png', 'Figure 1.4 — Structure of a long bone (Live it Up 5th ed.)')">&#128247; Structure of a long bone</button>
+    <div style="display:none; overflow-x:auto; text-align:center;">
+      <!--
+      <svg viewBox="0 0 860 820" xmlns="http://www.w3.org/2000/svg" style="max-width:860px;width:100%;display:inline-block;">
+
+        <!-- ======= SKELETON BONES (centred at x=430) ======= -->
+        <!-- SKULL -->
+        <ellipse cx="430" cy="72" rx="46" ry="54" fill="#E8DCC8" stroke="#B8A880" stroke-width="2"/>
+        <ellipse cx="430" cy="88" rx="30" ry="24" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- MANDIBLE -->
+        <path d="M 404 108 Q 430 126 456 108" fill="none" stroke="#B8A880" stroke-width="2"/>
+        <!-- CERVICAL SPINE -->
+        <rect x="422" y="124" width="16" height="34" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- CLAVICLES -->
+        <path d="M 438 134 Q 474 127 496 136" fill="none" stroke="#C8B890" stroke-width="3" stroke-linecap="round"/>
+        <path d="M 422 134 Q 386 127 364 136" fill="none" stroke="#C8B890" stroke-width="3" stroke-linecap="round"/>
+        <!-- SCAPULAE -->
+        <path d="M 356 138 L 342 185 L 366 174 Z" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <path d="M 504 138 L 518 185 L 494 174 Z" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- STERNUM -->
+        <rect x="417" y="134" width="26" height="68" rx="6" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- RIBS left (6 ribs) -->
+        <path d="M 417 140 Q 376 148 358 166" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 417 152 Q 374 158 356 178" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 417 163 Q 376 170 360 190" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 417 174 Q 378 182 363 202" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 417 184 Q 382 192 370 208" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 417 193 Q 390 200 380 212" fill="none" stroke="#C8B890" stroke-width="2.2" stroke-dasharray="3,2"/>
+        <!-- RIBS right (6 ribs) -->
+        <path d="M 443 140 Q 484 148 502 166" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 443 152 Q 486 158 504 178" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 443 163 Q 484 170 500 190" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 443 174 Q 482 182 497 202" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <path d="M 443 184 Q 478 192 490 208" fill="none" stroke="#C8B890" stroke-width="2.2"/>
+        <!-- HUMERUS left -->
+        <rect x="338" y="138" width="20" height="100" rx="9" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- HUMERUS right -->
+        <rect x="502" y="138" width="20" height="100" rx="9" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- LUMBAR SPINE -->
+        <rect x="420" y="200" width="20" height="54" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- PELVIS / ILIUM -->
+        <path d="M 396 250 Q 362 234 350 264 Q 356 292 396 295 L 464 295 Q 504 292 510 264 Q 498 234 464 250 Q 448 242 430 242 Q 412 242 396 250 Z" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- SACRUM -->
+        <rect x="417" y="252" width="26" height="38" rx="4" fill="#C8B890" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- COCCYX -->
+        <path d="M 423 290 Q 430 310 437 290" fill="#C8B890" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- RADIUS left -->
+        <rect x="330" y="238" width="11" height="82" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- ULNA left -->
+        <rect x="344" y="236" width="11" height="86" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- RADIUS right -->
+        <rect x="519" y="238" width="11" height="82" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- ULNA right -->
+        <rect x="505" y="236" width="11" height="86" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- CARPALS left -->
+        <rect x="326" y="320" width="30" height="16" rx="4" fill="#C8B890" stroke="#B8A880" stroke-width="1.2"/>
+        <!-- METACARPALS left -->
+        <rect x="324" y="336" width="32" height="22" rx="3" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- PHALANGES hand left -->
+        <rect x="322" y="358" width="34" height="26" rx="3" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- CARPALS right -->
+        <rect x="504" y="320" width="30" height="16" rx="4" fill="#C8B890" stroke="#B8A880" stroke-width="1.2"/>
+        <!-- METACARPALS right -->
+        <rect x="504" y="336" width="32" height="22" rx="3" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- PHALANGES hand right -->
+        <rect x="504" y="358" width="34" height="26" rx="3" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- PUBIC BONE -->
+        <path d="M 400 295 Q 430 307 460 295" fill="none" stroke="#B8A880" stroke-width="2.5"/>
+        <!-- ISCHIUM -->
+        <ellipse cx="390" cy="292" rx="13" ry="11" fill="#C8B890" stroke="#B8A880" stroke-width="1.2"/>
+        <ellipse cx="470" cy="292" rx="13" ry="11" fill="#C8B890" stroke="#B8A880" stroke-width="1.2"/>
+        <!-- FEMUR left -->
+        <rect x="378" y="306" width="28" height="140" rx="11" fill="#D4C8A8" stroke="#B8A880" stroke-width="2"/>
+        <!-- FEMUR right -->
+        <rect x="454" y="306" width="28" height="140" rx="11" fill="#D4C8A8" stroke="#B8A880" stroke-width="2"/>
+        <!-- PATELLA left -->
+        <ellipse cx="392" cy="446" rx="13" ry="12" fill="#C8B890" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- PATELLA right -->
+        <ellipse cx="468" cy="446" rx="13" ry="12" fill="#C8B890" stroke="#B8A880" stroke-width="1.5"/>
+        <!-- TIBIA left -->
+        <rect x="382" y="456" width="19" height="118" rx="7" fill="#D4C8A8" stroke="#B8A880" stroke-width="2"/>
+        <!-- FIBULA left -->
+        <rect x="403" y="462" width="11" height="112" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.3"/>
+        <!-- TIBIA right -->
+        <rect x="459" y="456" width="19" height="118" rx="7" fill="#D4C8A8" stroke="#B8A880" stroke-width="2"/>
+        <!-- FIBULA right -->
+        <rect x="446" y="462" width="11" height="112" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.3"/>
+        <!-- TARSALS left -->
+        <rect x="376" y="572" width="44" height="22" rx="5" fill="#C8B890" stroke="#B8A880" stroke-width="1.3"/>
+        <!-- METATARSALS left -->
+        <rect x="372" y="594" width="48" height="20" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- PHALANGES foot left -->
+        <rect x="370" y="614" width="50" height="20" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- TARSALS right -->
+        <rect x="440" y="572" width="44" height="22" rx="5" fill="#C8B890" stroke="#B8A880" stroke-width="1.3"/>
+        <!-- METATARSALS right -->
+        <rect x="440" y="594" width="48" height="20" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+        <!-- PHALANGES foot right -->
+        <rect x="440" y="614" width="50" height="20" rx="4" fill="#D4C8A8" stroke="#B8A880" stroke-width="1"/>
+
+        <!-- ======= LEFT LABELS (text right-aligned at x=230, line to bone) ======= -->
+        <!-- helper: dot at label anchor, line to bone point -->
+
+        <!-- Skull (cranium) -->
+        <text x="225" y="45" font-size="12" fill="#1C1C1A" font-weight="bold" text-anchor="end">Skull (cranium)</text>
+        <line x1="228" y1="43" x2="384" y2="52" stroke="#888" stroke-width="1"/>
+
+        <!-- Cervical spine -->
+        <text x="225" y="108" font-size="12" fill="#1C1C1A" text-anchor="end">Cervical spine</text>
+        <line x1="228" y1="106" x2="422" y2="130" stroke="#888" stroke-width="1"/>
+
+        <!-- Scapula -->
+        <text x="225" y="148" font-size="12" fill="#1C1C1A" text-anchor="end">Scapula</text>
+        <line x1="228" y1="146" x2="352" y2="158" stroke="#888" stroke-width="1"/>
+
+        <!-- Humerus -->
+        <text x="225" y="186" font-size="12" fill="#1C1C1A" text-anchor="end">Humerus</text>
+        <line x1="228" y1="184" x2="338" y2="184" stroke="#888" stroke-width="1"/>
+
+        <!-- Ulna -->
+        <text x="225" y="256" font-size="12" fill="#1C1C1A" text-anchor="end">Ulna</text>
+        <line x1="228" y1="254" x2="344" y2="268" stroke="#888" stroke-width="1"/>
+
+        <!-- Radius -->
+        <text x="225" y="286" font-size="12" fill="#1C1C1A" text-anchor="end">Radius</text>
+        <line x1="228" y1="284" x2="330" y2="278" stroke="#888" stroke-width="1"/>
+
+        <!-- Coccyx -->
+        <text x="225" y="322" font-size="12" fill="#1C1C1A" text-anchor="end">Coccyx bone</text>
+        <line x1="228" y1="320" x2="427" y2="302" stroke="#888" stroke-width="1"/>
+
+        <!-- Ischium -->
+        <text x="225" y="356" font-size="12" fill="#1C1C1A" text-anchor="end">Ischium</text>
+        <line x1="228" y1="354" x2="378" y2="292" stroke="#888" stroke-width="1"/>
+
+        <!-- Patella -->
+        <text x="225" y="448" font-size="12" fill="#1C1C1A" text-anchor="end">Patella</text>
+        <line x1="228" y1="446" x2="379" y2="446" stroke="#888" stroke-width="1"/>
+
+        <!-- Tibia -->
+        <text x="225" y="500" font-size="12" fill="#1C1C1A" text-anchor="end">Tibia</text>
+        <line x1="228" y1="498" x2="382" y2="495" stroke="#888" stroke-width="1"/>
+
+        <!-- Tarsals left foot -->
+        <text x="225" y="578" font-size="12" fill="#1C1C1A" text-anchor="end">Tarsals</text>
+        <line x1="228" y1="576" x2="376" y2="580" stroke="#888" stroke-width="1"/>
+
+        <!-- Metatarsals left foot -->
+        <text x="225" y="606" font-size="12" fill="#1C1C1A" text-anchor="end">Metatarsals</text>
+        <line x1="228" y1="604" x2="372" y2="602" stroke="#888" stroke-width="1"/>
+
+        <!-- Phalanges left foot -->
+        <text x="225" y="632" font-size="12" fill="#1C1C1A" text-anchor="end">Phalanges</text>
+        <line x1="228" y1="630" x2="370" y2="622" stroke="#888" stroke-width="1"/>
+
+        <!-- ======= RIGHT LABELS (text left-aligned at x=635, line from bone) ======= -->
+
+        <!-- Mandible -->
+        <text x="635" y="118" font-size="12" fill="#1C1C1A">Mandible</text>
+        <line x1="632" y1="116" x2="456" y2="114" stroke="#888" stroke-width="1"/>
+
+        <!-- Clavicle -->
+        <text x="635" y="148" font-size="12" fill="#1C1C1A">Clavicle</text>
+        <line x1="632" y1="146" x2="496" y2="136" stroke="#888" stroke-width="1"/>
+
+        <!-- Sternum -->
+        <text x="635" y="178" font-size="12" fill="#1C1C1A">Sternum</text>
+        <line x1="632" y1="176" x2="443" y2="162" stroke="#888" stroke-width="1"/>
+
+        <!-- Ribs -->
+        <text x="635" y="208" font-size="12" fill="#1C1C1A">Ribs</text>
+        <line x1="632" y1="206" x2="502" y2="190" stroke="#888" stroke-width="1"/>
+
+        <!-- Lumbar spine -->
+        <text x="635" y="238" font-size="12" fill="#1C1C1A">Lumbar spine</text>
+        <line x1="632" y1="236" x2="440" y2="228" stroke="#888" stroke-width="1"/>
+
+        <!-- Ilium -->
+        <text x="635" y="268" font-size="12" fill="#1C1C1A">Ilium</text>
+        <line x1="632" y1="266" x2="508" y2="260" stroke="#888" stroke-width="1"/>
+
+        <!-- Sacrum -->
+        <text x="635" y="298" font-size="12" fill="#1C1C1A">Sacrum</text>
+        <line x1="632" y1="296" x2="443" y2="272" stroke="#888" stroke-width="1"/>
+
+        <!-- Carpals -->
+        <text x="635" y="328" font-size="12" fill="#1C1C1A">Carpals</text>
+        <line x1="632" y1="326" x2="534" y2="328" stroke="#888" stroke-width="1"/>
+
+        <!-- Metacarpals -->
+        <text x="635" y="356" font-size="12" fill="#1C1C1A">Metacarpals</text>
+        <line x1="632" y1="354" x2="536" y2="347" stroke="#888" stroke-width="1"/>
+
+        <!-- Phalanges hand -->
+        <text x="635" y="384" font-size="12" fill="#1C1C1A">Phalanges</text>
+        <line x1="632" y1="382" x2="538" y2="372" stroke="#888" stroke-width="1"/>
+
+        <!-- Pubic bone -->
+        <text x="635" y="412" font-size="12" fill="#1C1C1A">Pubic bone</text>
+        <line x1="632" y1="410" x2="458" y2="300" stroke="#888" stroke-width="1"/>
+
+        <!-- Femur -->
+        <text x="635" y="446" font-size="12" fill="#1C1C1A">Femur</text>
+        <line x1="632" y1="444" x2="482" y2="376" stroke="#888" stroke-width="1"/>
+
+        <!-- Fibula -->
+        <text x="635" y="520" font-size="12" fill="#1C1C1A">Fibula</text>
+        <line x1="632" y1="518" x2="457" y2="510" stroke="#888" stroke-width="1"/>
+
+        <!-- Tarsals right foot -->
+        <text x="635" y="578" font-size="12" fill="#1C1C1A">Tarsals</text>
+        <line x1="632" y1="576" x2="484" y2="580" stroke="#888" stroke-width="1"/>
+
+        <!-- Metatarsals right foot -->
+        <text x="635" y="606" font-size="12" fill="#1C1C1A">Metatarsals</text>
+        <line x1="632" y1="604" x2="488" y2="602" stroke="#888" stroke-width="1"/>
+
+        <!-- Phalanges right foot -->
+        <text x="635" y="632" font-size="12" fill="#1C1C1A">Phalanges</text>
+        <line x1="632" y1="630" x2="490" y2="630" stroke="#888" stroke-width="1"/>
+
+      </svg>
+    </div><!-- end hidden SVG -->
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.3 BONE TYPES
+     ============================================================ -->
+<p class="section-label" id="sec123">&#129458; 1.2.3 Classification of Bones by Shape</p>
+
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129458; Figure 1.6 — Five Types of Bone</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Type</th><th>Description</th><th>Example(s)</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Long</strong></td><td>Length greater than width; has a diaphysis (shaft) and epiphyses (ends)</td><td>Femur, humerus, tibia, fibula, radius, ulna</td><td>Primary lever bones for movement</td></tr>
+          <tr><td><strong>Short</strong></td><td>Roughly cube-shaped; length approximately equals width</td><td>Carpals (wrist), tarsals (ankle)</td><td>Absorb shock; allow gliding movement</td></tr>
+          <tr><td><strong>Flat</strong></td><td>Thin, broad and slightly curved</td><td>Skull, sternum, scapula, ribs</td><td>Muscle attachment; organ protection</td></tr>
+          <tr><td><strong>Irregular</strong></td><td>Complex shapes that do not fit other categories</td><td>Vertebrae, pelvis</td><td>Weight-bearing; muscle attachment</td></tr>
+          <tr><td><strong>Sesamoid</strong></td><td>Small bones embedded within tendons</td><td>Patella (kneecap)</td><td>Reduce friction on tendons; redirect force</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The patella is the classic sesamoid bone exam example. Students often forget sesamoid as the 5th type.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_6_examples_of_bone_types.png', 'Figure 1.6 — Examples of bone types (Live it Up 5th ed.)')">&#128247; Examples of bone types</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.4 VERTEBRAL COLUMN
+     ============================================================ -->
+<p class="section-label" id="sec124">&#129417; 1.2.4 The Vertebral Column</p>
+
+<div class="diagram-wrap purple">
+  <div class="diagram-head purple" onclick="toggleB(this)">
+    <span>&#129417; Figure 1.7 — The Vertebral Column (5 sections)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Section</th><th>Vertebrae</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:#7B6FC7;">Cervical</strong></td><td>7</td><td>Supports the head. Atlas and axis (top two) allow the head to move up, down and side to side</td></tr>
+          <tr><td><strong style="color:#085041;">Thoracic</strong></td><td>12</td><td>Connects the ribcage to the vertebral column</td></tr>
+          <tr><td><strong style="color:#8B4500;">Lumbar</strong></td><td>5</td><td>Supports the weight of the body; provides attachment for large muscles</td></tr>
+          <tr><td><strong style="color:#7A2000;">Sacrum</strong></td><td>5 fused</td><td>Fused part of the pelvis</td></tr>
+          <tr><td><strong style="color:#7A4500;">Coccyx</strong></td><td>4 fused</td><td>Base of the vertebral column (tailbone); site for muscle attachment</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="exam-tip">&#9888; Remember: 7-12-5-5-4. Sacrum and coccyx are fused — they do not allow individual vertebral movement.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_7_vertebral_column.png', 'Figure 1.7 — Side view of the vertebral column (Live it Up 5th ed.)')">&#128247; The vertebral column</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.5 JOINTS
+     ============================================================ -->
+<p class="section-label" id="sec125">&#128279; 1.2.5 Types of Joints</p>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Three Categories of Joint — Overview</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Category</th><th>Also called</th><th>Movement</th><th>Structure</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fibrous</strong></td><td>Synarthrosis</td><td>Immoveable</td><td>Bones joined by fibrous connective tissue</td><td>Skull sutures, distal tibiofibular joint</td></tr>
+          <tr><td><strong>Cartilaginous</strong></td><td>Amphiarthrosis</td><td>Slightly moveable</td><td>Bones connected by cartilage</td><td>Intervertebral discs, pubic symphysis</td></tr>
+          <tr><td><strong>Synovial</strong></td><td>Diarthrosis</td><td>Freely moveable</td><td>Joint cavity + synovial membrane + fluid</td><td>Hip, knee, shoulder, elbow</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; All sport-relevant joints are synovial. Fibrous = skull (immoveable). Cartilaginous = spine discs (slightly moveable).</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_2_6_classification_joints.png', 'Classification of joints — fibrous, cartilaginous, synovial (Live it Up 5th ed.)')">&#128247; Classification of joints</button>
+  </div>
+</div>
+
+<!-- SIX SYNOVIAL JOINT TYPES -->
+<div class="diagram-wrap purple">
+  <div class="diagram-head purple" onclick="toggleB(this)">
+    <span>&#128202; Figure 1.14 — Six Types of Synovial Joint</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto; text-align:center;">
+      <svg viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg" style="max-width:640px;width:100%;display:inline-block;">
+        <!-- BALL AND SOCKET -->
+        <rect x="10" y="10" width="190" height="170" rx="10" fill="#EEF3FB" stroke="#378ADD" stroke-width="2"/>
+        <text x="105" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#042C53">Ball and Socket</text>
+        <circle cx="105" cy="90" r="34" fill="#C8D8F0" stroke="#378ADD" stroke-width="2"/>
+        <circle cx="105" cy="90" r="16" fill="#7BAAE8" stroke="#378ADD" stroke-width="1.5"/>
+        <path d="M 82 115 Q 72 130 82 145 Q 105 155 128 145 Q 138 130 128 115" fill="#C8D8F0" stroke="#378ADD" stroke-width="1.5"/>
+        <path d="M 72 100 Q 60 90 72 80 L 82 90 Z" fill="#7BAAE8" stroke="#378ADD" stroke-width="1"/>
+        <path d="M 138 100 Q 150 90 138 80 L 128 90 Z" fill="#7BAAE8" stroke="#378ADD" stroke-width="1"/>
+        <text x="105" y="150" text-anchor="middle" font-size="10" fill="#042C53">All planes of movement</text>
+        <text x="105" y="163" text-anchor="middle" font-size="10" fill="#378ADD" font-style="italic">Hip, shoulder</text>
+        <!-- HINGE -->
+        <rect x="220" y="10" width="190" height="170" rx="10" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="2"/>
+        <text x="315" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#085041">Hinge</text>
+        <rect x="270" y="55" width="90" height="30" rx="8" fill="#8BC4A0" stroke="#5DCAA5" stroke-width="1.5"/>
+        <rect x="285" y="85" width="60" height="50" rx="6" fill="#A8D8BC" stroke="#5DCAA5" stroke-width="1.5"/>
+        <path d="M 270 85 Q 265 100 270 115 Q 285 125 315 125 Q 345 125 360 115 Q 365 100 360 85" fill="none" stroke="#5DCAA5" stroke-width="2" stroke-dasharray="4,2"/>
+        <path d="M 280 135 L 265 155" stroke="#085041" stroke-width="2" marker-end="url(#arrteal2)"/>
+        <path d="M 350 135 L 365 155" stroke="#085041" stroke-width="2" marker-end="url(#arrteal2)"/>
+        <text x="315" y="150" text-anchor="middle" font-size="10" fill="#085041">Flexion / Extension only</text>
+        <text x="315" y="163" text-anchor="middle" font-size="10" fill="#5DCAA5" font-style="italic">Elbow, knee, ankle</text>
+        <!-- PIVOT -->
+        <rect x="430" y="10" width="190" height="170" rx="10" fill="#FAEEDA" stroke="#BA7517" stroke-width="2"/>
+        <text x="525" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#412402">Pivot</text>
+        <rect x="510" y="50" width="30" height="80" rx="8" fill="#E8C87A" stroke="#BA7517" stroke-width="1.5"/>
+        <ellipse cx="525" cy="50" rx="22" ry="12" fill="#F0D090" stroke="#BA7517" stroke-width="1.5"/>
+        <path d="M 492 65 A 33 33 0 0 1 558 65" fill="none" stroke="#BA7517" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <polygon points="558,65 565,60 562,70" fill="#BA7517"/>
+        <text x="525" y="150" text-anchor="middle" font-size="10" fill="#412402">Rotation only</text>
+        <text x="525" y="163" text-anchor="middle" font-size="10" fill="#BA7517" font-style="italic">Atlas-axis (neck), radioulnar</text>
+        <!-- CONDYLOID -->
+        <rect x="10" y="200" width="190" height="170" rx="10" fill="#FBEAF0" stroke="#D4537E" stroke-width="2"/>
+        <text x="105" y="220" text-anchor="middle" font-size="12" font-weight="bold" fill="#4B1528">Condyloid</text>
+        <ellipse cx="105" cy="275" rx="40" ry="22" fill="#ECA0BC" stroke="#D4537E" stroke-width="1.5"/>
+        <path d="M 68 275 Q 68 300 105 308 Q 142 300 142 275" fill="#F5C8DA" stroke="#D4537E" stroke-width="1.5"/>
+        <path d="M 72 260 L 56 248" stroke="#D4537E" stroke-width="1.5" marker-end="url(#arrpink)"/>
+        <path d="M 138 260 L 154 248" stroke="#D4537E" stroke-width="1.5" marker-end="url(#arrpink)"/>
+        <path d="M 95 255 L 88 240" stroke="#D4537E" stroke-width="1.5" marker-end="url(#arrpink)"/>
+        <path d="M 115 255 L 122 240" stroke="#D4537E" stroke-width="1.5" marker-end="url(#arrpink)"/>
+        <text x="105" y="330" text-anchor="middle" font-size="10" fill="#4B1528">Flexion, ext, ab/adduction</text>
+        <text x="105" y="343" text-anchor="middle" font-size="9" fill="#4B1528">(no axial rotation)</text>
+        <text x="105" y="358" text-anchor="middle" font-size="10" fill="#D4537E" font-style="italic">Wrist, knuckles (MCP)</text>
+        <!-- SADDLE -->
+        <rect x="220" y="200" width="190" height="170" rx="10" fill="#FAECE7" stroke="#D85A30" stroke-width="2"/>
+        <text x="315" y="220" text-anchor="middle" font-size="12" font-weight="bold" fill="#4A1B0C">Saddle</text>
+        <path d="M 275 265 Q 295 250 315 265 Q 335 280 355 265" fill="none" stroke="#D85A30" stroke-width="2.5"/>
+        <path d="M 290 255 Q 315 240 340 255 Q 315 270 290 255" fill="#F0A888" stroke="#D85A30" stroke-width="1.5"/>
+        <path d="M 290 275 Q 315 290 340 275 Q 315 260 290 275" fill="#F0A888" stroke="#D85A30" stroke-width="1.5"/>
+        <path d="M 285 268 L 270 256" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrcoral)"/>
+        <path d="M 345 268 L 360 256" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrcoral)"/>
+        <text x="315" y="330" text-anchor="middle" font-size="10" fill="#4A1B0C">Flex, ext, ab/adduction</text>
+        <text x="315" y="343" text-anchor="middle" font-size="9" fill="#4A1B0C">(wide ROM, no rotation)</text>
+        <text x="315" y="358" text-anchor="middle" font-size="10" fill="#D85A30" font-style="italic">Thumb (carpometacarpal)</text>
+        <!-- GLIDING -->
+        <rect x="430" y="200" width="190" height="170" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="2"/>
+        <text x="525" y="220" text-anchor="middle" font-size="12" font-weight="bold" fill="#2C2C2A">Gliding (Plane)</text>
+        <rect x="480" y="255" width="90" height="24" rx="5" fill="#C8C4B8" stroke="#888780" stroke-width="1.5"/>
+        <rect x="488" y="279" width="74" height="20" rx="5" fill="#DEDAD0" stroke="#888780" stroke-width="1.5"/>
+        <path d="M 492 267 L 474 267" stroke="#888780" stroke-width="1.5" marker-end="url(#arrgray)"/>
+        <path d="M 558 267 L 576 267" stroke="#888780" stroke-width="1.5" marker-end="url(#arrgray)"/>
+        <text x="525" y="322" text-anchor="middle" font-size="10" fill="#2C2C2A">Gliding / sliding only</text>
+        <text x="525" y="335" text-anchor="middle" font-size="9" fill="#2C2C2A">limited movement</text>
+        <text x="525" y="358" text-anchor="middle" font-size="10" fill="#888780" font-style="italic">Carpals (wrist), tarsals (ankle)</text>
+        <defs>
+          <marker id="arrteal2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#085041"/></marker>
+          <marker id="arrpink" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#D4537E"/></marker>
+          <marker id="arrcoral" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#D85A30"/></marker>
+          <marker id="arrgray" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#888780"/></marker>
+        </defs>
+      </svg>
+    </div>
+    <p class="diagram-caption">&#9888; Ball-and-socket = MOST movement (hip, shoulder). Hinge = LEAST (knee, elbow, ankle). Gliding = only slight sliding between flat surfaces.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_14_synovial_joints.png', 'Figure 1.14 — Six types of synovial joint (Live it Up 5th ed.)')">&#128247; Six types of synovial joint</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.6 SYNOVIAL JOINT STRUCTURE
+     ============================================================ -->
+<p class="section-label" id="sec126">&#129520; 1.2.6 Structure of a Synovial Joint</p>
+
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#129520; Figure 1.13 — Basic Structure of a Synovial Joint</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Structure</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Articular cartilage</strong></td><td>Smooth hyaline cartilage on bone ends; reduces friction during movement</td></tr>
+          <tr><td><strong>Synovial membrane</strong></td><td>Lines the joint capsule; secretes synovial fluid</td></tr>
+          <tr><td><strong>Synovial fluid</strong></td><td>Lubricates and nourishes the joint; acts as a shock absorber</td></tr>
+          <tr><td><strong>Joint capsule</strong></td><td>Fibrous outer layer enclosing the joint; holds it together</td></tr>
+          <tr><td><strong>Ligaments</strong></td><td>Bone-to-bone connective tissue; stabilise joint and prevent excessive ROM</td></tr>
+          <tr><td><strong>Tendons</strong></td><td>Dense connective tissue attaching muscle to bone; transmit muscular force to the skeleton to produce movement</td></tr>
+          <tr><td><strong>Bursae</strong></td><td>Fluid-filled sacs near joints that reduce friction between tendons, muscles and bony prominences</td></tr>
+          <tr><td><strong>Menisci</strong></td><td>Fibrocartilage pads at the knee only; absorb shock and deepen the socket</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="exam-tip">&#9888; <strong>Critical:</strong> Ligament = bone-to-bone. Tendon = muscle-to-bone. This is the #1 exam mistake. Menisci exist at the <strong>knee only</strong>.</p>
+    <button class="fig-btn" onclick="openLightbox('fig1_13_synovial_structure.png', 'Figure 1.13 — Basic structure of a synovial joint (Live it Up 5th ed.)')">&#128247; Basic structure of a synovial joint</button>
+    <button class="fig-btn" onclick="openLightbox('fig1_11_knee_anatomy.png', 'Figure 1.11 — Knee anatomy (Live it Up 5th ed.)')">&#128247; Knee anatomy</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.7 ANATOMICAL POSITIONS
+     ============================================================ -->
+<p class="section-label" id="sec127">&#128205; 1.2.7 Anatomical Position Terminology</p>
+
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128205; Table 1.2 — Anatomical Position Terms</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Superior</strong></td><td>Towards the head or upper part of the body</td><td>The cranium is superior to the sternum</td></tr>
+          <tr><td><strong>Inferior</strong></td><td>Towards the feet or lower part of the body</td><td>The tarsals are inferior to the femur</td></tr>
+          <tr><td><strong>Anterior</strong></td><td>Towards the front of the body</td><td>The patella is on the anterior side of the body</td></tr>
+          <tr><td><strong>Posterior</strong></td><td>Towards the back of the body</td><td>The scapula is posterior to the sternum</td></tr>
+          <tr><td><strong>Medial</strong></td><td>Towards the midline of the body</td><td>The sternum is medial to the rib cage</td></tr>
+          <tr><td><strong>Lateral</strong></td><td>Towards the outer side of the body</td><td>The fibula is lateral to the tibia</td></tr>
+          <tr><td><strong>Proximal</strong></td><td>Closer to the trunk of the body</td><td>The femur is proximal to the patella</td></tr>
+          <tr><td><strong>Distal</strong></td><td>Further away from the trunk of the body</td><td>The phalanges are distal to the humerus</td></tr>
+          <tr><td><strong>Superficial</strong></td><td>Towards the surface of the body</td><td>The rib cage is superficial to the heart</td></tr>
+          <tr><td><strong>Deep</strong></td><td>Towards the inner part of the body</td><td>The liver is deep to the skin</td></tr>
+          <tr><td><strong>Prone</strong></td><td>Face down (body position)</td><td>Lying on the stomach</td></tr>
+          <tr><td><strong>Supine</strong></td><td>Face up (body position)</td><td>Lying on the back</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Common pairs to memorise: Superior/Inferior, Anterior/Posterior, Medial/Lateral, Proximal/Distal, Prone/Supine. These appear in movement analysis questions.</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 1.2.8 ANATOMICAL MOVEMENTS
+     ============================================================ -->
+<p class="section-label" id="sec128">&#9654;&#65039; 1.2.8 Anatomical Movements (Joint Actions)</p>
+
+<div class="box-wrap coral">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9654;&#65039; Table 1.3 — Anatomical Movement Terms</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Movement</th><th>Definition</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Flexion</strong></td><td>Decrease in the angle of the joint</td><td>Bending the elbow or knee</td></tr>
+          <tr><td><strong>Extension</strong></td><td>Increase in the angle of the joint</td><td>Straightening the elbow or knee</td></tr>
+          <tr><td><strong>Abduction</strong></td><td>Movement of a body part away from the midline of the body</td><td>Lifting arm out to the side (out phase of star jump)</td></tr>
+          <tr><td><strong>Adduction</strong></td><td>Movement of a body part back towards the midline of the body</td><td>Returning arm into the body (in phase of star jump)</td></tr>
+          <tr><td><strong>Circumduction</strong></td><td>Movement of the end of the bone in a circular motion</td><td>Drawing a circle in the air with a straight arm; cricket bowling</td></tr>
+          <tr><td><strong>Rotation</strong></td><td>Movement of a body part around a central axis</td><td>Turning the head from side to side</td></tr>
+          <tr><td><strong>Pronation</strong></td><td>Rotation of the hand so the thumb moves in towards the body (palm facing down)</td><td>Palm facing down</td></tr>
+          <tr><td><strong>Supination</strong></td><td>Rotation of the hand so the thumb moves away from the body (palm facing up)</td><td>Palm facing up</td></tr>
+          <tr><td><strong>Eversion</strong></td><td>Movement of the sole of the foot away from the midline</td><td>Twisting ankle out</td></tr>
+          <tr><td><strong>Inversion</strong></td><td>Movement of the sole of the foot towards the midline</td><td>Twisting ankle in</td></tr>
+          <tr><td><strong>Dorsiflexion</strong></td><td>Decrease in the angle of the joint between the foot and lower leg (toes up)</td><td>Raising toes upwards; heel strike in running</td></tr>
+          <tr><td><strong>Plantarflexion</strong></td><td>Increase in the angle of the joint between the foot and lower leg (toes down)</td><td>Pointing toes to the ground; push-off in sprinting</td></tr>
+          <tr><td><strong>Elevation</strong></td><td>Movement of the shoulders towards the head</td><td>Shrugging the shoulders</td></tr>
+          <tr><td><strong>Depression</strong></td><td>Movement of the shoulders away from the head</td><td>Returning shoulders to normal position after a shrug</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; In any movement analysis question, name the joint, the joint type, the movement, and the agonist muscle. Dorsiflexion and plantarflexion are ankle-specific — do not just write flexion/extension.</p>
+  </div>
+</div>
+
+<!-- ============================================================
+     KEY TERMS ACCORDION
+     ============================================================ -->
+<p class="section-label">&#128218; Key Terms &amp; Definitions</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search. Try a different keyword.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Ch1 Part A: Overview &amp; Skeletal System &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var data = [
+  { cat: "1.1 Overview — Key Vocabulary", color: "purple", hot: false, items: [
+    { term: "Musculoskeletal system", def: "The combined system of bones (skeletal) and muscles (muscular) that work together to produce and control movement of the body.", eg: "Running requires the musculoskeletal system: femur and tibia as levers, quadriceps and hamstrings as the force." },
+    { term: "Skeletal system", def: "The framework of 206 bones that provides structure, protection and movement in the body. Subdivided into axial and appendicular.", eg: "The skeletal system includes the skull, spine, ribcage, limbs and girdles." },
+    { term: "Muscular system", def: "The system of over 600 skeletal muscles that contract to produce movement by pulling on bones.", eg: "The quadriceps muscle group is part of the muscular system — it extends the knee during kicking." },
+    { term: "Lever", def: "A rigid bar (bone) that rotates around a fixed point (joint) when a force (muscle) is applied to move a load. Key to understanding how movement is produced.", eg: "The forearm acts as a lever — elbow is the fulcrum, biceps applies the force, the hand holds the load." }
+  ]},
+  { cat: "1.2.2 Major Bones", color: "blue", hot: false, items: [
+    { term: "Axial skeleton", def: "The central bones forming the longitudinal axis: skull, vertebral column, sternum and ribs (80 bones).", eg: "The skull, spine and ribcage make up the axial skeleton — protecting the brain, spinal cord, heart and lungs." },
+    { term: "Appendicular skeleton", def: "The bones of the limbs (arms and legs) and the two girdles (shoulder and pelvic) that attach them to the axial skeleton (126 bones).", eg: "The femur, humerus, radius, ulna, tibia, fibula and all hand and foot bones are appendicular." },
+    { term: "Diaphysis", def: "The shaft (long middle section) of a long bone. Composed of compact cortical bone surrounding a medullary cavity containing yellow marrow.", eg: "The long middle portion of the femur is the diaphysis." },
+    { term: "Epiphysis", def: "The rounded ends of a long bone, made mainly of spongy bone covered by articular cartilage.", eg: "The proximal epiphysis of the tibia forms part of the knee joint." },
+    { term: "Periosteum", def: "A dense fibrous membrane covering the outer surface of all bones (except articular surfaces). Contains blood vessels and bone-forming cells (osteoblasts).", eg: "Tendons merge into the periosteum to attach muscles to bone." }
+  ]},
+  { cat: "1.2.3 Bone Types", color: "teal", hot: false, items: [
+    { term: "Long bone", def: "A bone where length is greater than width, with a diaphysis and two epiphyses. Primarily function as levers.", eg: "Femur, humerus, tibia, fibula, radius, ulna — all long bones used in limb movement." },
+    { term: "Short bone", def: "A roughly cube-shaped bone where length approximately equals width. Found in the wrist and ankle.", eg: "The carpals (wrist) and tarsals (ankle) are short bones — they absorb shock and allow gliding movements." },
+    { term: "Flat bone", def: "A thin, broad and slightly curved bone. Provides broad surfaces for muscle attachment and protects organs.", eg: "The skull, sternum, scapula and ribs are all flat bones." },
+    { term: "Irregular bone", def: "A bone with a complex shape that does not fit the other categories.", eg: "The vertebrae and the pelvis are irregular bones — their complex shape suits weight-bearing and muscle attachment." },
+    { term: "Sesamoid bone", def: "A small bone embedded within a tendon. Reduces friction on the tendon and redirects the direction of muscle force.", eg: "The patella is the largest sesamoid bone — it protects the knee tendon and improves the mechanical advantage of the quadriceps.", note: "Students often omit sesamoid as the 5th bone type. Always include the patella as your example." }
+  ]},
+  { cat: "1.2.4 Vertebral Column", color: "coral", hot: false, items: [
+    { term: "Cervical vertebrae", def: "The 7 vertebrae of the neck (C1-C7). The atlas (C1) and axis (C2) allow the head to move up, down and side to side.", eg: "Nodding yes uses the atlanto-occipital joint (C1); shaking no uses the atlantoaxial joint (C1-C2)." },
+    { term: "Thoracic vertebrae", def: "12 vertebrae of the mid-back (T1-T12) that articulate with the ribs, connecting the ribcage to the vertebral column.", eg: "The 12 pairs of ribs attach to the 12 thoracic vertebrae." },
+    { term: "Lumbar vertebrae", def: "5 large vertebrae of the lower back (L1-L5). Support the weight of the entire upper body and provide attachment for large back muscles.", eg: "The lumbar spine bears the greatest compressive load during activities like deadlifting or heavy lifting." },
+    { term: "Sacrum", def: "5 vertebrae fused together forming the posterior wall of the pelvis. Connects the vertebral column to the hip bones.", eg: "The sacrum is part of the pelvis — it is fused and immoveable." },
+    { term: "Coccyx (tailbone)", def: "4 vertebrae fused together at the base of the vertebral column. Provides attachment for some small muscles.", eg: "The coccyx is the remnant of a tail in human evolution — it is often injured in falls onto the buttocks." },
+    { term: "Intervertebral disc", def: "Fibrocartilage pads located between each pair of vertebrae. Act as shock absorbers and allow slight movement between vertebrae.", eg: "Intervertebral discs are compressed during activities like running and jumping, absorbing the impact force." }
+  ]},
+  { cat: "1.2.5 Joints", color: "amber", hot: true, items: [
+    { term: "Synarthrosis (fibrous joint)", def: "An immoveable joint where bones are joined by fibrous connective tissue. No joint cavity.", eg: "Skull sutures are synarthroses — they allow no movement but provide strong protection for the brain.", note: "Fibrous = immoveable. The skull sutures are the primary example." },
+    { term: "Amphiarthrosis (cartilaginous joint)", def: "A slightly moveable joint where bones are connected by cartilage. Allows limited movement.", eg: "The intervertebral discs between vertebrae are amphiarthroses — they allow small amounts of bending and rotation." },
+    { term: "Diarthrosis (synovial joint)", def: "A freely moveable joint with a synovial cavity, articular cartilage, synovial membrane and synovial fluid. All sport-relevant joints are synovial.", eg: "The hip, knee, shoulder and elbow are all diarthroses — they allow the wide range of movements needed in sport.", note: "Know all six types of synovial joint with one body example and the movement each allows." },
+    { term: "Ball and socket joint", def: "A synovial joint where a rounded head (ball) fits into a cup-shaped socket. Allows movement in all planes — the greatest range of motion of any joint.", eg: "Hip (femur into acetabulum) and shoulder (humerus into glenoid fossa) are the two ball-and-socket joints." },
+    { term: "Hinge joint", def: "A synovial joint that allows movement in one plane only — flexion and extension. The most common joint type in the body.", eg: "The knee, elbow and ankle are hinge joints — they only flex and extend (like a door hinge).", note: "Hinge = flexion/extension ONLY. Ball and socket = all planes. This distinction is frequently examined." },
+    { term: "Pivot joint", def: "A synovial joint that allows rotation only — one bone rotates around another.", eg: "The atlas-axis joint (neck) allows head rotation (shaking no). The proximal radioulnar joint allows forearm pronation/supination." },
+    { term: "Condyloid joint", def: "A synovial joint that allows flexion, extension, abduction and adduction — but NOT axial rotation.", eg: "The wrist (radiocarpal joint) and the knuckles (metacarpophalangeal joints) are condyloid joints." },
+    { term: "Saddle joint", def: "A synovial joint with two saddle-shaped surfaces. Allows flexion, extension, abduction and adduction — similar to condyloid but with greater ROM.", eg: "The thumb (carpometacarpal joint) is a saddle joint — it gives the thumb its wide range of opposition movement." },
+    { term: "Gliding (plane) joint", def: "A synovial joint where two flat surfaces slide past each other. Allows only slight sliding movement.", eg: "The intercarpal joints (wrist) and intertarsal joints (ankle) are gliding joints — they absorb shock during landing." }
+  ]},
+  { cat: "1.2.6 Synovial Joint Structures", color: "teal", hot: true, items: [
+    { term: "Articular cartilage", def: "Smooth, hyaline cartilage covering the ends of bones at a synovial joint. Reduces friction and absorbs shock during movement.", eg: "The articular cartilage on the femoral condyles and tibial plateau allows smooth knee movement during running." },
+    { term: "Synovial membrane", def: "The inner lining of the joint capsule that secretes synovial fluid. It does not cover the articular cartilage.", eg: "When the knee is injured and swells with fluid, the synovial membrane has produced excess synovial fluid in response." },
+    { term: "Synovial fluid", def: "A viscous, lubricating fluid within the joint cavity that reduces friction, absorbs shock and delivers nutrients to the articular cartilage.", eg: "Warming up increases body temperature, which decreases the viscosity of synovial fluid and improves joint mobility." },
+    { term: "Joint capsule", def: "A sleeve of fibrous connective tissue that completely encloses the synovial joint, providing stability.", eg: "The joint capsule of the shoulder is relatively loose, allowing great mobility but making the shoulder prone to dislocation." },
+    { term: "Ligament", def: "Dense fibrous connective tissue connecting bone to bone at a joint. Prevents excessive ROM and provides joint stability.", eg: "The ACL (anterior cruciate ligament) connects the femur to the tibia, preventing the tibia from sliding forward.", note: "LIGAMENT = bone to bone. TENDON = muscle to bone. Confusing these is the single most common exam error in this topic." },
+    { term: "Tendon", def: "Dense connective tissue attaching muscle to bone. Transmits the force produced by muscle contraction to the skeleton, producing movement at the joint.", eg: "The Achilles tendon connects the gastrocnemius and soleus muscles to the calcaneus (heel bone), allowing plantarflexion.", note: "Tendons are NOT part of the joint structure itself but are critical connectors. Tendinopathy (tendon injury) is a common overuse injury in running sports." },
+    { term: "Bursae (bursa)", def: "Small fluid-filled sacs located near joints where tendons or muscles pass over bony prominences. Reduce friction between tissues.", eg: "The prepatellar bursa sits in front of the patella — when inflamed it causes prepatellar bursitis (housemaid's knee)." },
+    { term: "Menisci", def: "Two C-shaped fibrocartilage pads inside the knee joint (medial and lateral). They deepen the tibial plateau, distribute load and absorb shock.", eg: "A torn medial meniscus is one of the most common knee injuries in football — it occurs when the knee is twisted under load.", note: "Menisci are found ONLY at the knee. Do not apply this term to other joints." }
+  ]},
+  { cat: "1.2.7 Anatomical Position Terms", color: "gray", hot: false, items: [
+    { term: "Superior / Inferior", def: "Superior = towards the head. Inferior = towards the feet.", eg: "The cranium is superior to the femur. The tarsals are inferior to the femur." },
+    { term: "Anterior / Posterior", def: "Anterior = towards the front of the body. Posterior = towards the back.", eg: "The patella is on the anterior surface. The scapula is posterior to the sternum." },
+    { term: "Medial / Lateral", def: "Medial = towards the midline. Lateral = towards the outer side.", eg: "The sternum is medial to the ribs. The fibula is lateral to the tibia." },
+    { term: "Proximal / Distal", def: "Proximal = closer to the trunk. Distal = further from the trunk.", eg: "The femur is proximal to the patella. The phalanges are distal to the humerus." },
+    { term: "Prone / Supine", def: "Prone = face down, lying on the stomach. Supine = face up, lying on the back.", eg: "A push-up is performed in a prone position. A bench press is performed in a supine position." }
+  ]},
+  { cat: "1.2.8 Anatomical Movements", color: "pink", hot: true, items: [
+    { term: "Flexion / Extension", def: "Flexion = decrease in joint angle (bending). Extension = increase in joint angle (straightening).", eg: "Bending the knee is flexion; straightening it is extension. Occurs at hinge joints (knee, elbow, ankle).", note: "Write the specific movement (eg: knee flexion) not just flexion alone — always specify the joint." },
+    { term: "Abduction / Adduction", def: "Abduction = away from the midline. Adduction = toward the midline.", eg: "Raising arm sideways (abduction). Returning arm to side (adduction). Occurs during a star jump.", note: "ABduction = Away. ADduction = Add back towards the body. Confusing these costs marks." },
+    { term: "Circumduction", def: "A combination of flexion, extension, abduction and adduction — the limb traces a cone or circular path.", eg: "Cricket bowling involves shoulder circumduction. Only possible at ball-and-socket joints (shoulder, hip)." },
+    { term: "Rotation (medial/lateral)", def: "Movement of a bone around its own longitudinal axis. Medial = inward. Lateral = outward.", eg: "Turning the head from side to side is cervical rotation. Turning the femur outward is lateral hip rotation." },
+    { term: "Pronation / Supination", def: "Pronation = palm faces down (thumb rotates inward). Supination = palm faces up (thumb rotates outward).", eg: "Pronation occurs when typing on a keyboard. Supination when holding a bowl of soup." },
+    { term: "Dorsiflexion / Plantarflexion", def: "Dorsiflexion = toes up, angle between foot and shin decreases. Plantarflexion = toes down, angle increases.", eg: "Dorsiflexion occurs at heel-strike in running. Plantarflexion occurs at push-off in sprinting.", note: "These are ANKLE-SPECIFIC movements. Do not use plain flexion/extension for the ankle in exam answers." },
+    { term: "Inversion / Eversion", def: "Inversion = sole of foot turns inward (toward midline). Eversion = sole turns outward (away from midline).", eg: "A rolled ankle in basketball is forced inversion. Eversion occurs when walking on uneven ground." },
+    { term: "Elevation / Depression", def: "Elevation = movement upward (eg: raising shoulders). Depression = movement downward (eg: lowering shoulders).", eg: "Shrugging the shoulders is elevation. Returning them to neutral is depression. Also applies to mandible." }
+  ]}
+];
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  var re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+  return text.replace(re, '<span class="hl">$1</span>');
+}
+
+function build(source, q) {
+  var list = document.getElementById("list");
+  var noRes = document.getElementById("no-results");
+  list.innerHTML = "";
+  var total = 0;
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items || !cat.items.length) continue;
+    total += cat.items.length;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    // if searching, expand by default
+    if (q) body.classList.remove("collapsed");
+    else body.classList.add("collapsed");
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + highlight(item.note, q) + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + highlight(item.term, q) + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + highlight(item.def, q) + '</p><span class="term-eg">Eg: ' + highlight(item.eg, q) + '</span>' + note + '</div>';
+      // if searching, auto-open all term bodies
+      if (q) t.querySelector(".term-body").classList.add("open");
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+  noRes.style.display = (total === 0) ? "block" : "none";
+  return total;
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function doSearch(q) {
+  q = q.trim();
+  var clearBtn = document.getElementById("search-clear");
+  var countEl = document.getElementById("search-count");
+  clearBtn.className = q ? "visible" : "";
+
+  if (!q) {
+    build(data, "");
+    countEl.textContent = "";
+    return;
+  }
+
+  var ql = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (item.term.toLowerCase().indexOf(ql) > -1 ||
+          item.def.toLowerCase().indexOf(ql) > -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(ql) > -1) ||
+          (item.note && item.note.toLowerCase().indexOf(ql) > -1)) {
+        items.push(item);
+      }
+    }
+    if (items.length) filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+
+  var count = build(filtered, q);
+  countEl.textContent = count + " result" + (count !== 1 ? "s" : "");
+}
+
+function clearSearch() {
+  document.getElementById("search").value = "";
+  doSearch("");
+}
+
+build(data, "");
+
+function openLightbox(filename, caption) {
+  var overlay = document.getElementById("lightbox");
+  var img = document.getElementById("lightbox-img");
+  var cap = document.getElementById("lightbox-caption");
+  var fn = document.getElementById("lightbox-filename");
+  var err = document.getElementById("lightbox-error");
+  img.src = filename;
+  cap.textContent = caption;
+  fn.textContent = "File: " + filename;
+  err.className = "lightbox-error";
+  img.onerror = function() {
+    err.className = "lightbox-error show";
+  };
+  img.onload = function() {
+    err.className = "lightbox-error";
+  };
+  overlay.className = "lightbox-overlay open";
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightboxBtn() {
+  document.getElementById("lightbox").className = "lightbox-overlay";
+  document.body.style.overflow = "";
+}
+
+function closeLightbox(e) {
+  if (e.target === document.getElementById("lightbox")) {
+    closeLightboxBtn();
+  }
+}
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") { closeLightboxBtn(); }
+});
+</script>
+
+<!-- LIGHTBOX OVERLAY -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-box">
+    <button class="lightbox-close" onclick="closeLightboxBtn()">&#10005;</button>
+    <img id="lightbox-img" src="" alt="Textbook figure">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <p class="lightbox-filename" id="lightbox-filename"></p>
+    <p class="lightbox-error" id="lightbox-error">&#9888; Image not found. Check the image filename matches exactly and is saved in the same folder as this HTML file.</p>
+  </div>
+</div>
+
+</body>
+</html>
