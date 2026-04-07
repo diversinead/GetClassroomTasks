@@ -54,29 +54,27 @@ h1{font-size:1.57em;font-weight:700;color:#085041;margin-bottom:4px}
 .hot-badge .tip::after{content:"";position:absolute;bottom:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:#501313}
 .hot-badge:hover .tip{display:block}
 
-.box-wrap{border-radius:10px;margin-bottom:12px;overflow:visible;border:1.5px solid}
-.box-wrap.green{border-color:#5DCAA5;background:rgba(159,225,203,0.12)}
-.box-wrap.red{border-color:#D85A30;background:rgba(240,153,123,0.1)}
-.box-wrap.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.15)}
-.box-wrap.amber{border-color:#BA7517;background:rgba(239,159,39,0.12)}
-.box-wrap.blue{border-color:#378ADD;background:rgba(133,183,235,0.12)}
-.box-wrap.teal{border-color:#5DCAA5;background:rgba(159,225,203,0.1)}
-.box-wrap.pink{border-color:#D4537E;background:rgba(237,147,177,0.12)}
-.box-wrap.coral{border-color:#D85A30;background:rgba(240,153,123,0.1)}
+.box-wrap{border-radius:8px;margin-bottom:8px;overflow:visible;border:1px solid #D3D1C7;background:#fff;border-left:4px solid #D3D1C7}
+.box-wrap.green{border-left-color:#5DCAA5}
+.box-wrap.red{border-left-color:#D85A30}
+.box-wrap.purple{border-left-color:#AFA9EC}
+.box-wrap.amber{border-left-color:#BA7517}
+.box-wrap.blue{border-left-color:#378ADD}
+.box-wrap.teal{border-left-color:#5DCAA5}
+.box-wrap.pink{border-left-color:#D4537E}
+.box-wrap.coral{border-left-color:#D85A30}
+.box-wrap.gray{border-left-color:#888780}
 
-.box-toggle{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:0.93em;font-weight:700;color:#1a1a18}
-.box-wrap.green .box-toggle{background:rgba(159,225,203,0.3);border-radius:8px 8px 0 0}
-.box-wrap.red .box-toggle{background:rgba(240,153,123,0.25);border-radius:8px 8px 0 0}
-.box-wrap.purple .box-toggle{background:rgba(206,203,246,0.35);border-radius:8px 8px 0 0}
-.box-wrap.amber .box-toggle{background:rgba(239,159,39,0.22);border-radius:8px 8px 0 0}
-.box-wrap.blue .box-toggle{background:rgba(133,183,235,0.25);border-radius:8px 8px 0 0}
-.box-wrap.teal .box-toggle{background:rgba(159,225,203,0.25);border-radius:8px 8px 0 0}
-.box-wrap.pink .box-toggle{background:rgba(237,147,177,0.22);border-radius:8px 8px 0 0}
-.box-wrap.coral .box-toggle{background:rgba(240,153,123,0.22);border-radius:8px 8px 0 0}
+.box-toggle{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;user-select:none;font-size:0.93em;font-weight:700;color:#1a1a18;background:#fff;border-radius:7px}
+.box-toggle:hover{background:#F8F7F3}
 
-.box-body{display:none;border-top:1px solid rgba(0,0,0,0.08)}
+.box-body{display:none;border-top:1px solid #EDECEA}
 .box-body.open{display:block}
 .box-note{font-size:0.79em;color:#412402;background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 5px 5px 0;padding:6px 10px;margin:10px 12px 12px;font-style:italic}
+
+/* Section dividers */
+.section-divider{margin:22px 0 14px;padding:10px 14px;background:#1a1a18;color:#fff;border-radius:8px;font-size:0.93em;font-weight:700;letter-spacing:0.3px}
+.section-divider span{font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px}
 
 table.ct{width:100%;border-collapse:collapse;font-size:0.86em}
 table.ct th{background:#3C3489;color:#fff;padding:7px 10px;text-align:left;font-size:0.93em;font-weight:700}
@@ -137,6 +135,8 @@ table.ct.amber-head th{background:#412402}
   <span id="search-count" style="font-size:0.82em;color:#5F5E5A;"></span>
   <button id="search-clear" onclick="clearSearch()" style="display:none;padding:2px 10px;border-radius:5px;border:1px solid #D3D1C7;background:#fff;font-size:0.82em;cursor:pointer;color:#1a1a18;">&#10005; Clear</button>
 </div>
+
+<div class="section-divider">&#128218; Reference panels <span>click any panel to expand</span></div>
 
 <!-- ===== COMMAND TERMS ===== -->
 <div class="box-wrap blue">
@@ -798,6 +798,8 @@ table.ct.amber-head th{background:#412402}
     <p class="box-note">&#128161; Always identify which level the employees ARE at before recommending what they NEED next. Recommending physiological needs for highly-paid professionals loses marks.</p>
   </div>
 </div>
+
+<div class="section-divider">&#128269; Key terms <span>search above or click a section to expand</span></div>
 
 <div id="no-results" style="display:none;text-align:center;color:#888780;padding:20px;font-style:italic;font-size:0.86em;">No terms match your search.</div>
 <!-- ===== TERMS ACCORDION ===== -->
