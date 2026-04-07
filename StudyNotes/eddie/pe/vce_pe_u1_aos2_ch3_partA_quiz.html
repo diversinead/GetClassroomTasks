@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch3 Part A: Quiz &amp; Exam Practice</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.65; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+    .tab-bar { display: flex; background: #eaf4f7; border-bottom: 2px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-size: .93rem; font-family: Georgia, serif; cursor: pointer; color: #1a3d48; font-weight: bold; }
+    .tab-btn.active { background: #2c5f6e; color: #fff; }
+    .tab-btn:hover:not(.active) { background: #d6eef3; }
+    .tab-pane { display: none; padding: 14px; max-width: 860px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+    .score-bar { background: #fff; border: 1px solid #c8dde4; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .score-text { font-size: .9rem; color: #1a3d48; }
+    .score-text strong { color: #2c5f6e; font-size: 1.08rem; }
+    .progress-track { flex: 1; min-width: 100px; height: 9px; background: #dde4ea; border-radius: 5px; overflow: hidden; }
+    .progress-bar { height: 100%; background: #5DCAA5; border-radius: 5px; width: 0%; transition: width .4s; }
+    .reset-btn { background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: .84rem; font-family: Georgia, serif; }
+    .reset-btn:hover { background: #2c5f6e; color: #fff; }
+    .q-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; padding: 16px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #5DCAA5; background: #f4fdf9; }
+    .q-card.wrong { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num { font-size: .76rem; font-weight: bold; color: #2c5f6e; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; }
+    .q-text { font-size: .93rem; margin-bottom: 11px; font-weight: bold; }
+    .mc-options { display: flex; flex-direction: column; gap: 7px; }
+    .mc-opt { display: flex; align-items: flex-start; gap: 9px; padding: 9px 12px; border: 1px solid #c8dde4; border-radius: 6px; cursor: pointer; font-size: .88rem; }
+    .mc-opt:hover { background: #eaf4f7; }
+    .mc-opt.selected-correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; font-weight: bold; }
+    .mc-opt.selected-wrong { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .mc-opt.reveal-correct { background: #e0f7ef; border-color: #5DCAA5; }
+    .mc-opt.disabled { cursor: default; pointer-events: none; }
+    .opt-letter { font-weight: bold; color: #2c5f6e; min-width: 16px; }
+    .tf-options { display: flex; gap: 10px; margin-top: 7px; }
+    .tf-btn { flex: 1; padding: 9px; border: 2px solid #c8dde4; border-radius: 6px; background: #fff; font-family: Georgia, serif; font-size: .93rem; cursor: pointer; font-weight: bold; }
+    .tf-btn:hover { background: #eaf4f7; }
+    .tf-btn.correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; }
+    .tf-btn.wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.disabled { cursor: default; pointer-events: none; }
+    .match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 9px 0; }
+    .match-col-head { font-weight: bold; font-size: .81rem; color: #2c5f6e; padding: 3px 0; border-bottom: 2px solid #2c5f6e; margin-bottom: 3px; }
+    .match-term { padding: 6px 0; font-size: .86rem; border-bottom: 1px solid #eee; }
+    .match-select { width: 100%; padding: 5px 7px; border: 1px solid #c8dde4; border-radius: 5px; font-family: Georgia, serif; font-size: .83rem; margin-bottom: 3px; }
+    .match-check-btn { margin-top: 7px; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-family: Georgia, serif; font-size: .88rem; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .q-feedback { margin-top: 9px; display: none; padding: 9px 12px; border-radius: 6px; font-size: .86rem; border-left: 4px solid #5DCAA5; background: #f4fdf9; }
+    .q-feedback.show { display: block; }
+    .q-feedback.wrong-fb { background: #deeef2; border-left-color: #2c5f6e; }
+    .q-section-head { background: #2c5f6e; color: #fff; padding: 8px 13px; border-radius: 6px; margin: 20px 0 11px; font-size: .9rem; font-weight: bold; }
+    .eq-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; margin-bottom: 18px; overflow: hidden; }
+    .eq-head { background: #eaf4f7; padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .eq-type  { background: #2c5f6e; color: #fff; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-marks { background: #d6eef3; color: #1a3d48; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; padding: 9px 13px; margin: 10px 14px 0; font-size: .86rem; border-radius: 0 5px 5px 0; }
+    .eq-q { padding: 10px 14px 3px; font-weight: bold; font-size: .93rem; }
+    .eq-body { padding: 9px 14px 14px; }
+    .eq-answer-area { width: 100%; min-height: 80px; border: 1px solid #c8dde4; border-radius: 6px; padding: 9px; font-family: Georgia, serif; font-size: .86rem; resize: vertical; }
+    .eq-reveal-btn { margin-top: 9px; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-family: Georgia, serif; font-size: .86rem; }
+    .eq-reveal-btn:hover { background: #2c5f6e; color: #fff; }
+    .eq-model { display: none; margin-top: 10px; border: 1px solid #c8dde4; border-radius: 7px; overflow: hidden; }
+    .eq-model.open { display: block; }
+    .eq-model-head { background: #e0f7ef; padding: 7px 13px; font-weight: bold; color: #085041; font-size: .88rem; }
+    .eq-model-body { padding: 9px 13px; }
+    .mark-row { display: flex; align-items: flex-start; gap: 9px; padding: 4px 0; border-bottom: 1px solid #eee; font-size: .86rem; }
+    .mark-row:last-child { border-bottom: none; }
+    .mark-tick { color: #5DCAA5; font-weight: bold; min-width: 16px; }
+    .examiner-tip { background: #fdf8f0; border-left: 3px solid #BA7517; padding: 7px 11px; margin-top: 7px; font-size: .82rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .footer { text-align: center; font-size: .76rem; color: #888; padding: 18px 16px 24px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<h1>VCE Physical Education &mdash; Unit 1 AOS 2</h1>
+<p class="subtitle">Chapter 3 Part A &middot; Quiz &amp; Exam Practice &middot; 3A: Pumping Blood Around the Body</p>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('quiz')">&#127919; Quiz</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<div id="tab-quiz" class="tab-pane active">
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#127919; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">Why does the left ventricle have a thicker wall than the right ventricle?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> It pumps blood to both the pulmonary and systemic circuits</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> It must generate higher pressure to push blood through the entire systemic circuit</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> It receives blood from the lungs, requiring more muscular walls</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> It beats more times per minute than the right ventricle</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">An athlete has HR = 68 bpm and SV = 75 mL. What is their cardiac output?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> 4.3 L/min</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> 5.1 L/min</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> 6.8 L/min</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> 0.9 L/min</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">According to the Frank-Starling Law, increased venous return causes:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> Heart rate to fall to compensate</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> Greater EDV, more ventricular stretch, stronger contraction, and higher SV</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> Stroke volume to decrease to prevent overload</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> AV node delay to increase, slowing contraction</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">Which vessel is the ONLY site of gas exchange between blood and tissues?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> Arterioles</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> Venules</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> Capillaries</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> Pulmonary veins</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">A sprinter's HR rises from 60 to 110 bpm while on the starting blocks, before the gun fires. This is BEST described as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> A chemoreceptor response to rising blood CO2</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> A proprioceptor response to muscle movement</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> Anticipatory rise — adrenaline and brain activation before exercise starts</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> A thermoregulatory response to rising core temperature</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">During aerobic exercise, which blood pressure response is most accurate?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> Both systolic and diastolic rise sharply</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> Systolic rises; diastolic stays stable or slightly decreases</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> Systolic stays stable; diastolic rises progressively</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> Both decrease due to widespread vasodilation</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">The SA node is best described as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> A valve preventing backflow between right atrium and right ventricle</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> The heart's pacemaker — fires the electrical impulse for each heartbeat from the right atrium</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> The structure that delays the electrical signal to coordinate atrial and ventricular contraction</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> Fibres distributing the electrical impulse through ventricular walls</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Stroke volume plateaus at approximately what exercise intensity?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> 10&ndash;20% VO2max</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> 40&ndash;60% VO2max</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> 80&ndash;90% VO2max</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> SV does not plateau — it rises continuously to maximum</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section-head">&#9989; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">The pulmonary artery carries oxygenated blood from the heart to the lungs.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">The heart is myogenic — it generates its own electrical impulse without needing a brain signal.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">The skeletal muscle pump assists venous return by squeezing veins during muscle contraction, with valves preventing backflow.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">Veins carry blood at high pressure, which is why they have thick muscular walls.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">During aerobic exercise, diastolic blood pressure rises as significantly as systolic pressure.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-section-head">&#128279; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 14 &mdash; Matching</div>
+    <div class="q-text">Match each heart structure to its function.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Structure</div>
+        <div class="match-term">SA Node</div>
+        <div class="match-term">AV Node</div>
+        <div class="match-term">Left ventricle</div>
+        <div class="match-term">Tricuspid valve</div>
+        <div class="match-term">Purkinje fibres</div>
+      </div>
+      <div>
+        <div class="match-col-head">Function</div>
+        <select class="match-select" id="m1-1"><option value="">-- select --</option><option>Fires the electrical impulse (pacemaker)</option><option>Delays signal so atria contract first</option><option>Pumps oxygenated blood to the body</option><option>Prevents backflow into the right atrium</option><option>Spreads signal through ventricular walls</option></select>
+        <select class="match-select" id="m1-2"><option value="">-- select --</option><option>Fires the electrical impulse (pacemaker)</option><option>Delays signal so atria contract first</option><option>Pumps oxygenated blood to the body</option><option>Prevents backflow into the right atrium</option><option>Spreads signal through ventricular walls</option></select>
+        <select class="match-select" id="m1-3"><option value="">-- select --</option><option>Fires the electrical impulse (pacemaker)</option><option>Delays signal so atria contract first</option><option>Pumps oxygenated blood to the body</option><option>Prevents backflow into the right atrium</option><option>Spreads signal through ventricular walls</option></select>
+        <select class="match-select" id="m1-4"><option value="">-- select --</option><option>Fires the electrical impulse (pacemaker)</option><option>Delays signal so atria contract first</option><option>Pumps oxygenated blood to the body</option><option>Prevents backflow into the right atrium</option><option>Spreads signal through ventricular walls</option></select>
+        <select class="match-select" id="m1-5"><option value="">-- select --</option><option>Fires the electrical impulse (pacemaker)</option><option>Delays signal so atria contract first</option><option>Pumps oxygenated blood to the body</option><option>Prevents backflow into the right atrium</option><option>Spreads signal through ventricular walls</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 15 &mdash; Matching</div>
+    <div class="q-text">Match each vessel to its key characteristic.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Vessel</div>
+        <div class="match-term">Aorta</div>
+        <div class="match-term">Capillary</div>
+        <div class="match-term">Pulmonary artery</div>
+        <div class="match-term">Vena cava</div>
+        <div class="match-term">Arteriole</div>
+      </div>
+      <div>
+        <div class="match-col-head">Characteristic</div>
+        <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Largest artery; oxygenated blood from left ventricle</option><option>One cell thick; only site of gas exchange</option><option>Only artery carrying deoxygenated blood</option><option>Largest vein; returns deoxygenated blood to right atrium</option><option>Controls blood distribution via vasoconstriction/dilation</option></select>
+        <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Largest artery; oxygenated blood from left ventricle</option><option>One cell thick; only site of gas exchange</option><option>Only artery carrying deoxygenated blood</option><option>Largest vein; returns deoxygenated blood to right atrium</option><option>Controls blood distribution via vasoconstriction/dilation</option></select>
+        <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Largest artery; oxygenated blood from left ventricle</option><option>One cell thick; only site of gas exchange</option><option>Only artery carrying deoxygenated blood</option><option>Largest vein; returns deoxygenated blood to right atrium</option><option>Controls blood distribution via vasoconstriction/dilation</option></select>
+        <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Largest artery; oxygenated blood from left ventricle</option><option>One cell thick; only site of gas exchange</option><option>Only artery carrying deoxygenated blood</option><option>Largest vein; returns deoxygenated blood to right atrium</option><option>Controls blood distribution via vasoconstriction/dilation</option></select>
+        <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Largest artery; oxygenated blood from left ventricle</option><option>One cell thick; only site of gas exchange</option><option>Only artery carrying deoxygenated blood</option><option>Largest vein; returns deoxygenated blood to right atrium</option><option>Controls blood distribution via vasoconstriction/dilation</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each term to its definition.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Term</div>
+        <div class="match-term">Stroke volume</div>
+        <div class="match-term">Frank-Starling Law</div>
+        <div class="match-term">Diastole</div>
+        <div class="match-term">Preload</div>
+        <div class="match-term">Cardiac output</div>
+      </div>
+      <div>
+        <div class="match-col-head">Definition</div>
+        <select class="match-select" id="m3-1"><option value="">-- select --</option><option>Volume ejected by left ventricle per beat</option><option>Greater stretch = greater force of contraction</option><option>Relaxation and filling phase of the cardiac cycle</option><option>Ventricular stretch caused by blood filling</option><option>Total volume pumped by left ventricle per minute</option></select>
+        <select class="match-select" id="m3-2"><option value="">-- select --</option><option>Volume ejected by left ventricle per beat</option><option>Greater stretch = greater force of contraction</option><option>Relaxation and filling phase of the cardiac cycle</option><option>Ventricular stretch caused by blood filling</option><option>Total volume pumped by left ventricle per minute</option></select>
+        <select class="match-select" id="m3-3"><option value="">-- select --</option><option>Volume ejected by left ventricle per beat</option><option>Greater stretch = greater force of contraction</option><option>Relaxation and filling phase of the cardiac cycle</option><option>Ventricular stretch caused by blood filling</option><option>Total volume pumped by left ventricle per minute</option></select>
+        <select class="match-select" id="m3-4"><option value="">-- select --</option><option>Volume ejected by left ventricle per beat</option><option>Greater stretch = greater force of contraction</option><option>Relaxation and filling phase of the cardiac cycle</option><option>Ventricular stretch caused by blood filling</option><option>Total volume pumped by left ventricle per minute</option></select>
+        <select class="match-select" id="m3-5"><option value="">-- select --</option><option>Volume ejected by left ventricle per beat</option><option>Greater stretch = greater force of contraction</option><option>Relaxation and filling phase of the cardiac cycle</option><option>Ventricular stretch caused by blood filling</option><option>Total volume pumped by left ventricle per minute</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+</div>
+
+<div id="tab-exam" class="tab-pane">
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">1. Trace the path of a red blood cell from the right ventricle back to the right ventricle, naming key structures passed.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Right ventricle &#8594; pulmonary artery &#8594; lung capillaries (CO2 out / O2 in) (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Pulmonary veins &#8594; left atrium &#8594; left ventricle &#8594; aorta (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Systemic capillaries (O2 delivered / CO2 collected) &#8594; veins &#8594; vena cava &#8594; right atrium &#8594; right ventricle (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Name the capillaries and link them to gas exchange — just listing arteries and veins loses marks.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">2. Calculate cardiac output for an athlete with HR = 155 bpm and SV = 95 mL. Show working.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Formula: Q = HR &times; SV (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Working: 155 &times; 95 = 14,725 mL/min (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Answer: 14.7 L/min (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always convert to L/min in your final answer — leaving it in mL/min loses a mark.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">A sprinter's HR rises from 60 to 110 bpm on the starting blocks before the gun fires.</div>
+    <div class="eq-q">3. Name this response and explain TWO mechanisms responsible for it.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>This is the <strong>anticipatory rise</strong> — HR increases before exercise begins (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Mechanism 1: Adrenaline released from the adrenal medulla stimulates the SA node to increase its firing rate (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Mechanism 2: Higher brain centres (motor cortex/limbic system) activate the sympathetic nervous system, increasing drive to the SA node (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>This is a <strong>feed-forward</strong> response — muscles have not moved, so proprioceptors and chemoreceptors are not yet active (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Do not attribute the anticipatory rise to proprioceptors or chemoreceptors — these require actual exercise. It is driven by the brain and adrenaline alone.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-stimulus">Athlete A: elite cyclist, resting HR 44 bpm, SV 115 mL. Athlete B: untrained, resting HR 78 bpm, SV 65 mL.</div>
+    <div class="eq-q">4. Compare cardiac output at rest and maximal exercise. Explain what adaptations account for the SV difference, referencing the Frank-Starling Law.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:120px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Rest: A = 44 &times; 115 = 5,060 mL/min; B = 78 &times; 65 = 5,070 mL/min &mdash; similar Q, achieved differently (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Athlete A achieves the same Q with a much lower HR, compensated by a higher SV &mdash; reflecting cardiac efficiency from training (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At max exercise, A has greater Q (~32 L/min) vs B (~18 L/min), primarily due to larger maximal SV from cardiac hypertrophy (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Frank-Starling: training causes eccentric cardiac hypertrophy (larger chamber). Greater chamber volume allows larger EDV, more ventricular wall stretch, stronger contraction, and higher SV (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>During exercise, Athlete A also has greater venous return (higher plasma volume from training), further increasing preload and amplifying the Frank-Starling effect (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Above ~50% VO2max, SV plateaus in both athletes &mdash; further Q increases come from HR only, but A starts from a higher SV baseline (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always show the numbers to prove resting Q is similar. Apply Frank-Starling as a chain: training &#8594; larger chamber &#8594; greater EDV &#8594; more stretch &#8594; stronger contraction &#8594; higher SV.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-q">5. Compare arteries, capillaries and veins (structure and function). Describe THREE mechanisms that support venous return during exercise.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:120px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Arteries: away from heart, high pressure. Thick elastic/muscular walls absorb pulsatile pressure. Small lumen relative to wall. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Capillaries: exchange vessels only. One-cell-thick walls minimise diffusion distance for O2, CO2, nutrients and waste. RBCs pass single file. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Veins: toward heart, low pressure. Thin walls, large lumen. One-way valves prevent backflow, especially against gravity in limbs. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Venous return 1 &mdash; Skeletal muscle pump: contracting muscles squeeze veins; valves prevent backflow. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Venous return 2 &mdash; Respiratory pump: deep inhalation creates negative thoracic pressure, drawing blood into the right atrium. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Venous return 3 &mdash; Venoconstriction: sympathetic NS reduces venous capacity, pushing blood centrally and increasing preload &#8594; Frank-Starling &#8594; higher SV. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always explain WHY capillary walls are thin (diffusion distance). Name all three venous return mechanisms &mdash; the muscle pump alone is not sufficient for full marks.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch3 Part A Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'quiz' ? 0 : 1].className = 'tab-btn active';
+}
+var totalQ = 16; var answered = 0; var correctCount = 0;
+function updateScore(gotIt) {
+  answered++; if (gotIt) correctCount++;
+  document.getElementById('score-correct').textContent = correctCount;
+  document.getElementById('score-total').textContent = answered;
+  document.getElementById('progress-bar').style.width = Math.round((answered / totalQ) * 100) + '%';
+}
+var mcAnswers = {
+  mc1: { correct: 'B', explanation: 'The left ventricle pumps blood through the entire systemic circuit, requiring much higher pressure than the right ventricle, which only pumps to the nearby lungs.' },
+  mc2: { correct: 'B', explanation: 'Q = 68 x 75 = 5,100 mL/min = 5.1 L/min. Always convert to L/min.' },
+  mc3: { correct: 'B', explanation: 'Frank-Starling: more venous return = higher EDV = greater stretch = more forceful contraction = higher SV. HR is a separate mechanism.' },
+  mc4: { correct: 'C', explanation: 'Capillaries are the only exchange site. One-cell-thick walls minimise diffusion distance. No gas exchange occurs across artery or vein walls.' },
+  mc5: { correct: 'C', explanation: 'This is the anticipatory rise, driven by adrenaline and brain activation before muscles move. Proprioceptors and chemoreceptors only activate once exercise has begun.' },
+  mc6: { correct: 'B', explanation: 'During aerobic exercise: SBP rises (more cardiac output). DBP stays stable or slightly falls due to muscle vasodilation reducing peripheral resistance. Both rising is typical of heavy resistance exercise.' },
+  mc7: { correct: 'B', explanation: 'SA node = pacemaker in the right atrium wall. Option C describes the AV node; option D describes Purkinje fibres.' },
+  mc8: { correct: 'B', explanation: 'SV plateaus at ~40-60% VO2max. Above this, only HR continues to rise, driving further increases in Q.' }
+};
+var tfAnswers = {
+  tf1: { correct: false, explanation: 'FALSE — the pulmonary artery carries DEOXYGENATED blood to the lungs. It is the only artery carrying deoxygenated blood. Arteries are defined by direction (away from heart), not oxygen content.' },
+  tf2: { correct: true,  explanation: 'TRUE — the heart is myogenic. The SA node fires independently. The ANS modifies rate but does not initiate the beat.' },
+  tf3: { correct: true,  explanation: 'TRUE — contracting muscles compress veins, pushing blood toward the heart. One-way valves prevent backflow. Critical during running and cycling.' },
+  tf4: { correct: false, explanation: 'FALSE — veins operate at LOW pressure and have THIN walls with a large lumen. ARTERIES carry high-pressure blood and have thick walls.' },
+  tf5: { correct: false, explanation: 'FALSE — during aerobic exercise, only SYSTOLIC BP rises significantly. DBP stays stable or slightly drops due to muscle vasodilation. Both rising is characteristic of heavy resistance exercise.' }
+};
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var opts = card.querySelectorAll('.mc-opt');
+  var ans = mcAnswers[qid]; var letters = ['A','B','C','D'];
+  var correct = (chosen === ans.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkTF(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = tfAnswers[qid]; var correct = (chosen === ans.correct);
+  var btns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add('disabled');
+    if ((btns[i].textContent === 'True') === ans.correct) btns[i].classList.add('correct');
+  }
+  if (!correct) el.classList.add('wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkMatch(qid, correctMap, fbid) {
+  var allCorrect = true;
+  var keys = Object.keys(correctMap);
+  for (var i = 0; i < keys.length; i++) {
+    var sel = document.getElementById(keys[i]);
+    if (!sel || sel.value !== correctMap[keys[i]]) { allCorrect = false; break; }
+  }
+  var msg = allCorrect ? '&#10003; All correct!' : 'Not quite. Correct answers:';
+  if (!allCorrect) for (var i = 0; i < keys.length; i++) msg += '<br>&#10003; ' + correctMap[keys[i]];
+  var fb = document.getElementById(fbid);
+  fb.innerHTML = msg;
+  fb.className = 'q-feedback show' + (allCorrect ? '' : ' wrong-fb');
+  var card = document.getElementById(qid);
+  card.classList.add(allCorrect ? 'correct' : 'wrong');
+  var sels = card.querySelectorAll('.match-select');
+  for (var i = 0; i < sels.length; i++) sels[i].disabled = true;
+  var btn = card.querySelector('.match-check-btn');
+  if (btn) btn.disabled = true;
+  updateScore(allCorrect);
+}
+function checkMatch1() {
+  checkMatch('match1',{'m1-1':'Fires the electrical impulse (pacemaker)','m1-2':'Delays signal so atria contract first','m1-3':'Pumps oxygenated blood to the body','m1-4':'Prevents backflow into the right atrium','m1-5':'Spreads signal through ventricular walls'},'fb-match1');
+}
+function checkMatch2() {
+  checkMatch('match2',{'m2-1':'Largest artery; oxygenated blood from left ventricle','m2-2':'One cell thick; only site of gas exchange','m2-3':'Only artery carrying deoxygenated blood','m2-4':'Largest vein; returns deoxygenated blood to right atrium','m2-5':'Controls blood distribution via vasoconstriction/dilation'},'fb-match2');
+}
+function checkMatch3() {
+  checkMatch('match3',{'m3-1':'Volume ejected by left ventricle per beat','m3-2':'Greater stretch = greater force of contraction','m3-3':'Relaxation and filling phase of the cardiac cycle','m3-4':'Ventricular stretch caused by blood filling','m3-5':'Total volume pumped by left ventricle per minute'},'fb-match3');
+}
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+function resetQuiz() {
+  answered = 0; correctCount = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var tfs = cards[i].querySelectorAll('.tf-btn');
+    for (var j = 0; j < tfs.length; j++) {
+      tfs[j].className = 'tf-btn';
+      var v = tfs[j].textContent === 'True';
+      tfs[j].onclick = (function(b,id,val){return function(){checkTF(b,id,val);};})(tfs[j],cards[i].id,v);
+    }
+    var sels = cards[i].querySelectorAll('.match-select');
+    for (var j = 0; j < sels.length; j++) { sels[j].disabled = false; sels[j].value = ''; }
+    var mb = cards[i].querySelector('.match-check-btn');
+    if (mb) mb.disabled = false;
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+</body>
+</html>

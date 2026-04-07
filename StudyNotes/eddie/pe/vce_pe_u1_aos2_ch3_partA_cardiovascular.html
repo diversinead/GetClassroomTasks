@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Ch3 Part A: The Cardiovascular System</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.65; }
+
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 7px; padding: 12px 16px; background: #eef6f9; border-bottom: 1px solid #c8dde4; }
+    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1px solid #2c5f6e; border-radius: 20px; padding: 4px 13px; font-size: .81rem; cursor: pointer; font-family: Georgia, serif; transition: background .2s, color .2s; }
+    .nav-pill:hover { background: #2c5f6e; color: #fff; }
+
+    .search-wrap { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #fff; border-bottom: 1px solid #dde4ea; flex-wrap: wrap; }
+    .search-wrap input { flex: 1; min-width: 160px; padding: 7px 11px; border: 1px solid #b0c4ce; border-radius: 6px; font-size: .88rem; font-family: Georgia, serif; }
+    #search-clear { display: none; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: .81rem; font-family: Georgia, serif; }
+    #search-clear.visible { display: inline-block; }
+    #search-count { font-size: .81rem; color: #555; }
+    mark { background: #ffe066; border-radius: 2px; padding: 0 2px; }
+
+    .section-label { background: #2c5f6e; color: #fff; padding: 8px 18px; font-size: .97rem; font-weight: bold; margin: 16px 0 0; }
+
+    /* Diagram wrap */
+    .diagram-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .diagram-wrap.blue   { border-color: #378ADD; }
+    .diagram-wrap.purple { border-color: #AFA9EC; }
+    .diagram-wrap.amber  { border-color: #BA7517; }
+    .diagram-head { background: #f5faf8; padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .diagram-head.blue   { background: #f5f8fd; color: #1a3060; }
+    .diagram-head.purple { background: #f7f6fe; color: #2e2870; }
+    .diagram-head.amber  { background: #fdf8f0; color: #5a3800; }
+    .diagram-body { display: none; padding: 12px; text-align: center; }
+    .diagram-body.open { display: block; }
+    .diagram-caption { font-size: .81rem; color: #555; margin-top: 8px; font-style: italic; text-align: left; }
+    .cat-arrow { font-size: .82rem; margin-left: 6px; }
+
+    /* Box wrap */
+    .box-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .box-wrap.blue   { border-color: #90bce6; }
+    .box-wrap.purple { border-color: #c8c4f4; }
+    .box-wrap.teal   { border-color: #5DCAA5; }
+    .box-wrap.amber  { border-color: #d4a055; }
+    .box-wrap.coral  { border-color: #e8a48a; }
+    .box-wrap.gray   { border-color: #c8c6be; }
+    .box-toggle { background: #f5faf8; padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .box-body { display: none; padding: 12px 14px; }
+    .box-body.open { display: block; }
+    .box-note { font-size: .82rem; color: #444; margin-top: 9px; background: #fafafa; border-left: 4px solid #5DCAA5; padding: 6px 10px; border-radius: 0 4px 4px 0; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; margin: 4px 0; }
+    th { background: #4a4a5a; color: #fff; padding: 7px 9px; text-align: left; font-size: .84rem; }
+    td { padding: 6px 9px; border-bottom: 1px solid #e8e8ee; vertical-align: top; text-align: left; }
+    tr:nth-child(even) td { background: #f8f8fa; }
+    tr:hover td { background: #f2f2f6; }
+    .ct th { background: #2C2C2A; }
+    .mt th { background: #085041; }
+    .pt th { background: #3C3489; }
+
+    /* Key terms */
+    #list { padding: 0 16px 16px; }
+    .cat-wrap { border: 2px solid #90bce6; border-radius: 8px; margin-bottom: 9px; overflow: hidden; }
+    .cat-wrap.purple { border-color: #c8c4f4; }
+    .cat-wrap.teal   { border-color: #7dd8be; }
+    .cat-wrap.coral  { border-color: #e8a48a; }
+    .cat-wrap.amber  { border-color: #d4a055; }
+    .cat-wrap.blue   { border-color: #90bce6; }
+    .cat-wrap.pink   { border-color: #e8a0c0; }
+    .cat-wrap.gray   { border-color: #c8c6be; }
+    .cat-head { padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .88rem; font-weight: bold; }
+    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.15); color: #2e2870; }
+    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #085041; }
+    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #7a3010; }
+    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12);  color: #5a3800; }
+    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.15); color: #1a3060; }
+    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #6a1040; }
+    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.15); color: #3a3830; }
+    .cat-head-right { display: flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: normal; color: #555; }
+    .cat-body { display: none; padding: 5px 11px 9px; }
+    .cat-body.open { display: block; }
+    .term { border-bottom: 1px solid #eee; padding: 5px 0; }
+    .term:last-child { border-bottom: none; }
+    .term-title { cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: .86rem; padding: 3px 2px; }
+    .term-body { display: none; padding: 5px 3px 3px; font-size: .84rem; }
+    .term-body.open { display: block; }
+    .term-def { margin-bottom: 3px; color: #222; }
+    .term-eg { display: block; font-style: italic; color: #555; font-size: .82rem; margin-top: 2px; }
+    .term-note { display: block; margin-top: 5px; background: #fdf6e8; border-left: 3px solid #BA7517; padding: 4px 8px; font-size: .81rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .arrow { font-size: .78rem; }
+    .hot-badge { position: relative; display: inline-flex; align-items: center; background: #2c5f6e; color: #fff; border-radius: 12px; padding: 2px 8px; font-size: .72rem; font-weight: bold; cursor: default; white-space: nowrap; }
+    .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a3d48; color: #d6eef3; padding: 4px 9px; border-radius: 6px; font-size: .76rem; white-space: nowrap; z-index: 10; font-weight: normal; }
+    .hot-badge:hover .tip { display: block; }
+
+    #no-results { display: none; text-align: center; color: #888; padding: 18px; font-style: italic; }
+    svg text { font-family: Georgia, serif; }
+
+    /* Lightbox */
+    .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-inner { background: #fff; border-radius: 10px; max-width: 92vw; max-height: 90vh; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 9px; position: relative; overflow: auto; }
+    .lightbox-inner img { max-width: 100%; max-height: 68vh; border-radius: 6px; object-fit: contain; }
+    .lightbox-caption { font-size: .9rem; color: #222; text-align: center; }
+    .lightbox-filename { font-size: .76rem; color: #888; }
+    .lightbox-error { display: none; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 13px; border-radius: 6px; font-size: .84rem; text-align: center; }
+    .lightbox-error.show { display: block; }
+    .lightbox-close { position: absolute; top: 9px; right: 13px; font-size: 1.3rem; cursor: pointer; color: #555; background: none; border: none; line-height: 1; }
+
+    .footer { text-align: center; font-size: .77rem; color: #888; padding: 18px 16px 26px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+    @media (max-width: 600px) { h1 { font-size: 1.05rem; } }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Unit 1 AOS 2</h1>
+<p class="subtitle">Chapter 3 Part A &middot; 3A: Pumping Blood Around the Body &middot; Live it Up 5th ed.</p>
+
+<div class="nav-pills">
+  <span class="nav-pill" onclick="jumpTo('sec31')">3A.1 Overview</span>
+  <span class="nav-pill" onclick="jumpTo('sec32')">3A.2 Heart Structure</span>
+  <span class="nav-pill" onclick="jumpTo('sec33')">3A.3 Cardiac Cycle</span>
+  <span class="nav-pill" onclick="jumpTo('sec34')">3A.4 Cardiac Output</span>
+  <span class="nav-pill" onclick="jumpTo('sec35')">3A.5 Blood Vessels</span>
+  <span class="nav-pill" onclick="jumpTo('sec36')">3A.6 Blood Pressure</span>
+  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128218; Key Terms</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ===== 3A.1 OVERVIEW ===== -->
+<p class="section-label" id="sec31">&#10084; 3A.1 &mdash; Overview</p>
+
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128203; What does the cardiovascular system do?</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">Three components: <strong>heart</strong> (pump), <strong>blood</strong> (transport medium), <strong>blood vessels</strong> (network). Together they deliver what muscles need and remove what they produce.</p>
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>What it delivers</th><th>What it removes</th><th>Other roles</th></tr></thead>
+        <tbody>
+          <tr><td>Oxygen to muscles</td><td>Carbon dioxide to lungs</td><td>Thermoregulation (heat via skin blood flow)</td></tr>
+          <tr><td>Glucose &amp; fatty acids (fuel)</td><td>Lactic acid to liver</td><td>Hormone transport (e.g. adrenaline)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; At rest: ~5 L/min pumped. At maximal exercise: up to 40 L/min in elite athletes.</p>
+  </div>
+</div>
+
+<!-- ===== 3A.2 HEART STRUCTURE ===== -->
+<p class="section-label" id="sec32">&#10084; 3A.2 &mdash; Heart Structure</p>
+
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#10084; Heart Chambers &amp; Blood Flow</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <!-- Anatomical-style heart SVG -->
+    <svg viewBox="0 0 540 420" style="max-width:540px;width:100%;display:inline-block;">
+      <defs>
+        <radialGradient id="heartBg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff5f5"/>
+          <stop offset="100%" stop-color="#fde8e0"/>
+        </radialGradient>
+        <marker id="arrR" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#c0392b"/>
+        </marker>
+        <marker id="arrB" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#2c5f6e"/>
+        </marker>
+        <marker id="arrRup" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#c0392b"/>
+        </marker>
+      </defs>
+
+      <!-- Heart outline — anatomical shape -->
+      <path d="M270,370 C180,310 80,260 70,180 C60,110 110,60 160,70 C195,77 230,105 270,145
+               C310,105 345,77 380,70 C430,60 480,110 470,180 C460,260 360,310 270,370 Z"
+            fill="url(#heartBg)" stroke="#c0392b" stroke-width="3"/>
+
+      <!-- Septum -->
+      <line x1="270" y1="120" x2="270" y2="340" stroke="#bbb" stroke-width="2" stroke-dasharray="5,4"/>
+
+      <!-- Right Atrium (upper right from viewer = anatomical left side) -->
+      <ellipse cx="195" cy="155" rx="72" ry="48" fill="#fcd5cc" stroke="#c0392b" stroke-width="1.5" opacity="0.9"/>
+      <text x="195" y="150" text-anchor="middle" fill="#7a1a00" font-size="11" font-weight="bold">Right</text>
+      <text x="195" y="164" text-anchor="middle" fill="#7a1a00" font-size="11" font-weight="bold">Atrium</text>
+
+      <!-- Left Atrium -->
+      <ellipse cx="345" cy="155" rx="72" ry="48" fill="#b8d8f0" stroke="#2c5f6e" stroke-width="1.5" opacity="0.9"/>
+      <text x="345" y="150" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Left</text>
+      <text x="345" y="164" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Atrium</text>
+
+      <!-- Valve indicators -->
+      <text x="195" y="213" text-anchor="middle" fill="#888" font-size="8.5">tricuspid valve</text>
+      <text x="345" y="213" text-anchor="middle" fill="#888" font-size="8.5">bicuspid valve</text>
+
+      <!-- Right Ventricle -->
+      <path d="M130,220 Q115,310 180,340 Q230,360 265,340 L265,220 Z"
+            fill="#f5b8a8" stroke="#c0392b" stroke-width="1.5" opacity="0.92"/>
+      <text x="193" y="285" text-anchor="middle" fill="#7a1a00" font-size="11" font-weight="bold">Right</text>
+      <text x="193" y="299" text-anchor="middle" fill="#7a1a00" font-size="11" font-weight="bold">Ventricle</text>
+      <text x="193" y="314" text-anchor="middle" fill="#7a1a00" font-size="9">thin wall</text>
+
+      <!-- Left Ventricle — thicker wall shown by bolder stroke -->
+      <path d="M275,220 L275,340 Q310,360 360,340 Q415,310 410,220 Z"
+            fill="#90c4e4" stroke="#2c5f6e" stroke-width="3" opacity="0.92"/>
+      <text x="345" y="280" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Left</text>
+      <text x="345" y="294" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Ventricle</text>
+      <text x="345" y="309" text-anchor="middle" fill="#1a3060" font-size="9" font-weight="bold">THICK wall</text>
+
+      <!-- Superior Vena Cava (in, right atrium) -->
+      <rect x="148" y="50" width="26" height="60" rx="5" fill="#f5b8a8" stroke="#c0392b" stroke-width="1.5"/>
+      <!-- Inferior Vena Cava -->
+      <rect x="148" y="180" width="26" height="0" rx="0"/>
+      <!-- Arrow into right atrium from vena cava -->
+      <line x1="161" y1="108" x2="161" y2="135" stroke="#c0392b" stroke-width="2" marker-end="url(#arrR)"/>
+      <text x="100" y="68" text-anchor="middle" fill="#c0392b" font-size="9.5">Superior</text>
+      <text x="100" y="80" text-anchor="middle" fill="#c0392b" font-size="9.5">Vena Cava</text>
+      <line x1="125" y1="75" x2="148" y2="75" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Pulmonary Artery (out right ventricle to lungs) -->
+      <path d="M155,225 Q120,190 100,160 Q85,135 95,105" fill="none" stroke="#c0392b" stroke-width="5" stroke-linecap="round" marker-end="url(#arrR)"/>
+      <text x="56" y="148" text-anchor="middle" fill="#c0392b" font-size="9">Pulmonary</text>
+      <text x="56" y="160" text-anchor="middle" fill="#c0392b" font-size="9">Artery</text>
+      <text x="56" y="172" text-anchor="middle" fill="#888" font-size="8">(deoxy)</text>
+
+      <!-- Pulmonary Vein (in, left atrium from lungs) -->
+      <path d="M385,225 Q420,190 440,160 Q455,135 445,105" fill="none" stroke="#2c5f6e" stroke-width="5" stroke-linecap="round"/>
+      <line x1="445" y1="105" x2="385" y2="155" stroke="#2c5f6e" stroke-width="0" />
+      <!-- arrow on pulmonary vein going INTO left atrium -->
+      <path d="M440,160 Q420,190 390,215" fill="none" stroke="#2c5f6e" stroke-width="5" stroke-linecap="round" marker-end="url(#arrB)"/>
+      <text x="484" y="148" text-anchor="middle" fill="#2c5f6e" font-size="9">Pulmonary</text>
+      <text x="484" y="160" text-anchor="middle" fill="#2c5f6e" font-size="9">Veins</text>
+      <text x="484" y="172" text-anchor="middle" fill="#888" font-size="8">(oxy)</text>
+
+      <!-- Aorta (out left ventricle to body) -->
+      <path d="M380,230 Q415,195 435,165 Q450,138 440,105" fill="none" stroke="#2c5f6e" stroke-width="6" stroke-linecap="round"/>
+      <!-- Aortic arch curve -->
+      <path d="M440,105 Q460,70 400,55 Q360,45 330,60" fill="none" stroke="#2c5f6e" stroke-width="6" stroke-linecap="round" marker-end="url(#arrB)"/>
+      <text x="460" y="48" text-anchor="middle" fill="#2c5f6e" font-size="10" font-weight="bold">Aorta</text>
+      <text x="460" y="60" text-anchor="middle" fill="#888" font-size="8">(oxy → body)</text>
+
+      <!-- LUNGS box top left -->
+      <rect x="14" y="14" width="80" height="32" rx="6" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="54" y="28" text-anchor="middle" fill="#1a3060" font-size="10" font-weight="bold">LUNGS</text>
+      <text x="54" y="40" text-anchor="middle" fill="#1a3060" font-size="8">gas exchange</text>
+
+      <!-- BODY box top right -->
+      <rect x="446" y="14" width="80" height="32" rx="6" fill="#f0fdf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="486" y="28" text-anchor="middle" fill="#085041" font-size="10" font-weight="bold">BODY</text>
+      <text x="486" y="40" text-anchor="middle" fill="#085041" font-size="8">systemic circuit</text>
+
+      <!-- Key -->
+      <rect x="14" y="370" width="12" height="12" fill="#f5b8a8" stroke="#c0392b" stroke-width="1" rx="2"/>
+      <text x="30" y="381" fill="#c0392b" font-size="9">Deoxygenated blood</text>
+      <rect x="150" y="370" width="12" height="12" fill="#90c4e4" stroke="#2c5f6e" stroke-width="1" rx="2"/>
+      <text x="166" y="381" fill="#2c5f6e" font-size="9">Oxygenated blood</text>
+
+      <!-- SA node dot -->
+      <circle cx="230" cy="128" r="5" fill="#f5a623" stroke="#b07a00" stroke-width="1"/>
+      <text x="236" y="122" fill="#5a3800" font-size="8.5">SA node</text>
+      <text x="236" y="132" fill="#5a3800" font-size="8">(pacemaker)</text>
+    </svg>
+    <p class="diagram-caption">The heart is a double pump. <strong>Right side</strong> (pink) = pulmonary circuit to lungs. <strong>Left side</strong> (blue) = systemic circuit to body. The left ventricle has a thicker wall because it pumps against higher pressure. The SA node (orange dot) generates each heartbeat.</p>
+  </div>
+</div>
+
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9829; Valves &amp; Conduction — Quick Reference</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Structure</th><th>Location / role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tricuspid valve</strong></td><td>Right atrium &#8594; right ventricle. Prevents backflow.</td></tr>
+          <tr><td><strong>Bicuspid (mitral) valve</strong></td><td>Left atrium &#8594; left ventricle. Prevents backflow.</td></tr>
+          <tr><td><strong>Pulmonary &amp; aortic semilunar valves</strong></td><td>Exit valves at the top of each ventricle. Stop blood flowing back from arteries.</td></tr>
+          <tr><td><strong>SA node</strong></td><td>Pacemaker in right atrium wall — fires the electrical impulse for each beat (~70 bpm at rest).</td></tr>
+          <tr><td><strong>AV node</strong></td><td>Delays signal so atria finish contracting before ventricles fire.</td></tr>
+          <tr><td><strong>Bundle of His + Purkinje fibres</strong></td><td>Carry signal down the septum and spread it through ventricular walls for simultaneous contraction.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The heart is <strong>myogenic</strong> — it generates its own electrical impulse without needing the brain. The autonomic nervous system can speed it up (sympathetic) or slow it down (parasympathetic), but cannot initiate the beat.</p>
+  </div>
+</div>
+
+<!-- ===== 3A.3 CARDIAC CYCLE ===== -->
+<p class="section-label" id="sec33">&#128260; 3A.3 &mdash; The Cardiac Cycle</p>
+
+<div class="diagram-wrap amber">
+  <div class="diagram-head amber" onclick="toggleB(this)">
+    <span>&#128260; Phases of One Heartbeat</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 580 260" style="max-width:580px;width:100%;display:inline-block;">
+      <defs>
+        <marker id="arrGray" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#888"/>
+        </marker>
+      </defs>
+
+      <!-- Phase 1: Diastole -->
+      <rect x="14" y="30" width="162" height="155" rx="10" fill="#fdf8f0" stroke="#BA7517" stroke-width="2"/>
+      <!-- Mini heart diastole -->
+      <path d="M95,85 C75,70 48,72 48,92 C48,108 70,120 95,138 C120,120 142,108 142,92 C142,72 115,70 95,85 Z"
+            fill="#fde8c8" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="95" y="90" text-anchor="middle" fill="#5a3800" font-size="8">filling</text>
+      <!-- arrows into heart -->
+      <line x1="67" y1="68" x2="78" y2="80" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrGray)"/>
+      <line x1="123" y1="68" x2="112" y2="80" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrGray)"/>
+      <text x="95" y="160" text-anchor="middle" fill="#5a3800" font-size="11.5" font-weight="bold">1. Diastole</text>
+      <text x="95" y="174" text-anchor="middle" fill="#5a3800" font-size="10">Heart relaxes &amp; fills</text>
+      <text x="95" y="189" text-anchor="middle" fill="#888" font-size="9">~0.5 sec at rest</text>
+
+      <!-- Phase 2: Atrial Systole -->
+      <rect x="209" y="30" width="162" height="155" rx="10" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="2"/>
+      <path d="M290,80 C270,65 243,67 243,87 C243,103 265,115 290,133 C315,115 337,103 337,87 C337,67 310,65 290,80 Z"
+            fill="#b8d8f0" stroke="#2c5f6e" stroke-width="1.5"/>
+      <!-- Atria squeeze arrows -->
+      <line x1="263" y1="69" x2="272" y2="80" stroke="#2c5f6e" stroke-width="1.5" marker-end="url(#arrGray)"/>
+      <line x1="317" y1="69" x2="308" y2="80" stroke="#2c5f6e" stroke-width="1.5" marker-end="url(#arrGray)"/>
+      <text x="290" y="100" text-anchor="middle" fill="#1a3060" font-size="8">atria squeeze</text>
+      <text x="290" y="160" text-anchor="middle" fill="#1a3060" font-size="11.5" font-weight="bold">2. Atrial Systole</text>
+      <text x="290" y="174" text-anchor="middle" fill="#1a3060" font-size="10">Atria contract, top up</text>
+      <text x="290" y="188" text-anchor="middle" fill="#1a3060" font-size="10">ventricles</text>
+      <text x="290" y="202" text-anchor="middle" fill="#888" font-size="9">~0.1 sec</text>
+
+      <!-- Phase 3: Ventricular Systole -->
+      <rect x="404" y="30" width="162" height="155" rx="10" fill="#e8f4e0" stroke="#5DCAA5" stroke-width="2"/>
+      <path d="M485,78 C465,63 438,65 438,85 C438,101 460,113 485,131 C510,113 532,101 532,85 C532,65 505,63 485,78 Z"
+            fill="#90c4e4" stroke="#5DCAA5" stroke-width="2"/>
+      <!-- Blood ejected upward -->
+      <line x1="462" y1="64" x2="456" y2="44" stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrGray)"/>
+      <line x1="508" y1="64" x2="514" y2="44" stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrGray)"/>
+      <text x="485" y="105" text-anchor="middle" fill="#085041" font-size="8">ventricles</text>
+      <text x="485" y="116" text-anchor="middle" fill="#085041" font-size="8">squeeze</text>
+      <text x="485" y="160" text-anchor="middle" fill="#085041" font-size="11.5" font-weight="bold">3. Ventricular Systole</text>
+      <text x="485" y="174" text-anchor="middle" fill="#085041" font-size="10">Ventricles contract,</text>
+      <text x="485" y="188" text-anchor="middle" fill="#085041" font-size="10">blood ejected</text>
+      <text x="485" y="202" text-anchor="middle" fill="#888" font-size="9">~0.3 sec</text>
+
+      <!-- Arrows between phases -->
+      <text x="191" y="112" text-anchor="middle" fill="#888" font-size="22">&#8594;</text>
+      <text x="386" y="112" text-anchor="middle" fill="#888" font-size="22">&#8594;</text>
+
+      <!-- Cycle label -->
+      <path d="M560,185 Q580,230 14,230 Q0,230 14,185" stroke="#aaa" stroke-width="1.5" fill="none" stroke-dasharray="4,3" marker-end="url(#arrGray)"/>
+      <text x="290" y="248" text-anchor="middle" fill="#888" font-size="9">1 cycle = ~0.8 sec at rest (75 bpm). During maximal exercise: &lt;0.3 sec per beat.</text>
+    </svg>
+    <p class="diagram-caption">One heartbeat = one complete cardiac cycle. At higher heart rates, diastole shortens most — the filling time reduces. Elite athletes compensate with larger ventricles.</p>
+  </div>
+</div>
+
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128201; Key Cardiac Terms</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Term</th><th>What it means</th><th>Typical value (rest)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Heart rate (HR)</strong></td><td>Beats per minute</td><td>60&ndash;100 bpm; elite athletes 40&ndash;60 bpm</td></tr>
+          <tr><td><strong>Stroke volume (SV)</strong></td><td>Blood ejected by the left ventricle per beat (= EDV &minus; ESV)</td><td>~70 mL</td></tr>
+          <tr><td><strong>Cardiac output (Q)</strong></td><td>Blood pumped by the left ventricle per minute = HR &times; SV</td><td>~5 L/min</td></tr>
+          <tr><td><strong>EDV</strong> (end-diastolic volume)</td><td>Blood in ventricle at end of filling</td><td>~120&ndash;130 mL</td></tr>
+          <tr><td><strong>ESV</strong> (end-systolic volume)</td><td>Blood remaining after contraction</td><td>~50&ndash;60 mL</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; SV = EDV &minus; ESV. The more blood that fills the ventricle, the more that gets ejected.</p>
+  </div>
+</div>
+
+<!-- ===== 3A.4 CARDIAC OUTPUT ===== -->
+<p class="section-label" id="sec34">&#128200; 3A.4 &mdash; Cardiac Output</p>
+
+<div class="diagram-wrap amber">
+  <div class="diagram-head amber" onclick="toggleB(this)">
+    <span>&#128201; Q = HR &times; SV &mdash; Rest to Max Exercise</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 600 200" style="max-width:600px;width:100%;display:inline-block;">
+      <!-- Formula banner -->
+      <rect x="170" y="8" width="260" height="38" rx="8" fill="#2c5f6e"/>
+      <text x="300" y="25" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Q = HR &times; SV</text>
+      <text x="300" y="40" text-anchor="middle" fill="#d6eef3" font-size="10">Cardiac Output = Heart Rate &times; Stroke Volume</text>
+
+      <!-- REST -->
+      <rect x="14" y="60" width="170" height="100" rx="8" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="99" y="80" text-anchor="middle" fill="#1a3d48" font-size="11" font-weight="bold">AT REST</text>
+      <text x="99" y="97" text-anchor="middle" fill="#1a3d48" font-size="10">HR: ~70 bpm</text>
+      <text x="99" y="112" text-anchor="middle" fill="#1a3d48" font-size="10">SV: ~70 mL</text>
+      <line x1="30" y1="120" x2="168" y2="120" stroke="#ddd" stroke-width="1"/>
+      <text x="99" y="137" text-anchor="middle" fill="#2c5f6e" font-size="12" font-weight="bold">Q &#8776; 5 L/min</text>
+      <text x="99" y="152" text-anchor="middle" fill="#888" font-size="9">both HR &amp; SV contribute</text>
+
+      <!-- EXERCISE -->
+      <rect x="215" y="60" width="170" height="100" rx="8" fill="#e8f4e0" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="300" y="80" text-anchor="middle" fill="#085041" font-size="11" font-weight="bold">SUB-MAX EXERCISE</text>
+      <text x="300" y="97" text-anchor="middle" fill="#085041" font-size="10">HR: ~140 bpm</text>
+      <text x="300" y="112" text-anchor="middle" fill="#085041" font-size="10">SV: ~110 mL</text>
+      <line x1="230" y1="120" x2="369" y2="120" stroke="#ddd" stroke-width="1"/>
+      <text x="300" y="137" text-anchor="middle" fill="#085041" font-size="12" font-weight="bold">Q &#8776; 15 L/min</text>
+      <text x="300" y="152" text-anchor="middle" fill="#888" font-size="9">HR + SV both rise</text>
+
+      <!-- MAX -->
+      <rect x="416" y="60" width="170" height="100" rx="8" fill="#fce8e0" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="501" y="80" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">MAX EXERCISE</text>
+      <text x="501" y="97" text-anchor="middle" fill="#7a3010" font-size="10">HR: ~200 bpm</text>
+      <text x="501" y="112" text-anchor="middle" fill="#7a3010" font-size="10">SV: ~160 mL (elite)</text>
+      <line x1="430" y1="120" x2="570" y2="120" stroke="#ddd" stroke-width="1"/>
+      <text x="501" y="137" text-anchor="middle" fill="#D85A30" font-size="12" font-weight="bold">Q &#8776; 32 L/min</text>
+      <text x="501" y="152" text-anchor="middle" fill="#888" font-size="9">HR drives; SV plateaued</text>
+
+      <text x="196" y="115" text-anchor="middle" fill="#aaa" font-size="20">&#8594;</text>
+      <text x="397" y="115" text-anchor="middle" fill="#aaa" font-size="20">&#8594;</text>
+    </svg>
+    <p class="diagram-caption"><strong>Key point:</strong> SV plateaus at ~40&ndash;60% VO2max. Above that, only HR keeps rising to increase Q. Elite athletes have higher SVs due to larger heart chambers (cardiac hypertrophy).</p>
+  </div>
+</div>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9889; What Controls Heart Rate?</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Mechanism</th><th>Effect</th><th>When</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sympathetic NS</strong></td><td>&#8593; HR (releases noradrenaline)</td><td>Exercise, stress</td></tr>
+          <tr><td><strong>Parasympathetic NS</strong> (vagus)</td><td>&#8595; HR — dominant at rest</td><td>Rest, recovery</td></tr>
+          <tr><td><strong>Adrenaline</strong></td><td>&#8593; HR &amp; contractility</td><td>Anticipation + exercise onset</td></tr>
+          <tr><td><strong>Proprioceptors</strong></td><td>Detect muscle movement &#8594; signal to increase HR immediately</td><td>Exercise onset</td></tr>
+          <tr><td><strong>Chemoreceptors</strong></td><td>Detect rising CO2 / falling pH &#8594; &#8593; HR</td><td>Sustained exercise</td></tr>
+          <tr><td><strong>Temperature</strong></td><td>Rising blood temperature &#8594; &#8593; HR</td><td>Prolonged exercise</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; <strong>Anticipatory rise</strong> = HR increases BEFORE exercise starts, driven by adrenaline and the brain. This is a feed-forward response — muscles haven&apos;t moved yet.</p>
+  </div>
+</div>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; What Affects Stroke Volume?</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Factor</th><th>How it works</th><th>Effect on SV</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Preload</strong> (venous return)</td><td>More blood filling the ventricle stretches the walls &#8594; stronger contraction (Frank-Starling Law)</td><td>&#8593;</td></tr>
+          <tr><td><strong>Contractility</strong></td><td>Adrenaline increases the force of each contraction</td><td>&#8593;</td></tr>
+          <tr><td><strong>Afterload</strong></td><td>Resistance the ventricle pumps against — high afterload reduces ejection</td><td>&#8595;</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; <strong>Frank-Starling Law:</strong> The more the heart fills (&#8593; EDV), the harder it contracts &#8594; &#8593; SV. During exercise, the skeletal muscle pump increases venous return &#8594; &#8593; EDV &#8594; &#8593; SV.</p>
+  </div>
+</div>
+
+<!-- ===== 3A.5 BLOOD VESSELS ===== -->
+<p class="section-label" id="sec35">&#128309; 3A.5 &mdash; Blood Vessels</p>
+
+<div class="diagram-wrap">
+  <div class="diagram-head" onclick="toggleB(this)">
+    <span>&#128309; Artery, Capillary &amp; Vein — Cross-sections</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 580 310" style="max-width:580px;width:100%;display:inline-block;">
+      <!-- ===== ARTERY ===== -->
+      <!-- Outer adventitia -->
+      <circle cx="110" cy="130" r="82" fill="#f9d8d0" stroke="#c0392b" stroke-width="2"/>
+      <!-- Tunica media (smooth muscle + elastic) -->
+      <circle cx="110" cy="130" r="64" fill="#e8a090" stroke="#c0392b" stroke-width="1.5"/>
+      <!-- Tunica intima -->
+      <circle cx="110" cy="130" r="46" fill="#f5b8a8" stroke="#c0392b" stroke-width="1"/>
+      <!-- Lumen -->
+      <circle cx="110" cy="130" r="30" fill="#c0392b" opacity="0.7"/>
+      <!-- Label: Artery -->
+      <text x="110" y="18" text-anchor="middle" fill="#7a1a00" font-size="13" font-weight="bold">ARTERY</text>
+      <!-- Layer labels -->
+      <line x1="170" y1="86" x2="148" y2="84" stroke="#888" stroke-width="1"/>
+      <text x="174" y="89" fill="#555" font-size="8.5">Adventitia</text>
+      <line x1="165" y1="108" x2="151" y2="104" stroke="#888" stroke-width="1"/>
+      <text x="168" y="111" fill="#555" font-size="8.5">Media (thick)</text>
+      <line x1="155" y1="128" x2="142" y2="125" stroke="#888" stroke-width="1"/>
+      <text x="158" y="131" fill="#555" font-size="8.5">Intima</text>
+      <line x1="130" y1="130" x2="118" y2="130" stroke="#fff" stroke-width="1"/>
+      <text x="60" y="133" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">lumen</text>
+      <!-- Key props -->
+      <text x="110" y="230" text-anchor="middle" fill="#7a1a00" font-size="10" font-weight="bold">High pressure</text>
+      <text x="110" y="244" text-anchor="middle" fill="#7a1a00" font-size="9">Thick elastic walls</text>
+      <text x="110" y="258" text-anchor="middle" fill="#7a1a00" font-size="9">Away from heart</text>
+      <text x="110" y="272" text-anchor="middle" fill="#7a1a00" font-size="9">No valves</text>
+
+      <!-- ===== CAPILLARY ===== -->
+      <!-- Just endothelium — very thin tube -->
+      <ellipse cx="290" cy="130" rx="14" ry="80" fill="#f0fdf4" stroke="#5DCAA5" stroke-width="2.5"/>
+      <!-- RBC inside -->
+      <ellipse cx="290" cy="104" rx="9" ry="12" fill="#e74c3c" opacity="0.7"/>
+      <ellipse cx="290" cy="130" rx="9" ry="12" fill="#e74c3c" opacity="0.6"/>
+      <ellipse cx="290" cy="156" rx="9" ry="12" fill="#e74c3c" opacity="0.5"/>
+      <!-- O2/CO2 diffusion arrows -->
+      <text x="310" y="95" fill="#5DCAA5" font-size="13" font-weight="bold">&#8592;</text>
+      <text x="263" y="95" fill="#888" font-size="9">O2</text>
+      <text x="310" y="145" fill="#888" font-size="13">&#8594;</text>
+      <text x="260" y="148" fill="#888" font-size="9">CO2</text>
+
+      <text x="290" y="18" text-anchor="middle" fill="#085041" font-size="13" font-weight="bold">CAPILLARY</text>
+      <text x="290" y="230" text-anchor="middle" fill="#085041" font-size="10" font-weight="bold">Exchange site</text>
+      <text x="290" y="244" text-anchor="middle" fill="#085041" font-size="9">1-cell thick wall</text>
+      <text x="290" y="258" text-anchor="middle" fill="#085041" font-size="9">Very low pressure</text>
+      <text x="290" y="272" text-anchor="middle" fill="#085041" font-size="9">RBCs single file</text>
+
+      <!-- ===== VEIN ===== -->
+      <!-- Outer -->
+      <circle cx="466" cy="130" r="80" fill="#d6eef3" stroke="#2c5f6e" stroke-width="2"/>
+      <!-- Thin media -->
+      <circle cx="466" cy="130" r="68" fill="#b8d8f0" stroke="#2c5f6e" stroke-width="1"/>
+      <!-- Thin intima -->
+      <circle cx="466" cy="130" r="60" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1"/>
+      <!-- Large lumen -->
+      <circle cx="466" cy="130" r="50" fill="#2c5f6e" opacity="0.55"/>
+      <!-- Valve flaps inside lumen -->
+      <path d="M435,118 Q455,130 435,142" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1.5"/>
+      <path d="M497,118 Q477,130 497,142" fill="#eaf4f7" stroke="#2c5f6e" stroke-width="1.5"/>
+      <text x="466" y="133" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">valve</text>
+
+      <text x="466" y="18" text-anchor="middle" fill="#1a3060" font-size="13" font-weight="bold">VEIN</text>
+      <!-- Layer labels -->
+      <line x1="524" y1="86" x2="500" y2="86" stroke="#888" stroke-width="1"/>
+      <text x="527" y="89" fill="#555" font-size="8.5">Thin walls</text>
+      <text x="466" y="230" text-anchor="middle" fill="#1a3060" font-size="10" font-weight="bold">Low pressure</text>
+      <text x="466" y="244" text-anchor="middle" fill="#1a3060" font-size="9">Thin walls, large lumen</text>
+      <text x="466" y="258" text-anchor="middle" fill="#1a3060" font-size="9">Valves prevent backflow</text>
+      <text x="466" y="272" text-anchor="middle" fill="#1a3060" font-size="9">Toward heart</text>
+
+      <!-- Scale note -->
+      <text x="290" y="298" text-anchor="middle" fill="#aaa" font-size="8">Note: capillary shown at different scale — it is microscopic compared to arteries and veins</text>
+    </svg>
+    <p class="diagram-caption">Arteries have thick elastic walls to handle high pressure. Capillaries are one cell thick to allow gas exchange. Veins have a large lumen and valves to return blood at low pressure.</p>
+  </div>
+</div>
+
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128197; How Does Blood Return to the Heart? (Venous Return)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Mechanism</th><th>How it works</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Skeletal muscle pump</strong></td><td>Contracting muscles squeeze veins, pushing blood toward the heart. Valves prevent backflow. Most important during exercise.</td></tr>
+          <tr><td><strong>Respiratory pump</strong></td><td>Deep inhaling creates negative chest pressure, drawing blood into the right atrium. Stronger during exercise (deeper breaths).</td></tr>
+          <tr><td><strong>Venous valves</strong></td><td>One-way valves stop blood pooling in limbs — critical when standing upright.</td></tr>
+          <tr><td><strong>Venoconstriction</strong></td><td>Sympathetic NS constricts veins, reducing their capacity and pushing blood toward the heart.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; More venous return &#8594; more preload &#8594; Frank-Starling effect &#8594; higher SV. Venous return and cardiac output are always equal in steady state.</p>
+  </div>
+</div>
+
+<!-- ===== 3A.6 BLOOD PRESSURE ===== -->
+<p class="section-label" id="sec36">&#128200; 3A.6 &mdash; Blood Pressure</p>
+
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Blood Pressure Basics &amp; Exercise Response</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Term</th><th>Meaning</th><th>Normal / Exercise value</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Systolic BP</strong></td><td>Pressure during ventricular contraction (top number)</td><td>~120 mmHg rest; up to ~200 mmHg at max exercise</td></tr>
+          <tr><td><strong>Diastolic BP</strong></td><td>Pressure during relaxation (bottom number)</td><td>~80 mmHg rest; stays stable or slightly &#8595; during aerobic exercise</td></tr>
+          <tr><td><strong>Hypertension</strong></td><td>Chronically high BP (&gt;140/90 mmHg) — major cardiac risk factor</td><td>Managed with aerobic exercise</td></tr>
+          <tr><td><strong>Post-exercise hypotension</strong></td><td>BP falls BELOW resting level for hours after aerobic exercise</td><td>Clinically useful — one reason exercise is prescribed for hypertension</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; During <strong>aerobic exercise</strong>: SBP rises, DBP stays stable (vasodilation reduces resistance). During <strong>heavy resistance exercise</strong>: BOTH SBP and DBP rise sharply (Valsalva manoeuvre + muscle compression of vessels).</p>
+  </div>
+</div>
+
+<!-- ===== KEY TERMS ===== -->
+<p class="section-label" id="secTerms">&#128218; Key Terms &mdash; Chapter 3A</p>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch3 Part A &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightboxBtn()">&#10005;</button>
+    <img id="lightbox-img" src="" alt="Textbook figure">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <p class="lightbox-filename" id="lightbox-filename"></p>
+    <div class="lightbox-error" id="lightbox-error">&#9888; Image not found. Ensure the image file is in the same folder as this HTML file.</div>
+  </div>
+</div>
+
+<script>
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function openLightbox(filename, caption) {
+  var overlay = document.getElementById("lightbox");
+  var img = document.getElementById("lightbox-img");
+  var cap = document.getElementById("lightbox-caption");
+  var fn  = document.getElementById("lightbox-filename");
+  var err = document.getElementById("lightbox-error");
+  img.src = filename; cap.textContent = caption;
+  fn.textContent = "File: " + filename;
+  err.className = "lightbox-error";
+  img.onerror = function() { err.className = "lightbox-error show"; };
+  img.onload  = function() { err.className = "lightbox-error"; };
+  overlay.className = "lightbox-overlay open";
+  document.body.style.overflow = "hidden";
+}
+function closeLightboxBtn() {
+  document.getElementById("lightbox").className = "lightbox-overlay";
+  document.body.style.overflow = "";
+}
+function closeLightbox(e) {
+  if (e.target === document.getElementById("lightbox")) closeLightboxBtn();
+}
+document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeLightboxBtn(); });
+
+var terms = [
+  { cat: "3A.1 Overview", color: "blue", hot: false, items: [
+    { name: "Cardiovascular system", def: "The heart, blood and blood vessels working together to transport materials around the body.", eg: "During a 1500m race it delivers O2 to working muscles and removes CO2.", note: "" },
+    { name: "Cardiac output (Q)", def: "Volume of blood pumped by the left ventricle per minute. Q = HR x SV.", eg: "Rest: 70 x 70 = 4,900 mL/min (~5 L/min).", note: "Always specify units as L/min and specify it is the LEFT ventricle." }
+  ]},
+  { cat: "3A.2 Heart Structure", color: "purple", hot: false, items: [
+    { name: "Myogenic", def: "The heart generates its own electrical impulse — it does not need the brain to initiate each beat.", eg: "A heart removed from the body will continue beating in saline solution.", note: "Myogenic = self-generating. The ANS modifies rate but does not start the beat." },
+    { name: "SA node", def: "The pacemaker — a node in the right atrium wall that fires the electrical signal to start each heartbeat (~70 bpm at rest).", eg: "If the SA node is damaged, an artificial pacemaker can take over.", note: "" },
+    { name: "AV node", def: "Delays the electrical signal briefly so the atria fully contract before the ventricles fire.", eg: "Without AV delay, atria and ventricles would contract simultaneously, reducing efficiency.", note: "" },
+    { name: "Septum", def: "The muscular wall dividing the left and right sides of the heart, preventing oxygenated and deoxygenated blood from mixing.", eg: "A ventricular septal defect (hole in the heart) causes blood mixing, reducing O2 delivery.", note: "" }
+  ]},
+  { cat: "3A.3 Cardiac Cycle", color: "amber", hot: false, items: [
+    { name: "Diastole", def: "The relaxation and filling phase. Chambers refill with blood from veins and atria.", eg: "Athletes with slow resting HRs have longer diastole — more filling time and larger SV.", note: "" },
+    { name: "Systole", def: "The contraction phase. Ventricles contract to eject blood into the arteries.", eg: "During systole the left ventricle ejects ~70 mL into the aorta.", note: "" },
+    { name: "End-diastolic volume (EDV)", def: "Blood in the ventricle at the end of filling, just before contraction. ~120-130 mL at rest.", eg: "Exercise increases venous return, raising EDV to ~180 mL.", note: "" },
+    { name: "End-systolic volume (ESV)", def: "Blood remaining in the ventricle after contraction. SV = EDV minus ESV.", eg: "Adrenaline reduces ESV by increasing contractility, boosting SV.", note: "" }
+  ]},
+  { cat: "3A.4 Cardiac Output", color: "teal", hot: true, items: [
+    { name: "Heart rate (HR)", def: "Number of heartbeats per minute. Rest: 60-100 bpm; elite athletes often 40-60 bpm.", eg: "A trained cyclist rests at 42 bpm; an untrained person at 75 bpm.", note: "Lower resting HR in athletes = increased parasympathetic tone + larger SV, not a weaker heart." },
+    { name: "Stroke volume (SV)", def: "Blood ejected by the left ventricle per beat. SV = EDV minus ESV. Plateaus at ~40-60% VO2max.", eg: "Elite rower: SV of 140 mL at max exercise vs ~90 mL for untrained.", note: "SV plateaus at moderate intensity — only HR continues to rise above that." },
+    { name: "Frank-Starling Law", def: "The greater the stretch on ventricular walls from filling (preload), the greater the force of contraction and the higher the stroke volume.", eg: "During a cycling sprint, leg muscles pump extra blood to the heart, stretching the ventricle and producing a stronger beat.", note: "Name this law explicitly in exam responses when linking venous return to SV." },
+    { name: "Anticipatory rise", def: "Heart rate increases BEFORE exercise begins, driven by adrenaline release and brain activation.", eg: "A 100m sprinter on the blocks may have HR of 120 bpm before the gun fires.", note: "This is feed-forward (brain-driven), not a reflex. Proprioceptors and chemoreceptors require actual exercise." },
+    { name: "Preload", def: "The degree of stretch on ventricular walls caused by the blood volume filling the ventricle (EDV). Higher preload = stronger contraction via Frank-Starling.", eg: "Running increases venous return via the calf muscle pump, raising preload.", note: "" }
+  ]},
+  { cat: "3A.5 Blood Vessels", color: "blue", hot: false, items: [
+    { name: "Artery", def: "Carries blood away from the heart at high pressure. Thick elastic walls, small lumen. Oxygenated except the pulmonary artery.", eg: "The aorta carries oxygenated blood from the left ventricle to the entire body.", note: "Artery = Away from heart. The pulmonary artery is the only artery carrying deoxygenated blood." },
+    { name: "Arteriole", def: "Small arteries that control blood distribution to capillary beds by vasoconstriction and vasodilation.", eg: "Arterioles to the gut constrict during exercise, diverting blood to working muscles.", note: "" },
+    { name: "Capillary", def: "One-cell-thick exchange vessels. The only site where O2, CO2, nutrients and waste products cross between blood and tissues.", eg: "Red blood cells deform to squeeze through capillaries single file in working muscle.", note: "Gas exchange ONLY happens in capillaries — not in artery or vein walls." },
+    { name: "Vein", def: "Carries blood toward the heart at low pressure. Thin walls, large lumen, contains one-way valves. Deoxygenated except pulmonary veins.", eg: "The femoral vein returns blood from the leg to the inferior vena cava.", note: "" },
+    { name: "Venous return", def: "Volume of blood returning to the right atrium per minute. Must equal cardiac output. Increased by the muscle pump, respiratory pump and venoconstriction.", eg: "Cycling rhythmically uses the leg muscle pump to dramatically boost venous return.", note: "Venous return drives preload, which drives SV via Frank-Starling." },
+    { name: "Skeletal muscle pump", def: "Contracting muscles squeeze veins, pushing blood toward the heart. Venous valves prevent backflow.", eg: "Calf raises on a long flight use the muscle pump to prevent blood pooling in legs.", note: "" }
+  ]},
+  { cat: "3A.6 Blood Pressure", color: "gray", hot: false, items: [
+    { name: "Systolic blood pressure", def: "Arterial pressure during ventricular contraction. The top number. ~120 mmHg at rest; rises to ~180-200 mmHg in intense exercise.", eg: "Measured with a sphygmomanometer at the brachial artery.", note: "" },
+    { name: "Diastolic blood pressure", def: "Arterial pressure during ventricular relaxation. The bottom number. ~80 mmHg at rest; stays stable during aerobic exercise.", eg: "DBP stays around 80 mmHg during a long run due to vasodilation in muscles.", note: "Aerobic: SBP rises, DBP stable. Resistance: BOTH rise. A common exam distinction." },
+    { name: "Post-exercise hypotension", def: "Transient fall in BP below resting values for hours after aerobic exercise, due to persistent peripheral vasodilation.", eg: "After a 30-min jog, a hypertensive patient may have 5-10 mmHg lower BP for several hours.", note: "" }
+  ]}
+];
+
+var currentQuery = '';
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
+}
+function buildList(source) {
+  var list = document.getElementById('list');
+  var noRes = document.getElementById('no-results');
+  list.innerHTML = '';
+  var isSearching = currentQuery !== '';
+  if (!source || !source.length) { noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    var wrap = document.createElement('div');
+    wrap.className = 'cat-wrap ' + (cat.color || 'blue');
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : '';
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    wrap.innerHTML = '<div class="cat-head"><span>' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">' + arrow + '</span></div></div>';
+    var head = wrap.querySelector('.cat-head');
+    (function(w, h) {
+      h.onclick = function() {
+        var b = w.querySelector('.cat-body');
+        var a = h.querySelector('.cat-arrow');
+        var o = b.classList.toggle('open');
+        a.innerHTML = o ? '&#9650;' : '&#9660;';
+      };
+    })(wrap, head);
+    var body = document.createElement('div');
+    body.className = bodyClass;
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement('div');
+      t.className = 'term';
+      var dn = isSearching ? highlight(item.name, currentQuery) : item.name;
+      var dd = isSearching ? highlight(item.def,  currentQuery) : item.def;
+      var de = item.eg ? (isSearching ? highlight(item.eg, currentQuery) : item.eg) : '';
+      var noteHtml = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : '';
+      var egHtml   = de ? '<span class="term-eg">Eg: ' + de + '</span>' : '';
+      var tbClass  = isSearching ? 'term-body open' : 'term-body';
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + dn + '</span><span class="arrow">&#9660;</span></div><div class="' + tbClass + '"><p class="term-def">' + dd + '</p>' + egHtml + noteHtml + '</div>';
+      body.appendChild(t);
+    }
+    wrap.appendChild(body);
+    list.appendChild(wrap);
+  }
+}
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  var clearBtn = document.getElementById('search-clear');
+  clearBtn.className = currentQuery ? 'visible' : '';
+  if (!currentQuery) { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    var matchItems = [];
+    for (var j = 0; j < terms[i].items.length; j++) {
+      var item = terms[i].items[j];
+      if (item.name.toLowerCase().indexOf(val) !== -1 ||
+          item.def.toLowerCase().indexOf(val) !== -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(val) !== -1)) {
+        matchItems.push(item);
+      }
+    }
+    if (matchItems.length) filtered.push({ cat: terms[i].cat, color: terms[i].color, hot: terms[i].hot, items: matchItems });
+  }
+  buildList(filtered);
+  var total = 0;
+  for (var k = 0; k < filtered.length; k++) total += filtered[k].items.length;
+  countEl.textContent = total + ' result' + (total !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  document.getElementById('search-clear').className = '';
+  buildList(terms);
+}
+buildList(terms);
+</script>
+</body>
+</html>
