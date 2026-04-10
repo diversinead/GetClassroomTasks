@@ -106,11 +106,15 @@
                   align-items: center; user-select: none; }
   .index-header:hover { background: #f8f9fa; }
   .index-header span { font-size: 13px; font-weight: 700; }
+  .index-header-left { display: flex; align-items: center; gap: 8px; }
+  .popout-btn { background: none; border: 1px solid #ddd; border-radius: 4px; color: #888; font-size: 12px;
+                cursor: pointer; padding: 2px 8px; line-height: 1.4; }
+  .popout-btn:hover { background: #f0f0f0; color: #333; border-color: #bbb; }
   .index-chevron { font-size: 11px; color: #aaa; transition: transform 0.2s; }
   .index-section.open .index-chevron { transform: rotate(90deg); }
   .index-body { display: none; border-top: 1px solid #eee; }
   .index-section.open .index-body { display: block; }
-  .index-iframe { width: 100%; border: none; min-height: 300px; }
+  .index-iframe { width: 100%; border: none; min-height: 600px; }
 
   /* Delete button */
   .chapter-row { display: flex; align-items: center; border-top: 1px solid #f0f0f0; }
@@ -418,18 +422,29 @@
       }
       bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddLinkForm(this,'${sn}')">+ Link</button></div>`;
 
-      // Inline index
+      // Inline index — supports a single string or an array of {title, file}
       if (subject.index) {
-        bodyHtml += `
-          <div class="index-section">
-            <div class="index-header" onclick="this.parentElement.classList.toggle('open')">
-              <span style="color:${themeColor}">Index</span>
-              <span class="index-chevron">&#x25B6;</span>
-            </div>
-            <div class="index-body">
-              <iframe class="index-iframe" src="/studynotes/${subject.index}" onload="this.style.height = this.contentDocument.body.scrollHeight + 20 + 'px'"></iframe>
-            </div>
-          </div>`;
+        var indexItems = typeof subject.index === 'string'
+          ? [{ title: 'Index', file: subject.index }]
+          : subject.index;
+        for (var idx of indexItems) {
+          var popoutBtn = idx.popout
+            ? `<button class="popout-btn" title="Open in new window" onclick="event.stopPropagation(); window.open('/studynotes/${idx.file}', '${idx.title}', 'width=900,height=700,scrollbars=yes,resizable=yes')">&#x29C9; Pop out</button>`
+            : '';
+          bodyHtml += `
+            <div class="index-section">
+              <div class="index-header" onclick="this.parentElement.classList.toggle('open')">
+                <div class="index-header-left">
+                  <span style="color:${themeColor}">${idx.title}</span>
+                  ${popoutBtn}
+                </div>
+                <span class="index-chevron">&#x25B6;</span>
+              </div>
+              <div class="index-body">
+                <iframe class="index-iframe" src="/studynotes/${idx.file}" onload="var f=this; function resize(){f.style.height=f.contentDocument.body.scrollHeight+20+'px'} resize(); new MutationObserver(resize).observe(f.contentDocument.body,{childList:true,subtree:true,attributes:true});"></iframe>
+              </div>
+            </div>`;
+        }
       }
 
       if (hasAos) {
