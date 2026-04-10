@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Study Notes Index</title>
+  <base target="_blank">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 12px; font-size: 1.45rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 11px; font-size: .86rem; }
+
+    /* Progress */
+    .progress-wrap { background: #fff; border-bottom: 1px solid #dde4ea; padding: 12px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .progress-label { font-size: .84rem; color: #2c5f6e; font-weight: bold; white-space: nowrap; }
+    .progress-track { flex: 1; min-width: 120px; height: 10px; background: #dde4ea; border-radius: 5px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #5DCAA5, #2c5f6e); border-radius: 5px; width: 60%; }
+    .progress-count { font-size: .82rem; color: #555; white-space: nowrap; }
+
+    /* Search */
+    .search-wrap { background: #fff; border-bottom: 1px solid #dde4ea; padding: 12px 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .search-wrap input { flex: 1; min-width: 200px; padding: 8px 13px; border: 1.5px solid #b0c4ce; border-radius: 6px; font-size: .9rem; font-family: Georgia, serif; outline: none; }
+    .search-wrap input:focus { border-color: #2c5f6e; }
+    #search-clear { display: none; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 7px 13px; cursor: pointer; font-size: .82rem; font-family: Georgia, serif; }
+    #search-clear.visible { display: inline-block; }
+    #search-count { font-size: .82rem; color: #555; white-space: nowrap; }
+    #no-results { display: none; text-align: center; padding: 40px 16px; color: #888; font-style: italic; font-size: .9rem; }
+
+    /* Page */
+    .page { max-width: 920px; margin: 0 auto; padding: 20px 16px 40px; }
+
+    /* AOS block */
+    .aos-block { margin-bottom: 30px; }
+    .aos-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .aos-label { background: #2c5f6e; color: #fff; border-radius: 5px; padding: 3px 12px; font-size: .8rem; font-weight: bold; white-space: nowrap; }
+    .aos-title { font-size: 1rem; font-weight: bold; color: #1a3d48; }
+    .aos-desc { font-size: .81rem; color: #666; margin-bottom: 12px; padding-left: 2px; }
+    .chapter-label { font-size: .77rem; font-weight: bold; color: #2c5f6e; text-transform: uppercase; letter-spacing: .6px; margin: 14px 0 8px 2px; border-bottom: 1px solid #dde4ea; padding-bottom: 4px; }
+
+    /* Cards */
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    @media (max-width: 580px) { .card-grid { grid-template-columns: 1fr; } }
+
+    .card { background: #fff; border: 1.5px solid #c8dde4; border-left: 5px solid #2c5f6e; border-radius: 8px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; transition: box-shadow .2s; }
+    .card:hover { box-shadow: 0 3px 12px rgba(44,95,110,.12); }
+    .card.coming { border-left-color: #c8dde4; background: #fafafa; }
+    .card.reference { border-left-color: #BA7517; }
+    .card.hidden { display: none; }
+
+    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .card-tag { font-size: .70rem; font-weight: bold; border-radius: 9px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+    .tag-notes { background: #d6eef3; color: #1a3060; border: 1px solid #90bce6; }
+    .tag-quiz  { background: #e8f4e0; color: #085041; border: 1px solid #7dd8be; }
+    .tag-ref   { background: #fdf8f0; color: #5a3800; border: 1px solid #d4a055; }
+    .tag-soon  { background: #f0f0f0; color: #999; border: 1px solid #ccc; }
+
+    .card-title { font-size: .93rem; font-weight: bold; color: #1a3d48; line-height: 1.3; }
+    .card.coming .card-title { color: #999; }
+
+    .card-topics { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+    .card-topics li { font-size: .79rem; color: #555; padding-left: 12px; position: relative; }
+    .card-topics li::before { content: "·"; position: absolute; left: 2px; color: #2c5f6e; font-weight: bold; }
+    .card.coming .card-topics li { color: #bbb; }
+    .card.coming .card-topics li::before { color: #ccc; }
+
+    .card-links { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 3px; }
+    .card-link { display: inline-block; background: #2c5f6e; color: #fff; text-decoration: none; border-radius: 5px; padding: 5px 11px; font-size: .78rem; font-family: Georgia, serif; font-weight: bold; transition: background .15s; }
+    .card-link:hover { background: #1a3d48; }
+    .card-link.ql { background: #085041; }
+    .card-link.ql:hover { background: #063528; }
+    .card-link.rl { background: #BA7517; }
+    .card-link.rl:hover { background: #8a5510; }
+
+    .coming-note { font-size: .77rem; color: #bbb; font-style: italic; }
+
+    /* Tip */
+    .tip-box { background: #fff; border: 1px solid #c8dde4; border-left: 4px solid #5DCAA5; border-radius: 0 6px 6px 0; padding: 9px 13px; margin-bottom: 22px; font-size: .82rem; color: #444; }
+    .tip-box strong { color: #1a3d48; }
+
+    /* Ref section */
+    .ref-section { margin-bottom: 28px; }
+    .ref-header { font-size: .82rem; font-weight: bold; color: #BA7517; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 9px; padding-bottom: 4px; border-bottom: 1px solid #d4a055; }
+
+    mark { background: #ffe066; border-radius: 2px; padding: 0 1px; }
+
+    .footer { text-align: center; font-size: .77rem; color: #888; padding: 16px 16px 24px; border-top: 1px solid #e0e0e6; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Study Notes Index</h1>
+<p class="subtitle">Unit 1 &middot; Live it Up 5th ed. &middot; Save all files in the same folder, then click any link to open</p>
+
+<div class="progress-wrap">
+  <span class="progress-label">Progress:</span>
+  <div class="progress-track"><div class="progress-bar"></div></div>
+  <span class="progress-count">AOS1 complete &middot; AOS2 Ch3 Part A complete &middot; 6 chapters to go</span>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search topics, terms or keywords e.g. RICER, cardiac output, sliding filament...">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<div class="page">
+
+  <!-- AOS 1 -->
+  <div class="aos-block">
+    <div class="aos-header">
+      <span class="aos-label">AOS 1a</span>
+      <span class="aos-title">How does the musculoskeletal system work to produce movement?</span>
+    </div>
+    <p class="aos-desc">Chapters 1 &amp; 2 &mdash; Skeletal system, muscular system, joints, injuries, illnesses and safeguards</p>
+
+    <div class="chapter-label">Chapter 1 — The Musculoskeletal System</div>
+    <div class="card-grid">
+
+      <div class="card" data-keywords="skeletal system bones axial appendicular joints synovial hinge ball socket pivot condyloid saddle plane gliding cartilage ligament tendon movement terminology flexion extension abduction adduction circumduction rotation dorsiflexion plantarflexion inversion eversion pronation supination femur tibia fibula patella humerus radius ulna carpals tarsals vertebrae skull pelvis sternum clavicle scapula metatarsals phalanges long short flat irregular sesamoid compact spongy periosteum endosteum epiphysis diaphysis marrow ossification knee hip shoulder elbow wrist ankle spine intervertebral disc meniscus bursa synovial fluid articular cartilage joint capsule hyaline fibrocartilage yellow bone red bone marrow">
+        <div class="card-head">
+          <div class="card-title">Part A &mdash; Skeletal System &amp; Joints</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>Skeletal functions, bone classifications, axial &amp; appendicular skeleton</li>
+          <li>Joint types: hinge, ball &amp; socket, pivot, condyloid, saddle, gliding</li>
+          <li>Synovial joint structure: cartilage, bursa, synovial fluid</li>
+          <li>Movement terminology: flexion, extension, abduction, rotation, circumduction</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_ch1_partA_skeletal.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_ch1_partA_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+      <div class="card" data-keywords="muscular system muscle fibre types type 1 type 2 slow twitch fast twitch IIa IIx sliding filament theory actin myosin sarcomere sarcolemma cross bridge troponin tropomyosin calcium ATP muscle roles agonist antagonist synergist fixator reciprocal inhibition stretch shortening cycle DOMS motor unit recruitment size principle quadriceps quads rectus femoris vastus lateralis vastus medialis vastus intermedius hamstrings biceps femoris semitendinosus semimembranosus gluteus maximus gluteus medius gastrocnemius soleus tibialis anterior deltoid biceps brachii triceps brachii pectoralis major latissimus dorsi trapezius rhomboids erector spinae abdominals rectus abdominis transverse abdominis obliques iliopsoas hip flexors adductors abductors rotator cuff supraspinatus infraspinatus teres minor subscapularis cardiac muscle smooth muscle skeletal muscle voluntary involuntary striated non-striated pennate fusiform convergent parallel multipennate muscle belly origin insertion fibre arrangement fascicle epimysium perimysium endomysium">
+        <div class="card-head">
+          <div class="card-title">Part B &mdash; Muscular System</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>Muscle fibre types: Type I (slow twitch), Type IIa, Type IIx (fast twitch)</li>
+          <li>Sliding filament theory: actin, myosin, cross-bridge cycle, calcium, ATP</li>
+          <li>Muscle roles: agonist, antagonist, synergist, fixator; reciprocal inhibition</li>
+          <li>Motor unit recruitment, size principle, DOMS</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_ch1_partB_muscular.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_ch1_partB_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+      <div class="card" data-keywords="neural control contractions neuromuscular junction NMJ motor neuron action potential acetylcholine synapse concentric eccentric isometric contraction force production ranking stretch shortening cycle SSC proprioception muscle spindle Golgi tendon organ T-tubules sarcoplasmic reticulum calcium release reuptake power plyometric jumping sprinting landing isokinetic isometric isotonic twitch summation tetanus fatigue all-or-none law threshold stimulus nerve impulse efferent afferent motor cortex spinal cord reflex arc">
+        <div class="card-head">
+          <div class="card-title">Part C &mdash; Neural Control &amp; Contractions</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>Neuromuscular junction: motor neuron, acetylcholine, action potential</li>
+          <li>Contraction types: concentric, eccentric, isometric</li>
+          <li>Force production ranking: eccentric &gt; isometric &gt; concentric</li>
+          <li>Stretch-shortening cycle (SSC), proprioception, muscle spindle, GTO</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_ch1_partC_neural_contractions.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_ch1_partC_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="chapter-label">Chapter 2 — Musculoskeletal Injuries, Illnesses &amp; Safeguards</div>
+    <div class="card-grid">
+
+      <div class="card" data-keywords="soft tissue injuries hard tissue sprain strain grade 1 2 3 fracture stress fracture avulsion compound comminuted transverse oblique dislocation subluxation spinal injury postural conditions scoliosis kyphosis lordosis ACL MCL LCL PCL anterior cruciate ligament medial collateral lateral collateral posterior cruciate rotator cuff tear hamstring strain quad quadricep strain calf strain ankle sprain wrist sprain shoulder dislocation hip flexor contusion bruise haematoma tendon rupture achilles tendon plantar fasciitis shin splints patellofemoral pain runner's knee tennis elbow golfer's elbow bursitis inflammation oedema swelling acute chronic overuse">
+        <div class="card-head">
+          <div class="card-title">Part A &mdash; Injuries &amp; Spinal / Postural Conditions</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>Soft tissue: sprains (Grade 1–3), strains, contusions, bursitis</li>
+          <li>Hard tissue: fractures (stress, avulsion, compound, comminuted)</li>
+          <li>Spinal injuries and postural conditions: scoliosis, kyphosis, lordosis</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_u1_aos1a_ch2_partA_injuries.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_u1_aos1a_ch2_partA_injuries_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+      <div class="card" data-keywords="musculoskeletal illnesses arthritis osteoarthritis OA rheumatoid arthritis RA morning stiffness osteoporosis bone density Wolff law weight bearing exercise degenerative autoimmune joint inflammation cartilage synovial membrane synovitis T-cells immune system osteoclast osteoblast remodelling calcium vitamin D hormone oestrogen testosterone cortisone anti-inflammatory NSAID joint replacement knee hip arthroplasty bone loss fracture risk elderly ageing">
+        <div class="card-head">
+          <div class="card-title">Part A (ii) &mdash; Musculoskeletal Illnesses</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>Osteoarthritis (OA) — degenerative, cartilage breakdown</li>
+          <li>Rheumatoid arthritis (RA) — autoimmune, morning stiffness key differentiator</li>
+          <li>Osteoporosis: bone density, Wolff's Law, weight-bearing exercise</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_u1_aos1a_ch2_partA_illnesses.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_u1_aos1a_ch2_partA_illnesses_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+      <div class="card" data-keywords="injury prevention rehabilitation RICER rest ice compression elevation referral HARM heat alcohol running massage fitness requirements warm up cool down dynamic static stretching TOTAPS talk observe touch active movement passive strength rehabilitation phases acute subacute chronic remodelling physiotherapy return to sport proprioceptive training balance strength conditioning range of motion ROM flexibility bandage strapping pool hydrotherapy exercise program periodisation progressive overload pre-season fitness testing aerobic strength power agility speed endurance screening movement assessment FMS functional movement screen screening pre-participation">
+        <div class="card-head">
+          <div class="card-title">Part B &mdash; Prevention &amp; Rehabilitation</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>RICER (Rest, Ice, Compression, Elevation, Referral) and HARM</li>
+          <li>TOTAPS on-field assessment protocol</li>
+          <li>Warm-up &amp; cool-down: dynamic vs static stretching</li>
+          <li>Rehabilitation phases: acute, subacute, remodelling</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_u1_aos1a_ch2_partB_prevention_rehab.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_u1_aos1a_ch2_partB_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+      <div class="card" data-keywords="keeping body safe protective equipment helmets padding taping bracing ankle tape proprioception mechanical restriction concussion signs symptoms GRTP graduated return to play second impact syndrome mouthguard shin guard shoulder pad gloves eye protection goggles helmet bike AFL cricket batting helmet compression garment brace knee ankle wrist rigid semi-rigid functional bracing athletic taping zinc oxide pre-wrap rigid sports tape kinesiology tape RTP protocol cognitive test neurological baseline test SCAT Sport Concussion Assessment Tool headache dizziness nausea balance memory confusion loss of consciousness">
+        <div class="card-head">
+          <div class="card-title">Part C &mdash; Keeping the Body Safe</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>Protective equipment: helmets, padding, mouthguards</li>
+          <li>Taping &amp; bracing: mechanical restriction vs proprioception</li>
+          <li>Concussion: signs, symptoms, GRTP 6 stages, second impact syndrome</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_u1_aos1a_ch2_partC_keeping_safe.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_u1_aos1a_ch2_partC_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+      <div class="card" data-keywords="permitted prohibited practices WADA World Anti Doping Agency 2 of 3 criteria strict liability creatine protein supplement AAS anabolic androgenic steroids HGH human growth hormone EPO erythropoietin blood doping performance enhancing drugs PED androgen receptor muscle protein synthesis sex specific harms testosterone synthetic testosterone diuretic masking agent stimulant beta blocker glucocorticoid peptide hormone gene doping transfusion autologous homologous red blood cell haematocrit acne liver kidney heart side effects female masculinisation male gynaecomastia adolescent growth plate creatine phosphate phosphocreatine ATP-PCr system whey casein branched chain amino acid BCAA legal supplement sporting integrity doping control urine blood test whereabouts therapeutic use exemption TUE">
+        <div class="card-head">
+          <div class="card-title">Part D &mdash; Permitted &amp; Prohibited Practices</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>WADA: 2-of-3 criteria, strict liability principle</li>
+          <li>Creatine &amp; protein — permitted (creatine is NOT a steroid)</li>
+          <li>AAS: mechanism (androgen receptor → MPS), sex-specific harms</li>
+          <li>HGH and EPO: mechanisms and health risks</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_u1_aos1a_ch2_partD_permitted_prohibited.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_u1_aos1a_ch2_partD_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AOS 2 -->
+  <div class="aos-block">
+    <div class="aos-header">
+      <span class="aos-label">AOS 2</span>
+      <span class="aos-title">What role does the cardiorespiratory system play in movement?</span>
+    </div>
+    <p class="aos-desc">Chapters 3–5 &mdash; Cardiovascular system, respiratory system, training adaptations</p>
+
+    <div class="chapter-label">Chapter 3 — The Cardiovascular System</div>
+    <div class="card-grid">
+
+      <div class="card" data-keywords="cardiovascular system heart structure chambers atria ventricle septum SA node AV node sinoatrial atrioventricular bundle of his purkinje fibres myogenic conduction pacemaker valves tricuspid bicuspid mitral semilunar pulmonary aortic cardiac cycle systole diastole EDV ESV end diastolic end systolic ejection fraction cardiac output Q heart rate HR stroke volume SV Frank Starling law preload afterload contractility anticipatory rise venous return skeletal muscle pump respiratory pump venoconstriction blood vessels arteries capillaries veins arteriole venule aorta vena cava vena cavae pulmonary artery pulmonary vein blood pressure systolic diastolic hypertension post exercise hypotension sympathetic parasympathetic autonomic nervous system adrenaline noradrenaline chemoreceptor proprioceptor baroreceptor temperature thermoreceptor mean arterial pressure MAP peripheral resistance vasoconstriction vasodilation oxygen delivery carbon dioxide removal nutrient transport thermoregulation hormone transport lactic acid pulmonary circuit systemic circuit double pump right left oxygenated deoxygenated cardiac hypertrophy plasma volume">
+        <div class="card-head">
+          <div class="card-title">Part A &mdash; Pumping Blood Around the Body</div>
+          <span class="card-tag tag-notes">Study Notes</span>
+        </div>
+        <ul class="card-topics">
+          <li>Heart structure: chambers, valves, SA/AV nodes, conduction system</li>
+          <li>Cardiac cycle: systole, diastole, EDV, ESV, ejection fraction</li>
+          <li>Cardiac output Q = HR &times; SV; Frank-Starling Law; anticipatory rise</li>
+          <li>Blood vessels: arteries, capillaries, veins; venous return mechanisms</li>
+          <li>Blood pressure: systolic, diastolic, hypertension, post-exercise hypotension</li>
+        </ul>
+        <div class="card-links">
+          <a class="card-link" href="vce_pe_u1_aos2_ch3_partA_cardiovascular.html">&#128218; Study Notes</a>
+          <a class="card-link ql" href="vce_pe_u1_aos2_ch3_partA_quiz.html">&#127919; Quiz</a>
+        </div>
+      </div>
+
+      <div class="card coming" data-keywords="blood flow redistribution vascular shunting vasodilation vasoconstriction arteriole smooth muscle sympathetic nervous system exercise response cardiovascular drift oxygen delivery working muscles">
+        <div class="card-head">
+          <div class="card-title">Part B &mdash; Blood Flow at Rest &amp; During Exercise</div>
+          <span class="card-tag tag-soon">Coming</span>
+        </div>
+        <ul class="card-topics">
+          <li>Redistribution of blood flow during exercise</li>
+          <li>Vascular shunting, vasodilation &amp; vasoconstriction</li>
+          <li>Cardiovascular responses to exercise intensity</li>
+        </ul>
+        <span class="coming-note">&#9201; Not yet built</span>
+      </div>
+
+      <div class="card coming" data-keywords="thermoregulation heat production dissipation sweating skin blood flow vasodilation core temperature cardiovascular drift heat cramps exhaustion stroke hyperthermia hypothermia">
+        <div class="card-head">
+          <div class="card-title">Part C &mdash; Thermoregulation</div>
+          <span class="card-tag tag-soon">Coming</span>
+        </div>
+        <ul class="card-topics">
+          <li>Heat production and dissipation mechanisms</li>
+          <li>Sweating, skin vasodilation, cardiovascular drift</li>
+          <li>Heat illness: cramps, exhaustion, heat stroke</li>
+        </ul>
+        <span class="coming-note">&#9201; Not yet built</span>
+      </div>
+
+    </div>
+
+    <div class="chapter-label">Chapter 4 — The Respiratory System</div>
+    <div class="card-grid">
+
+      <div class="card coming" data-keywords="respiratory system lungs ventilation breathing alveoli trachea bronchi bronchioles diaphragm intercostal muscles tidal volume breathing rate minute ventilation gas exchange oxygen carbon dioxide partial pressure diffusion">
+        <div class="card-head">
+          <div class="card-title">Part A &mdash; The Respiratory System</div>
+          <span class="card-tag tag-soon">Coming</span>
+        </div>
+        <ul class="card-topics">
+          <li>Lung structure: alveoli, bronchi, diaphragm, intercostal muscles</li>
+          <li>Tidal volume, breathing rate, minute ventilation</li>
+          <li>Gas exchange: partial pressure, diffusion at lungs and tissues</li>
+        </ul>
+        <span class="coming-note">&#9201; Not yet built</span>
+      </div>
+
+      <div class="card coming" data-keywords="oxygen uptake transport haemoglobin oxyhaemoglobin oxygen dissociation curve Bohr effect carbon dioxide CO2 transport bicarbonate carbonic acid buffer myoglobin oxygen debt EPOC">
+        <div class="card-head">
+          <div class="card-title">Part B &mdash; Uptake &amp; Transport of Oxygen</div>
+          <span class="card-tag tag-soon">Coming</span>
+        </div>
+        <ul class="card-topics">
+          <li>Haemoglobin, oxyhaemoglobin, oxygen dissociation curve</li>
+          <li>Bohr effect: temperature and pH on oxygen release</li>
+          <li>CO2 transport: bicarbonate buffer system</li>
+        </ul>
+        <span class="coming-note">&#9201; Not yet built</span>
+      </div>
+
+    </div>
+
+    <div class="chapter-label">Chapter 5 — Improving the Cardiorespiratory System</div>
+    <div class="card-grid">
+
+      <div class="card coming" data-keywords="cardiorespiratory training adaptations cardiac hypertrophy eccentric stroke volume increased resting heart rate lower VO2max maximal oxygen uptake training principles overload progression specificity reversibility individuality training methods continuous interval fartlek circuit aerobic anaerobic threshold lactate">
+        <div class="card-head">
+          <div class="card-title">Part A &mdash; Improving Cardiorespiratory Health</div>
+          <span class="card-tag tag-soon">Coming</span>
+        </div>
+        <ul class="card-topics">
+          <li>Training adaptations: cardiac hypertrophy, ↑ SV, ↓ resting HR, ↑ VO2max</li>
+          <li>Training principles: overload, progression, specificity, reversibility</li>
+          <li>Training methods: continuous, interval, fartlek, circuit</li>
+        </ul>
+        <span class="coming-note">&#9201; Not yet built</span>
+      </div>
+
+      <div class="card coming" data-keywords="permitted prohibited cardiorespiratory altitude training blood doping EPO erythropoietin caffeine sodium bicarbonate WADA legal illegal performance enhancing">
+        <div class="card-head">
+          <div class="card-title">Part B &mdash; Permitted &amp; Prohibited Strategy Considerations</div>
+          <span class="card-tag tag-soon">Coming</span>
+        </div>
+        <ul class="card-topics">
+          <li>Altitude training: physiological rationale, legality</li>
+          <li>Blood doping and EPO: mechanism and WADA status</li>
+          <li>Caffeine and sodium bicarbonate: effects and legal status</li>
+        </ul>
+        <span class="coming-note">&#9201; Not yet built</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="no-results">No study notes found matching your search. Try a different term.</div>
+
+</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 &middot; Live it Up 5th ed. &middot; &#9733; &middot; Save all HTML files in the same folder to enable links</p>
+
+<script>
+var allCards = null;
+
+document.getElementById('search').addEventListener('input', function() {
+  doSearch(this.value.trim());
+});
+
+function doSearch(q) {
+  if (!allCards) allCards = document.querySelectorAll('.card');
+  var clearBtn = document.getElementById('search-clear');
+  var countEl = document.getElementById('search-count');
+  var noRes = document.getElementById('no-results');
+
+  clearBtn.className = q ? 'visible' : '';
+
+  // Remove existing highlights
+  var marks = document.querySelectorAll('.card mark');
+  for (var i = marks.length - 1; i >= 0; i--) {
+    var m = marks[i];
+    m.parentNode.replaceChild(document.createTextNode(m.textContent), m);
+    m.parentNode.normalize();
+  }
+
+  if (!q) {
+    for (var i = 0; i < allCards.length; i++) allCards[i].classList.remove('hidden');
+    countEl.textContent = '';
+    noRes.style.display = 'none';
+
+    // Also show all chapter/aos labels
+    var labels = document.querySelectorAll('.chapter-label, .aos-block');
+    for (var i = 0; i < labels.length; i++) labels[i].style.display = '';
+    return;
+  }
+
+  var ql = q.toLowerCase();
+  var escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+
+  // Require at least 3 characters to avoid single-letter matches
+  if (ql.length < 3) {
+    for (var i = 0; i < allCards.length; i++) allCards[i].classList.remove('hidden');
+    countEl.textContent = 'Type at least 3 characters to search';
+    noRes.style.display = 'none';
+    var labels2 = document.querySelectorAll('.chapter-label, .aos-block');
+    for (var i = 0; i < labels2.length; i++) labels2[i].style.display = '';
+    return;
+  }
+
+  // Word-boundary regex for matching: term must appear as a whole word or start of word
+  var matchRe = new RegExp('(?:^|[\\s,])' + escaped, 'i');
+
+  var visible = 0;
+  for (var i = 0; i < allCards.length; i++) {
+    var card = allCards[i];
+    var kw = (card.getAttribute('data-keywords') || '').toLowerCase();
+    var text = card.textContent.toLowerCase();
+    // Match against keywords with word boundary, or visible text (also word boundary)
+    var kwMatch = matchRe.test(kw);
+    var textMatch = matchRe.test(text);
+    if (kwMatch || textMatch) {
+      card.classList.remove('hidden');
+      visible++;
+      // Highlight matching text in topics list only
+      var lis = card.querySelectorAll('.card-topics li');
+      for (var j = 0; j < lis.length; j++) {
+        var li = lis[j];
+        li.innerHTML = li.innerHTML.replace(re, '<mark>$1</mark>');
+      }
+      // Also highlight in title
+      var title = card.querySelector('.card-title');
+      if (title) title.innerHTML = title.innerHTML.replace(re, '<mark>$1</mark>');
+    } else {
+      card.classList.add('hidden');
+    }
+  }
+
+  // Hide empty section headers
+  var chLabels = document.querySelectorAll('.chapter-label');
+  for (var i = 0; i < chLabels.length; i++) {
+    var label = chLabels[i];
+    var grid = label.nextElementSibling;
+    if (!grid) continue;
+    var visibleInGrid = grid.querySelectorAll('.card:not(.hidden)').length;
+    label.style.display = visibleInGrid === 0 ? 'none' : '';
+  }
+
+  // Hide empty AOS blocks
+  var aosBlocks = document.querySelectorAll('.aos-block');
+  for (var i = 0; i < aosBlocks.length; i++) {
+    var block = aosBlocks[i];
+    var visibleCards = block.querySelectorAll('.card:not(.hidden)').length;
+    block.style.display = visibleCards === 0 ? 'none' : '';
+  }
+
+  var refSection = document.querySelector('.ref-section');
+  if (refSection) {
+    var refVisible = refSection.querySelectorAll('.card:not(.hidden)').length;
+    refSection.style.display = refVisible === 0 ? 'none' : '';
+  }
+
+  countEl.textContent = visible + ' section' + (visible !== 1 ? 's' : '') + ' match';
+  noRes.style.display = visible === 0 ? 'block' : 'none';
+}
+
+function clearSearch() {
+  document.getElementById('search').value = '';
+  doSearch('');
+}
+</script>
+</body>
+</html>

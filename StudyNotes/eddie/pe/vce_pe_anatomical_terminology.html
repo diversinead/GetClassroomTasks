@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE — Anatomical Terminology Reference</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+
+    .controls { background: #fff; border-bottom: 1px solid #dde4ea; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+
+    .size-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .size-row span { font-size: .82rem; color: #2c5f6e; font-weight: bold; }
+    .sz-btn { padding: 3px 12px; border-radius: 14px; border: 1.5px solid #2c5f6e; background: #fff; color: #1a3d48; cursor: pointer; font-family: Georgia, serif; font-size: .8rem; font-weight: bold; }
+    .sz-btn.active { background: #2c5f6e; color: #fff; }
+    .sz-btn:hover:not(.active) { background: #eaf4f7; }
+
+    .search-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .search-row input { flex: 1; min-width: 200px; padding: 8px 12px; border: 1.5px solid #b0c4ce; border-radius: 6px; font-size: .88rem; font-family: Georgia, serif; outline: none; }
+    .search-row input:focus { border-color: #2c5f6e; }
+    #search-clear { display: none; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 7px 13px; cursor: pointer; font-size: .81rem; font-family: Georgia, serif; }
+    #search-clear.visible { display: inline-block; }
+    #search-count { font-size: .81rem; color: #555; white-space: nowrap; }
+
+    .filter-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    .filter-row span { font-size: .82rem; color: #555; font-weight: bold; }
+    .filter-btn { padding: 4px 14px; border-radius: 16px; border: 1.5px solid #c8dde4; background: #fff; color: #555; cursor: pointer; font-family: Georgia, serif; font-size: .81rem; font-weight: bold; transition: all .15s; }
+    .filter-btn:hover { border-color: #2c5f6e; color: #1a3d48; }
+    .filter-btn.active                       { background: #2c5f6e; color: #fff; border-color: #2c5f6e; }
+    .filter-btn[data-cat="Directional"].active { background: #378ADD; border-color: #378ADD; }
+    .filter-btn[data-cat="Plane"].active       { background: #BA7517; border-color: #BA7517; }
+    .filter-btn[data-cat="Movement"].active    { background: #085041; border-color: #085041; }
+
+    .table-wrap { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+    th { background: #2c5f6e; color: #fff; padding: 9px 11px; text-align: left; font-size: .84rem; user-select: none; white-space: nowrap; }
+    th.sortable { cursor: pointer; }
+    th.sortable:hover { background: #1a3d48; }
+    th .si { margin-left: 4px; font-size: .75rem; opacity: .55; }
+    th.sort-asc  .si::after { content: " \25B2"; opacity: 1; }
+    th.sort-desc .si::after { content: " \25BC"; opacity: 1; }
+    th:not(.sort-asc):not(.sort-desc) .si::after { content: " \21C5"; }
+
+    td { padding: 8px 11px; border-bottom: 1px solid #e8e8ee; vertical-align: top; text-align: left; }
+    tr:nth-child(even) td { background: #f8f8fa; }
+    tr:hover td { background: #eef6f9; }
+    tr.hidden { display: none; }
+    td strong { color: #1a3d48; }
+    .opp { color: #2c5f6e; font-style: italic; font-size: .82rem; }
+    .eg  { color: #555; font-size: .82rem; }
+    .nt  { color: #888; font-size: .79rem; font-style: italic; }
+
+    .badge { display: inline-block; font-size: .72rem; font-weight: bold; border-radius: 10px; padding: 2px 8px; white-space: nowrap; }
+    .badge.Directional { background: #d6eef3; color: #1a3060; border: 1px solid #90bce6; }
+    .badge.Plane       { background: #fdf8f0; color: #5a3800; border: 1px solid #d4a055; }
+    .badge.Movement    { background: #e8f4e0; color: #085041; border: 1px solid #7dd8be; }
+
+    mark { background: #ffe066; border-radius: 2px; padding: 0 1px; }
+
+    #no-results { display: none; text-align: center; padding: 32px; color: #888; font-style: italic; font-size: .9rem; }
+
+    .footer { text-align: center; font-size: .78rem; color: #888; padding: 18px 16px 26px; border-top: 1px solid #e0e0e6; margin-top: 4px; }
+
+    @media (max-width: 600px) { td, th { padding: 6px 7px; } h1 { font-size: 1.05rem; } }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &mdash; Anatomical Terminology</h1>
+<p class="subtitle">Directional terms &middot; Planes of movement &middot; Body movements &middot; Click any column to sort</p>
+
+<div class="controls">
+
+  <div class="size-row">
+    <span>Text size:</span>
+    <button class="sz-btn active" id="sz-s" onclick="setSize(15)">Default</button>
+    <button class="sz-btn" id="sz-m" onclick="setSize(18)">Large</button>
+    <button class="sz-btn" id="sz-l" onclick="setSize(21)">X-Large</button>
+  </div>
+
+  <div class="search-row">
+    <input id="search" type="text" placeholder="&#128269; Search any term, meaning or example...">
+    <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+    <span id="search-count"></span>
+  </div>
+
+  <div class="filter-row">
+    <span>Filter:</span>
+    <button class="filter-btn active" data-cat="All" onclick="setFilter(this)">All (22)</button>
+    <button class="filter-btn" data-cat="Directional" onclick="setFilter(this)">&#127760; Directional (10)</button>
+    <button class="filter-btn" data-cat="Plane" onclick="setFilter(this)">&#9632; Plane (3)</button>
+    <button class="filter-btn" data-cat="Movement" onclick="setFilter(this)">&#127939; Movement (9)</button>
+  </div>
+
+</div>
+
+<div class="table-wrap">
+<table id="tbl">
+  <thead>
+    <tr>
+      <th class="sortable" onclick="sortTable(0)">Term<span class="si"></span></th>
+      <th class="sortable" onclick="sortTable(1)">Category<span class="si"></span></th>
+      <th class="sortable" onclick="sortTable(2)">Opposite<span class="si"></span></th>
+      <th>Meaning</th>
+      <th>Body / sport example</th>
+      <th class="sortable" onclick="sortTable(5)">Plane<span class="si"></span></th>
+      <th>Exam note</th>
+    </tr>
+  </thead>
+  <tbody id="tbody">
+
+    <tr data-cat="Directional" data-kw="anterior front ventral kneecap patella">
+      <td><strong>Anterior</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Posterior</td>
+      <td>Towards the front of the body</td>
+      <td class="eg">Patella (kneecap) is on the anterior surface of the knee</td>
+      <td>&mdash;</td><td class="nt">Also called <em>ventral</em></td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="posterior back dorsal hamstrings thigh">
+      <td><strong>Posterior</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Anterior</td>
+      <td>Towards the back of the body</td>
+      <td class="eg">Hamstrings are on the posterior surface of the thigh</td>
+      <td>&mdash;</td><td class="nt">Also called <em>dorsal</em></td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="superior above upper head cranial shoulder elbow">
+      <td><strong>Superior</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Inferior</td>
+      <td>Above; higher toward the head</td>
+      <td class="eg">The shoulder is superior to the elbow</td>
+      <td>&mdash;</td><td class="nt">Also called <em>cranial</em></td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="inferior below lower foot caudal knee hip">
+      <td><strong>Inferior</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Superior</td>
+      <td>Below; lower toward the feet</td>
+      <td class="eg">The knee is inferior to the hip</td>
+      <td>&mdash;</td><td class="nt">Also called <em>caudal</em></td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="medial middle midline inner big toe mcl knee ligament">
+      <td><strong>Medial</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Lateral</td>
+      <td>Towards the midline of the body</td>
+      <td class="eg">Big toe is medial; inner knee ligament (MCL) is medial</td>
+      <td>&mdash;</td><td class="nt">Inner side of a limb</td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="lateral side outer away little toe lcl knee ligament">
+      <td><strong>Lateral</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Medial</td>
+      <td>Away from the midline of the body</td>
+      <td class="eg">Little toe is lateral; outer knee ligament (LCL) is lateral</td>
+      <td>&mdash;</td><td class="nt">Outer side of a limb</td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="proximal closer trunk origin knee ankle shoulder wrist limb hip">
+      <td><strong>Proximal</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Distal</td>
+      <td>Closer to the trunk or point of attachment</td>
+      <td class="eg">The knee is proximal to the ankle; the shoulder is proximal to the wrist</td>
+      <td>&mdash;</td><td class="nt">Limbs only</td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="distal further away trunk end fingers toes ankle wrist limb">
+      <td><strong>Distal</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Proximal</td>
+      <td>Further from the trunk or point of attachment</td>
+      <td class="eg">The ankle is distal to the knee; fingers are distal to the wrist</td>
+      <td>&mdash;</td><td class="nt">Limbs only</td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="superficial surface shallow skin graze injury soft tissue">
+      <td><strong>Superficial</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Deep</td>
+      <td>Close to the body's outer surface</td>
+      <td class="eg">Skin is superficial to muscle; a graze is a superficial injury</td>
+      <td>&mdash;</td><td class="nt">&mdash;</td>
+    </tr>
+
+    <tr data-cat="Directional" data-kw="deep beneath under internal bone muscle tissue injury layer">
+      <td><strong>Deep</strong></td><td><span class="badge Directional">Directional</span></td>
+      <td class="opp">Superficial</td>
+      <td>Further beneath the body's surface</td>
+      <td class="eg">Bone is deep to muscle; a deep tissue injury affects inner muscle layers</td>
+      <td>&mdash;</td><td class="nt">&mdash;</td>
+    </tr>
+
+    <tr data-cat="Plane" data-kw="sagittal plane flexion extension left right bicep curl squat running push-up">
+      <td><strong>Sagittal plane</strong></td><td><span class="badge Plane">Plane</span></td>
+      <td class="opp">&mdash;</td>
+      <td>Divides body into left and right halves; movements go forwards and backwards</td>
+      <td class="eg">Bicep curl, squat, running stride, push-up</td>
+      <td>Sagittal</td><td class="nt">Axis of rotation = mediolateral</td>
+    </tr>
+
+    <tr data-cat="Plane" data-kw="frontal coronal plane abduction adduction side star jump cartwheel lateral bend">
+      <td><strong>Frontal plane</strong></td><td><span class="badge Plane">Plane</span></td>
+      <td class="opp">&mdash;</td>
+      <td>Divides body into front and back halves; movements go side to side</td>
+      <td class="eg">Star jump, lateral raise, side bend, cartwheel</td>
+      <td>Frontal</td><td class="nt">Also called <em>coronal</em>; axis = anteroposterior</td>
+    </tr>
+
+    <tr data-cat="Plane" data-kw="transverse horizontal plane rotation twist pivot golf discus netball trunk">
+      <td><strong>Transverse plane</strong></td><td><span class="badge Plane">Plane</span></td>
+      <td class="opp">&mdash;</td>
+      <td>Divides body into top and bottom halves; rotational movements</td>
+      <td class="eg">Trunk rotation, golf swing, pivot step in netball, discus throw</td>
+      <td>Transverse</td><td class="nt">Axis = longitudinal (vertical)</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="flexion decrease angle bend elbow knee bicep curl squat hip">
+      <td><strong>Flexion</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">Extension</td>
+      <td>Decreasing the angle at a joint; bending</td>
+      <td class="eg">Bending the elbow in a bicep curl; bending the knee when squatting</td>
+      <td>Sagittal</td><td class="nt">Occurs at most joints</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="extension increase angle straighten elbow knee push-up stand squat">
+      <td><strong>Extension</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">Flexion</td>
+      <td>Increasing the angle at a joint; straightening</td>
+      <td class="eg">Straightening the elbow at the top of a push-up; standing from a squat</td>
+      <td>Sagittal</td><td class="nt">Occurs at most joints</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="hyperextension beyond normal range back spine gymnastics soccer heading">
+      <td><strong>Hyperextension</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">Flexion</td>
+      <td>Extension beyond the neutral/anatomical position — past the straight joint angle</td>
+      <td class="eg">Back bend in gymnastics; heading a soccer ball (neck); swan dive entry</td>
+      <td>Sagittal</td><td class="nt">Can signal injury risk if forced</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="abduction away midline arm leg lateral raise star jump shoulder hip">
+      <td><strong>Abduction</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">Adduction</td>
+      <td>Moving a limb away from the body's midline</td>
+      <td class="eg">Raising the arm to the side (lateral raise); star jump out phase</td>
+      <td>Frontal</td><td class="nt">Memory: <em>ABsent</em> from midline</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="adduction toward midline arm leg in return star jump hip shoulder">
+      <td><strong>Adduction</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">Abduction</td>
+      <td>Moving a limb toward the body's midline</td>
+      <td class="eg">Bringing the arm back to the side; star jump return phase</td>
+      <td>Frontal</td><td class="nt">Ball &amp; socket and some condyloid joints</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="dorsiflexion ankle toes shin pull up heel strike walking stairs landing">
+      <td><strong>Dorsiflexion</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">Plantarflexion</td>
+      <td>Pulling the toes toward the shin — decreasing the angle at the top (dorsal) surface of the ankle</td>
+      <td class="eg">Heel strike in running; walking up stairs; landing from a jump</td>
+      <td>Sagittal</td><td class="nt"><strong>Ankle only</strong> — do not apply to other joints</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="plantarflexion ankle toes point away calf raise push off sprint dance pointe">
+      <td><strong>Plantarflexion</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">Dorsiflexion</td>
+      <td>Pointing the toes away from the shin — increasing the angle at the sole (plantar) surface of the ankle</td>
+      <td class="eg">Push-off in sprinting; calf raise; en pointe in dance</td>
+      <td>Sagittal</td><td class="nt"><strong>Ankle only</strong> — do not apply to other joints</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="rotation turn pivot transverse spin trunk golf netball head neck shoulder hip">
+      <td><strong>Rotation</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">&mdash;</td>
+      <td>Turning a body segment around its long axis</td>
+      <td class="eg">Trunk rotation in a golf swing; head turn; pivot step in netball</td>
+      <td>Transverse</td><td class="nt">Medial = inward; lateral = outward</td>
+    </tr>
+
+    <tr data-cat="Movement" data-kw="circumduction circle cone all planes ball socket hip shoulder arm bowling cricket gymnastics">
+      <td><strong>Circumduction</strong></td><td><span class="badge Movement">Movement</span></td>
+      <td class="opp">&mdash;</td>
+      <td>Circular movement combining flexion, extension, abduction and adduction — limb traces a cone</td>
+      <td class="eg">Bowler's delivery in cricket; arm windmill; hip circle in gymnastics</td>
+      <td>All planes</td><td class="nt">Ball &amp; socket joints only (hip, shoulder). NOT possible at hinge joints.</td>
+    </tr>
+
+  </tbody>
+</table>
+<div id="no-results">No terms match your search or filter.</div>
+</div>
+
+<p class="footer">VCE Physical Education &mdash; Anatomical Terminology Reference &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+var currentFilter = 'All';
+var currentSearch = '';
+var sortCol = -1;
+var sortDir = 1;
+
+// ===== FONT SIZE =====
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [15,18,21];
+  for (var i = 0; i < ids.length; i++) {
+    document.getElementById(ids[i]).className = sizes[i] === px ? 'sz-btn active' : 'sz-btn';
+  }
+}
+
+// ===== FILTER =====
+function setFilter(btn) {
+  var btns = document.querySelectorAll('.filter-btn');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  btn.classList.add('active');
+  currentFilter = btn.getAttribute('data-cat');
+  applyFilters();
+}
+
+// ===== SEARCH =====
+document.getElementById('search').addEventListener('input', function() {
+  currentSearch = this.value.trim();
+  applyFilters();
+});
+
+function clearSearch() {
+  currentSearch = '';
+  document.getElementById('search').value = '';
+  applyFilters();
+}
+
+// ===== APPLY =====
+function applyFilters() {
+  var q = currentSearch.toLowerCase();
+  var clearBtn = document.getElementById('search-clear');
+  var countEl = document.getElementById('search-count');
+  clearBtn.className = currentSearch ? 'visible' : '';
+
+  removeHighlights();
+
+  var rows = document.querySelectorAll('#tbody tr');
+  var visible = 0;
+
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    var cat = row.getAttribute('data-cat') || '';
+    var searchText = (row.textContent + ' ' + (row.getAttribute('data-kw') || '')).toLowerCase();
+    var catOk = (currentFilter === 'All' || cat === currentFilter);
+    var searchOk = (!q || searchText.indexOf(q) !== -1);
+
+    if (catOk && searchOk) {
+      row.classList.remove('hidden');
+      visible++;
+      if (q) highlightRow(row, currentSearch);
+    } else {
+      row.classList.add('hidden');
+    }
+  }
+
+  document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  countEl.textContent = currentSearch ? (visible + ' result' + (visible !== 1 ? 's' : '')) : '';
+}
+
+function removeHighlights() {
+  var spans = document.querySelectorAll('#tbody span.hl-wrap');
+  for (var i = spans.length - 1; i >= 0; i--) {
+    var sp = spans[i];
+    sp.parentNode.replaceChild(document.createTextNode(sp.textContent), sp);
+  }
+  // also clean bare marks
+  var marks = document.querySelectorAll('#tbody mark');
+  for (var j = marks.length - 1; j >= 0; j--) {
+    var m = marks[j];
+    m.parentNode.replaceChild(document.createTextNode(m.textContent), m);
+    m.parentNode.normalize();
+  }
+}
+
+function highlightRow(row, q) {
+  var escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(' + escaped + ')', 'gi');
+  var cells = row.querySelectorAll('td');
+  for (var i = 0; i < cells.length; i++) {
+    walkNodes(cells[i], re);
+  }
+}
+
+function walkNodes(node, re) {
+  if (node.nodeType === 3) {
+    var val = node.nodeValue;
+    re.lastIndex = 0;
+    if (re.test(val)) {
+      re.lastIndex = 0;
+      var wrap = document.createElement('span');
+      wrap.className = 'hl-wrap';
+      wrap.innerHTML = val.replace(re, '<mark>$1</mark>');
+      node.parentNode.replaceChild(wrap, node);
+    }
+    re.lastIndex = 0;
+  } else if (node.nodeType === 1 && node.tagName !== 'MARK' && node.tagName !== 'SCRIPT') {
+    var ch = Array.prototype.slice.call(node.childNodes);
+    for (var i = 0; i < ch.length; i++) walkNodes(ch[i], re);
+  }
+}
+
+// ===== SORT =====
+function sortTable(col) {
+  var ths = document.querySelectorAll('#tbl thead th');
+  for (var i = 0; i < ths.length; i++) ths[i].classList.remove('sort-asc','sort-desc');
+
+  if (sortCol === col) { sortDir = sortDir * -1; }
+  else { sortCol = col; sortDir = 1; }
+
+  ths[col].classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+
+  var tbody = document.getElementById('tbody');
+  var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+
+  rows.sort(function(a, b) {
+    var ac = a.querySelectorAll('td')[col];
+    var bc = b.querySelectorAll('td')[col];
+    var at = ac ? ac.textContent.trim().toLowerCase() : '';
+    var bt = bc ? bc.textContent.trim().toLowerCase() : '';
+    if (at < bt) return -sortDir;
+    if (at > bt) return  sortDir;
+    return 0;
+  });
+
+  for (var j = 0; j < rows.length; j++) tbody.appendChild(rows[j]);
+  applyFilters();
+}
+
+applyFilters();
+</script>
+</body>
+</html>
