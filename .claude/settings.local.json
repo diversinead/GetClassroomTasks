@@ -10,7 +10,8 @@
       "Bash(pip install:*)",
       "Bash(python -c \":*)",
       "Bash(curl -s http://localhost:8080/api/importantdates/data)",
-      "Bash(curl -s http://localhost:8080/)"
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(git check-ignore *)"
     ]
   }
 }

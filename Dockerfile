@@ -12,6 +12,7 @@ COPY StudyNotes/ StudyNotes/
 COPY Assessments/ Assessments/
 COPY Homework/ Homework/
 COPY TodoLists/ TodoLists/
+COPY ImportantDates/ ImportantDates/
 
 EXPOSE 8080
 

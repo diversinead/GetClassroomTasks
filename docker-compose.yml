@@ -9,6 +9,7 @@ services:
       - ./Homework:/app/Homework
       - ./TodoLists:/app/TodoLists
       - ./StudyNotes:/app/StudyNotes
+      - ./ImportantDates:/app/ImportantDates
     environment:
       - TZ=Australia/Melbourne
     restart: unless-stopped
