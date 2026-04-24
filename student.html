@@ -109,7 +109,7 @@
 
   /* Grade input */
   .grade-input { padding: 4px 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;
-                 background: #fff; width: 60px; text-align: center; }
+                 background: #fff; width: 110px; text-align: center; }
   .grade-input:focus { outline: none; border-color: #2a7a7a; }
 
   /* Inline editing */
@@ -643,7 +643,7 @@
 
     // Grade input
     if (r.type === 'Assessment') {
-      cells[9].innerHTML = `<input type="text" class="ie-input ie-grade" value="${(r.grade || '').replace(/"/g, '&quot;')}" style="width:60px;text-align:center"
+      cells[9].innerHTML = `<input type="text" class="ie-input ie-grade" value="${(r.grade || '').replace(/"/g, '&quot;')}" style="width:110px;text-align:center"
         onkeydown="if(event.key==='Enter') saveInlineEdit(); if(event.key==='Escape') cancelInlineEdit();">`;
     } else {
       cells[9].innerHTML = '';
@@ -715,25 +715,43 @@
       if (!assessment) return;
 
       if (term !== orig._aTerm || week !== orig._aWeek) {
-        // Term/week changed - delete and re-add
+        // Term/week changed - delete and re-add (must be sequential: add depends on delete)
         await fetch('/api/assessments/delete', { method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ student, term: orig._aTerm, week: orig._aWeek, index: orig._aIndex }) });
         await fetch('/api/assessments/add', { method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ student, term, week, date: due, assessment, status, grade }) });
-      } else {
-        await fetch('/api/assessments/edit', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ student, term, week, index: orig._aIndex, assessment, due, grade }) });
-        await fetch('/api/assessments/update_status', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ student, term, week, index: orig._aIndex, status }) });
+        inlineEdit = null;
+        await loadData();
+        return;
       }
+      await Promise.all([
+        fetch('/api/assessments/edit', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student, term, week, index: orig._aIndex, assessment, due, grade }) }),
+        fetch('/api/assessments/update_status', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student, term, week, index: orig._aIndex, status }) })
+      ]);
     } else {
       if (!detail) return;
       await fetch('/api/homework/edit', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: orig._hId, subject, title: detail, due, term, week, status }) });
     }
 
+    // Patch local data in place so the saved grade/status/etc. persist without a full reload
+    if (inlineEdit.type === 'Assessment' && assessmentData) {
+      const weekEntry = (assessmentData[student][String(term)] || []).find(w => w.week === week);
+      if (weekEntry && weekEntry.assessments[orig._aIndex]) {
+        weekEntry.assessments[orig._aIndex].text = assessment;
+        weekEntry.assessments[orig._aIndex].due = due;
+        weekEntry.assessments[orig._aIndex].status = status;
+        weekEntry.assessments[orig._aIndex].grade = grade;
+      }
+    } else if (inlineEdit.type === 'Homework' && homeworkData) {
+      const hw = (homeworkData[student] || []).find(h => h.id === orig._hId);
+      if (hw) { hw.subject = subject; hw.title = detail; hw.due = due; hw.term = term; hw.week = week; hw.status = status; }
+    }
+
     inlineEdit = null;
-    await loadData();
+    renderTable();
   }
 
   function cancelInlineEdit() {
