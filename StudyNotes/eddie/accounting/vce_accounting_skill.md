@@ -490,6 +490,19 @@ The quiz uses the chapter's dominant colour from the cheat sheet — i.e. the co
 </div>
 ```
 
+### Persistence script (mandatory)
+
+Every quiz file **must** end with this tag as the last line before `</body>`:
+```html
+<script src="../quiz_persist.js"></script>
+```
+This is the **only** permitted external dependency in a quiz — the "self-contained, no external dependencies" rule in Output Rules applies to cheat sheets, not quizzes. `quiz_persist.js` lives at `StudyNotes/eddie/quiz_persist.js` and is shared across all subjects (bus_man, PE, accounting). It:
+- Snapshots DOM state (class names, input values, innerHTML of leaf nodes) on every click/input/change with a 100ms debounce
+- Restores state on page load and re-syncs known globals (`mcCorrect`, `mcAnswered`, `mcAnswers` etc.) from the restored DOM
+- Replaces any page-defined `resetQuiz` with a version that also clears `localStorage` for that page's key
+
+**Keep variable names aligned with the re-sync list** so the score counter restores correctly: `mcAnswered` (total) + `mcCorrect` (right) — these match what the script already re-populates. If you rename them, also update `quiz_persist.js`.
+
 ### MC Card Pattern
 
 ```html
@@ -712,7 +725,7 @@ h1{font-size:1.4em;font-weight:700;color:#3C3489;padding:16px 16px 4px}
 2. **Build a coverage table** mapping each textbook exercise to a topic
 3. **Propose** the MC section split (e.g. 3 sections matching section headings) and exam question scenarios to use — confirm with user
 4. **Confirm** quiz colour theme (usually matches the cheat sheet's hot-topic colour or the chapter's textbook colour)
-5. **Build** the complete quiz HTML file
+5. **Build** the complete quiz HTML file — include `<script src="../quiz_persist.js"></script>` as the last line before `</body>` (see Persistence script section above)
 6. **Present** with a summary of what's covered vs the textbook exercises
 
 ---
