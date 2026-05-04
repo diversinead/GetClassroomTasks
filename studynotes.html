@@ -98,6 +98,14 @@
   .quiz-link { padding-left: 40px; }
   .sub-chapter-link { padding-left: 56px; }
   .sub-quiz-link { padding-left: 56px; }
+
+  /* Workbook notes section (same look as quizzes) */
+  .notes-label { padding: 8px 40px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+                 letter-spacing: 0.4px; color: #999; border-top: 1px dashed #e0e0e0; margin-top: 4px; }
+  .sub-notes-label { padding: 8px 56px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+                     letter-spacing: 0.4px; color: #999; border-top: 1px dashed #e0e0e0; margin-top: 4px; }
+  .notes-link { padding-left: 40px; }
+  .sub-notes-link { padding-left: 56px; }
   .sub-add-row { padding-left: 56px; border-top: 1px solid #f0f0f0; }
 
   /* Inline index */
@@ -149,7 +157,7 @@
     sel.className = 'file-input';
     const blank = document.createElement('option');
     blank.value = '';
-    blank.textContent = '— Select HTML file —';
+    blank.textContent = '— Select File —';
     sel.appendChild(blank);
     for (const f of availableFiles) {
       const opt = document.createElement('option');
@@ -359,6 +367,46 @@
     loadNotes();
   }
 
+  function showAddNotesForm(btn, subjectName, aosName, subsection) {
+    if (activeForm) { activeForm.remove(); activeForm = null; }
+    const form = document.createElement('div');
+    form.className = 'inline-form indent';
+    const titleInput = document.createElement('input');
+    titleInput.className = 'title-input';
+    titleInput.placeholder = 'Workbook notes title, e.g. Lessons 1-3';
+    const fileSelect = createFileSelect();
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'save-btn';
+    saveBtn.style.background = themeColor;
+    saveBtn.textContent = 'Add';
+    saveBtn.onclick = async function() {
+      const title = titleInput.value.trim();
+      const file = fileSelect.value;
+      if (!title) return;
+      await apiPost('/api/studynotes/add_notes', {
+        student, subject: subjectName, aos: aosName, title, file, subsection: subsection || ''
+      });
+      loadNotes();
+    };
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'cancel-btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = function() { form.remove(); activeForm = null; };
+    titleInput.onkeydown = function(e) { if (e.key === 'Enter') saveBtn.click(); };
+    form.append(titleInput, fileSelect, saveBtn, cancelBtn);
+    btn.closest('.add-row').after(form);
+    activeForm = form;
+    titleInput.focus();
+  }
+
+  async function deleteNotes(subjectName, aosName, index, subsection) {
+    if (!confirm('Delete these workbook notes?')) return;
+    await apiPost('/api/studynotes/delete_notes', {
+      student, subject: subjectName, aos: aosName, index, subsection: subsection || ''
+    });
+    loadNotes();
+  }
+
   function showAddSubsectionForm(btn, subjectName, aosName) {
     if (activeForm) { activeForm.remove(); activeForm = null; }
     const form = document.createElement('div');
@@ -401,6 +449,7 @@
       const section = document.createElement('div');
       section.className = 'subject';
 
+      const locked = subject.locked === true;
       const hasAos = Array.isArray(subject.aos);
       const chapters = subject.chapters || [];
       const hasLinks = Array.isArray(subject.links) && subject.links.length > 0;
@@ -465,6 +514,14 @@
                 ).join('') + '</ul>';
               }
 
+              const subNotes = sub.notes || [];
+              let subNotesHtml = '';
+              if (subNotes.length > 0) {
+                subNotesHtml = '<div class="sub-notes-label">Workbook Notes</div><ul class="chapter-list">' + subNotes.map((nt, i) =>
+                  `<li class="chapter-row"><a class="chapter-link sub-notes-link" href="/studynotes/${nt.file}" target="_blank">${nt.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteNotes('${sn}','${an}',${i},'${subn}')">&#x2715;</button></li>`
+                ).join('') + '</ul>';
+              }
+
               const subQuizzes = sub.quizzes || [];
               let subQuizzesHtml = '';
               if (subQuizzes.length > 0) {
@@ -481,13 +538,17 @@
                   </div>
                   <div class="subsection-body">
                     ${subChaptersHtml}
-                    <div class="add-row sub-add-row"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}','${chLabel}','${subn}')">+ ${chLabel}</button></div>
+                    ${locked ? '' : `<div class="add-row sub-add-row"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}','${chLabel}','${subn}')">+ ${chLabel}</button></div>`}
+                    ${subNotesHtml}
+                    <div class="add-row sub-add-row"><button class="add-btn" onclick="showAddNotesForm(this,'${sn}','${an}','${subn}')">+ Workbook Notes</button></div>
                     ${subQuizzesHtml}
-                    <div class="add-row sub-add-row"><button class="add-btn" onclick="showAddQuizForm(this,'${sn}','${an}','${subn}')">+ Quiz</button></div>
+                    ${locked ? '' : `<div class="add-row sub-add-row"><button class="add-btn" onclick="showAddQuizForm(this,'${sn}','${an}','${subn}')">+ Quiz</button></div>`}
                   </div>
                 </div>`;
             }
-            aosInnerHtml += `<div class="add-row indent"><button class="add-btn" onclick="showAddSubsectionForm(this,'${sn}','${an}')">+ AOS</button></div>`;
+            if (!locked) {
+              aosInnerHtml += `<div class="add-row indent"><button class="add-btn" onclick="showAddSubsectionForm(this,'${sn}','${an}')">+ AOS</button></div>`;
+            }
           } else {
             // Original flat structure: chapters + quizzes directly under AOS
             let chaptersHtml = '';
@@ -497,6 +558,14 @@
               ).join('') + '</ul>';
             } else {
               chaptersHtml = '<div class="empty-note">No chapters yet</div>';
+            }
+
+            const aosNotes = aos.notes || [];
+            let aosNotesHtml = '';
+            if (aosNotes.length > 0) {
+              aosNotesHtml = '<div class="notes-label">Workbook Notes</div><ul class="chapter-list">' + aosNotes.map((nt, i) =>
+                `<li class="chapter-row"><a class="chapter-link notes-link" href="/studynotes/${nt.file}" target="_blank">${nt.title} <span class="chapter-arrow">&#x2197;</span></a><button class="del-btn" onclick="deleteNotes('${sn}','${an}',${i},'')">&#x2715;</button></li>`
+              ).join('') + '</ul>';
             }
 
             const quizzes = aos.quizzes || [];
@@ -509,14 +578,16 @@
 
             aosInnerHtml = `
               ${chaptersHtml}
-              <div class="add-row indent"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}','${chLabel}','')">+ ${chLabel}</button></div>
+              ${locked ? '' : `<div class="add-row indent"><button class="add-btn" onclick="showAddChapterForm(this,'${sn}','${an}','${chLabel}','')">+ ${chLabel}</button></div>`}
+              ${aosNotesHtml}
+              <div class="add-row indent"><button class="add-btn" onclick="showAddNotesForm(this,'${sn}','${an}','')">+ Workbook Notes</button></div>
               ${quizzesHtml}
-              <div class="add-row indent"><button class="add-btn" onclick="showAddQuizForm(this,'${sn}','${an}','')">+ Quiz</button></div>`;
+              ${locked ? '' : `<div class="add-row indent"><button class="add-btn" onclick="showAddQuizForm(this,'${sn}','${an}','')">+ Quiz</button></div>`}`;
           }
 
           const aosHasContent = aos.subsections
-            ? aos.subsections.some(s => (s.chapters && s.chapters.length > 0) || (s.quizzes && s.quizzes.length > 0))
-            : (aos.chapters && aos.chapters.length > 0) || (aos.quizzes && aos.quizzes.length > 0);
+            ? aos.subsections.some(s => (s.chapters && s.chapters.length > 0) || (s.quizzes && s.quizzes.length > 0) || (s.notes && s.notes.length > 0))
+            : (aos.chapters && aos.chapters.length > 0) || (aos.quizzes && aos.quizzes.length > 0) || (aos.notes && aos.notes.length > 0);
 
           bodyHtml += `
             <div class="aos-section">

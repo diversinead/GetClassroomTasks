@@ -442,20 +442,25 @@ The command terms panel must include all terms confirmed in the VCE study design
 
 | Command term | What it means | Marks typically |
 |---|---|---|
-| Define | State the precise meaning of a term | 1–2 |
-| Outline | Give a brief overview of the main points — less detail than describe | 1–2 |
-| Describe | Give a detailed account of characteristics or features | 2–3 |
-| Explain | Make clear how or why — give reasons | 2–4 |
-| Analyse | Break a concept into its parts and examine how they relate — go beyond description to show cause and effect | 3–6 |
-| Distinguish | Clearly identify the differences between two concepts — focus on contrast, not similarities | 2–4 |
-| Compare | Show similarities AND differences between two things | 3–6 |
-| Discuss | Give BOTH sides — advantages AND disadvantages | 4–6 |
-| Evaluate | Discuss both sides AND make a judgement with justification | 6–10 |
-| Justify | Give reasons that support a decision or recommendation | 3–6 |
-| Propose | Put forward a strategy or solution with reasons | 3–5 |
-| Recommend | Suggest the best course of action and explain why it is most appropriate for the given situation | 3–5 |
+| List / State / Name | Enter in a list with others — simply name what is being asked for, no explanation needed | 1 per item |
+| Identify | Determine or establish as being a particular thing — name the key characteristic or feature | 1 per item |
+| Define | Accurately state or explain the meaning of the term — an example can help illustrate the response | 1–2 |
+| Outline | Provide an overview or the "key points" of a concept or strategy — less detail than describe | 1–2 |
+| Describe | Provide a detailed account of something; give the facts — for a process, give the steps in sequential order | 2–3 |
+| Illustrate | Provide an example to support your statement or comment | 1–2 |
+| Apply | Use the information or knowledge provided in a particular situation; make links and connections — use a theory in a practical example | 2–4 |
+| Explain | Make the meaning of something clear and understandable — provide reasons how or why something is the way it is | 2–4 |
+| Compare | Bring together to note points of likeness AND difference. Use connectives "whereas", "on the other hand", "similarly", "both" | 3–5 |
+| Distinguish | Recognise or show points of difference; note the distinctive characteristics — differences only, not similarities | 2–4 |
+| Analyse / Examine | Identify the main features then examine closely how the parts relate to the whole; consider how and why a relationship between the parts exists (cause and effect) | 3–6 |
+| Discuss | Examine an issue and state arguments covering BOTH sides — advantages AND disadvantages, linked back to the case | 4–6 |
+| Evaluate | Apply weighted criteria to the relative strengths and weaknesses of the arguments AND provide your opinion/judgement based on the discussion | 6–10 |
+| Justify / Provide reasons | Give reasons in support of your selected choice, strategy or action — use phrases like "this strategy is effective because…" | 3–6 |
+| Recommend / Suggest / Propose | Present facts, ideas or strategies appropriate to the issue — suggest the best course of action and explain why it is most appropriate | 3–5 |
 
 **box-note text:** `Discuss = both sides. Evaluate = both sides + judgement. Analyse = causes/effects/relationships, not just description. Distinguish = differences only, not similarities. Never write only advantages for a discuss question.`
+
+**Source:** Terms are taken from `docs/BMA Task Word Response Formats.docx` — keep this list synchronised with that document if it is updated.
 
 ---
 

@@ -1,4 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import html as html_lib
 import json
 import os
 import re
@@ -68,6 +69,328 @@ def normalize_assessments(data):
     return data
 
 
+# ── Markdown rendering (stdlib-only, print-friendly viewer) ────────────────
+
+MD_VIEWER_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>__TITLE__</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, "Times New Roman", serif; color: #1a1a18; background: #f4f4f4;
+         margin: 0; padding: 0; line-height: 1.55; }
+  .page { max-width: 820px; margin: 0 auto; background: #fff; padding: 30px 38px 50px;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .toolbar { position: sticky; top: 0; z-index: 10; background: #2a7a7a; color: #fff;
+             padding: 9px 16px; display: flex; gap: 10px; align-items: center; justify-content: space-between;
+             box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-family: -apple-system, "Segoe UI", sans-serif; }
+  .toolbar a, .toolbar button { color: #fff; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+             padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+             text-decoration: none; font-family: inherit; }
+  .toolbar a:hover, .toolbar button:hover { background: rgba(255,255,255,0.25); }
+  .toolbar .title { font-size: 13px; font-weight: 600; opacity: 0.9; }
+
+  h1 { font-size: 24px; font-weight: 700; color: #2a7a7a; margin: 26px 0 10px;
+       border-bottom: 2px solid #2a7a7a; padding-bottom: 6px; }
+  h1:first-of-type { margin-top: 4px; }
+  h2 { font-size: 18px; font-weight: 700; color: #1f5c5c; margin: 22px 0 8px; }
+  h3 { font-size: 15px; font-weight: 700; color: #333; margin: 16px 0 6px; }
+  h4 { font-size: 14px; font-weight: 700; color: #555; margin: 14px 0 6px; }
+  p  { margin: 0 0 10px; font-size: 14px; }
+  ul, ol { margin: 0 0 12px 28px; font-size: 14px; }
+  li { margin-bottom: 4px; }
+  ul.checklist { list-style: none; margin-left: 0; padding-left: 0; }
+  ul.checklist li { padding-left: 26px; position: relative; }
+  ul.checklist li::before { content: "\\2610"; position: absolute; left: 0; font-size: 16px; color: #888; }
+  ul.checklist li.checked::before { content: "\\2611"; color: #2a7a7a; }
+  blockquote { border-left: 4px solid #2a7a7a; background: #f0f7f7; margin: 12px 0;
+               padding: 10px 14px; color: #1f5c5c; font-style: italic; font-size: 13.5px; border-radius: 0 6px 6px 0; }
+  blockquote p { margin: 0; }
+  hr { border: none; border-top: 1px solid #d0d0d0; margin: 22px 0; }
+  code { background: #f4f4f4; border: 1px solid #e0e0e0; border-radius: 3px;
+         padding: 1px 5px; font-family: "Consolas", "Menlo", monospace; font-size: 13px; }
+  pre { background: #f4f4f4; border: 1px solid #e0e0e0; border-radius: 6px;
+        padding: 10px 12px; overflow-x: auto; font-size: 13px; margin: 0 0 12px; }
+  pre code { background: none; border: none; padding: 0; }
+  a { color: #1a5fb4; }
+  strong { color: #1a1a18; }
+  em { color: #333; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  table th { background: #2a7a7a; color: #fff; padding: 7px 10px; text-align: left; font-weight: 700; }
+  table td { padding: 7px 10px; border-bottom: 1px solid #e8e8e8; vertical-align: top; line-height: 1.5; }
+  table tr:nth-child(even) td { background: #f8f9fa; }
+  table tr:last-child td { border-bottom: none; }
+
+  @media print {
+    body { background: #fff; }
+    .toolbar, .no-print { display: none !important; }
+    .page { max-width: none; margin: 0; padding: 0; box-shadow: none; }
+    h1 { color: #000; border-bottom-color: #000; page-break-before: always; }
+    h1:first-of-type { page-break-before: auto; }
+    h2, h3 { page-break-after: avoid; }
+    h2 + p, h2 + ul, h2 + ol, h2 + table, h3 + p, h3 + ul, h3 + ol, h3 + table { page-break-before: avoid; }
+    table, tr, blockquote { page-break-inside: avoid; }
+    a { color: #000; text-decoration: none; }
+    body { font-size: 11pt; }
+    p, ul, ol { font-size: 11pt; }
+    table { font-size: 10pt; }
+    blockquote { background: #f4f4f4; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar no-print">
+  <a href="javascript:history.length>1?history.back():window.close()">&#x2190; Back</a>
+  <span class="title">__TITLE__</span>
+  <button onclick="window.print()">&#x1F5A8; Print</button>
+</div>
+<div class="page">
+__BODY__
+</div>
+</body>
+</html>"""
+
+
+def render_markdown(text):
+    """Convert markdown to HTML. Pure Python, stdlib only.
+
+    Supports: headings (#-####), bold, italic, inline code, fenced code blocks,
+    bullet/numbered/checkbox lists, tables, blockquotes, hr, links, paragraphs.
+    Walks the document as a state machine: each line is dispatched by kind, and
+    consecutive lines of the same kind are collected before being rendered.
+    """
+    text = text.replace('\r\n', '\n').replace('\r', '\n')
+    lines = text.split('\n')
+    out = []
+    i = 0
+    n = len(lines)
+
+    while i < n:
+        line = lines[i]
+        stripped = line.strip()
+
+        # Blank line — skip
+        if stripped == '':
+            i += 1
+            continue
+
+        # Fenced code block
+        if stripped.startswith('```'):
+            j = i + 1
+            while j < n and not lines[j].lstrip().startswith('```'):
+                j += 1
+            body = '\n'.join(lines[i + 1:j])
+            out.append('<pre><code>' + html_lib.escape(body) + '</code></pre>')
+            i = j + 1
+            continue
+
+        # Heading
+        m = re.match(r'^(#{1,4})\s+(.*)$', stripped)
+        if m:
+            level = len(m.group(1))
+            out.append('<h{0}>{1}</h{0}>'.format(level, _render_inline(m.group(2)))
+                       )
+            i += 1
+            continue
+
+        # Horizontal rule (a line of 3+ dashes/asterisks/underscores by itself)
+        if re.match(r'^(?:---+|\*\*\*+|___+)$', stripped):
+            out.append('<hr>')
+            i += 1
+            continue
+
+        # Table: current line has |, next line is a |-separator with dashes
+        if (
+            '|' in line
+            and i + 1 < n
+            and '|' in lines[i + 1]
+            and re.match(r'^\s*\|?[\s|:\-]+\|?\s*$', lines[i + 1])
+            and '-' in lines[i + 1]
+        ):
+            j = i + 2
+            while j < n and lines[j].strip() != '' and '|' in lines[j]:
+                j += 1
+            out.append(_render_table(lines[i:j]))
+            i = j
+            continue
+
+        # Blockquote (consecutive lines starting with >)
+        if stripped.startswith('>'):
+            j = i
+            while j < n and lines[j].lstrip().startswith('>'):
+                j += 1
+            inner = ' '.join(re.sub(r'^\s*>\s?', '', ln) for ln in lines[i:j])
+            out.append('<blockquote><p>' + _render_inline(inner) + '</p></blockquote>')
+            i = j
+            continue
+
+        # Checkbox list (- [ ] / - [x])
+        if re.match(r'^\s*-\s+\[[ xX]\]\s+', line):
+            j = i
+            while j < n and re.match(r'^\s*-\s+\[[ xX]\]\s+', lines[j]):
+                j += 1
+            out.append(_render_checklist(lines[i:j]))
+            i = j
+            continue
+
+        # Bullet list
+        if re.match(r'^\s*[-*]\s+', line):
+            j = i
+            while j < n and re.match(r'^\s*[-*]\s+', lines[j]):
+                j += 1
+            out.append(_render_ul(lines[i:j]))
+            i = j
+            continue
+
+        # Numbered list
+        if re.match(r'^\s*\d+\.\s+', line):
+            j = i
+            while j < n and re.match(r'^\s*\d+\.\s+', lines[j]):
+                j += 1
+            out.append(_render_ol(lines[i:j]))
+            i = j
+            continue
+
+        # Paragraph: collect until blank line or until a different kind of block starts
+        j = i
+        while j < n:
+            stp = lines[j].strip()
+            if stp == '':
+                break
+            if re.match(r'^#{1,4}\s+', stp):
+                break
+            if re.match(r'^(?:---+|\*\*\*+|___+)$', stp):
+                break
+            if re.match(r'^[-*]\s+', stp):
+                break
+            if re.match(r'^\d+\.\s+', stp):
+                break
+            if stp.startswith('>'):
+                break
+            if stp.startswith('```'):
+                break
+            j += 1
+        para = ' '.join(ln.strip() for ln in lines[i:j])
+        out.append('<p>' + _render_inline(para) + '</p>')
+        i = j
+
+    return '\n'.join(out)
+
+
+def _split_table_row(line):
+    line = line.strip()
+    if line.startswith('|'):
+        line = line[1:]
+    if line.endswith('|'):
+        line = line[:-1]
+    return [c.strip() for c in line.split('|')]
+
+
+def _render_table(lines):
+    header = _split_table_row(lines[0])
+    body_rows = [_split_table_row(ln) for ln in lines[2:]]  # skip header + separator
+    out = ['<table>', '<thead><tr>']
+    for cell in header:
+        out.append('<th>' + _render_inline(cell) + '</th>')
+    out.append('</tr></thead><tbody>')
+    for row in body_rows:
+        out.append('<tr>')
+        for cell in row:
+            out.append('<td>' + _render_inline(cell) + '</td>')
+        out.append('</tr>')
+    out.append('</tbody></table>')
+    return ''.join(out)
+
+
+def _render_checklist(lines):
+    out = ['<ul class="checklist">']
+    for ln in lines:
+        m = re.match(r'^\s*-\s+\[([ xX])\]\s+(.*)$', ln)
+        if not m:
+            continue
+        checked = m.group(1).lower() == 'x'
+        cls = ' class="checked"' if checked else ''
+        out.append('<li' + cls + '>' + _render_inline(m.group(2)) + '</li>')
+    out.append('</ul>')
+    return ''.join(out)
+
+
+def _render_ul(lines):
+    out = ['<ul>']
+    for ln in lines:
+        m = re.match(r'^\s*[-*]\s+(.*)$', ln)
+        if m:
+            out.append('<li>' + _render_inline(m.group(1)) + '</li>')
+    out.append('</ul>')
+    return ''.join(out)
+
+
+def _render_ol(lines):
+    out = ['<ol>']
+    for ln in lines:
+        m = re.match(r'^\s*\d+\.\s+(.*)$', ln)
+        if m:
+            out.append('<li>' + _render_inline(m.group(1)) + '</li>')
+    out.append('</ol>')
+    return ''.join(out)
+
+
+def _render_inline(text):
+    """Apply inline markdown: code spans, bold, italic, links. HTML-escapes plain text."""
+    # Stash code spans first so their contents aren't transformed
+    code_spans = []
+
+    def stash(m):
+        code_spans.append(m.group(1))
+        return '\x00CODE{0}\x00'.format(len(code_spans) - 1)
+
+    text = re.sub(r'`([^`]+)`', stash, text)
+
+    # Stash links similarly so the URL isn't HTML-escaped wrong
+    links = []
+
+    def stash_link(m):
+        links.append((m.group(1), m.group(2)))
+        return '\x00LINK{0}\x00'.format(len(links) - 1)
+
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', stash_link, text)
+
+    # Now escape any HTML special chars in the remaining plain text
+    text = html_lib.escape(text, quote=False)
+
+    # Bold (**text**)
+    text = re.sub(r'\*\*([^*]+?)\*\*', r'<strong>\1</strong>', text)
+    # Italic (*text*) — avoid matching inside ** or empty
+    text = re.sub(r'(?<!\*)\*([^*\s][^*]*?)\*(?!\*)', r'<em>\1</em>', text)
+
+    # Restore links (escape inside text portion only)
+    for i, (label, url) in enumerate(links):
+        safe_label = html_lib.escape(label, quote=False)
+        safe_url = html_lib.escape(url, quote=True)
+        text = text.replace('\x00LINK{0}\x00'.format(i),
+                            '<a href="{0}">{1}</a>'.format(safe_url, safe_label))
+
+    # Restore code spans (escape their contents)
+    for i, code in enumerate(code_spans):
+        text = text.replace('\x00CODE{0}\x00'.format(i),
+                            '<code>' + html_lib.escape(code, quote=False) + '</code>')
+
+    return text
+
+
+def render_markdown_page(md_text, title):
+    body = render_markdown(md_text)
+    title_safe = html_lib.escape(title, quote=False)
+    return MD_VIEWER_TEMPLATE.replace('__TITLE__', title_safe).replace('__BODY__', body)
+
+
+# ───────────────────────────────────────────────────────────────────────────
+
+
 class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -84,6 +407,23 @@ class Handler(BaseHTTPRequestHandler):
                 self.end_headers()
                 return
             ext = os.path.splitext(rel)[1].lower()
+            if ext == '.md':
+                # Render markdown through the print-friendly viewer template
+                md_path = os.path.join(BASE_DIR, 'StudyNotes', rel)
+                try:
+                    with open(md_path, 'r', encoding='utf-8') as f:
+                        md_text = f.read()
+                except FileNotFoundError:
+                    self.send_response(404)
+                    self.end_headers()
+                    return
+                title = os.path.splitext(os.path.basename(rel))[0].replace('_', ' ').replace('-', ' ').title()
+                page_html = render_markdown_page(md_text, title)
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(page_html.encode('utf-8'))
+                return
             ct = {
                 '.js': 'application/javascript',
                 '.css': 'text/css',
@@ -103,7 +443,7 @@ class Handler(BaseHTTPRequestHandler):
             files = []
             for root, dirs, filenames in os.walk(studynotes_dir):
                 for fn in sorted(filenames):
-                    if fn.endswith('.html'):
+                    if fn.endswith('.html') or fn.endswith('.md'):
                         rel = os.path.relpath(os.path.join(root, fn), studynotes_dir).replace('\\', '/')
                         files.append(rel)
             self.send_json(json.dumps(files, ensure_ascii=False))
@@ -501,6 +841,40 @@ class Handler(BaseHTTPRequestHandler):
                 quizzes = target.get('quizzes', [])
                 if 0 <= idx < len(quizzes):
                     quizzes.pop(idx)
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/add_notes':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            aos_name = body['aos']
+            sub_name = body.get('subsection', '')
+            title = body['title'].strip()
+            file_path = body.get('file', '').strip()
+            if not title:
+                self.send_json('{"ok": false, "error": "Empty title"}')
+                return
+            target = self._find_target(data, student, subject_name, aos_name, sub_name)
+            if target is not None:
+                if 'notes' not in target:
+                    target['notes'] = []
+                target['notes'].append({'title': title, 'file': file_path})
+            write_json(STUDYNOTES_FILE, data)
+            self.send_json('{"ok": true}')
+
+        elif self.path == '/api/studynotes/delete_notes':
+            data = read_json(STUDYNOTES_FILE)
+            student = body['student']
+            subject_name = body['subject']
+            aos_name = body['aos']
+            sub_name = body.get('subsection', '')
+            idx = int(body['index'])
+            target = self._find_target(data, student, subject_name, aos_name, sub_name)
+            if target is not None:
+                notes_list = target.get('notes', [])
+                if 0 <= idx < len(notes_list):
+                    notes_list.pop(idx)
             write_json(STUDYNOTES_FILE, data)
             self.send_json('{"ok": true}')
 

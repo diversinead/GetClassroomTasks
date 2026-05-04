@@ -2,6 +2,10 @@
 config/
 credentials.json
 
+# Python bytecode
+__pycache__/
+*.pyc
+
 # Runtime data files
 Assessments/assessments_data.json
 Homework/homework_data.json
