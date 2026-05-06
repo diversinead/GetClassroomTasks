@@ -720,15 +720,19 @@
       return `<span class="filter-chip ${active}" onclick="setTableUnitFilter('${sn}','${u.replace(/'/g, "\\'")}')">${label}</span>`;
     }).join('');
 
-    // Detect parent prefixes (e.g. "AOS1a" + "AOS1b" share parent "AOS1") that have 2+ children
+    // Detect parent prefixes (e.g. "AOS1a" + "AOS1b" share parent "AOS1") that have 2+ children.
+    // Skip if the parent label already exists as an exact short label — the existing chip
+    // already does prefix matching via the filter logic.
+    const existingShorts = new Set(aosOrder.map(a => a.short));
     const parentCounts = {};
     for (const a of aosOrder) {
       const parent = a.short.replace(/[a-z]$/i, '');
       if (parent !== a.short) parentCounts[parent] = (parentCounts[parent] || 0) + 1;
     }
-    const parentSet = new Set(Object.keys(parentCounts).filter(p => parentCounts[p] >= 2));
+    const parentSet = new Set(Object.keys(parentCounts)
+      .filter(p => parentCounts[p] >= 2 && !existingShorts.has(p)));
 
-    // Build chips: All, then parents, then specific children. Skip parents we've already shown.
+    // Build chips: All, then parents (when warranted), then specific children
     const aosChipsList = [];
     aosChipsList.push({ val: 'all', label: 'All' });
     const seenParents = new Set();
