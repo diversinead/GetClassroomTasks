@@ -9,9 +9,25 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px}
 h1{font-size:1.57em;font-weight:700;color:#085041;margin-bottom:4px}
 .subtitle{font-size:0.93em;color:#5F5E5A;margin-bottom:14px}
-#search{width:100%;padding:9px 14px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:1em;outline:none;background:#fff;margin-bottom:18px}
+#search{width:100%;padding:9px 14px;border:1.5px solid #D3D1C7;border-radius:8px;font-size:1em;outline:none;background:#fff;margin-bottom:6px}
 #search:focus{border-color:#1D9E75}
 .footer{text-align:center;font-size:0.79em;color:#888780;margin-top:28px;padding-top:12px;border-top:1px solid #D3D1C7}
+
+/* Font size toggle */
+.size-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.size-row span{font-size:0.79em;color:#5F5E5A;font-weight:600}
+.sz-btn{padding:4px 11px;border-radius:6px;border:1.5px solid #D3D1C7;background:#fff;font-size:0.79em;cursor:pointer;font-weight:600;color:#1a1a18;font-family:inherit}
+.sz-btn.active{background:#085041;color:#fff;border-color:#085041}
+.sz-btn:hover:not(.active){background:#F5F4F0}
+
+/* Search result count + clear */
+.search-meta{display:flex;align-items:center;gap:10px;margin-bottom:18px;min-height:18px}
+#search-count{font-size:0.82em;color:#5F5E5A}
+#search-clear{display:none;padding:2px 10px;border-radius:5px;border:1px solid #D3D1C7;background:#fff;font-size:0.82em;cursor:pointer;color:#1a1a18;font-family:inherit}
+#search-clear.visible{display:inline-block}
+mark{background:#ffe066;border-radius:2px;padding:0 1px}
+
+#no-results{display:none;text-align:center;color:#888780;padding:20px;font-style:italic;font-size:0.86em}
 
 .cat{border-radius:10px;margin-bottom:10px;overflow:hidden;border:1.5px solid}
 .cat.purple{border-color:#AFA9EC;background:rgba(206,203,246,0.18)}
@@ -123,17 +139,17 @@ table.ct.amber-head th{background:#412402}
 <h1>VCE Business Management &mdash; Topic 2</h1>
 <p class="subtitle">Human Resource Management &middot; Jacaranda Key Concepts 7th ed. &middot; tap any term or panel to expand</p>
 
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
-  <span style="font-size:11px;color:#5F5E5A;font-weight:600;">Text size:</span>
-  <button onclick="setSize(14)" id="sz-s" style="padding:4px 11px;border-radius:6px;border:1.5px solid #D3D1C7;background:#fff;font-size:11px;cursor:pointer;font-weight:600;color:#1a1a18;">Default</button>
-  <button onclick="setSize(17)" id="sz-m" style="padding:4px 11px;border-radius:6px;border:1.5px solid #D3D1C7;background:#fff;font-size:13px;cursor:pointer;font-weight:600;color:#1a1a18;">Large</button>
-  <button onclick="setSize(20)" id="sz-l" style="padding:4px 11px;border-radius:6px;border:1.5px solid #D3D1C7;background:#fff;font-size:15px;cursor:pointer;font-weight:600;color:#1a1a18;">X-Large</button>
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
 </div>
 
 <input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;min-height:18px;">
-  <span id="search-count" style="font-size:0.82em;color:#5F5E5A;"></span>
-  <button id="search-clear" onclick="clearSearch()" style="display:none;padding:2px 10px;border-radius:5px;border:1px solid #D3D1C7;background:#fff;font-size:0.82em;cursor:pointer;color:#1a1a18;">&#10005; Clear</button>
+<div class="search-meta">
+  <span id="search-count"></span>
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
 </div>
 
 <div class="section-divider">&#128218; Reference panels <span>click any panel to expand</span></div>
@@ -804,7 +820,7 @@ table.ct.amber-head th{background:#412402}
 
 <div class="section-divider">&#128269; Key terms <span>search above or click a section to expand</span></div>
 
-<div id="no-results" style="display:none;text-align:center;color:#888780;padding:20px;font-style:italic;font-size:0.86em;">No terms match your search.</div>
+<div id="no-results">No terms match your search.</div>
 <!-- ===== TERMS ACCORDION ===== -->
 <div id="list"></div>
 
@@ -996,15 +1012,7 @@ function setSize(px) {
   var sizes = [14,17,20];
   for (var i = 0; i < ids.length; i++) {
     var btn = document.getElementById(ids[i]);
-    if (sizes[i] === px) {
-      btn.style.background = "#085041";
-      btn.style.color = "#fff";
-      btn.style.borderColor = "#085041";
-    } else {
-      btn.style.background = "#fff";
-      btn.style.color = "#1a1a18";
-      btn.style.borderColor = "#D3D1C7";
-    }
+    btn.className = (sizes[i] === px) ? "sz-btn active" : "sz-btn";
   }
 }
 </script>

@@ -388,6 +388,49 @@ def render_markdown_page(md_text, title):
     return MD_VIEWER_TEMPLATE.replace('__TITLE__', title_safe).replace('__BODY__', body)
 
 
+# Back-button toolbar injected into every HTML file served from /studynotes/.
+# Hidden inside iframes (so the PE Index iframe doesn't get a duplicate button)
+# and hidden in print. Detects student from the URL path.
+BACK_BUTTON_SNIPPET = """
+<style>
+  #__back-toolbar { position: sticky; top: 0; z-index: 9999;
+    padding: 7px 14px; background: #2a7a7a;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin: -16px -16px 12px -16px; }
+  #__back-toolbar a { color: #fff; background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3); padding: 4px 11px;
+    border-radius: 6px; font-size: 13px; font-weight: 600;
+    text-decoration: none; display: inline-block; }
+  #__back-toolbar a:hover { background: rgba(255,255,255,0.25); }
+  @media print { #__back-toolbar { display: none !important; } }
+</style>
+<div id="__back-toolbar" style="display:none">
+  <a id="__back-link" href="/eddie/notes">&#x2190; Back to notes</a>
+</div>
+<script>
+  (function(){
+    if (window.self !== window.top) return;
+    var bar = document.getElementById('__back-toolbar');
+    var link = document.getElementById('__back-link');
+    if (!bar || !link) return;
+    var m = window.location.pathname.match(/\\/studynotes\\/(eddie|dara)\\//);
+    if (m) link.href = '/' + m[1] + '/notes';
+    bar.style.display = 'block';
+  })();
+</script>
+"""
+
+
+def inject_back_button(html):
+    """Insert the back-button toolbar just after <body> so it appears at the top of the page."""
+    pattern = re.compile(r'(<body[^>]*>)', re.IGNORECASE)
+    if pattern.search(html):
+        return pattern.sub(lambda m: m.group(1) + BACK_BUTTON_SNIPPET, html, count=1)
+    # Fallback: prepend to the document if no <body> tag found
+    return BACK_BUTTON_SNIPPET + html
+
+
 # ───────────────────────────────────────────────────────────────────────────
 
 
@@ -434,6 +477,22 @@ class Handler(BaseHTTPRequestHandler):
                 '.jpeg': 'image/jpeg',
                 '.gif': 'image/gif',
             }.get(ext, 'text/html')
+            if ct == 'text/html':
+                # Read the HTML, inject the back-button toolbar, then serve
+                path = os.path.join(BASE_DIR, 'StudyNotes', rel)
+                try:
+                    with open(path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                except FileNotFoundError:
+                    self.send_response(404)
+                    self.end_headers()
+                    return
+                content = inject_back_button(content)
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(content.encode('utf-8'))
+                return
             self.serve_file(os.path.join('StudyNotes', rel), ct)
         elif self.path == '/api/studynotes/data':
             data = read_json(STUDYNOTES_FILE)
