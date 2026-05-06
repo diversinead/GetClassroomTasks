@@ -6,37 +6,33 @@
   <title>VCE PE — Ch2 Part C: Keeping the Body Safe</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #1a1a2e; font-size: 15px; line-height: 1.6; padding-bottom: 60px; }
-    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 22px 16px 10px; font-size: 1.45em; letter-spacing: 0.5px; }
-    .subtitle { text-align: center; background: #1a3d48; color: #d6eef3; font-size: 0.88em; padding: 6px 16px 14px; }
-    .nav-pills { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; background: #fff; border-bottom: 2px solid #e0e0e0; }
-    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1.5px solid #2c5f6e; border-radius: 20px; padding: 5px 14px; font-size: 0.82em; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .nav-pill:hover { background: #2c5f6e; color: #fff; }
-    .search-wrap { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e8e8e8; }
-    #search { flex: 1; padding: 8px 12px; border: 1.5px solid #c0c0c0; border-radius: 20px; font-size: 0.9em; outline: none; }
-    #search:focus { border-color: #2c5f6e; }
-    #search-clear { background: #2c5f6e; color: #fff; border: none; border-radius: 16px; padding: 6px 14px; font-size: 0.82em; cursor: pointer; }
-    #search-count { font-size: 0.82em; color: #888; min-width: 80px; }
-    .section-label { font-size: 1.12em; font-weight: 700; color: #fff; background: #2c5f6e; padding: 10px 18px; margin: 18px 14px 8px; border-radius: 8px; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.6; padding: 16px; }
+    h1 { text-align: center; font-size: 0.79em; font-weight: 600; color: #5F5E5A; margin-bottom: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+.chapter-title { text-align: center; font-size: 1.43em; font-weight: 700; color: #085041; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .subtitle { text-align: center; color: #5F5E5A; font-size: 0.86em; margin-bottom: 14px; font-style: italic; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 14px; }
+    .nav-pill { background: #fff; color: #1a1a18; border: 1.5px solid #D3D1C7; border-radius: 20px; padding: 4px 12px; font-size: 0.79em; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .nav-pill:hover { background: #085041; color: #fff; border-color: #085041; }
+    .search-wrap { display: flex; align-items: center; gap: 8px; }
+    #search { flex: 1; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; background: #fff; outline: none; font-family: inherit; }
+    #search:focus { border-color: #1D9E75; }
+    #search-clear { display: none; padding: 5px 12px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; font-size: 0.82em; cursor: pointer; color: #1a1a18; font-weight: 600; font-family: inherit; }
+    #search-clear.visible { display: block; }
+    #search-count { font-size: 0.82em; color: #5F5E5A; white-space: nowrap; min-width: 60px; }
+    .section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 4px; }
 
-    /* ACCORDION */
-    .cat-wrap { margin: 8px 14px; border-radius: 10px; overflow: hidden; border: 1.5px solid #ddd; }
-    .cat-wrap.purple { border-color: #c8c5e8; }
-    .cat-wrap.teal   { border-color: #9adcc5; }
-    .cat-wrap.coral  { border-color: #e8a48a; }
-    .cat-wrap.amber  { border-color: #d4a854; }
-    .cat-wrap.blue   { border-color: #90bce6; }
-    .cat-wrap.pink   { border-color: #e096b4; }
-    .cat-wrap.gray   { border-color: #b8b6b0; }
-    .cat-head { padding: 11px 16px; font-weight: 700; cursor: pointer; font-size: 0.97em; display: flex; justify-content: space-between; align-items: center; user-select: none; }
-    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.18); color: #4a3fa0; }
-    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #1a7a58; }
-    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #7a3010; }
-    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12); color: #7a4d0a; }
-    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.14); color: #1a4f8a; }
-    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #8b2050; }
-    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.12); color: #444440; }
-    .cat-body { display: none; padding: 14px 16px; background: #fff; }
+    /* ACCORDION — white with coloured left-border accent */
+    .cat-wrap { margin-bottom: 10px; border-radius: 8px; overflow: hidden; border: 1px solid #D3D1C7; background: #fff; border-left: 4px solid #D3D1C7; }
+    .cat-wrap.purple { border-left-color: #AFA9EC; }
+    .cat-wrap.teal   { border-left-color: #5DCAA5; }
+    .cat-wrap.coral  { border-left-color: #D85A30; }
+    .cat-wrap.amber  { border-left-color: #BA7517; }
+    .cat-wrap.blue   { border-left-color: #378ADD; }
+    .cat-wrap.pink   { border-left-color: #D4537E; }
+    .cat-wrap.gray   { border-left-color: #888780; }
+    .cat-head { padding: 11px 14px; font-weight: 700; cursor: pointer; font-size: 0.93em; color: #1a1a18; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; border-radius: 7px; }
+    .cat-head:hover { background: #F8F7F3; }
+    .cat-body { display: none; padding: 14px; background: #fff; border-top: 1px solid #EDECEA; }
     .cat-body.open { display: block; }
 
     /* TERMS */
@@ -44,37 +40,31 @@
     .term-row:last-child { border-bottom: none; }
     .term-name { font-weight: 700; min-width: 200px; color: #1a1a2e; font-size: 0.93em; }
     .term-def { color: #333; font-size: 0.91em; flex: 1; }
-    .hot-badge { display: inline-block; background: #2c5f6e; color: #fff; font-size: 0.68em; font-weight: 700; border-radius: 10px; padding: 2px 7px; margin-left: 6px; position: relative; cursor: default; letter-spacing: 0.4px; }
+    .hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
     .hot-badge .tooltip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a1a2e; color: #fff; font-size: 0.82em; border-radius: 6px; padding: 5px 9px; white-space: nowrap; z-index: 99; font-weight: 400; }
     .hot-badge:hover .tooltip { display: block; }
     mark { background: #ffe066; border-radius: 3px; padding: 0 2px; }
 
-    /* DIAGRAM / BOX WRAP */
-    .diagram-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
-    .diagram-wrap.blue   { border-color: #90bce6; }
-    .diagram-wrap.amber  { border-color: #d4a854; }
-    .diagram-wrap.purple { border-color: #c8c5e8; }
-    .diagram-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
-    .diagram-wrap.blue   .diagram-head { background: #f3f7fd; color: #1a4f8a; }
-    .diagram-wrap.amber  .diagram-head { background: #fdf8f0; color: #7a4d0a; }
-    .diagram-wrap.purple .diagram-head { background: #f5f4fc; color: #4a3fa0; }
-    .diagram-body { display: none; padding: 14px; background: #fff; }
+    /* DIAGRAM / BOX WRAP — white with coloured left-border accent only */
+    .diagram-wrap { margin-bottom: 8px; border: 1px solid #D3D1C7; border-left: 4px solid #5DCAA5; border-radius: 8px; overflow: visible; background: #fff; }
+    .diagram-wrap.blue { border-left-color: #378ADD; }
+    .diagram-wrap.amber { border-left-color: #BA7517; }
+    .diagram-wrap.purple { border-left-color: #AFA9EC; }
+    .diagram-head { background: #fff; padding: 11px 14px; font-weight: 700; font-size: 0.93em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a1a18; border-radius: 7px; }
+    .diagram-head:hover { background: #F8F7F3; }
+    .diagram-body { display: none; padding: 14px; background: #fff; border-top: 1px solid #EDECEA; }
     .diagram-body.open { display: block; }
 
-    .box-wrap { margin: 10px 0; border: 1.5px solid #9adcc5; border-radius: 10px; overflow: hidden; }
-    .box-wrap.blue   { border-color: #90bce6; }
-    .box-wrap.purple { border-color: #c8c5e8; }
-    .box-wrap.teal   { border-color: #9adcc5; }
-    .box-wrap.amber  { border-color: #d4a854; }
-    .box-wrap.coral  { border-color: #e8a48a; }
-    .box-wrap.pink   { border-color: #e096b4; }
-    .box-head { background: #f5faf8; padding: 8px 14px; font-weight: 700; font-size: 0.88em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a7a58; }
-    .box-wrap.blue   .box-head { background: #f3f7fd; color: #1a4f8a; }
-    .box-wrap.purple .box-head { background: #f5f4fc; color: #4a3fa0; }
-    .box-wrap.amber  .box-head { background: #fdf8f0; color: #7a4d0a; }
-    .box-wrap.coral  .box-head { background: #fdf6f3; color: #7a3010; }
-    .box-wrap.pink   .box-head { background: #fdf5f8; color: #8b2050; }
-    .box-body { display: none; padding: 14px; background: #fff; }
+    .box-wrap { margin-bottom: 8px; border: 1px solid #D3D1C7; border-left: 4px solid #5DCAA5; border-radius: 8px; overflow: visible; background: #fff; }
+    .box-wrap.blue { border-left-color: #378ADD; }
+    .box-wrap.purple { border-left-color: #AFA9EC; }
+    .box-wrap.teal { border-left-color: #5DCAA5; }
+    .box-wrap.amber { border-left-color: #BA7517; }
+    .box-wrap.coral { border-left-color: #D85A30; }
+    .box-wrap.pink { border-left-color: #D4537E; }
+    .box-head { background: #fff; padding: 11px 14px; font-weight: 700; font-size: 0.93em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a1a18; border-radius: 7px; }
+    .box-head:hover { background: #F8F7F3; }
+    .box-body { display: none; padding: 14px; background: #fff; border-top: 1px solid #EDECEA; }
     .box-body.open { display: block; }
 
     /* TABLES */
@@ -108,18 +98,28 @@
     ol li { margin-bottom: 4px; }
     p { margin: 6px 0; }
     strong { color: #1a1a2e; }
-  </style>
+    /* Font size toggle */
+    .size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+    .sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+    .sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+    .sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+    .section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
+</style>
 </head>
 <body>
 
-<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
-<p class="subtitle">Chapter 2 Part C &middot; 2C: Keeping the Body Safe &middot; Live it Up 5th ed.</p>
+<h1>VCE Physical Education &middot; Unit 1 AOS1a</h1>
+<p class="chapter-title">Chapter 2 Part C &mdash; Keeping the Body Safe</p>
+<p class="subtitle">Live it Up 5th ed.</p>
 
-<div class="nav-pills">
-  <span class="nav-pill" onclick="jumpTo('secEquip')">Protective Equipment</span>
-  <span class="nav-pill" onclick="jumpTo('secTaping')">Taping &amp; Bracing</span>
-  <span class="nav-pill" onclick="jumpTo('secConcussion')">Avoiding Concussion</span>
-  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128216; Key Terms</span>
+<!-- TEXT SIZE TOGGLE -->
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
 </div>
 
 <div class="search-wrap">
@@ -131,10 +131,10 @@
 <!-- ═══════════════════════════════════════════════ -->
 <!-- PROTECTIVE EQUIPMENT -->
 <!-- ═══════════════════════════════════════════════ -->
-<p class="section-label" id="secEquip">&#129657; Protective Equipment</p>
+<div class="section-divider">&#128218; Reference panels</div>
 
-<div class="diagram-wrap blue">
-  <div class="diagram-head" onclick="toggleB(this)">&#9658; Protective Equipment Overview Diagram <span>&#9660;</span></div>
+<div class="diagram-wrap blue" id="secEquip">
+  <div class="diagram-head" onclick="toggleB(this)">&#129657; Protective Equipment  <span>&#9660;</span></div>
   <div class="diagram-body">
     <svg viewBox="0 0 860 310" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
       <!-- Title -->
@@ -270,10 +270,8 @@
 <!-- ═══════════════════════════════════════════════ -->
 <!-- TAPING AND BRACING -->
 <!-- ═══════════════════════════════════════════════ -->
-<p class="section-label" id="secTaping">&#129657; Taping and Bracing</p>
-
-<div class="diagram-wrap amber">
-  <div class="diagram-head" onclick="toggleB(this)">&#9658; Taping vs Bracing Comparison Diagram <span>&#9660;</span></div>
+<div class="diagram-wrap amber" id="secTaping">
+  <div class="diagram-head" onclick="toggleB(this)">&#129657; Taping and Bracing  <span>&#9660;</span></div>
   <div class="diagram-body">
     <svg viewBox="0 0 860 250" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
       <!-- VS layout -->
@@ -399,10 +397,8 @@
 <!-- ═══════════════════════════════════════════════ -->
 <!-- CONCUSSION -->
 <!-- ═══════════════════════════════════════════════ -->
-<p class="section-label" id="secConcussion">&#129657; Avoiding Concussion</p>
-
-<div class="diagram-wrap purple">
-  <div class="diagram-head" onclick="toggleB(this)">&#9658; Concussion: Causes, Signs and Management Pathway <span>&#9660;</span></div>
+<div class="diagram-wrap purple" id="secConcussion">
+  <div class="diagram-head" onclick="toggleB(this)">&#129657; Avoiding Concussion  <span>&#9660;</span></div>
   <div class="diagram-body">
     <svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
       <!-- Definition box -->
@@ -550,7 +546,7 @@
 </div>
 
 <!-- KEY TERMS -->
-<p class="section-label" id="secTerms">&#128216; Key Terms &mdash; Chapter 2 Part D</p>
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
 <div id="list"></div>
 <div id="no-results">No terms match your search.</div>
 
@@ -652,6 +648,102 @@ function buildList(filtered) {
 
 buildList(terms);
 
+
+// ===== Chapter-section search =====
+var sectionIndex = null;
+var autoExpandedSections = [];
+
+function buildSectionIndex() {
+  if (sectionIndex !== null) return sectionIndex;
+  sectionIndex = [];
+  var els = document.querySelectorAll('[id^="sec"]');
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    if (!/^sec\d/.test(el.id)) continue;
+    var body = el.querySelector('.box-body, .diagram-body');
+    if (!body) continue;
+    sectionIndex.push({
+      id: el.id, el: el, body: body,
+      arrow: el.querySelector('.cat-arrow'),
+      text: (body.textContent || '').toLowerCase()
+    });
+  }
+  return sectionIndex;
+}
+
+function highlightSectionText(root, re) {
+  var nodes = [];
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n) {
+      if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      var p = n.parentElement;
+      while (p) {
+        if (p.classList && p.classList.contains('hl')) return NodeFilter.FILTER_REJECT;
+        if (p.namespaceURI === 'http://www.w3.org/2000/svg') return NodeFilter.FILTER_REJECT;
+        p = p.parentElement;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (var i = 0; i < nodes.length; i++) {
+    var n = nodes[i];
+    var text = n.nodeValue;
+    re.lastIndex = 0;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    var frag = document.createDocumentFragment();
+    var lastIdx = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > lastIdx) frag.appendChild(document.createTextNode(text.substring(lastIdx, m.index)));
+      var span = document.createElement('span');
+      span.className = 'hl';
+      span.textContent = m[0];
+      frag.appendChild(span);
+      lastIdx = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    if (lastIdx < text.length) frag.appendChild(document.createTextNode(text.substring(lastIdx)));
+    n.parentNode.replaceChild(frag, n);
+  }
+}
+
+function clearSectionHighlights(root) {
+  var spans = root.querySelectorAll('span.hl');
+  for (var i = 0; i < spans.length; i++) {
+    var s = spans[i];
+    var p = s.parentNode;
+    p.replaceChild(document.createTextNode(s.textContent), s);
+    p.normalize();
+  }
+}
+
+function applySectionSearch(q) {
+  for (var i = 0; i < autoExpandedSections.length; i++) {
+    var s = autoExpandedSections[i];
+    s.body.classList.remove('open');
+    if (s.arrow) s.arrow.innerHTML = '&#9660;';
+    clearSectionHighlights(s.body);
+  }
+  autoExpandedSections = [];
+  if (!q) return 0;
+  var sections = buildSectionIndex();
+  var ql = q.toLowerCase();
+  var re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  var count = 0;
+  for (var i = 0; i < sections.length; i++) {
+    var sec = sections[i];
+    if (sec.text.indexOf(ql) > -1) {
+      sec.body.classList.add('open');
+      if (sec.arrow) sec.arrow.innerHTML = '&#9650;';
+      highlightSectionText(sec.body, re);
+      autoExpandedSections.push(sec);
+      count++;
+    }
+  }
+  return count;
+}
+
 function doSearch(q) {
   currentQuery = q.trim();
   var val = currentQuery.toLowerCase();
@@ -694,6 +786,17 @@ function jumpTo(id) {
   var el = document.getElementById(id);
   if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 }
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+
 </script>
 </body>
 </html>

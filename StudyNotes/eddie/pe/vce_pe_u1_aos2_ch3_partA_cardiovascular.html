@@ -6,30 +6,33 @@
   <title>VCE PE — Ch3 Part A: The Cardiovascular System</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.65; }
+    body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.65; padding: 16px; }
 
-    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
-    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+    h1 { text-align: center; font-size: 0.79em; font-weight: 600; color: #5F5E5A; margin-bottom: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+.chapter-title { text-align: center; font-size: 1.43em; font-weight: 700; color: #085041; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .subtitle { text-align: center; color: #5F5E5A; font-size: 0.86em; margin-bottom: 14px; font-style: italic; }
 
-    .nav-pills { display: flex; flex-wrap: wrap; gap: 7px; padding: 12px 16px; background: #eef6f9; border-bottom: 1px solid #c8dde4; }
-    .nav-pill { background: #eaf4f7; color: #1a3d48; border: 1px solid #2c5f6e; border-radius: 20px; padding: 4px 13px; font-size: .81rem; cursor: pointer; font-family: Georgia, serif; transition: background .2s, color .2s; }
-    .nav-pill:hover { background: #2c5f6e; color: #fff; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 14px; }
+    .nav-pill { background: #fff; color: #1a1a18; border: 1.5px solid #D3D1C7; border-radius: 20px; padding: 4px 12px; font-size: 0.79em; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .nav-pill:hover { background: #085041; color: #fff; border-color: #085041; }
 
-    .search-wrap { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #fff; border-bottom: 1px solid #dde4ea; flex-wrap: wrap; }
-    .search-wrap input { flex: 1; min-width: 160px; padding: 7px 11px; border: 1px solid #b0c4ce; border-radius: 6px; font-size: .88rem; font-family: Georgia, serif; }
-    #search-clear { display: none; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: .81rem; font-family: Georgia, serif; }
+    .search-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .search-wrap input { flex: 1; min-width: 160px; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; background: #fff; outline: none; font-family: inherit; }
+    .search-wrap input:focus { border-color: #1D9E75; }
+    #search-clear { display: none; padding: 5px 12px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; font-size: 0.82em; cursor: pointer; color: #1a1a18; font-weight: 600; font-family: inherit; }
     #search-clear.visible { display: inline-block; }
-    #search-count { font-size: .81rem; color: #555; }
+    #search-count { font-size: 0.82em; color: #5F5E5A; white-space: nowrap; min-width: 60px; }
     mark { background: #ffe066; border-radius: 2px; padding: 0 2px; }
 
-    .section-label { background: #2c5f6e; color: #fff; padding: 8px 18px; font-size: .97rem; font-weight: bold; margin: 16px 0 0; }
+    .section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 4px; }
 
     /* Diagram wrap */
     .diagram-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
-    .diagram-wrap.blue   { border-color: #378ADD; }
-    .diagram-wrap.purple { border-color: #AFA9EC; }
-    .diagram-wrap.amber  { border-color: #BA7517; }
-    .diagram-head { background: #f5faf8; padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .diagram-wrap.blue { border-left-color: #378ADD; }
+    .diagram-wrap.purple { border-left-color: #AFA9EC; }
+    .diagram-wrap.amber { border-left-color: #BA7517; }
+    .diagram-head { background: #fff; padding: 11px 14px; font-weight: 700; font-size: 0.93em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a1a18; border-radius: 7px; }
+    .diagram-head:hover { background: #F8F7F3; }
     .diagram-head.blue   { background: #f5f8fd; color: #1a3060; }
     .diagram-head.purple { background: #f7f6fe; color: #2e2870; }
     .diagram-head.amber  { background: #fdf8f0; color: #5a3800; }
@@ -40,13 +43,13 @@
 
     /* Box wrap */
     .box-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
-    .box-wrap.blue   { border-color: #90bce6; }
-    .box-wrap.purple { border-color: #c8c4f4; }
-    .box-wrap.teal   { border-color: #5DCAA5; }
-    .box-wrap.amber  { border-color: #d4a055; }
-    .box-wrap.coral  { border-color: #e8a48a; }
-    .box-wrap.gray   { border-color: #c8c6be; }
-    .box-toggle { background: #f5faf8; padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .box-wrap.blue { border-left-color: #90bce6; }
+    .box-wrap.purple { border-left-color: #c8c4f4; }
+    .box-wrap.teal { border-left-color: #5DCAA5; }
+    .box-wrap.amber { border-left-color: #d4a055; }
+    .box-wrap.coral { border-left-color: #e8a48a; }
+    .box-wrap.gray { border-left-color: #c8c6be; }
+    .box-toggle { color: #1a1a18; border-radius: 7px;  padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
     .box-body { display: none; padding: 12px 14px; }
     .box-body.open { display: block; }
     .box-note { font-size: .82rem; color: #444; margin-top: 9px; background: #fafafa; border-left: 4px solid #5DCAA5; padding: 6px 10px; border-radius: 0 4px 4px 0; }
@@ -64,21 +67,15 @@
     /* Key terms */
     #list { padding: 0 16px 16px; }
     .cat-wrap { border: 2px solid #90bce6; border-radius: 8px; margin-bottom: 9px; overflow: hidden; }
-    .cat-wrap.purple { border-color: #c8c4f4; }
-    .cat-wrap.teal   { border-color: #7dd8be; }
-    .cat-wrap.coral  { border-color: #e8a48a; }
-    .cat-wrap.amber  { border-color: #d4a055; }
-    .cat-wrap.blue   { border-color: #90bce6; }
-    .cat-wrap.pink   { border-color: #e8a0c0; }
-    .cat-wrap.gray   { border-color: #c8c6be; }
-    .cat-head { padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .88rem; font-weight: bold; }
-    .cat-wrap.purple .cat-head { background: rgba(206,203,246,0.15); color: #2e2870; }
-    .cat-wrap.teal   .cat-head { background: rgba(159,225,203,0.15); color: #085041; }
-    .cat-wrap.coral  .cat-head { background: rgba(240,153,123,0.12); color: #7a3010; }
-    .cat-wrap.amber  .cat-head { background: rgba(239,159,39,0.12);  color: #5a3800; }
-    .cat-wrap.blue   .cat-head { background: rgba(133,183,235,0.15); color: #1a3060; }
-    .cat-wrap.pink   .cat-head { background: rgba(237,147,177,0.12); color: #6a1040; }
-    .cat-wrap.gray   .cat-head { background: rgba(180,178,169,0.15); color: #3a3830; }
+    .cat-wrap.purple { border-left-color: #c8c4f4; }
+    .cat-wrap.teal { border-left-color: #7dd8be; }
+    .cat-wrap.coral { border-left-color: #e8a48a; }
+    .cat-wrap.amber { border-left-color: #d4a055; }
+    .cat-wrap.blue { border-left-color: #90bce6; }
+    .cat-wrap.pink { border-left-color: #e8a0c0; }
+    .cat-wrap.gray { border-left-color: #c8c6be; }
+    .cat-head { padding: 11px 14px; font-weight: 700; cursor: pointer; font-size: 0.93em; color: #1a1a18; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; border-radius: 7px; }
+    .cat-head:hover { background: #F8F7F3; }
     .cat-head-right { display: flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: normal; color: #555; }
     .cat-body { display: none; padding: 5px 11px 9px; }
     .cat-body.open { display: block; }
@@ -91,7 +88,7 @@
     .term-eg { display: block; font-style: italic; color: #555; font-size: .82rem; margin-top: 2px; }
     .term-note { display: block; margin-top: 5px; background: #fdf6e8; border-left: 3px solid #BA7517; padding: 4px 8px; font-size: .81rem; border-radius: 0 4px 4px 0; color: #5a3800; }
     .arrow { font-size: .78rem; }
-    .hot-badge { position: relative; display: inline-flex; align-items: center; background: #2c5f6e; color: #fff; border-radius: 12px; padding: 2px 8px; font-size: .72rem; font-weight: bold; cursor: default; white-space: nowrap; }
+    .hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
     .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a3d48; color: #d6eef3; padding: 4px 9px; border-radius: 6px; font-size: .76rem; white-space: nowrap; z-index: 10; font-weight: normal; }
     .hot-badge:hover .tip { display: block; }
 
@@ -111,21 +108,31 @@
 
     .footer { text-align: center; font-size: .77rem; color: #888; padding: 18px 16px 26px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
     @media (max-width: 600px) { h1 { font-size: 1.05rem; } }
-  </style>
+  
+/* Font size toggle */
+.size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+.sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+.sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+.sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+mark { background: #ffe066; border-radius: 2px; padding: 0 1px; }
+
+.section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
+</style>
 </head>
 <body>
 
-<h1>VCE Physical Education &mdash; Unit 1 AOS 2</h1>
-<p class="subtitle">Chapter 3 Part A &middot; 3A: Pumping Blood Around the Body &middot; Live it Up 5th ed.</p>
+<h1>VCE Physical Education &middot; Unit 1 AOS 2</h1>
+<p class="chapter-title">Chapter 3 Part A &mdash; Pumping Blood Around the Body</p>
+<p class="subtitle">Live it Up 5th ed.</p>
 
-<div class="nav-pills">
-  <span class="nav-pill" onclick="jumpTo('sec31')">3A.1 Overview</span>
-  <span class="nav-pill" onclick="jumpTo('sec32')">3A.2 Heart Structure</span>
-  <span class="nav-pill" onclick="jumpTo('sec33')">3A.3 Cardiac Cycle</span>
-  <span class="nav-pill" onclick="jumpTo('sec34')">3A.4 Cardiac Output</span>
-  <span class="nav-pill" onclick="jumpTo('sec35')">3A.5 Blood Vessels</span>
-  <span class="nav-pill" onclick="jumpTo('sec36')">3A.6 Blood Pressure</span>
-  <span class="nav-pill" onclick="jumpTo('secTerms')">&#128218; Key Terms</span>
+<!-- TEXT SIZE TOGGLE -->
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
 </div>
 
 <div class="search-wrap">
@@ -135,11 +142,11 @@
 </div>
 
 <!-- ===== 3A.1 OVERVIEW ===== -->
-<p class="section-label" id="sec31">&#10084; 3A.1 &mdash; Overview</p>
+<div class="section-divider">&#128218; Chapter contents</div>
 
-<div class="box-wrap blue">
+<div class="box-wrap blue" id="sec31">
   <div class="box-toggle" onclick="toggleB(this)">
-    <span>&#128203; What does the cardiovascular system do?</span>
+    <span>&#10084; 3A.1 &mdash; Overview</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="box-body">
@@ -158,11 +165,9 @@
 </div>
 
 <!-- ===== 3A.2 HEART STRUCTURE ===== -->
-<p class="section-label" id="sec32">&#10084; 3A.2 &mdash; Heart Structure</p>
-
-<div class="diagram-wrap">
+<div class="diagram-wrap" id="sec32">
   <div class="diagram-head" onclick="toggleB(this)">
-    <span>&#10084; Heart Chambers &amp; Blood Flow</span>
+    <span>&#10084; 3A.2 &mdash; Heart Structure</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="diagram-body">
@@ -301,11 +306,9 @@
 </div>
 
 <!-- ===== 3A.3 CARDIAC CYCLE ===== -->
-<p class="section-label" id="sec33">&#128260; 3A.3 &mdash; The Cardiac Cycle</p>
-
-<div class="diagram-wrap amber">
+<div class="diagram-wrap amber" id="sec33">
   <div class="diagram-head amber" onclick="toggleB(this)">
-    <span>&#128260; Phases of One Heartbeat</span>
+    <span>&#128260; 3A.3 &mdash; The Cardiac Cycle</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="diagram-body">
@@ -391,11 +394,9 @@
 </div>
 
 <!-- ===== 3A.4 CARDIAC OUTPUT ===== -->
-<p class="section-label" id="sec34">&#128200; 3A.4 &mdash; Cardiac Output</p>
-
-<div class="diagram-wrap amber">
+<div class="diagram-wrap amber" id="sec34">
   <div class="diagram-head amber" onclick="toggleB(this)">
-    <span>&#128201; Q = HR &times; SV &mdash; Rest to Max Exercise</span>
+    <span>&#128200; 3A.4 &mdash; Cardiac Output</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="diagram-body">
@@ -483,11 +484,9 @@
 </div>
 
 <!-- ===== 3A.5 BLOOD VESSELS ===== -->
-<p class="section-label" id="sec35">&#128309; 3A.5 &mdash; Blood Vessels</p>
-
-<div class="diagram-wrap">
+<div class="diagram-wrap" id="sec35">
   <div class="diagram-head" onclick="toggleB(this)">
-    <span>&#128309; Artery, Capillary &amp; Vein — Cross-sections</span>
+    <span>&#128309; 3A.5 &mdash; Blood Vessels</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="diagram-body">
@@ -589,11 +588,9 @@
 </div>
 
 <!-- ===== 3A.6 BLOOD PRESSURE ===== -->
-<p class="section-label" id="sec36">&#128200; 3A.6 &mdash; Blood Pressure</p>
-
-<div class="box-wrap amber">
+<div class="box-wrap amber" id="sec36">
   <div class="box-toggle" onclick="toggleB(this)">
-    <span>&#128200; Blood Pressure Basics &amp; Exercise Response</span>
+    <span>&#128200; 3A.6 &mdash; Blood Pressure</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="box-body">
@@ -613,7 +610,7 @@
 </div>
 
 <!-- ===== KEY TERMS ===== -->
-<p class="section-label" id="secTerms">&#128218; Key Terms &mdash; Chapter 3A</p>
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
 <div id="list"></div>
 <div id="no-results">No terms match your search.</div>
 
@@ -757,6 +754,102 @@ function buildList(source) {
     list.appendChild(wrap);
   }
 }
+
+// ===== Chapter-section search =====
+var sectionIndex = null;
+var autoExpandedSections = [];
+
+function buildSectionIndex() {
+  if (sectionIndex !== null) return sectionIndex;
+  sectionIndex = [];
+  var els = document.querySelectorAll('[id^="sec"]');
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    if (!/^sec\d/.test(el.id)) continue;
+    var body = el.querySelector('.box-body, .diagram-body');
+    if (!body) continue;
+    sectionIndex.push({
+      id: el.id, el: el, body: body,
+      arrow: el.querySelector('.cat-arrow'),
+      text: (body.textContent || '').toLowerCase()
+    });
+  }
+  return sectionIndex;
+}
+
+function highlightSectionText(root, re) {
+  var nodes = [];
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n) {
+      if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      var p = n.parentElement;
+      while (p) {
+        if (p.classList && p.classList.contains('hl')) return NodeFilter.FILTER_REJECT;
+        if (p.namespaceURI === 'http://www.w3.org/2000/svg') return NodeFilter.FILTER_REJECT;
+        p = p.parentElement;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (var i = 0; i < nodes.length; i++) {
+    var n = nodes[i];
+    var text = n.nodeValue;
+    re.lastIndex = 0;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    var frag = document.createDocumentFragment();
+    var lastIdx = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > lastIdx) frag.appendChild(document.createTextNode(text.substring(lastIdx, m.index)));
+      var span = document.createElement('span');
+      span.className = 'hl';
+      span.textContent = m[0];
+      frag.appendChild(span);
+      lastIdx = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    if (lastIdx < text.length) frag.appendChild(document.createTextNode(text.substring(lastIdx)));
+    n.parentNode.replaceChild(frag, n);
+  }
+}
+
+function clearSectionHighlights(root) {
+  var spans = root.querySelectorAll('span.hl');
+  for (var i = 0; i < spans.length; i++) {
+    var s = spans[i];
+    var p = s.parentNode;
+    p.replaceChild(document.createTextNode(s.textContent), s);
+    p.normalize();
+  }
+}
+
+function applySectionSearch(q) {
+  for (var i = 0; i < autoExpandedSections.length; i++) {
+    var s = autoExpandedSections[i];
+    s.body.classList.remove('open');
+    if (s.arrow) s.arrow.innerHTML = '&#9660;';
+    clearSectionHighlights(s.body);
+  }
+  autoExpandedSections = [];
+  if (!q) return 0;
+  var sections = buildSectionIndex();
+  var ql = q.toLowerCase();
+  var re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  var count = 0;
+  for (var i = 0; i < sections.length; i++) {
+    var sec = sections[i];
+    if (sec.text.indexOf(ql) > -1) {
+      sec.body.classList.add('open');
+      if (sec.arrow) sec.arrow.innerHTML = '&#9650;';
+      highlightSectionText(sec.body, re);
+      autoExpandedSections.push(sec);
+      count++;
+    }
+  }
+  return count;
+}
+
 function doSearch(q) {
   currentQuery = q.trim();
   var val = currentQuery.toLowerCase();
@@ -792,6 +885,17 @@ function clearSearch() {
   buildList(terms);
 }
 buildList(terms);
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+
 </script>
 </body>
 </html>

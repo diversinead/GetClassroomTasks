@@ -6,15 +6,16 @@
 <title>VCE PE — Ch1 Part B: Muscular System &amp; Fibre Types</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
-h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4px; letter-spacing: -0.5px; }
-.subtitle { text-align: center; color: #666; font-size: 0.9em; margin-bottom: 6px; font-style: italic; }
+body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 0.79em; font-weight: 600; color: #5F5E5A; margin-bottom: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+.chapter-title { text-align: center; font-size: 1.43em; font-weight: 700; color: #085041; margin-bottom: 4px; letter-spacing: -0.3px; }
+.subtitle { text-align: center; color: #5F5E5A; font-size: 0.86em; margin-bottom: 14px; font-style: italic; }
 .nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 10px 12px 16px; }
 .nav-pill { background: #fff; border: 1.5px solid #ccc; border-radius: 20px; padding: 4px 12px; font-size: 0.8em; cursor: pointer; color: #444; transition: all 0.15s; }
-.nav-pill:hover { background: #3C3489; color: #fff; border-color: #3C3489; }
+.nav-pill:hover { background: #085041; color: #fff; border-color: #085041; }
 
 /* SEARCH */
-.search-wrap { display: flex; align-items: center; gap: 8px; width: calc(100% - 32px); max-width: 560px; margin: 0 auto 22px; }
+.search-wrap { display: flex; align-items: center; gap: 8px; width: calc(100% - 32px); }
 #search { flex: 1; padding: 10px 14px; border: 2px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; font-family: Georgia, serif; }
 #search:focus { outline: none; border-color: #3C3489; }
 #search-clear { display: none; background: #E24B4A; color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; cursor: pointer; font-weight: 700; font-family: Georgia, serif; }
@@ -26,7 +27,7 @@ h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4
 /* ACCORDION */
 .cat { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: visible; }
 .cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; border-radius: 8px 8px 0 0; user-select: none; gap: 8px; }
-.cat-head-text { font-weight: 700; font-size: 0.95em; flex: 1; }
+.cat-head-text { font-size: 0.93em; font-weight: 700; color: #1a1a18; flex: 1; }
 .cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .cat-head-right small { font-size: 11px; opacity: 0.7; }
 .cat-arrow { font-size: 11px; }
@@ -45,7 +46,7 @@ h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4
 .hl { background: #FFE066; border-radius: 2px; padding: 0 1px; }
 
 /* HOT BADGE */
-.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
 .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 200px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
 .hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
 .hot-badge:hover .tip { display: block; }
@@ -60,19 +61,12 @@ h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4
 .cat.gray { border-color: #888780; } .cat.gray .cat-head { background: rgba(180,178,169,0.20); } .cat.gray .term-body { background: rgba(241,239,232,0.5); }
 
 /* BOX PANELS */
-.box-wrap { border-radius: 10px; margin: 0 12px 12px; border: 2px solid #ccc; overflow: hidden; }
-.box-wrap.green { border-color: #5DCAA5; } .box-wrap.purple { border-color: #AFA9EC; }
-.box-wrap.amber { border-color: #BA7517; } .box-wrap.teal { border-color: #5DCAA5; }
-.box-wrap.blue { border-color: #378ADD; } .box-wrap.pink { border-color: #D4537E; }
-.box-wrap.coral { border-color: #D85A30; }
-.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 700; font-size: 0.93em; user-select: none; }
-.box-wrap.green .box-toggle { background: rgba(159,225,203,0.30); }
-.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.35); }
-.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.22); }
-.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.30); }
-.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.28); }
-.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.22); }
-.box-wrap.coral .box-toggle { background: rgba(240,153,123,0.25); }
+.box-wrap { border-radius: 8px; margin-bottom: 8px; border: 1px solid #D3D1C7; background: #fff; border-left: 4px solid #D3D1C7; overflow: visible; }
+.box-wrap.green { border-left-color: #5DCAA5; } .box-wrap.purple { border-left-color: #AFA9EC; }
+.box-wrap.amber { border-left-color: #BA7517; } .box-wrap.teal { border-left-color: #5DCAA5; }
+.box-wrap.blue { border-left-color: #378ADD; } .box-wrap.pink { border-left-color: #D4537E; }
+.box-wrap.coral { border-left-color: #D85A30; }
+.box-toggle { color: #1a1a18; border-radius: 7px; display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 700; font-size: 0.93em; user-select: none; }
 .box-body { display: none; padding: 14px; background: #fff; }
 .box-body.open { display: block; }
 .box-note { margin-top: 10px; font-style: italic; font-size: 0.86em; color: #444; background: #f9f7ee; border-left: 3px solid #BA7517; padding: 6px 10px; border-radius: 4px; }
@@ -96,18 +90,13 @@ h1 { text-align: center; font-size: 1.65em; color: #1C1C1A; padding: 26px 16px 4
 .pt tr:last-child td { border-bottom: none; }
 
 /* DIAGRAM WRAPPER */
-.diagram-wrap { margin: 0 12px 12px; border-radius: 10px; overflow: hidden; border: 2px solid #5DCAA5; background: #fff; }
-.diagram-wrap.blue { border-color: #378ADD; }
-.diagram-wrap.purple { border-color: #AFA9EC; }
-.diagram-wrap.amber { border-color: #BA7517; }
-.diagram-wrap.pink { border-color: #D4537E; }
-.diagram-wrap.coral { border-color: #D85A30; }
-.diagram-head { background: rgba(159,225,203,0.30); padding: 10px 14px; font-weight: 700; font-size: 0.93em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
-.diagram-head.blue { background: rgba(133,183,235,0.28); }
-.diagram-head.purple { background: rgba(206,203,246,0.35); }
-.diagram-head.amber { background: rgba(239,159,39,0.22); }
-.diagram-head.pink { background: rgba(237,147,177,0.22); }
-.diagram-head.coral { background: rgba(240,153,123,0.25); }
+.diagram-wrap { margin-bottom: 8px; border-radius: 8px; overflow: visible; border: 1px solid #D3D1C7; background: #fff; border-left: 4px solid #5DCAA5; }
+.diagram-wrap.blue { border-left-color: #378ADD; }
+.diagram-wrap.purple { border-left-color: #AFA9EC; }
+.diagram-wrap.amber { border-left-color: #BA7517; }
+.diagram-wrap.pink { border-left-color: #D4537E; }
+.diagram-wrap.coral { border-left-color: #D85A30; }
+.diagram-head { background: #fff; color: #1a1a18; border-radius: 7px; padding: 10px 14px; font-weight: 700; font-size: 0.93em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
 .diagram-body { display: none; padding: 16px 12px 12px; background: #fff; }
 .diagram-body.open { display: block; }
 .diagram-caption { font-size: 0.81em; color: #555; font-style: italic; text-align: center; margin-top: 8px; line-height: 1.5; }
@@ -128,27 +117,34 @@ svg text { font-family: Georgia, serif; }
 
 /* NO RESULTS */
 #no-results { display: none; text-align: center; color: #999; padding: 30px; font-style: italic; }
+
+/* Font size toggle */
+.size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+.sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+.sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+.sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+mark { background: #ffe066; border-radius: 2px; padding: 0 1px; }
+
+.section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
 </style>
 </head>
 <body>
 
-<h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
-<p class="subtitle">Chapter 1 Part B &middot; Sections 1.3&ndash;1.4: Muscular System &amp; Muscle Fibre Types &middot; Live it Up 5th ed.</p>
-
-<!-- NAV PILLS -->
-<div class="nav-pills">
-  <span class="nav-pill" onclick="jumpTo('sec13')">1.3 Muscular System</span>
-  <span class="nav-pill" onclick="jumpTo('sec131')">1.3.1 Functions</span>
-  <span class="nav-pill" onclick="jumpTo('sec132')">1.3.2 Muscle Structure</span>
-  <span class="nav-pill" onclick="jumpTo('sec133')">1.3.3 Major Muscles</span>
-  <span class="nav-pill" onclick="jumpTo('sec134')">1.3.4 Muscle Roles</span>
-  <span class="nav-pill" onclick="jumpTo('sec14')">1.4 Fibre Types</span>
-  <span class="nav-pill" onclick="jumpTo('sec141')">1.4.1 Fibre Characteristics</span>
-  <span class="nav-pill" onclick="jumpTo('sec142')">1.4.2 Sliding Filament</span>
-  <span class="nav-pill" onclick="jumpTo('sec143')">1.4.3 Motor Units</span>
-</div>
+<h1>VCE Physical Education &middot; Unit 1 AOS1a</h1>
+<p class="chapter-title">Chapter 1 (1.3 &amp; 1.4) &mdash; Muscular System &amp; Muscle Fibre Types</p>
+<p class="subtitle">Live it Up 5th ed.</p>
 
 <!-- SEARCH -->
+<!-- TEXT SIZE TOGGLE -->
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
+</div>
+
 <div class="search-wrap">
   <input id="search" type="text" placeholder="&#128269; Search terms..." oninput="doSearch(this.value)">
   <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
@@ -158,14 +154,12 @@ svg text { font-family: Georgia, serif; }
 <!-- ============================================================
      SECTION 1.3 MUSCULAR SYSTEM
      ============================================================ -->
-<p class="section-label" id="sec13">&#128170; 1.3 The Structure and Function of the Muscular System</p>
-
 <!-- 1.3.1 FUNCTIONS -->
-<p class="section-label" id="sec131" style="padding-top:4px;">Functions of the Muscular System</p>
+<div class="section-divider">&#128218; Chapter contents</div>
 
-<div class="box-wrap teal">
+<div class="box-wrap teal" id="sec131">
   <div class="box-toggle" onclick="toggleB(this)">
-    <span>&#128200; Functions of the Muscular System</span>
+    <span>1.3.1 Functions of the Muscular System</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="box-body">
@@ -226,12 +220,9 @@ svg text { font-family: Georgia, serif; }
 </div>
 
 <!-- 1.3.2 MUSCLE STRUCTURE -->
-<p class="section-label" id="sec132" style="padding-top:4px;">Muscle Structure</p>
-
-<!-- SVG: Muscle Hierarchy Diagram -->
-<div class="diagram-wrap">
+<div class="diagram-wrap" id="sec132">
   <div class="diagram-head" onclick="toggleB(this)">
-    <span>&#129344; Diagram: From Muscle to Sarcomere — Structural Hierarchy</span>
+    <span>1.3.2 Muscle Structure</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="diagram-body">
@@ -323,11 +314,9 @@ svg text { font-family: Georgia, serif; }
 </div>
 
 <!-- 1.3.3 MAJOR SKELETAL MUSCLES -->
-<p class="section-label" id="sec133" style="padding-top:4px;">Major Skeletal Muscles</p>
-
-<div class="box-wrap blue">
+<div class="box-wrap blue" id="sec133">
   <div class="box-toggle" onclick="toggleB(this)">
-    <span>&#129346; Major Skeletal Muscles — Location, Action &amp; Sport Examples</span>
+    <span>1.3.3 Major Skeletal Muscles</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="box-body">
@@ -358,11 +347,9 @@ svg text { font-family: Georgia, serif; }
 </div>
 
 <!-- 1.3.4 MUSCLE ROLES -->
-<p class="section-label" id="sec134" style="padding-top:4px;">Muscle Roles During Movement</p>
-
-<div class="box-wrap teal">
+<div class="box-wrap teal" id="sec134">
   <div class="box-toggle" onclick="toggleB(this)">
-    <span>&#128200; Muscle Roles — Agonist, Antagonist, Synergist, Fixator</span>
+    <span>1.3.4 Muscle Roles During Movement</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="box-body">
@@ -453,15 +440,10 @@ svg text { font-family: Georgia, serif; }
 <!-- ============================================================
      SECTION 1.4 MUSCLE FIBRE TYPES
      ============================================================ -->
-<p class="section-label" id="sec14">&#128170; 1.4 Muscle Fibre Characteristics and Functions</p>
-
 <!-- 1.4.1 FIBRE TYPES -->
-<p class="section-label" id="sec141" style="padding-top:4px;">Fibre Type Characteristics</p>
-
-<!-- SVG: Fibre Type Comparison -->
-<div class="diagram-wrap pink">
+<div class="diagram-wrap pink" id="sec141">
   <div class="diagram-head pink" onclick="toggleB(this)">
-    <span>&#128170; Diagram: Muscle Fibre Type Comparison</span>
+    <span>1.4.1 Fibre Type Characteristics</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="diagram-body">
@@ -581,12 +563,9 @@ svg text { font-family: Georgia, serif; }
 </div>
 
 <!-- 1.4.2 SLIDING FILAMENT THEORY -->
-<p class="section-label" id="sec142" style="padding-top:4px;">Sliding Filament Theory</p>
-
-<!-- SVG: 5-step sliding filament -->
-<div class="diagram-wrap amber">
+<div class="diagram-wrap amber" id="sec142">
   <div class="diagram-head amber" onclick="toggleB(this)">
-    <span>&#9881;&#65039; Diagram: Sliding Filament Theory — 5 Steps</span>
+    <span>1.4.2 Sliding Filament Theory</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="diagram-body">
@@ -661,11 +640,9 @@ svg text { font-family: Georgia, serif; }
 </div>
 
 <!-- 1.4.3 MOTOR UNITS & RECRUITMENT -->
-<p class="section-label" id="sec143" style="padding-top:4px;">Motor Units &amp; Recruitment</p>
-
-<div class="box-wrap amber">
+<div class="box-wrap amber" id="sec143">
   <div class="box-toggle" onclick="toggleB(this)">
-    <span>&#9889; Motor Units and the Size Principle</span>
+    <span>1.4.3 Motor Units &amp; Recruitment</span>
     <span class="cat-arrow">&#9660;</span>
   </div>
   <div class="box-body">
@@ -686,7 +663,7 @@ svg text { font-family: Georgia, serif; }
 </div>
 
 <!-- KEY TERMS ACCORDION -->
-<p class="section-label">&#128218; Key Terms &amp; Definitions</p>
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
 <div id="list"></div>
 <div id="no-results">No terms match your search. Try a different keyword.</div>
 
@@ -853,12 +830,111 @@ function toggle(el) {
   arr.innerHTML = open ? "&#9650;" : "&#9660;";
 }
 
+
+// ===== Chapter-section search =====
+var sectionIndex = null;
+var autoExpandedSections = [];
+
+function buildSectionIndex() {
+  if (sectionIndex !== null) return sectionIndex;
+  sectionIndex = [];
+  var els = document.querySelectorAll('[id^="sec"]');
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    if (!/^sec\d/.test(el.id)) continue;
+    var body = el.querySelector('.box-body, .diagram-body');
+    if (!body) continue;
+    sectionIndex.push({
+      id: el.id, el: el, body: body,
+      arrow: el.querySelector('.cat-arrow'),
+      text: (body.textContent || '').toLowerCase()
+    });
+  }
+  return sectionIndex;
+}
+
+function highlightSectionText(root, re) {
+  var nodes = [];
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n) {
+      if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      var p = n.parentElement;
+      while (p) {
+        if (p.classList && p.classList.contains('hl')) return NodeFilter.FILTER_REJECT;
+        if (p.namespaceURI === 'http://www.w3.org/2000/svg') return NodeFilter.FILTER_REJECT;
+        p = p.parentElement;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (var i = 0; i < nodes.length; i++) {
+    var n = nodes[i];
+    var text = n.nodeValue;
+    re.lastIndex = 0;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    var frag = document.createDocumentFragment();
+    var lastIdx = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > lastIdx) frag.appendChild(document.createTextNode(text.substring(lastIdx, m.index)));
+      var span = document.createElement('span');
+      span.className = 'hl';
+      span.textContent = m[0];
+      frag.appendChild(span);
+      lastIdx = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    if (lastIdx < text.length) frag.appendChild(document.createTextNode(text.substring(lastIdx)));
+    n.parentNode.replaceChild(frag, n);
+  }
+}
+
+function clearSectionHighlights(root) {
+  var spans = root.querySelectorAll('span.hl');
+  for (var i = 0; i < spans.length; i++) {
+    var s = spans[i];
+    var p = s.parentNode;
+    p.replaceChild(document.createTextNode(s.textContent), s);
+    p.normalize();
+  }
+}
+
+function applySectionSearch(q) {
+  for (var i = 0; i < autoExpandedSections.length; i++) {
+    var s = autoExpandedSections[i];
+    s.body.classList.remove('open');
+    if (s.arrow) s.arrow.innerHTML = '&#9660;';
+    clearSectionHighlights(s.body);
+  }
+  autoExpandedSections = [];
+  if (!q) return 0;
+  var sections = buildSectionIndex();
+  var ql = q.toLowerCase();
+  var re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  var count = 0;
+  for (var i = 0; i < sections.length; i++) {
+    var sec = sections[i];
+    if (sec.text.indexOf(ql) > -1) {
+      sec.body.classList.add('open');
+      if (sec.arrow) sec.arrow.innerHTML = '&#9650;';
+      highlightSectionText(sec.body, re);
+      autoExpandedSections.push(sec);
+      count++;
+    }
+  }
+  return count;
+}
+
 function doSearch(q) {
   q = q.trim();
   var clearBtn = document.getElementById("search-clear");
   var countEl = document.getElementById("search-count");
   clearBtn.className = q ? "visible" : "";
-  if (!q) { build(data, ""); countEl.textContent = ""; return; }
+  if (!q) {
+    build(data, "");
+    applySectionSearch("");
+    countEl.textContent = ""; return; }
   var ql = q.toLowerCase();
   var filtered = [];
   for (var i = 0; i < data.length; i++) {
@@ -876,7 +952,11 @@ function doSearch(q) {
     if (items.length) filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
   }
   var count = build(filtered, q);
-  countEl.textContent = count + " result" + (count !== 1 ? "s" : "");
+  var sectionCount = applySectionSearch(q);
+  var parts = [];
+  if (count > 0) parts.push(count + ' term' + (count !== 1 ? 's' : ''));
+  if (sectionCount > 0) parts.push(sectionCount + ' chapter section' + (sectionCount !== 1 ? 's' : ''));
+  countEl.textContent = parts.length ? parts.join(' · ') : 'no results';
 }
 
 function clearSearch() {
@@ -885,6 +965,17 @@ function clearSearch() {
 }
 
 build(data, "");
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+
 </script>
 </body>
 </html>

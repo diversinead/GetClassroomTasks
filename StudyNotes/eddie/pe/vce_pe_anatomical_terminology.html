@@ -6,52 +6,54 @@
   <title>VCE PE — Anatomical Terminology Reference</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.6; }
+    body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.6; padding: 16px; }
 
-    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
-    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+    h1 { color: #085041; text-align: center; font-size: 1.57em; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .subtitle { color: #5F5E5A; text-align: center; font-size: 0.93em; margin-bottom: 14px; font-style: italic; }
 
-    .controls { background: #fff; border-bottom: 1px solid #dde4ea; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .controls { background: #fff; border: 1px solid #D3D1C7; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
 
     .size-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .size-row span { font-size: .82rem; color: #2c5f6e; font-weight: bold; }
-    .sz-btn { padding: 3px 12px; border-radius: 14px; border: 1.5px solid #2c5f6e; background: #fff; color: #1a3d48; cursor: pointer; font-family: Georgia, serif; font-size: .8rem; font-weight: bold; }
-    .sz-btn.active { background: #2c5f6e; color: #fff; }
-    .sz-btn:hover:not(.active) { background: #eaf4f7; }
+    .size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+    .sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; color: #1a1a18; cursor: pointer; font-family: inherit; font-size: 0.79em; font-weight: 600; }
+    .sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+    .sz-btn:hover:not(.active) { background: #F5F4F0; }
 
     .search-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .search-row input { flex: 1; min-width: 200px; padding: 8px 12px; border: 1.5px solid #b0c4ce; border-radius: 6px; font-size: .88rem; font-family: Georgia, serif; outline: none; }
-    .search-row input:focus { border-color: #2c5f6e; }
-    #search-clear { display: none; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 7px 13px; cursor: pointer; font-size: .81rem; font-family: Georgia, serif; }
+    .search-row input { flex: 1; min-width: 200px; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; font-family: inherit; background: #fff; outline: none; }
+    .search-row input:focus { border-color: #1D9E75; }
+    #search-clear { display: none; padding: 5px 12px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; color: #1a1a18; font-size: 0.82em; font-weight: 600; cursor: pointer; font-family: inherit; }
     #search-clear.visible { display: inline-block; }
-    #search-count { font-size: .81rem; color: #555; white-space: nowrap; }
+    #search-count { font-size: 0.82em; color: #5F5E5A; white-space: nowrap; }
 
     .filter-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
-    .filter-row span { font-size: .82rem; color: #555; font-weight: bold; }
-    .filter-btn { padding: 4px 14px; border-radius: 16px; border: 1.5px solid #c8dde4; background: #fff; color: #555; cursor: pointer; font-family: Georgia, serif; font-size: .81rem; font-weight: bold; transition: all .15s; }
-    .filter-btn:hover { border-color: #2c5f6e; color: #1a3d48; }
-    .filter-btn.active                       { background: #2c5f6e; color: #fff; border-color: #2c5f6e; }
+    .filter-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+    .filter-btn { padding: 4px 14px; border-radius: 16px; border: 1.5px solid #D3D1C7; background: #fff; color: #555; cursor: pointer; font-family: inherit; font-size: 0.79em; font-weight: 600; transition: all .15s; }
+    .filter-btn:hover { border-color: #085041; color: #085041; }
+    .filter-btn.active                       { background: #085041; color: #fff; border-color: #085041; }
     .filter-btn[data-cat="Directional"].active { background: #378ADD; border-color: #378ADD; }
     .filter-btn[data-cat="Plane"].active       { background: #BA7517; border-color: #BA7517; }
     .filter-btn[data-cat="Movement"].active    { background: #085041; border-color: #085041; }
 
-    .table-wrap { overflow-x: auto; }
+    .table-wrap { overflow-x: auto; background: #fff; border: 1px solid #D3D1C7; border-radius: 8px; }
 
-    table { width: 100%; border-collapse: collapse; font-size: .86rem; }
-    th { background: #2c5f6e; color: #fff; padding: 9px 11px; text-align: left; font-size: .84rem; user-select: none; white-space: nowrap; }
+    .section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.86em; }
+    th { background: #085041; color: #fff; padding: 9px 11px; text-align: left; font-size: 0.82em; user-select: none; white-space: nowrap; }
     th.sortable { cursor: pointer; }
-    th.sortable:hover { background: #1a3d48; }
-    th .si { margin-left: 4px; font-size: .75rem; opacity: .55; }
+    th.sortable:hover { background: #063f31; }
+    th .si { margin-left: 4px; font-size: 0.75em; opacity: .55; }
     th.sort-asc  .si::after { content: " \25B2"; opacity: 1; }
     th.sort-desc .si::after { content: " \25BC"; opacity: 1; }
     th:not(.sort-asc):not(.sort-desc) .si::after { content: " \21C5"; }
 
-    td { padding: 8px 11px; border-bottom: 1px solid #e8e8ee; vertical-align: top; text-align: left; }
-    tr:nth-child(even) td { background: #f8f8fa; }
-    tr:hover td { background: #eef6f9; }
+    td { padding: 8px 11px; border-bottom: 1px solid #EDECEA; vertical-align: top; text-align: left; }
+    tr:nth-child(even) td { background: #F8F7F3; }
+    tr:hover td { background: #EAF4F0; }
     tr.hidden { display: none; }
-    td strong { color: #1a3d48; }
-    .opp { color: #2c5f6e; font-style: italic; font-size: .82rem; }
+    td strong { color: #085041; }
+    .opp { color: #085041; font-style: italic; font-size: 0.79em; }
     .eg  { color: #555; font-size: .82rem; }
     .nt  { color: #888; font-size: .79rem; font-style: italic; }
 
@@ -78,9 +80,9 @@
 
   <div class="size-row">
     <span>Text size:</span>
-    <button class="sz-btn active" id="sz-s" onclick="setSize(15)">Default</button>
-    <button class="sz-btn" id="sz-m" onclick="setSize(18)">Large</button>
-    <button class="sz-btn" id="sz-l" onclick="setSize(21)">X-Large</button>
+    <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+    <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+    <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
   </div>
 
   <div class="search-row">
@@ -307,7 +309,7 @@ var sortDir = 1;
 function setSize(px) {
   document.body.style.fontSize = px + 'px';
   var ids = ['sz-s','sz-m','sz-l'];
-  var sizes = [15,18,21];
+  var sizes = [14,17,20];
   for (var i = 0; i < ids.length; i++) {
     document.getElementById(ids[i]).className = sizes[i] === px ? 'sz-btn active' : 'sz-btn';
   }

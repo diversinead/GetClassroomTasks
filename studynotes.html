@@ -130,6 +130,79 @@
   .del-btn { background: none; border: none; color: #ddd; font-size: 14px; cursor: pointer;
              padding: 0 12px 0 0; }
   .del-btn:hover { color: #c0392b; }
+
+  /* ===================== Table layout (per-subject opt-in via layout: "table") ===================== */
+  .subject .subject-body.table-body { padding: 12px 14px; background: #fafafa; }
+  .index-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .index-button { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; background: #fff; border: 1px solid #d0cec6; border-radius: 6px; font-size: 12px; color: #2a7a7a; text-decoration: none; font-weight: 600; }
+  .index-button:hover { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+  .aos-legend { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+  .aos-legend-header { padding: 9px 14px; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: #555; background: #fafafa; }
+  .aos-legend-header:hover { background: #f3f3f3; }
+  .aos-legend-arrow { font-size: 10px; color: #888; transition: transform 0.15s; }
+  .aos-legend.open .aos-legend-arrow { transform: rotate(90deg); }
+  .aos-legend-body { display: none; padding: 8px 14px 12px; border-top: 1px solid #f0f0f0; }
+  .aos-legend.open .aos-legend-body { display: block; }
+  .legend-group { margin-top: 8px; }
+  .legend-group:first-child { margin-top: 0; }
+  .legend-unit { font-size: 11px; font-weight: 700; color: #2a7a7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .legend-row { display: flex; gap: 8px; align-items: baseline; padding: 2px 0 2px 6px; font-size: 12px; }
+  .legend-short { font-weight: 700; color: #3C3489; min-width: 56px; flex-shrink: 0; }
+  .legend-full { color: #555; }
+  .table-toolbar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+  .table-toolbar-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .table-search { flex: 1; min-width: 160px; padding: 7px 11px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; outline: none; background: #fff; font-family: inherit; }
+  .table-search:focus { border-color: #2a7a7a; }
+  .table-add-btn { padding: 7px 13px; border: none; background: #2a7a7a; color: #fff; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 12px; white-space: nowrap; }
+  .table-add-btn:hover { opacity: 0.92; }
+  .filter-cards { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter-card { flex: 1 1 220px; background: #fff; border: 1px solid #e0e0e0; border-radius: 7px; padding: 8px 10px 9px; min-width: 200px; }
+  .filter-card-title { font-size: 10px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block; }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+  .chip-label { font-size: 10px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 4px 0 2px; }
+  .filter-chip { padding: 3px 9px; border-radius: 12px; border: 1px solid #ddd; font-size: 11px; cursor: pointer; background: #fff; color: #555; font-weight: 600; user-select: none; font-family: inherit; }
+  .filter-chip:hover { border-color: #aaa; }
+  .filter-chip.active { background: #2a7a7a; color: #fff; border-color: #2a7a7a; }
+  .filter-chip.t-chapter.active { background: #085041; border-color: #085041; }
+  .filter-chip.t-quiz.active { background: #4A1B0C; border-color: #4A1B0C; }
+  .filter-chip.t-notes.active { background: #3C3489; border-color: #3C3489; }
+
+  .notes-table-wrap { background: #fff; border-radius: 6px; overflow-x: auto; border: 1px solid #eee; }
+  table.notes-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.notes-table th { background: #f3f3f3; padding: 8px 10px; text-align: left; font-weight: 700; cursor: pointer; user-select: none; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: #555; border-bottom: 1px solid #ddd; white-space: nowrap; }
+  table.notes-table th:hover { background: #ebebeb; }
+  table.notes-table th.sort-asc::after  { content: " \25B4"; color: #2a7a7a; }
+  table.notes-table th.sort-desc::after { content: " \25BE"; color: #2a7a7a; }
+  table.notes-table td { padding: 8px 10px; border-bottom: 1px solid #f3f3f3; vertical-align: middle; color: #333; }
+  table.notes-table tr:hover td { background: #fafbfb; }
+  table.notes-table tr:last-child td { border-bottom: none; }
+  table.notes-table .col-unit, table.notes-table .col-aos { font-size: 11px; color: #5F5E5A; white-space: nowrap; }
+  table.notes-table a.row-link { color: #1a5fb4; text-decoration: none; font-weight: 600; }
+  table.notes-table a.row-link:hover { text-decoration: underline; }
+  table.notes-table .type-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
+  table.notes-table .type-badge.chapter { background: #E1F5EE; color: #085041; }
+  table.notes-table .type-badge.quiz    { background: #FAECE7; color: #4A1B0C; }
+  table.notes-table .type-badge.notes   { background: #EEEDFE; color: #3C3489; }
+  table.notes-table .col-actions { white-space: nowrap; text-align: right; }
+  table.notes-table .col-actions .del-btn { padding: 2px 6px; }
+  .empty-table-row { padding: 28px 16px; text-align: center; color: #888; font-style: italic; font-size: 12px; }
+
+  /* Add modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: #fff; border-radius: 10px; max-width: 460px; width: 100%; padding: 20px 22px; box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
+  .modal-box h3 { font-size: 15px; color: #2a7a7a; margin-bottom: 14px; }
+  .modal-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  .modal-field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: #555; }
+  .modal-field input, .modal-field select { padding: 7px 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; outline: none; font-family: inherit; }
+  .modal-field input:focus, .modal-field select:focus { border-color: #2a7a7a; }
+  .modal-field .radio-row { display: flex; gap: 14px; flex-wrap: wrap; padding-top: 2px; }
+  .modal-field .radio-row label { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #333; cursor: pointer; text-transform: none; letter-spacing: 0; }
+  .modal-actions { display: flex; gap: 8px; margin-top: 8px; justify-content: flex-end; }
+  .modal-actions .save-btn { padding: 7px 16px; border: none; border-radius: 6px; background: #2a7a7a; color: #fff; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .modal-actions .save-btn:hover { opacity: 0.92; }
+  .modal-actions .cancel-btn { padding: 7px 14px; border: 1px solid #ccc; border-radius: 6px; background: #fff; color: #555; cursor: pointer; font-family: inherit; }
+  .modal-actions .cancel-btn:hover { background: #f5f5f5; }
 </style>
 </head>
 <body>
@@ -138,6 +211,41 @@
 <p class="subtitle">Albert Park College</p>
 
 <div id="notesContainer"></div>
+
+<!-- Add-entry modal (used by table-layout subjects) -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <h3 id="addModalTitle">Add entry</h3>
+    <div class="modal-field">
+      <label>Title</label>
+      <input id="addModalTitleInput" type="text" placeholder="e.g. Ch 4 Part B: Heart anatomy">
+    </div>
+    <div class="modal-field">
+      <label>Type</label>
+      <div class="radio-row">
+        <label><input type="radio" name="addModalType" value="chapter" checked> Study Notes</label>
+        <label><input type="radio" name="addModalType" value="notes"> Workbook Notes</label>
+        <label><input type="radio" name="addModalType" value="quiz"> Quiz</label>
+      </div>
+    </div>
+    <div class="modal-field">
+      <label>Unit</label>
+      <select id="addModalUnit"></select>
+    </div>
+    <div class="modal-field">
+      <label>AOS</label>
+      <select id="addModalAos"></select>
+    </div>
+    <div class="modal-field">
+      <label>File</label>
+      <select id="addModalFile"></select>
+    </div>
+    <div class="modal-actions">
+      <button class="cancel-btn" onclick="closeAddModal()">Cancel</button>
+      <button class="save-btn" onclick="submitAddModal()">Add</button>
+    </div>
+  </div>
+</div>
 
 <script>
   const student = window.location.pathname.split('/')[1];
@@ -437,6 +545,526 @@
     nameInput.focus();
   }
 
+  // ===================== Table-layout state & helpers =====================
+  // Per-subject UI state: { typeFilter, unitFilter, search, sort, dir }
+  const tableState = {};
+
+  // Map: full file path -> lower-cased keyword string
+  // Populated lazily by parsing the subject's index file (which has <div class="card" data-keywords="...">)
+  const chapterKeywords = {};
+  const indexLoadPromises = {};
+
+  async function loadChapterKeywords(indexFile) {
+    if (!indexFile || indexLoadPromises[indexFile]) return indexLoadPromises[indexFile] || null;
+    indexLoadPromises[indexFile] = (async () => {
+      try {
+        const resp = await fetch('/studynotes/' + indexFile);
+        if (!resp.ok) return;
+        const html = await resp.text();
+        const folder = indexFile.substring(0, indexFile.lastIndexOf('/') + 1);
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const cards = doc.querySelectorAll('.card');
+        for (const card of cards) {
+          const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+          if (!keywords) continue;
+          const links = card.querySelectorAll('a.card-link, a[href]');
+          for (const link of links) {
+            const href = link.getAttribute('href');
+            if (!href) continue;
+            // Resolve to full path under StudyNotes/
+            const full = href.startsWith('eddie/') || href.startsWith('dara/')
+              ? href
+              : folder + href;
+            chapterKeywords[full] = (chapterKeywords[full] || '') + ' ' + keywords;
+          }
+        }
+      } catch (e) { /* silent — search still works without keywords */ }
+    })();
+    return indexLoadPromises[indexFile];
+  }
+
+  function getTableState(subjectName) {
+    if (!tableState[subjectName]) {
+      tableState[subjectName] = { typeFilter: 'all', unitFilter: 'all', aosFilter: 'all', search: '', sort: 'unit', dir: 'asc', legendOpen: false };
+    }
+    return tableState[subjectName];
+  }
+
+  // Extract a short label from an AOS name.
+  // "AOS1a: How does..." -> "AOS1a"
+  // "AOS 1 - Business Foundations" -> "AOS 1"
+  // "AOS 1" -> "AOS 1"
+  function shortAosLabel(name) {
+    if (!name) return '';
+    const dashIdx = name.indexOf(' - ');
+    if (dashIdx > 0) return name.substring(0, dashIdx).trim();
+    const colonIdx = name.indexOf(':');
+    if (colonIdx > 0) return name.substring(0, colonIdx).trim();
+    return name.trim();
+  }
+
+  // Flatten subject.aos[].{chapters,quizzes,notes,subsections[].chapters,...} into a flat row list.
+  // Top-level entries on a Unit are labeled "All" — they apply to every AOS in that Unit.
+  // Each row: { unit, aos, aosShort, title, type, file, refAos, refSub, refIdx, refKind }
+  function flattenSubjectRows(subject) {
+    const rows = [];
+    if (!Array.isArray(subject.aos)) return rows;
+    for (const aos of subject.aos) {
+      const hasSubs = aos.subsections && aos.subsections.length > 0;
+
+      // 1. Top-level chapters/quizzes/notes on the AOS itself.
+      //    If subsections exist alongside, label these "All" (relevant to whole Unit).
+      //    Otherwise the AOS has no subsections at all — leave the label blank.
+      const topLabel = hasSubs ? 'All' : '';
+      (aos.chapters || []).forEach((ch, i) => rows.push({
+        unit: aos.name, aos: topLabel, aosShort: topLabel, title: ch.title, type: 'chapter',
+        file: ch.file, refAos: aos.name, refSub: '', refIdx: i, refKind: 'chapter'
+      }));
+      (aos.quizzes || []).forEach((q, i) => rows.push({
+        unit: aos.name, aos: topLabel, aosShort: topLabel, title: q.title, type: 'quiz',
+        file: q.file, refAos: aos.name, refSub: '', refIdx: i, refKind: 'quiz'
+      }));
+      (aos.notes || []).forEach((nt, i) => rows.push({
+        unit: aos.name, aos: topLabel, aosShort: topLabel, title: nt.title, type: 'notes',
+        file: nt.file, refAos: aos.name, refSub: '', refIdx: i, refKind: 'notes'
+      }));
+
+      // 2. Subsections
+      for (const sub of (aos.subsections || [])) {
+        const aosShort = shortAosLabel(sub.name);
+        (sub.chapters || []).forEach((ch, i) => rows.push({
+          unit: aos.name, aos: sub.name, aosShort: aosShort, title: ch.title, type: 'chapter',
+          file: ch.file, refAos: aos.name, refSub: sub.name, refIdx: i, refKind: 'chapter'
+        }));
+        (sub.quizzes || []).forEach((q, i) => rows.push({
+          unit: aos.name, aos: sub.name, aosShort: aosShort, title: q.title, type: 'quiz',
+          file: q.file, refAos: aos.name, refSub: sub.name, refIdx: i, refKind: 'quiz'
+        }));
+        (sub.notes || []).forEach((nt, i) => rows.push({
+          unit: aos.name, aos: sub.name, aosShort: aosShort, title: nt.title, type: 'notes',
+          file: nt.file, refAos: aos.name, refSub: sub.name, refIdx: i, refKind: 'notes'
+        }));
+      }
+    }
+    return rows;
+  }
+
+  function renderSubjectTable(subject) {
+    const sn = subject.name.replace(/'/g, "\\'");
+    const state = getTableState(subject.name);
+    const allRows = flattenSubjectRows(subject);
+    // Build unit filter list (preserve subject.aos order)
+    const units = (subject.aos || []).map(a => a.name);
+
+    // Build unique AOS short labels (preserve order seen in subject.aos)
+    const seenAos = new Set();
+    const aosOrder = [];
+    for (const aos of (subject.aos || [])) {
+      const subs = aos.subsections && aos.subsections.length ? aos.subsections : [];
+      for (const sub of subs) {
+        const sh = shortAosLabel(sub.name);
+        if (sh && !seenAos.has(sh)) { seenAos.add(sh); aosOrder.push({ short: sh, full: sub.name, unit: aos.name }); }
+      }
+    }
+
+    // Filter
+    let rows = allRows.filter(r => {
+      if (state.typeFilter !== 'all' && r.type !== state.typeFilter) return false;
+      if (state.unitFilter !== 'all' && r.unit !== state.unitFilter) return false;
+      // AOS filter: matches "All" rows, exact short, or parent-prefix match
+      // (e.g. filter='AOS1' matches rows with aosShort='AOS1a' or 'AOS1b').
+      if (state.aosFilter !== 'all' && r.aosShort !== 'All') {
+        const f = state.aosFilter;
+        const direct = r.aosShort === f;
+        const parentMatch = r.aosShort.length > f.length
+                          && r.aosShort.startsWith(f)
+                          && /^[a-z]$/i.test(r.aosShort.charAt(f.length));
+        if (!direct && !parentMatch) return false;
+      }
+      if (state.search) {
+        const q = state.search.toLowerCase();
+        const titleMatch = r.title.toLowerCase().includes(q)
+              || r.unit.toLowerCase().includes(q)
+              || (r.aos || '').toLowerCase().includes(q);
+        const keywordMatch = (chapterKeywords[r.file] || '').includes(q);
+        if (!titleMatch && !keywordMatch) return false;
+      }
+      return true;
+    });
+
+    // Sort
+    const sortKey = state.sort;
+    const dir = state.dir === 'desc' ? -1 : 1;
+    rows.sort((a, b) => {
+      const va = (a[sortKey === 'aos' ? 'aosShort' : sortKey] || '').toString().toLowerCase();
+      const vb = (b[sortKey === 'aos' ? 'aosShort' : sortKey] || '').toString().toLowerCase();
+      if (va < vb) return -1 * dir;
+      if (va > vb) return 1 * dir;
+      return 0;
+    });
+
+    // Build chips
+    const typeChips = [
+      { val: 'all', label: 'All', cls: '' },
+      { val: 'chapter', label: 'Study Notes', cls: 't-chapter' },
+      { val: 'notes', label: 'Workbook Notes', cls: 't-notes' },
+      { val: 'quiz', label: 'Quizzes', cls: 't-quiz' },
+    ];
+    const typeChipsInner = typeChips.map(c =>
+      `<span class="filter-chip ${c.cls} ${state.typeFilter === c.val ? 'active' : ''}" onclick="setTableTypeFilter('${sn}','${c.val}')">${c.label}</span>`
+    ).join('');
+
+    const unitChipsInner = ['all', ...units].map(u => {
+      const active = state.unitFilter === u ? 'active' : '';
+      const label = u === 'all' ? 'All' : u;
+      return `<span class="filter-chip ${active}" onclick="setTableUnitFilter('${sn}','${u.replace(/'/g, "\\'")}')">${label}</span>`;
+    }).join('');
+
+    // Detect parent prefixes (e.g. "AOS1a" + "AOS1b" share parent "AOS1") that have 2+ children
+    const parentCounts = {};
+    for (const a of aosOrder) {
+      const parent = a.short.replace(/[a-z]$/i, '');
+      if (parent !== a.short) parentCounts[parent] = (parentCounts[parent] || 0) + 1;
+    }
+    const parentSet = new Set(Object.keys(parentCounts).filter(p => parentCounts[p] >= 2));
+
+    // Build chips: All, then parents, then specific children. Skip parents we've already shown.
+    const aosChipsList = [];
+    aosChipsList.push({ val: 'all', label: 'All' });
+    const seenParents = new Set();
+    for (const a of aosOrder) {
+      const parent = a.short.replace(/[a-z]$/i, '');
+      if (parentSet.has(parent) && !seenParents.has(parent)) {
+        aosChipsList.push({ val: parent, label: parent });
+        seenParents.add(parent);
+      }
+      aosChipsList.push({ val: a.short, label: a.short });
+    }
+
+    const aosChipsInner = aosOrder.length === 0
+      ? ''
+      : aosChipsList.map(c => {
+          const active = state.aosFilter === c.val ? 'active' : '';
+          return `<span class="filter-chip ${active}" onclick="setTableAosFilter('${sn}','${c.val.replace(/'/g, "\\'")}')">${c.label}</span>`;
+        }).join('');
+
+    // Build three side-by-side filter cards (AOS card hidden if no AOS subsections exist)
+    const filterCardsHtml =
+      `<div class="filter-cards">
+         <div class="filter-card">
+           <span class="filter-card-title">Unit</span>
+           <div class="filter-chips">${unitChipsInner}</div>
+         </div>
+         ${aosChipsInner ? `<div class="filter-card">
+           <span class="filter-card-title">AOS</span>
+           <div class="filter-chips">${aosChipsInner}</div>
+         </div>` : ''}
+         <div class="filter-card">
+           <span class="filter-card-title">Type</span>
+           <div class="filter-chips">${typeChipsInner}</div>
+         </div>
+       </div>`;
+
+    // Build the AOS legend panel (grouped by Unit)
+    const legendItems = (subject.aos || []).map(aos => {
+      const subs = aos.subsections && aos.subsections.length ? aos.subsections : [];
+      const aosList = subs.map(s => {
+        const sh = shortAosLabel(s.name);
+        const rest = s.name.substring(sh.length).replace(/^[\s:\-]+/, '').trim();
+        return `<div class="legend-row"><span class="legend-short">${escapeHtml(sh)}</span><span class="legend-full">${escapeHtml(rest || s.name)}</span></div>`;
+      }).join('');
+      return aosList ? `<div class="legend-group"><div class="legend-unit">${escapeHtml(aos.name)}</div>${aosList}</div>` : '';
+    }).filter(Boolean).join('');
+
+    const legendHtml = legendItems
+      ? `<div class="aos-legend ${state.legendOpen ? 'open' : ''}">
+           <div class="aos-legend-header" onclick="toggleAosLegend('${sn}')">
+             <span>&#128218; AOS reference</span>
+             <span class="aos-legend-arrow">&#x25B6;</span>
+           </div>
+           <div class="aos-legend-body">${legendItems}</div>
+         </div>`
+      : '';
+
+    // Helper to mark sorted column
+    function sortClass(col) {
+      if (state.sort !== col) return '';
+      return state.dir === 'desc' ? 'sort-desc' : 'sort-asc';
+    }
+
+    // Build rows
+    let bodyRows;
+    if (rows.length === 0) {
+      bodyRows = `<tr><td colspan="5" class="empty-table-row">No matching entries.</td></tr>`;
+    } else {
+      bodyRows = rows.map(r => {
+        const typeLabel = r.type === 'chapter' ? 'Study Notes' : r.type === 'notes' ? 'Workbook' : 'Quiz';
+        const aosLabel = r.aosShort || '—';
+        return `<tr>
+          <td class="col-unit">${escapeHtml(r.unit)}</td>
+          <td class="col-aos">${escapeHtml(aosLabel)}</td>
+          <td><a class="row-link" href="/studynotes/${r.file}" target="_blank">${escapeHtml(r.title)} &nearr;</a></td>
+          <td><span class="type-badge ${r.type}">${typeLabel}</span></td>
+          <td class="col-actions"><button class="del-btn" title="Delete" onclick="deleteTableRow('${sn}','${r.refAos.replace(/'/g, "\\'")}','${r.refSub.replace(/'/g, "\\'")}',${r.refIdx},'${r.refKind}')">&#x2715;</button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    return `
+      ${legendHtml}
+      <div class="table-toolbar">
+        ${filterCardsHtml}
+        <div class="table-toolbar-row">
+          <input class="table-search" type="text" placeholder="&#128269; Search title, unit, AOS, or any keyword (e.g. RICER, sliding filament)..." value="${escapeHtml(state.search)}" oninput="setTableSearch('${sn}', this.value)">
+          <button class="table-add-btn" onclick="openAddModal('${sn}')">+ Add</button>
+        </div>
+      </div>
+      <div class="notes-table-wrap">
+        <table class="notes-table">
+          <thead><tr>
+            <th class="${sortClass('unit')}" onclick="setTableSort('${sn}','unit')">Unit</th>
+            <th class="${sortClass('aos')}" onclick="setTableSort('${sn}','aos')">AOS</th>
+            <th class="${sortClass('title')}" onclick="setTableSort('${sn}','title')">Title</th>
+            <th class="${sortClass('type')}" onclick="setTableSort('${sn}','type')">Type</th>
+            <th></th>
+          </tr></thead>
+          <tbody>${bodyRows}</tbody>
+        </table>
+      </div>`;
+  }
+
+  function setTableAosFilter(subjectName, val) {
+    getTableState(subjectName).aosFilter = val;
+    rerenderTable(subjectName);
+  }
+
+  function toggleAosLegend(subjectName) {
+    const s = getTableState(subjectName);
+    s.legendOpen = !s.legendOpen;
+    rerenderTable(subjectName);
+  }
+
+  function escapeHtml(s) {
+    return (s || '').toString()
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function setTableTypeFilter(subjectName, val) {
+    getTableState(subjectName).typeFilter = val;
+    rerenderTable(subjectName);
+  }
+  function setTableUnitFilter(subjectName, val) {
+    getTableState(subjectName).unitFilter = val;
+    rerenderTable(subjectName);
+  }
+  function setTableSearch(subjectName, val) {
+    getTableState(subjectName).search = val;
+    rerenderTable(subjectName);
+  }
+  function setTableSort(subjectName, col) {
+    const s = getTableState(subjectName);
+    if (s.sort === col) s.dir = s.dir === 'asc' ? 'desc' : 'asc';
+    else { s.sort = col; s.dir = 'asc'; }
+    rerenderTable(subjectName);
+  }
+  function rerenderTable(subjectName) {
+    if (!notesData) return;
+    const subject = notesData.subjects.find(s => s.name === subjectName);
+    if (!subject) return;
+    // Find the subject section in DOM and replace its body content (table portion only)
+    const sections = document.querySelectorAll('.subject');
+    for (const sec of sections) {
+      const h3 = sec.querySelector('h3');
+      if (h3 && h3.textContent === subjectName) {
+        // Preserve the search input focus and selection across re-render
+        const focusEl = document.activeElement;
+        const wasSearch = focusEl && focusEl.classList && focusEl.classList.contains('table-search') && sec.contains(focusEl);
+        const cursor = wasSearch ? focusEl.selectionStart : null;
+
+        // Re-build only the table region (legend + toolbar + table-wrap)
+        const body = sec.querySelector('.subject-body');
+        // Remove existing table chrome
+        const oldLegend = body.querySelector('.aos-legend');
+        const oldToolbar = body.querySelector('.table-toolbar');
+        const oldTable = body.querySelector('.notes-table-wrap');
+        if (oldLegend) oldLegend.remove();
+        if (oldToolbar) oldToolbar.remove();
+        if (oldTable) oldTable.remove();
+        // Re-append fresh
+        const tmp = document.createElement('div');
+        tmp.innerHTML = renderSubjectTable(subject);
+        while (tmp.firstChild) body.appendChild(tmp.firstChild);
+
+        if (wasSearch) {
+          const newSearch = body.querySelector('.table-search');
+          if (newSearch) {
+            newSearch.focus();
+            try { newSearch.setSelectionRange(cursor, cursor); } catch (e) {}
+          }
+        }
+        return;
+      }
+    }
+  }
+
+  async function deleteTableRow(subjectName, aosName, subName, idx, kind) {
+    if (!confirm('Delete this entry?')) return;
+    const route = kind === 'chapter' ? '/api/studynotes/delete_chapter'
+                : kind === 'quiz'    ? '/api/studynotes/delete_quiz'
+                : kind === 'notes'   ? '/api/studynotes/delete_notes'
+                : null;
+    if (!route) return;
+    await apiPost(route, { student, subject: subjectName, aos: aosName, subsection: subName, index: idx });
+    loadNotes();
+  }
+
+  // ===================== Add modal =====================
+  let addModalSubject = null;
+
+  // Infer the subject's file folder by looking at any existing entry's file path
+  // e.g. "eddie/pe/vce_pe_skeletal.html" -> "eddie/pe/"
+  function inferSubjectFolder(subject) {
+    function tryFile(f) {
+      if (!f) return null;
+      const i = f.lastIndexOf('/');
+      return i > 0 ? f.substring(0, i + 1) : null;
+    }
+    // Try the index first (often the most stable reference for static-only subjects)
+    if (Array.isArray(subject.index)) {
+      for (const idx of subject.index) {
+        const folder = tryFile(idx.file);
+        if (folder) return folder;
+      }
+    } else if (typeof subject.index === 'string') {
+      const folder = tryFile(subject.index);
+      if (folder) return folder;
+    }
+    // Walk aos -> subsections -> chapters/quizzes/notes
+    for (const aos of (subject.aos || [])) {
+      const subs = aos.subsections && aos.subsections.length ? aos.subsections : [aos];
+      for (const sub of subs) {
+        for (const arr of [sub.chapters, sub.quizzes, sub.notes]) {
+          for (const item of (arr || [])) {
+            const folder = tryFile(item.file);
+            if (folder) return folder;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  function openAddModal(subjectName) {
+    addModalSubject = subjectName;
+    const subject = notesData.subjects.find(s => s.name === subjectName);
+    if (!subject) return;
+
+    document.getElementById('addModalTitle').textContent = 'Add to ' + subjectName;
+    document.getElementById('addModalTitleInput').value = '';
+
+    // Populate Unit dropdown
+    const unitSel = document.getElementById('addModalUnit');
+    unitSel.innerHTML = '';
+    (subject.aos || []).forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.name;
+      opt.textContent = a.name;
+      unitSel.appendChild(opt);
+    });
+    unitSel.onchange = function() { populateAosForUnit(subject); };
+
+    // Reset radios to "Study Notes" (chapter)
+    const radios = document.getElementsByName('addModalType');
+    for (const r of radios) r.checked = r.value === 'chapter';
+
+    // Populate file dropdown — filter to files in this subject's folder
+    const fileSel = document.getElementById('addModalFile');
+    fileSel.innerHTML = '';
+    const blank = document.createElement('option');
+    blank.value = ''; blank.textContent = '— Select File —';
+    fileSel.appendChild(blank);
+    const folder = inferSubjectFolder(subject);
+    const filtered = folder
+      ? availableFiles.filter(f => f.startsWith(folder))
+      : availableFiles;
+    for (const f of filtered) {
+      const opt = document.createElement('option');
+      opt.value = f;
+      // Show just the filename (strip the folder prefix) so the dropdown is clean
+      opt.textContent = folder ? f.substring(folder.length) : f;
+      fileSel.appendChild(opt);
+    }
+
+    populateAosForUnit(subject);
+    document.getElementById('addModal').classList.add('open');
+    setTimeout(() => document.getElementById('addModalTitleInput').focus(), 50);
+  }
+
+  function populateAosForUnit(subject) {
+    const unitSel = document.getElementById('addModalUnit');
+    const aosSel = document.getElementById('addModalAos');
+    aosSel.innerHTML = '';
+    const aos = (subject.aos || []).find(a => a.name === unitSel.value);
+    const hasSubs = aos && aos.subsections && aos.subsections.length;
+    if (hasSubs) {
+      // "All" option submits empty subsection — entry lands on the AOS top level
+      const allOpt = document.createElement('option');
+      allOpt.value = ''; allOpt.textContent = 'All';
+      aosSel.appendChild(allOpt);
+      aos.subsections.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.name;
+        opt.textContent = shortAosLabel(s.name) || s.name;
+        aosSel.appendChild(opt);
+      });
+    } else {
+      const opt = document.createElement('option');
+      opt.value = ''; opt.textContent = '(none)';
+      aosSel.appendChild(opt);
+    }
+  }
+
+  function closeAddModal() {
+    document.getElementById('addModal').classList.remove('open');
+    addModalSubject = null;
+  }
+
+  async function submitAddModal() {
+    if (!addModalSubject) return;
+    const title = document.getElementById('addModalTitleInput').value.trim();
+    if (!title) { alert('Title is required'); return; }
+    const file = document.getElementById('addModalFile').value;
+    const unit = document.getElementById('addModalUnit').value;
+    const aos = document.getElementById('addModalAos').value;
+    const radios = document.getElementsByName('addModalType');
+    let type = 'chapter';
+    for (const r of radios) if (r.checked) type = r.value;
+
+    const route = type === 'chapter' ? '/api/studynotes/add_chapter'
+                : type === 'quiz'    ? '/api/studynotes/add_quiz'
+                : type === 'notes'   ? '/api/studynotes/add_notes'
+                : null;
+    if (!route) return;
+
+    // chapterLabel kept for compatibility with add_chapter
+    const subj = notesData.subjects.find(s => s.name === addModalSubject);
+    const chLabel = subj && subj.chapterLabel ? subj.chapterLabel : 'Chapter';
+
+    await apiPost(route, {
+      student, subject: addModalSubject,
+      aos: unit, subsection: aos,
+      title, file, label: chLabel,
+    });
+    closeAddModal();
+    loadNotes();
+  }
+
+  // Close modal when clicking the backdrop
+  document.getElementById('addModal').addEventListener('click', function(e) {
+    if (e.target === this) closeAddModal();
+  });
+
   function renderNotes(studentData) {
     const container = document.getElementById('notesContainer');
     if (!studentData || !studentData.subjects || !studentData.subjects.length) {
@@ -463,37 +1091,73 @@
       const links = subject.links || [];
       const chLabel = subject.chapterLabel || 'Chapter';
 
-      // Links section
-      if (links.length > 0) {
-        bodyHtml += '<div class="links-section">' + links.map((lnk, i) =>
-          `<div class="link-row"><span class="link-icon">&#x1F517;</span><a href="${lnk.url}" target="_blank">${lnk.title}</a><button class="del-btn" onclick="deleteLink('${sn}',${i})">&#x2715;</button></div>`
-        ).join('') + '</div>';
-      }
-      bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddLinkForm(this,'${sn}')">+ Link</button></div>`;
-
-      // Inline index — supports a single string or an array of {title, file}
-      if (subject.index) {
-        var indexItems = typeof subject.index === 'string'
-          ? [{ title: 'Index', file: subject.index }]
-          : subject.index;
-        for (var idx of indexItems) {
-          var popoutBtn = idx.popout
-            ? `<button class="popout-btn" title="Open in new window" onclick="event.stopPropagation(); window.open('/studynotes/${idx.file}', '${idx.title}', 'width=900,height=700,scrollbars=yes,resizable=yes')">&#x29C9; Pop out</button>`
-            : '';
-          bodyHtml += `
-            <div class="index-section">
-              <div class="index-header" onclick="this.parentElement.classList.toggle('open')">
-                <div class="index-header-left">
-                  <span style="color:${themeColor}">${idx.title}</span>
-                  ${popoutBtn}
-                </div>
-                <span class="index-chevron">&#x25B6;</span>
-              </div>
-              <div class="index-body">
-                <iframe class="index-iframe" src="/studynotes/${idx.file}" onload="var f=this; function resize(){f.style.height=f.contentDocument.body.scrollHeight+20+'px'} resize(); new MutationObserver(resize).observe(f.contentDocument.body,{childList:true,subtree:true,attributes:true});"></iframe>
-              </div>
-            </div>`;
+      if (subject.layout === 'table') {
+        // For table-layout subjects: only show popout-style index entries as compact link buttons
+        // (the iframe-style "Index" landing page is replaced by the table search).
+        if (Array.isArray(subject.index)) {
+          const popoutItems = subject.index.filter(idx => idx.popout);
+          if (popoutItems.length > 0) {
+            bodyHtml += '<div class="index-buttons">' + popoutItems.map(idx =>
+              `<a class="index-button" href="/studynotes/${idx.file}" target="_blank">&#128218; ${idx.title} &nearr;</a>`
+            ).join('') + '</div>';
+          }
         }
+      } else {
+        // Links section
+        if (links.length > 0) {
+          bodyHtml += '<div class="links-section">' + links.map((lnk, i) =>
+            `<div class="link-row"><span class="link-icon">&#x1F517;</span><a href="${lnk.url}" target="_blank">${lnk.title}</a><button class="del-btn" onclick="deleteLink('${sn}',${i})">&#x2715;</button></div>`
+          ).join('') + '</div>';
+        }
+        bodyHtml += `<div class="add-row"><button class="add-btn" onclick="showAddLinkForm(this,'${sn}')">+ Link</button></div>`;
+
+        // Inline index — supports a single string or an array of {title, file}
+        if (subject.index) {
+          var indexItems = typeof subject.index === 'string'
+            ? [{ title: 'Index', file: subject.index }]
+            : subject.index;
+          for (var idx of indexItems) {
+            var popoutBtn = idx.popout
+              ? `<button class="popout-btn" title="Open in new window" onclick="event.stopPropagation(); window.open('/studynotes/${idx.file}', '${idx.title}', 'width=900,height=700,scrollbars=yes,resizable=yes')">&#x29C9; Pop out</button>`
+              : '';
+            bodyHtml += `
+              <div class="index-section">
+                <div class="index-header" onclick="this.parentElement.classList.toggle('open')">
+                  <div class="index-header-left">
+                    <span style="color:${themeColor}">${idx.title}</span>
+                    ${popoutBtn}
+                  </div>
+                  <span class="index-chevron">&#x25B6;</span>
+                </div>
+                <div class="index-body">
+                  <iframe class="index-iframe" src="/studynotes/${idx.file}" onload="var f=this; function resize(){f.style.height=f.contentDocument.body.scrollHeight+20+'px'} resize(); new MutationObserver(resize).observe(f.contentDocument.body,{childList:true,subtree:true,attributes:true});"></iframe>
+                </div>
+              </div>`;
+          }
+        }
+      }
+
+      // Table layout: opt-in via subject.layout === "table"
+      if (subject.layout === 'table') {
+        bodyHtml += renderSubjectTable(subject);
+        section.classList.add('table-layout');
+        section.innerHTML = `
+          <div class="subject-header" style="background:${themeColor}" onclick="this.parentElement.classList.toggle('open')">
+            <h3>${subject.name}</h3>
+            <span class="subject-chevron">&#x25B6;</span>
+          </div>
+          <div class="subject-body table-body">${bodyHtml}</div>`;
+        container.appendChild(section);
+        // Lazily fetch the index file's keyword data for richer search.
+        // Prefer entries marked `keywordSource: true`; otherwise fall back to first .html entry.
+        const indexEntries = Array.isArray(subject.index)
+          ? subject.index : (typeof subject.index === 'string' ? [{ file: subject.index }] : []);
+        const keywordIdx = indexEntries.find(i => i.keywordSource && i.file)
+                        || indexEntries.find(i => i.file && i.file.endsWith('.html'));
+        if (keywordIdx) {
+          loadChapterKeywords(keywordIdx.file).then(() => rerenderTable(subject.name));
+        }
+        continue;
       }
 
       if (hasAos) {

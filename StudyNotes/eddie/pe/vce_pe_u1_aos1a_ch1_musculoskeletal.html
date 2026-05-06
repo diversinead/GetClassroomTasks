@@ -6,8 +6,8 @@
 <title>VCE PE — Unit 1 AOS1a Ch1: The Musculoskeletal System</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Georgia, serif; background: #F5F4EF; color: #1C1C1A; font-size: 15px; line-height: 1.6; }
-h1 { text-align: center; font-size: 1.7em; color: #1C1C1A; padding: 28px 16px 4px; letter-spacing: -0.5px; }
+body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 15px; line-height: 1.6; }
+h1 { text-align: center; font-size: 1.7em; color: #085041; font-weight: 700; padding: 28px 16px 4px; letter-spacing: -0.5px; }
 .subtitle { text-align: center; color: #666; font-size: 0.93em; margin-bottom: 18px; font-style: italic; }
 #search { display: block; width: calc(100% - 32px); max-width: 560px; margin: 0 auto 22px; padding: 10px 14px; border: 2px solid #ccc; border-radius: 8px; font-size: 14px; background: #fff; }
 #search:focus { outline: none; border-color: #3B82C4; }
@@ -17,7 +17,7 @@ h1 { text-align: center; font-size: 1.7em; color: #1C1C1A; padding: 28px 16px 4p
 /* ACCORDION */
 .cat { border-radius: 10px; margin: 0 12px 14px; border: 2px solid #ccc; overflow: visible; }
 .cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; border-radius: 8px 8px 0 0; user-select: none; }
-.cat-head-text { font-weight: 700; font-size: 1em; flex: 1; }
+.cat-head-text { font-size: 0.93em; font-weight: 700; color: #1a1a18; flex: 1; }
 .cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .cat-head-right small { font-size: 11px; opacity: 0.7; }
 .cat-arrow { font-size: 12px; }
@@ -34,7 +34,7 @@ h1 { text-align: center; font-size: 1.7em; color: #1C1C1A; padding: 28px 16px 4p
 .term-note { display: block; margin-top: 7px; font-style: italic; font-size: 0.92em; color: #7B3C00; }
 
 /* HOT BADGE */
-.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
 .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
 .hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
 .hot-badge:hover .tip { display: block; }
@@ -63,22 +63,15 @@ h1 { text-align: center; font-size: 1.7em; color: #1C1C1A; padding: 28px 16px 4p
 .cat.gray .term-body { background: rgba(241,239,232,0.5); }
 
 /* BOX PANELS */
-.box-wrap { border-radius: 10px; margin: 0 12px 14px; border: 2px solid #ccc; overflow: hidden; }
-.box-wrap.green { border-color: #5DCAA5; }
-.box-wrap.red { border-color: #D85A30; }
-.box-wrap.purple { border-color: #AFA9EC; }
-.box-wrap.amber { border-color: #BA7517; }
-.box-wrap.teal { border-color: #5DCAA5; }
-.box-wrap.blue { border-color: #378ADD; }
-.box-wrap.pink { border-color: #D4537E; }
-.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 0.95em; }
-.box-wrap.green .box-toggle { background: rgba(159,225,203,0.28); }
-.box-wrap.red .box-toggle { background: rgba(240,153,123,0.25); }
-.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); }
-.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.2); }
-.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.28); }
-.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.25); }
-.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.2); }
+.box-wrap { border-radius: 8px; margin-bottom: 8px; border: 1px solid #D3D1C7; background: #fff; border-left: 4px solid #D3D1C7; overflow: visible; }
+.box-wrap.green { border-left-color: #5DCAA5; }
+.box-wrap.red { border-left-color: #D85A30; }
+.box-wrap.purple { border-left-color: #AFA9EC; }
+.box-wrap.amber { border-left-color: #BA7517; }
+.box-wrap.teal { border-left-color: #5DCAA5; }
+.box-wrap.blue { border-left-color: #378ADD; }
+.box-wrap.pink { border-left-color: #D4537E; }
+.box-toggle { color: #1a1a18; border-radius: 7px; display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 0.95em; }
 .box-body { display: none; padding: 14px 14px 10px; background: #fff; }
 .box-body.open { display: block; }
 .box-note { margin-top: 10px; font-style: italic; font-size: 0.87em; color: #444; background: #f9f7ee; border-left: 3px solid #BA7517; padding: 6px 10px; border-radius: 4px; }
@@ -120,18 +113,37 @@ h1 { text-align: center; font-size: 1.7em; color: #1C1C1A; padding: 28px 16px 4p
 .bone-card .eg { font-style: italic; color: #378ADD; font-size: 0.8em; margin-top: 3px; }
 
 /* DIAGRAM WRAPPER */
-.diagram-wrap { margin: 0 12px 14px; border-radius: 10px; overflow: hidden; border: 2px solid #AFA9EC; background: #fff; }
-.diagram-head { background: rgba(206,203,246,0.35); padding: 10px 14px; font-weight: 700; font-size: 0.95em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.diagram-wrap { margin-bottom: 8px; border-radius: 8px; overflow: visible; border: 1px solid #D3D1C7; background: #fff; border-left: 4px solid #AFA9EC; }
+.diagram-head { background: #fff; color: #1a1a18; border-radius: 7px; padding: 10px 14px; font-weight: 700; font-size: 0.95em; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
 .diagram-body { display: none; padding: 14px; background: #fff; }
 .diagram-body.open { display: block; }
 .diagram-caption { font-size: 0.82em; color: #555; font-style: italic; text-align: center; margin-top: 8px; }
 svg text { font-family: Georgia, serif; }
+
+/* Font size toggle */
+.size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+.sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+.sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+.sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+mark { background: #ffe066; border-radius: 2px; padding: 0 1px; }
+
+.section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
 </style>
 </head>
 <body>
 
 <h1>VCE Physical Education &mdash; Unit 1 AOS1a</h1>
 <p class="subtitle">Chapter 1: The Musculoskeletal System &middot; Live it Up 5th ed. &middot; tap any term to expand</p>
+<!-- TEXT SIZE TOGGLE -->
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
+</div>
+
 <input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
 
 <!-- =========================================================
@@ -691,7 +703,7 @@ svg text { font-family: Georgia, serif; }
 </div>
 
 <!-- ===================== TERM ACCORDION ===================== -->
-<p class="section-label">&#128218; Key Terms &amp; Definitions</p>
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
 <div id="list"></div>
 
 <p class="footer">VCE Physical Education &mdash; Unit 1 AOS1a &middot; Chapter 1: The Musculoskeletal System &middot; Live it Up 5th ed. &middot; &#9733;</p>
@@ -831,6 +843,17 @@ function filterTerms(q) {
 }
 
 build(data);
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+
 </script>
 </body>
 </html>

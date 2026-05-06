@@ -6,135 +6,125 @@
 <title>Ch 9 — Accounting for Credit Transactions</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.55; padding: 16px; }
-h1 { font-size: 1.57em; font-weight: 700; color: #085041; margin-bottom: 4px; }
-.subtitle { font-size: 0.93em; color: #5F5E5A; margin-bottom: 14px; }
-#search { width: 100%; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; background: #fff; outline: none; margin-bottom: 6px; }
-#search:focus { border-color: #1D9E75; }
-.footer { text-align: center; font-size: 0.79em; color: #888780; margin-top: 28px; padding-top: 12px; border-top: 1px solid #D3D1C7; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F4F3F0; color: #1C1C1A; font-size: 15px; line-height: 1.55; }
+h1 { background: #1C1C1A; color: #fff; padding: 22px 20px 10px; font-size: 22px; letter-spacing: -0.3px; }
+.subtitle { background: #1C1C1A; color: #AAA89F; padding: 0 20px 18px; font-size: 13px; }
+#search { display: block; width: calc(100% - 32px); margin: 14px 16px; padding: 10px 14px; border: 2px solid #D0CEC6; border-radius: 8px; font-size: 14px; background: #fff; outline: none; }
+#search:focus { border-color: #378ADD; }
 
-/* Font size toggle */
-.size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-.size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
-.sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
-.sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
-.sz-btn:hover:not(.active) { background: #F5F4F0; }
-
-/* Search result count + clear */
-.search-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; min-height: 18px; }
-#search-count { font-size: 0.82em; color: #5F5E5A; }
-#search-clear { display: none; padding: 2px 10px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; font-size: 0.82em; cursor: pointer; color: #1a1a18; font-family: inherit; }
-#search-clear.visible { display: inline-block; }
-mark { background: #ffe066; border-radius: 2px; padding: 0 1px; }
-
-/* Section dividers */
-.section-divider { margin: 22px 0 14px; padding: 10px 14px; background: #1a1a18; color: #fff; border-radius: 8px; font-size: 0.93em; font-weight: 700; letter-spacing: 0.3px; }
-.section-divider span { font-weight: 400; opacity: 0.7; font-size: 0.9em; margin-left: 8px; }
-
-#no-results { display: none; text-align: center; color: #888780; padding: 20px; font-style: italic; font-size: 0.86em; }
-
-/* Accordion categories */
-.cat { border-radius: 10px; margin-bottom: 10px; overflow: hidden; border: 1.5px solid; }
-.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; user-select: none; }
-.cat-head-text { font-size: 0.93em; font-weight: 700; color: #1a1a18; }
+/* ── accordion sections ── */
+.cat { border-radius: 10px; margin: 10px 12px; overflow: hidden; border: 1.5px solid #ccc; }
+.cat-head { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; user-select: none; font-weight: 600; font-size: 14px; }
 .cat-head-right { display: flex; align-items: center; gap: 8px; }
-.cat-head-right small { font-size: 0.79em; color: #5F5E5A; }
-.cat-arrow { font-size: 0.79em; color: #5F5E5A; }
-.cat-body { padding: 0 10px 10px; }
+.cat-head small { font-weight: 400; opacity: 0.7; font-size: 12px; }
+.cat-arrow { font-size: 11px; }
+.cat-body { }
 .cat-body.collapsed { display: none; }
 
-.cat.purple { border-color: #AFA9EC; background: rgba(206,203,246,0.18); }
-.cat.purple .cat-head { background: rgba(206,203,246,0.35); }
-.cat.teal { border-color: #5DCAA5; background: rgba(159,225,203,0.15); }
-.cat.teal .cat-head { background: rgba(159,225,203,0.3); }
-.cat.coral { border-color: #D85A30; background: rgba(240,153,123,0.12); }
-.cat.coral .cat-head { background: rgba(240,153,123,0.25); }
-.cat.amber { border-color: #BA7517; background: rgba(239,159,39,0.12); }
-.cat.amber .cat-head { background: rgba(239,159,39,0.22); }
-.cat.blue { border-color: #378ADD; background: rgba(133,183,235,0.12); }
-.cat.blue .cat-head { background: rgba(133,183,235,0.25); }
-.cat.pink { border-color: #D4537E; background: rgba(237,147,177,0.12); }
-.cat.pink .cat-head { background: rgba(237,147,177,0.22); }
-.cat.gray { border-color: #888780; background: rgba(180,178,169,0.12); }
-.cat.gray .cat-head { background: rgba(180,178,169,0.22); }
+/* colours */
+.cat.purple { border-color: #AFA9EC; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
+.cat.teal { border-color: #5DCAA5; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
+.cat.coral { border-color: #D85A30; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.cat.amber { border-color: #BA7517; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; }
+.cat.blue { border-color: #378ADD; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; }
+.cat.pink { border-color: #D4537E; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); color: #4B1528; }
+.cat.gray { border-color: #888780; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); color: #2C2C2A; }
 
-/* Terms */
-.term { border-radius: 7px; margin-top: 7px; background: #fff; border: 1px solid #E5E3DC; overflow: hidden; }
-.term-title { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; cursor: pointer; font-size: 0.93em; font-weight: 600; color: #1a1a18; }
-.term-title:hover { background: #F8F7F3; }
-.arrow { font-size: 0.71em; color: #888780; }
-.term-body { display: none; padding: 10px 12px; border-top: 1px solid #EDECEA; background: #FAFAF8; }
+/* terms */
+.term { border-top: 1px solid #EBEBEB; background: #fff; }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; cursor: pointer; font-weight: 500; font-size: 14px; }
+.term-title:hover { background: #F9F8F5; }
+.arrow { font-size: 10px; color: #888; }
+.term-body { display: none; padding: 10px 16px 14px; background: #FAFAF8; border-top: 1px dashed #E0DED7; }
 .term-body.open { display: block; }
-.term-def { font-size: 0.86em; line-height: 1.65; color: #2C2C2A; margin-bottom: 6px; }
-.term-eg { display: block; font-size: 0.79em; color: #085041; background: #E1F5EE; border-radius: 5px; padding: 5px 8px; margin-top: 4px; }
-.term-note { display: block; font-size: 0.79em; color: #412402; background: #FAEEDA; border-left: 3px solid #BA7517; border-radius: 0 5px 5px 0; padding: 5px 8px; margin-top: 6px; font-style: italic; }
+.term-def { color: #2A2A28; margin-bottom: 6px; font-size: 14px; }
+.term-eg { display: inline-block; background: #F0EEE8; border-left: 3px solid #888; padding: 5px 10px; border-radius: 0 5px 5px 0; font-size: 13px; color: #3A3A38; margin-top: 4px; }
+.term-note { display: block; margin-top: 8px; font-style: italic; font-size: 12.5px; color: #7A4A10; background: #FFF3DC; padding: 5px 9px; border-radius: 5px; }
 
-/* Hot badge */
-.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 0.71em; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
-.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 0.79em; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
+/* purple example bg */
+.cat.purple .term-eg { background: #EEEDFE; border-color: #AFA9EC; color: #3C3489; }
+.cat.teal .term-eg { background: #E1F5EE; border-color: #5DCAA5; color: #085041; }
+.cat.coral .term-eg { background: #FAECE7; border-color: #D85A30; color: #4A1B0C; }
+.cat.amber .term-eg { background: #FAEEDA; border-color: #BA7517; color: #412402; }
+.cat.blue .term-eg { background: #E6F1FB; border-color: #378ADD; color: #042C53; }
+.cat.pink .term-eg { background: #FBEAF0; border-color: #D4537E; color: #4B1528; }
+.cat.gray .term-eg { background: #F1EFE8; border-color: #888780; color: #2C2C2A; }
+
+/* hot badge */
+.hot-badge { position: relative; display: inline-flex; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; }
 .hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
 .hot-badge:hover .tip { display: block; }
 
-/* Collapsible box panels — white headers with left-border accent only */
-.box-wrap { border-radius: 8px; margin-bottom: 8px; overflow: visible; border: 1px solid #D3D1C7; background: #fff; border-left: 4px solid #D3D1C7; }
-.box-wrap.green { border-left-color: #5DCAA5; }
-.box-wrap.red { border-left-color: #D85A30; }
-.box-wrap.purple { border-left-color: #AFA9EC; }
-.box-wrap.amber { border-left-color: #BA7517; }
-.box-wrap.teal { border-left-color: #5DCAA5; }
-.box-wrap.blue { border-left-color: #378ADD; }
-.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; user-select: none; font-size: 0.93em; font-weight: 700; color: #1a1a18; background: #fff; border-radius: 7px; }
-.box-toggle:hover { background: #F8F7F3; }
-.box-body { display: none; padding: 14px; background: #fff; border-top: 1px solid #EDECEA; }
+/* collapsible box panels */
+.box-wrap { border-radius: 10px; margin: 10px 12px; overflow: hidden; border: 1.5px solid #ccc; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 600; font-size: 14px; user-select: none; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); color: #3C3489; }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.18); color: #412402; }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.22); color: #042C53; }
+.box-body { display: none; padding: 14px; background: #fff; }
 .box-body.open { display: block; }
-.box-note { font-style: italic; font-size: 0.79em; color: #412402; background: #FAEEDA; border-left: 3px solid #BA7517; border-radius: 0 5px 5px 0; padding: 6px 10px; margin-top: 10px; }
+.box-note { font-style: italic; font-size: 12.5px; color: #412402; background: #FAEEDA; padding: 6px 10px; border-radius: 5px; margin-top: 10px; }
 
-/* Journal tables */
-.jt { width: 100%; border-collapse: collapse; font-size: 0.86em; }
-.jt th { background: #2C2C2A; color: #fff; padding: 7px 8px; text-align: left; font-size: 0.82em; }
+/* journal tables */
+.jt { width: 100%; border-collapse: collapse; font-size: 13px; }
+.jt th { background: #2C2C2A; color: #fff; padding: 7px 8px; text-align: left; font-size: 12px; }
 .jt td { padding: 6px 8px; border-bottom: 1px solid #EBEBEB; vertical-align: top; }
 .jt tfoot td { background: #F0EEE8; font-weight: 600; border-top: 2px solid #2C2C2A; }
 .jt .num { text-align: right; }
-.jt .label { font-style: italic; font-size: 0.79em; color: #666; background: #F9F8F5; }
-.col-tag { font-size: 0.71em; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
-.tag-g { background: #E1F5EE; color: #085041; }
+.jt .label { font-style: italic; font-size: 11.5px; color: #666; background: #F9F8F5; }
+.col-tag { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 4px; vertical-align: middle; }
+.tag-g { background: #C5F0DC; color: #085041; }
 .tag-r { background: #FAECE7; color: #4A1B0C; }
-.tag { font-size: 0.71em; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-right: 4px; }
+.tag { font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-right: 4px; }
 
-/* Comparison tables */
-.ct { width: 100%; border-collapse: collapse; font-size: 0.86em; }
-.ct th { background: #3C3489; color: #fff; padding: 7px 10px; text-align: left; font-size: 0.82em; }
+/* comparison tables */
+.ct { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ct th { background: #3C3489; color: #fff; padding: 7px 10px; text-align: left; font-size: 12px; }
 .ct td { padding: 7px 10px; border-bottom: 1px solid #EBEBEB; vertical-align: top; }
 .ct tr:nth-child(even) td { background: #F9F8F5; }
 
-/* Formula cards — white card, amber left-border accent */
+/* formula cards */
 .formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-.fcard { background: #fff; border: 1px solid #D3D1C7; border-left: 4px solid #BA7517; border-radius: 8px; padding: 12px; }
-.fcard h3 { font-size: 0.86em; color: #412402; margin-bottom: 6px; }
-.fcard .formula { font-family: monospace; font-size: 0.93em; font-weight: 700; color: #1C1C1A; background: #FAEEDA; padding: 6px 10px; border-radius: 5px; margin-bottom: 6px; }
-.fcard p { font-size: 0.82em; color: #555; margin-bottom: 6px; }
-.fcard .worked { font-size: 0.79em; background: #FAFAF8; padding: 6px 8px; border-radius: 5px; border-left: 3px solid #BA7517; }
+.fcard { background: #FAEEDA; border: 1.5px solid #BA7517; border-radius: 8px; padding: 12px; }
+.fcard h3 { font-size: 13px; color: #412402; margin-bottom: 6px; }
+.fcard .formula { font-family: monospace; font-size: 14px; font-weight: 700; color: #1C1C1A; background: #fff; padding: 6px 10px; border-radius: 5px; margin-bottom: 6px; }
+.fcard p { font-size: 12.5px; color: #555; margin-bottom: 6px; }
+.fcard .worked { font-size: 12px; background: #fff; padding: 6px 8px; border-radius: 5px; border-left: 3px solid #BA7517; }
+
+/* section label */
+.section-label { margin: 16px 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; }
+
+.footer { text-align: center; color: #AAA; font-size: 11px; padding: 20px; margin-top: 10px; }
 </style>
 </head>
 <body>
 
-<h1>VCE Accounting &mdash; Chapter 9</h1>
+<h1>VCE Accounting &#9658; Chapter 9</h1>
 <p class="subtitle">Accounting for Credit Transactions &middot; tap any term to expand</p>
 
-<div class="size-row">
-  <span>Text size:</span>
-  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
-  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
-  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
-</div>
-
 <input id="search" type="text" placeholder="&#128269; Search terms..." oninput="filterTerms(this.value)">
-<div class="search-meta">
-  <span id="search-count"></span>
-  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
-</div>
 
-<div class="section-divider">&#128218; Reference panels <span>click any panel to expand</span></div>
+<!-- ══════════════════════════════════════════
+     VISUAL PANELS
+══════════════════════════════════════════ -->
+<p class="section-label">&#128202; Visual Reference Panels</p>
 
 <!-- Sales Journal worked example -->
 <div class="box-wrap green">
@@ -351,10 +341,7 @@ mark { background: #ffe066; border-radius: 2px; padding: 0 1px; }
 <!-- ══════════════════════════════════════════
      TERMS ACCORDION
 ══════════════════════════════════════════ -->
-<div class="section-divider">&#128269; Key terms <span>search above or click a section to expand</span></div>
-
-<div id="no-results">No matching terms found.</div>
-
+<p class="section-label">&#128218; Key Terms by Section</p>
 <div id="list"></div>
 
 <p class="footer">VCE Accounting — Neville Box 7th Ed. &middot; Chapter 9 &middot; Tap any term to expand</p>
@@ -407,123 +394,74 @@ var data = [
   ]}
 ];
 
-function setSize(px) {
-  document.body.style.fontSize = px + 'px';
-  var ids = ['sz-s','sz-m','sz-l'];
-  var sizes = [14,17,20];
-  for (var i = 0; i < ids.length; i++) {
-    var btn = document.getElementById(ids[i]);
-    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
-  }
-}
-
-function highlight(text, q) {
-  if (!q) return text;
-  var escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
-}
-
-function build(source, q) {
-  var list = document.getElementById('list');
-  var noRes = document.getElementById('no-results');
-  list.innerHTML = '';
-  var isSearching = q && q.length > 0;
-  var totalFound = 0;
-  if (!source || !source.length) { if (noRes) noRes.style.display = 'block'; return; }
-  if (noRes) noRes.style.display = 'none';
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
   for (var i = 0; i < source.length; i++) {
     var cat = source[i];
     if (!cat.items.length) continue;
-    totalFound += cat.items.length;
-    var div = document.createElement('div');
-    div.className = 'cat ' + cat.color;
-    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : '';
-    var head = document.createElement('div');
-    head.className = 'cat-head';
-    var catLabel = isSearching ? highlight(cat.cat, q) : cat.cat;
-    var arrow = isSearching ? '&#9660;' : '&#9658;';
-    head.innerHTML = '<span class="cat-head-text">' + catLabel + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">' + arrow + '</span></div>';
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic — appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
     (function(d, h) {
       h.onclick = function() {
-        var b = d.querySelector('.cat-body');
-        var a = h.querySelector('.cat-arrow');
-        var c = b.classList.toggle('collapsed');
-        a.innerHTML = c ? '&#9658;' : '&#9660;';
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
       };
     })(div, head);
     div.appendChild(head);
-    var body = document.createElement('div');
-    body.className = isSearching ? 'cat-body' : 'cat-body collapsed';
+    var body = document.createElement("div");
+    body.className = "cat-body";
     for (var j = 0; j < cat.items.length; j++) {
       var item = cat.items[j];
-      var t = document.createElement('div');
-      t.className = 'term';
-      var dn = isSearching ? highlight(item.term, q) : item.term;
-      var dd = isSearching ? highlight(item.def, q) : item.def;
-      var de = item.eg ? (isSearching ? highlight(item.eg, q) : item.eg) : '';
-      var noteHtml = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : '';
-      var egHtml = de ? '<span class="term-eg">Eg: ' + de + '</span>' : '';
-      var tbClass = isSearching ? 'term-body open' : 'term-body';
-      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + dn + '</span><span class="arrow">&#9660;</span></div><div class="' + tbClass + '"><p class="term-def">' + dd + '</p>' + egHtml + noteHtml + '</div>';
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
       body.appendChild(t);
     }
     div.appendChild(body);
     list.appendChild(div);
   }
-  if (noRes) noRes.style.display = (totalFound === 0 && isSearching) ? 'block' : 'none';
 }
 
 function toggle(el) {
   var body = el.nextElementSibling;
-  var arr = el.querySelector('.arrow');
-  var open = body.classList.toggle('open');
-  arr.innerHTML = open ? '&#9650;' : '&#9660;';
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
 }
 
 function toggleB(el) {
   var body = el.nextElementSibling;
-  var arr = el.querySelector('.cat-arrow');
-  var open = body.classList.toggle('open');
-  arr.innerHTML = open ? '&#9650;' : '&#9660;';
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
 }
 
 function filterTerms(q) {
-  q = q.trim();
-  var ql = q.toLowerCase();
-  var countEl = document.getElementById('search-count');
-  var clearBtn = document.getElementById('search-clear');
-  clearBtn.className = q ? 'visible' : '';
-  if (!q) { build(data, ''); countEl.textContent = ''; return; }
+  q = q.toLowerCase();
   var filtered = [];
   for (var i = 0; i < data.length; i++) {
     var cat = data[i];
-    var matchItems = [];
+    var items = [];
     for (var j = 0; j < cat.items.length; j++) {
       var item = cat.items[j];
-      if (item.term.toLowerCase().indexOf(ql) !== -1 ||
-          item.def.toLowerCase().indexOf(ql) !== -1 ||
-          (item.eg && item.eg.toLowerCase().indexOf(ql) !== -1)) {
-        matchItems.push(item);
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
       }
     }
-    if (matchItems.length) filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: matchItems });
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
   }
-  build(filtered, q);
-  var total = 0;
-  for (var k = 0; k < filtered.length; k++) total += filtered[k].items.length;
-  countEl.textContent = total + ' result' + (total !== 1 ? 's' : '');
-  var listEl = document.getElementById('list');
-  if (listEl) listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  build(filtered);
 }
 
-function clearSearch() {
-  document.getElementById('search').value = '';
-  document.getElementById('search-count').textContent = '';
-  document.getElementById('search-clear').className = '';
-  build(data, '');
-}
-
-build(data, '');
+build(data);
 </script>
 </body>
 </html>
