@@ -134,6 +134,7 @@ MD_VIEWER_TEMPLATE = """<!DOCTYPE html>
     h2, h3 { page-break-after: avoid; }
     h2 + p, h2 + ul, h2 + ol, h2 + table, h3 + p, h3 + ul, h3 + ol, h3 + table { page-break-before: avoid; }
     table, tr, blockquote { page-break-inside: avoid; }
+    hr { page-break-after: always; border: none; margin: 0; }
     a { color: #000; text-decoration: none; }
     body { font-size: 11pt; }
     p, ul, ol { font-size: 11pt; }

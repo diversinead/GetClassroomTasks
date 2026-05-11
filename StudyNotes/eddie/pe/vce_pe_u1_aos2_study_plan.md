@@ -11,7 +11,7 @@
 ## Monday 11 May — Cardiovascular Structure & Function
 ⏱ **Suggested time: 1.5 hours**
 
-**Focus:** Checklist Chapter 4 (Cardiovascular) — sections 4.2 only
+**Focus:** Checklist Chapter 3 (Cardiovascular) — section 3.2 only
 
 - [ ] **(30 min)** Read through **Ch3a: The cardiovascular system** study notes. Pay attention to:
    - The 5 functions of the CV system
@@ -21,14 +21,14 @@
 - [ ] **(30 min)** Compare **arteries vs veins vs capillaries** — structure AND function. Practise drawing the diagram.
 - [ ] **(15 min)** Practise the **Q̇ = SV × HR** formula with 3–4 different values.
 - [ ] **(15 min)** Complete the **Q3a: The cardiovascular system** quiz. Note any wrong answers — re-read those sections.
-- [ ] **Tick on checklist:** all of Section 4.2 (Structure & Function — 8 items)
+- [ ] **Tick on checklist:** all of Section 3.2 (Structure & Function — 8 items)
 
 ---
 
 ## Tuesday 12 May — Acute Responses + Thermoregulation
 ⏱ **Suggested time: 2 hours**
 
-**Focus:** Checklist Chapter 4 — sections 4.3, 4.4, 4.5
+**Focus:** Checklist Chapter 3 — sections 3.3, 3.4, 3.5
 
 - [ ] **(20 min)** Read **Ch3c: Thermoregulation** study notes. Focus on:
    - Vasodilation cooling the body during exercise
@@ -41,16 +41,16 @@
    - Cardiac output calculations at different intensities
    - Venous return — muscle pump and respiratory pump
 - [ ] **(30 min)** Practise drawing a **response table** showing HR, SV, Q̇ and BP across rest/submax/max.
-- [ ] **(15 min)** Practise interpreting a graph (key skill 4.5) — describe what's happening at each intensity.
+- [ ] **(15 min)** Practise interpreting a graph (key skill 3.5) — describe what's happening at each intensity.
 - [ ] **(15 min)** Complete **Q3b: Blood flow** AND **Q3c: Thermoregulation** quizzes.
-- [ ] **Tick on checklist:** all of Section 4.3 (4 items), 4.4 (7 items), 4.5 (3 items)
+- [ ] **Tick on checklist:** all of Section 3.3 (4 items), 3.4 (7 items), 3.5 (3 items)
 
 ---
 
 ## Wednesday 13 May — Respiratory Structure & Breathing Mechanics
 ⏱ **Suggested time: 2 hours**
 
-**Focus:** Checklist Chapter 5 (Respiratory) — sections 5.2 and 5.3
+**Focus:** Checklist Chapter 4 (Respiratory) — sections 4.2 and 4.3
 
 - [ ] **(30 min)** Read **Ch4a: The respiratory system** study notes. Focus on:
    - The 5 functions of the respiratory system
@@ -63,14 +63,14 @@
 - [ ] **(30 min)** Lung volumes — define and distinguish: tidal volume, vital capacity, residual volume, total lung capacity, inspiratory reserve volume, expiratory reserve volume.
 - [ ] **(15 min)** Define **VO₂ max** — including why it's expressed as mL/kg/min.
 - [ ] **(15 min)** Complete **Q4a: The respiratory system** quiz.
-- [ ] **Tick on checklist:** all of Section 5.2 (5 items) and 5.3 (9 items)
+- [ ] **Tick on checklist:** all of Section 4.2 (5 items) and 4.3 (9 items)
 
 ---
 
 ## Thursday 14 May — Gas Exchange + Respiratory Responses + System Interaction
 ⏱ **Suggested time: 1.5 hours**
 
-**Focus:** Checklist Chapter 5 — sections 5.3 (rest), 5.4, 5.5, 5.6
+**Focus:** Checklist Chapter 4 — sections 4.3 (rest), 4.4, 4.5, 4.6
 
 - [ ] **(30 min)** Read **Ch4b: Take up and transport of oxygen**. Master:
    - Gas exchange at the alveoli/capillary interface (O₂ in, CO₂ out — high → low concentration)
@@ -83,14 +83,14 @@
 - [ ] **(15 min)** Complete a **response table** showing RR, TV, V and O₂ uptake across exercise intensities.
 - [ ] **(15 min)** Describe the **full O₂ pathway**: atmosphere → lungs → alveoli → capillaries → blood → heart → muscles → back again.
 - [ ] **(20 min)** Complete **Q4b: Take up & transport of oxygen** quiz.
-- [ ] **Tick on checklist:** Section 5.4 (4 items), 5.5 (3 items), 5.6 (3 items)
+- [ ] **Tick on checklist:** Section 4.4 (4 items), 4.5 (3 items), 4.6 (3 items)
 
 ---
 
 ## Friday 15 May — Chronic Adaptations + Altitude Training
 ⏱ **Suggested time: 1.5 hours**
 
-**Focus:** Checklist Chapter 6 — sections 6.2 and 6.3
+**Focus:** Checklist Chapter 5 — sections 5.2 and 5.3
 
 - [ ] **(40 min)** Read **Ch5a: Improving cardiorespiratory health**. Memorise:
    - **6 cardiovascular adaptations** — cardiac hypertrophy (larger LV), ↑ SV, ↓ resting HR, ↑ max Q, ↑ blood volume, ↑ capillary density, ↑ haemoglobin
@@ -102,14 +102,14 @@
    - Lower O₂ → body produces more EPO naturally → ↑ RBC count → ↑ O₂ carrying capacity
    - Real altitude vs simulated altitude chambers
 - [ ] **(15 min)** Complete **Q5a: Improving cardiorespiratory health** quiz.
-- [ ] **Tick on checklist:** Section 6.2 (5 items) and 6.3 (3 items)
+- [ ] **Tick on checklist:** Section 5.2 (5 items) and 5.3 (3 items)
 
 ---
 
 ## Saturday 16 May — Prohibited Substances + Ethics
 ⏱ **Suggested time: 2 hours**
 
-**Focus:** Checklist Chapter 6 — sections 6.4 and 6.5
+**Focus:** Checklist Chapter 5 — sections 5.4 and 5.5
 
 - [ ] **(40 min)** Read **Ch5b: Permitted & prohibited performance enhancement** (Prohibited half). Master each substance with this structure: **what it is → benefit → harms → why banned**:
    - **EPO** — kidney hormone, synthetic form ↑ RBCs, harms: blood clotting/stroke/heart attack
@@ -125,7 +125,7 @@
    - **Fair and level playing field** principle
 - [ ] **(15 min)** Practise a 4–6 mark question: *"Is gene doping ethically acceptable? Justify."* Write a structured response.
 - [ ] **(15 min)** Complete **Q5b: Permitted & prohibited performance enhancement** quiz.
-- [ ] **Tick on checklist:** Section 6.4 (5 items) and 6.5 (4 items)
+- [ ] **Tick on checklist:** Section 5.4 (5 items) and 5.5 (4 items)
 
 ---
 
