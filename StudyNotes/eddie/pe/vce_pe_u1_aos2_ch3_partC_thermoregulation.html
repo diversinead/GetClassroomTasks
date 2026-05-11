@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch3 Part C: Thermoregulation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.65; padding: 16px; }
+
+    h1 { text-align: center; font-size: 0.79em; font-weight: 600; color: #5F5E5A; margin-bottom: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+    .chapter-title { text-align: center; font-size: 1.43em; font-weight: 700; color: #085041; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .subtitle { text-align: center; color: #5F5E5A; font-size: 0.86em; margin-bottom: 14px; font-style: italic; }
+
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 14px; }
+    .nav-pill { background: #fff; color: #1a1a18; border: 1.5px solid #D3D1C7; border-radius: 20px; padding: 4px 12px; font-size: 0.79em; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .nav-pill:hover { background: #085041; color: #fff; border-color: #085041; }
+
+    .search-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .search-wrap input { flex: 1; min-width: 160px; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; background: #fff; outline: none; font-family: inherit; }
+    .search-wrap input:focus { border-color: #1D9E75; }
+    #search-clear { display: none; padding: 5px 12px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; font-size: 0.82em; cursor: pointer; color: #1a1a18; font-weight: 600; font-family: inherit; }
+    #search-clear.visible { display: inline-block; }
+    #search-count { font-size: 0.82em; color: #5F5E5A; white-space: nowrap; min-width: 60px; }
+    mark { background: #ffe066; border-radius: 2px; padding: 0 2px; }
+
+    .section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 4px; }
+
+    /* Diagram wrap */
+    .diagram-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .diagram-wrap.blue { border-left-color: #378ADD; }
+    .diagram-wrap.purple { border-left-color: #AFA9EC; }
+    .diagram-wrap.amber { border-left-color: #BA7517; }
+    .diagram-wrap.coral { border-left-color: #D85A30; }
+    .diagram-wrap.teal { border-left-color: #5DCAA5; }
+    .diagram-head { background: #fff; padding: 11px 14px; font-weight: 700; font-size: 0.93em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a1a18; border-radius: 7px; }
+    .diagram-head:hover { background: #F8F7F3; }
+    .diagram-head.blue   { background: #f5f8fd; color: #1a3060; }
+    .diagram-head.purple { background: #f7f6fe; color: #2e2870; }
+    .diagram-head.amber  { background: #fdf8f0; color: #5a3800; }
+    .diagram-head.coral  { background: #fdf2ec; color: #7a3010; }
+    .diagram-head.teal   { background: #eaf7f2; color: #1a5a44; }
+    .diagram-body { display: none; padding: 12px; text-align: center; }
+    .diagram-body.open { display: block; }
+    .diagram-caption { font-size: .81rem; color: #555; margin-top: 8px; font-style: italic; text-align: left; }
+    .cat-arrow { font-size: .82rem; margin-left: 6px; }
+
+    /* Box wrap */
+    .box-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .box-wrap.blue { border-left-color: #90bce6; }
+    .box-wrap.purple { border-left-color: #c8c4f4; }
+    .box-wrap.teal { border-left-color: #5DCAA5; }
+    .box-wrap.amber { border-left-color: #d4a055; }
+    .box-wrap.coral { border-left-color: #e8a48a; }
+    .box-wrap.gray { border-left-color: #c8c6be; }
+    .box-toggle { color: #1a1a18; border-radius: 7px;  padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .box-body { display: none; padding: 12px 14px; }
+    .box-body.open { display: block; }
+    .box-note { font-size: .82rem; color: #444; margin-top: 9px; background: #fafafa; border-left: 4px solid #5DCAA5; padding: 6px 10px; border-radius: 0 4px 4px 0; }
+    .tip-box { font-size: .85rem; color: #444; margin-top: 10px; background: #eaf7f2; border-left: 4px solid #5DCAA5; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .tip-box strong { color: #1a5a44; }
+    .warn-box { font-size: .85rem; color: #444; margin-top: 10px; background: #fdf6e8; border-left: 4px solid #BA7517; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .warn-box strong { color: #5a3800; }
+    .danger-box { font-size: .85rem; color: #444; margin-top: 10px; background: #fce8e0; border-left: 4px solid #D85A30; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .danger-box strong { color: #7a3010; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; margin: 4px 0; }
+    th { background: #4a4a5a; color: #fff; padding: 7px 9px; text-align: left; font-size: .84rem; }
+    td { padding: 6px 9px; border-bottom: 1px solid #e8e8ee; vertical-align: top; text-align: left; }
+    tr:nth-child(even) td { background: #f8f8fa; }
+    tr:hover td { background: #f2f2f6; }
+    .ct th { background: #2C2C2A; }
+    .mt th { background: #085041; }
+    .pt th { background: #3C3489; }
+    .rt th { background: #7a3010; }
+    .bt th { background: #1a3060; }
+
+    /* Key terms */
+    #list { padding: 0 16px 16px; }
+    .cat-wrap { border: 2px solid #90bce6; border-radius: 8px; margin-bottom: 9px; overflow: hidden; }
+    .cat-wrap.purple { border-left-color: #c8c4f4; }
+    .cat-wrap.teal { border-left-color: #7dd8be; }
+    .cat-wrap.coral { border-left-color: #e8a48a; }
+    .cat-wrap.amber { border-left-color: #d4a055; }
+    .cat-wrap.blue { border-left-color: #90bce6; }
+    .cat-wrap.pink { border-left-color: #e8a0c0; }
+    .cat-wrap.gray { border-left-color: #c8c6be; }
+    .cat-head { padding: 11px 14px; font-weight: 700; cursor: pointer; font-size: 0.93em; color: #1a1a18; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; border-radius: 7px; }
+    .cat-head:hover { background: #F8F7F3; }
+    .cat-head-right { display: flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: normal; color: #555; }
+    .cat-body { display: none; padding: 5px 11px 9px; }
+    .cat-body.open { display: block; }
+    .term { border-bottom: 1px solid #eee; padding: 5px 0; }
+    .term:last-child { border-bottom: none; }
+    .term-title { cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: .86rem; padding: 3px 2px; }
+    .term-body { display: none; padding: 5px 3px 3px; font-size: .84rem; }
+    .term-body.open { display: block; }
+    .term-def { margin-bottom: 3px; color: #222; }
+    .term-eg { display: block; font-style: italic; color: #555; font-size: .82rem; margin-top: 2px; }
+    .term-note { display: block; margin-top: 5px; background: #fdf6e8; border-left: 3px solid #BA7517; padding: 4px 8px; font-size: .81rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .arrow { font-size: .78rem; }
+    .hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
+    .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a3d48; color: #d6eef3; padding: 4px 9px; border-radius: 6px; font-size: .76rem; white-space: nowrap; z-index: 10; font-weight: normal; }
+    .hot-badge:hover .tip { display: block; }
+
+    #no-results { display: none; text-align: center; color: #888; padding: 18px; font-style: italic; }
+    svg text { font-family: Georgia, serif; }
+
+    /* Lightbox */
+    .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-inner { background: #fff; border-radius: 10px; max-width: 92vw; max-height: 90vh; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 9px; position: relative; overflow: auto; }
+    .lightbox-inner img { max-width: 100%; max-height: 68vh; border-radius: 6px; object-fit: contain; }
+    .lightbox-caption { font-size: .9rem; color: #222; text-align: center; }
+    .lightbox-filename { font-size: .76rem; color: #888; }
+    .lightbox-error { display: none; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 13px; border-radius: 6px; font-size: .84rem; text-align: center; }
+    .lightbox-error.show { display: block; }
+    .lightbox-close { position: absolute; top: 9px; right: 13px; font-size: 1.3rem; cursor: pointer; color: #555; background: none; border: none; line-height: 1; }
+
+    .footer { text-align: center; font-size: .77rem; color: #888; padding: 18px 16px 26px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+    @media (max-width: 600px) { h1 { font-size: 1.05rem; } }
+
+    /* Font size toggle */
+    .size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+    .sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+    .sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+    .sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+    .section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &middot; Unit 1 AOS 2</h1>
+<p class="chapter-title">Chapter 3 Part C &mdash; Thermoregulation</p>
+<p class="subtitle">Live it Up 5th ed.</p>
+
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<div class="section-divider">&#128218; Chapter contents</div>
+
+<!-- ===== 3C.1 OVERVIEW: HOMEOSTASIS, HYPER/HYPOTHERMIA ===== -->
+<div class="box-wrap blue" id="sec3C1">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#127777; 3C.1 &mdash; Homeostasis, Hyperthermia &amp; Hypothermia</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">Your body works hardest when its core temperature sits at <strong>~37&deg;C</strong>. Vasodilation and vasoconstriction are the body&apos;s key tools to keep it there &mdash; this is <strong>homeostasis</strong> in action.</p>
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Term</th><th>Definition</th><th>Key fact</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Homeostasis</strong></td><td>Means &lsquo;same state&apos;. The process of keeping the internal body environment in a steady state.</td><td>Temperature, pH, blood glucose etc. all need it.</td></tr>
+          <tr><td><strong>Thermoregulation</strong></td><td>The body&apos;s effort to maintain its optimum operating temperature around 37&deg;C.</td><td>Normal core range: 36.5&ndash;37.5&deg;C.</td></tr>
+          <tr><td><strong>Hyperthermia</strong></td><td>The body gains more heat than it loses (core temp rises above normal).</td><td>Far more common during exercise than hypothermia.</td></tr>
+          <tr><td><strong>Hypothermia</strong></td><td>Core temperature falls below the minimum required to maintain basic metabolic functions.</td><td>Less common in sport but still tested.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#128161; Did you know?</strong> Most students will experience hyperthermia and heat gain from exercise/sport. That should be the focus &mdash; but knowing hypothermia is still required.</p>
+  </div>
+</div>
+
+<!-- ===== 3C.2 TEMPERATURE FLOWCHART ===== -->
+<div class="diagram-wrap teal" id="sec3C2">
+  <div class="diagram-head teal" onclick="toggleB(this)">
+    <span>&#128202; 3C.2 &mdash; The Thermoregulation Loop (Hot vs Cold Response)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 720 720" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- Top: Normal range -->
+      <rect x="240" y="14" width="240" height="40" rx="6" fill="#e8e8e0" stroke="#888" stroke-width="1.5"/>
+      <text x="360" y="32" text-anchor="middle" fill="#1a1a18" font-size="11" font-weight="bold">Normal core temperature range</text>
+      <text x="360" y="46" text-anchor="middle" fill="#1a1a18" font-size="11" font-weight="bold">36.5&ndash;37.5 &deg;C</text>
+
+      <!-- Arrows splitting -->
+      <line x1="360" y1="54" x2="160" y2="80" stroke="#378ADD" stroke-width="2" marker-end="url(#arrBlue)"/>
+      <line x1="360" y1="54" x2="560" y2="80" stroke="#D85A30" stroke-width="2" marker-end="url(#arrRed)"/>
+
+      <defs>
+        <marker id="arrBlue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <polygon points="0,0 8,4 0,8" fill="#378ADD"/>
+        </marker>
+        <marker id="arrRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <polygon points="0,0 8,4 0,8" fill="#D85A30"/>
+        </marker>
+        <marker id="arrGray" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <polygon points="0,0 8,4 0,8" fill="#888"/>
+        </marker>
+      </defs>
+
+      <!-- LEFT BRANCH: Decrease (cold) -->
+      <rect x="40" y="80" width="240" height="34" rx="6" fill="#d6eef7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="160" y="102" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Decrease in core temperature</text>
+
+      <line x1="160" y1="114" x2="160" y2="130" stroke="#378ADD" stroke-width="2" marker-end="url(#arrBlue)"/>
+
+      <!-- Hypothermia stages -->
+      <rect x="40" y="135" width="240" height="86" rx="6" fill="#eaf4f7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="160" y="156" text-anchor="middle" fill="#1a3060" font-size="12" font-weight="bold">Hypothermia</text>
+      <text x="160" y="174" text-anchor="middle" fill="#1a3060" font-size="10">Mild: 32&ndash;35 &deg;C</text>
+      <text x="160" y="190" text-anchor="middle" fill="#1a3060" font-size="10">Moderate: 28&ndash;31 &deg;C</text>
+      <text x="160" y="206" text-anchor="middle" fill="#1a3060" font-size="10">Severe: &lt; 28 &deg;C</text>
+
+      <!-- RIGHT BRANCH: Increase (hot) -->
+      <rect x="440" y="80" width="240" height="34" rx="6" fill="#fce8e0" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="560" y="102" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">Increase in core temperature</text>
+
+      <line x1="560" y1="114" x2="560" y2="130" stroke="#D85A30" stroke-width="2" marker-end="url(#arrRed)"/>
+
+      <rect x="440" y="135" width="240" height="86" rx="6" fill="#fdf2ec" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="560" y="156" text-anchor="middle" fill="#7a3010" font-size="12" font-weight="bold">Hyperthermia</text>
+      <text x="560" y="174" text-anchor="middle" fill="#7a3010" font-size="10">Mild (heat cramps): 37&ndash;38 &deg;C</text>
+      <text x="560" y="190" text-anchor="middle" fill="#7a3010" font-size="10">Moderate (heat exhaustion): 38&ndash;40 &deg;C</text>
+      <text x="560" y="206" text-anchor="middle" fill="#7a3010" font-size="10">Severe (heat stroke): &gt; 40 &deg;C</text>
+
+      <!-- Arrows converging on hypothalamus -->
+      <line x1="160" y1="221" x2="320" y2="244" stroke="#888" stroke-width="1.5" marker-end="url(#arrGray)"/>
+      <line x1="560" y1="221" x2="400" y2="244" stroke="#888" stroke-width="1.5" marker-end="url(#arrGray)"/>
+
+      <!-- Hypothalamus -->
+      <rect x="180" y="244" width="360" height="34" rx="6" fill="#f0f0e8" stroke="#555" stroke-width="1.5"/>
+      <text x="360" y="266" text-anchor="middle" fill="#1a1a18" font-size="11" font-weight="bold">Hypothalamus receives data from thermoreceptors (brain &amp; skin)</text>
+
+      <!-- Diverging again -->
+      <line x1="280" y1="278" x2="160" y2="304" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arrBlue)"/>
+      <line x1="440" y1="278" x2="560" y2="304" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrRed)"/>
+
+      <!-- Need to conserve heat (left) -->
+      <rect x="40" y="304" width="240" height="34" rx="6" fill="#d6eef7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="160" y="326" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Need to conserve / gain heat</text>
+
+      <line x1="160" y1="338" x2="160" y2="354" stroke="#378ADD" stroke-width="2" marker-end="url(#arrBlue)"/>
+
+      <rect x="20" y="358" width="280" height="48" rx="6" fill="#eaf4f7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="160" y="378" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Vasoconstriction of blood vessels</text>
+      <text x="160" y="394" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">supplying the skin</text>
+
+      <line x1="160" y1="406" x2="160" y2="422" stroke="#378ADD" stroke-width="2" marker-end="url(#arrRed)"/>
+
+      <rect x="40" y="426" width="240" height="34" rx="6" fill="#fce8e0" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="160" y="448" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">Increase in core temperature</text>
+
+      <line x1="160" y1="460" x2="160" y2="476" stroke="#888" stroke-width="1.5" marker-end="url(#arrGray)"/>
+
+      <rect x="20" y="480" width="280" height="34" rx="6" fill="#f8f8f0" stroke="#888" stroke-width="1.5"/>
+      <text x="160" y="502" text-anchor="middle" fill="#1a1a18" font-size="11" font-weight="bold">Other heat-retention responses</text>
+
+      <line x1="80" y1="514" x2="80" y2="530" stroke="#888" stroke-width="1.2" marker-end="url(#arrGray)"/>
+      <line x1="160" y1="514" x2="160" y2="530" stroke="#888" stroke-width="1.2" marker-end="url(#arrGray)"/>
+      <line x1="240" y1="514" x2="240" y2="530" stroke="#888" stroke-width="1.2" marker-end="url(#arrGray)"/>
+
+      <text x="80" y="546" text-anchor="middle" fill="#1a3060" font-size="9.5">Decreases</text>
+      <text x="80" y="558" text-anchor="middle" fill="#1a3060" font-size="9.5">heart rate</text>
+      <text x="160" y="552" text-anchor="middle" fill="#1a3060" font-size="9.5" font-weight="bold">Shivering</text>
+      <text x="240" y="546" text-anchor="middle" fill="#1a3060" font-size="9.5">Body hair</text>
+      <text x="240" y="558" text-anchor="middle" fill="#1a3060" font-size="9.5">raises</text>
+
+      <line x1="160" y1="566" x2="160" y2="586" stroke="#888" stroke-width="1.5" marker-end="url(#arrGray)"/>
+
+      <rect x="40" y="590" width="240" height="34" rx="6" fill="#fce8e0" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="160" y="612" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">Increase in core temperature</text>
+
+      <!-- Need to lose heat (right) -->
+      <rect x="440" y="304" width="240" height="34" rx="6" fill="#fce8e0" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="560" y="326" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">Need to lose heat</text>
+
+      <line x1="560" y1="338" x2="560" y2="354" stroke="#D85A30" stroke-width="2" marker-end="url(#arrRed)"/>
+
+      <rect x="420" y="358" width="280" height="48" rx="6" fill="#fdf2ec" stroke="#D85A30" stroke-width="1.5"/>
+      <text x="560" y="378" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">Vasodilation of blood vessels</text>
+      <text x="560" y="394" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">supplying the skin</text>
+
+      <line x1="560" y1="406" x2="560" y2="422" stroke="#D85A30" stroke-width="2" marker-end="url(#arrBlue)"/>
+
+      <rect x="440" y="426" width="240" height="34" rx="6" fill="#d6eef7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="560" y="448" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Decrease in core temperature</text>
+
+      <line x1="560" y1="460" x2="560" y2="476" stroke="#888" stroke-width="1.5" marker-end="url(#arrGray)"/>
+
+      <rect x="420" y="480" width="280" height="34" rx="6" fill="#f8f8f0" stroke="#888" stroke-width="1.5"/>
+      <text x="560" y="502" text-anchor="middle" fill="#1a1a18" font-size="11" font-weight="bold">Other heat-loss responses</text>
+
+      <line x1="480" y1="514" x2="480" y2="530" stroke="#888" stroke-width="1.2" marker-end="url(#arrGray)"/>
+      <line x1="560" y1="514" x2="560" y2="530" stroke="#888" stroke-width="1.2" marker-end="url(#arrGray)"/>
+      <line x1="640" y1="514" x2="640" y2="530" stroke="#888" stroke-width="1.2" marker-end="url(#arrGray)"/>
+
+      <text x="480" y="546" text-anchor="middle" fill="#7a3010" font-size="9.5">Increases</text>
+      <text x="480" y="558" text-anchor="middle" fill="#7a3010" font-size="9.5">heart rate</text>
+      <text x="560" y="552" text-anchor="middle" fill="#7a3010" font-size="9.5" font-weight="bold">Sweating</text>
+      <text x="640" y="546" text-anchor="middle" fill="#7a3010" font-size="9.5">Body hair</text>
+      <text x="640" y="558" text-anchor="middle" fill="#7a3010" font-size="9.5">lowers</text>
+
+      <line x1="560" y1="566" x2="560" y2="586" stroke="#888" stroke-width="1.5" marker-end="url(#arrGray)"/>
+
+      <rect x="440" y="590" width="240" height="34" rx="6" fill="#d6eef7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="560" y="612" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Decrease in core temperature</text>
+
+      <!-- Bottom label -->
+      <text x="360" y="660" text-anchor="middle" fill="#555" font-size="10" font-style="italic">Two negative-feedback loops &mdash; the body keeps returning to ~37&deg;C.</text>
+    </svg>
+    <p class="diagram-caption">When the core temperature deviates either way, the hypothalamus initiates a chain of responses that restores it. <strong>Hot &rarr; vasodilation &amp; sweating &rarr; lose heat. Cold &rarr; vasoconstriction &amp; shivering &rarr; retain heat.</strong> The brain receives input from thermoreceptors in both the hypothalamus (core temperature) and the skin (external temperature).</p>
+  </div>
+</div>
+
+<!-- ===== Vasodilation/vasoconstriction mechanism panel ===== -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128279; How Vasodilation &amp; Vasoconstriction Work (Smooth Muscle &amp; Precapillary Sphincters)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Mechanism</th><th>What happens at the vessel wall</th><th>Effect on blood flow</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Vasoconstriction</strong></td><td>Smooth muscle surrounding the blood vessel <strong>contracts</strong> (squeezes) &mdash; the lumen narrows.</td><td>Reduces volume of blood flowing through the vessel.</td></tr>
+          <tr><td><strong>Vasodilation</strong></td><td>Smooth muscle surrounding the blood vessel <strong>relaxes</strong> &mdash; the lumen widens.</td><td>Allows a greater volume of blood to flow through the vessel.</td></tr>
+          <tr><td><strong>Precapillary sphincters</strong></td><td>A band of smooth muscle that surrounds each branch of the capillary as it leaves the arteriole. Brain opens/closes them.</td><td>Sphincters <strong>open</strong> &rarr; blood flows into capillary bed. Sphincters <strong>closed</strong> &rarr; blood bypasses (vascular shunt).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; Why this matters in thermoregulation:</strong> By opening and closing precapillary sphincters, the brain can vary blood flow through capillary beds to muscles or skin. This redistributes blood to (a) increase O<sub>2</sub> &amp; fuel supply, (b) increase waste removal, and (c) <strong>increase heat loss from muscles and skin</strong>.</p>
+  </div>
+</div>
+
+<!-- ===== 3C.3 HYPERTHERMIA STAGES ===== -->
+<div class="box-wrap coral" id="sec3C3">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128293; 3C.3 &mdash; Hyperthermia: The Three Stages of Overheating</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Hyperthermia</strong> occurs when the body is producing or absorbing more heat than it can dissipate. It commonly occurs during:</p>
+    <ul style="font-size:.88rem;margin:6px 0 10px 22px;">
+      <li><strong>Extended exercise</strong> &mdash; large amounts of heat produced by working muscles.</li>
+      <li><strong>Low or poor hydration</strong> &mdash; reduces sweating effectiveness.</li>
+      <li><strong>High external temperatures</strong>, especially coupled with <strong>high humidity</strong> (humidity limits sweat evaporation).</li>
+    </ul>
+    <div style="overflow-x:auto;">
+      <table class="rt">
+        <thead><tr><th>Stage</th><th>Core temperature</th><th>Symptoms</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Heat cramps</strong></td><td>37&ndash;38 &deg;C</td><td>Cramping, dizziness. <em>A warning to slow down or stop.</em></td></tr>
+          <tr><td><strong>Heat exhaustion</strong></td><td>38&ndash;40 &deg;C</td><td>Excessive sweating, cool &amp; clammy skin, weak but rapid pulse.</td></tr>
+          <tr><td><strong>Heat stroke</strong></td><td>&gt; 40 &deg;C</td><td>Severe disorientation, hot &amp; dry red skin, unconsciousness, shock. <strong>Medical emergency.</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="danger-box"><strong>&#9888; Heat stroke is life-threatening.</strong> If unconscious, get medical help <strong>immediately</strong>. Apply ice packs to major arteries (neck, groin, armpits) and place cold wet towels/clothing over the performer to cool blood returning to the heart and reduce core temperature fast.</p>
+  </div>
+</div>
+
+<!-- First aid panel -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129657; First Aid &amp; Treatment of Hyperthermia</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Stage</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Heat cramps</strong></td><td>
+            <ul style="margin:0 0 0 18px;font-size:.86rem;line-height:1.5;">
+              <li>Remove performer from the heat source; move to a cool area (shade or indoors).</li>
+              <li>Remove or loosen restrictive clothing.</li>
+              <li>Re-hydrate with fluids: water, diluted fruit juice or electrolyte drinks.</li>
+              <li>Eat fresh fruit (e.g. banana) to replenish potassium.</li>
+              <li>Gently stretch the affected muscles.</li>
+            </ul>
+          </td></tr>
+          <tr><td><strong>Heat exhaustion / heat stroke</strong></td><td>
+            <ul style="margin:0 0 0 18px;font-size:.86rem;line-height:1.5;">
+              <li>Remove from heat source &amp; move to a cool area.</li>
+              <li>Loosen or remove clothing.</li>
+              <li>Only allow performer to <strong>sip</strong> fluids (small amounts).</li>
+              <li>Sponge cold water on body + fan to increase heat loss. <strong>Stop fanning if shivering starts.</strong></li>
+              <li>If conscious, give cool fluids; if unconscious, start IV fluids promptly (medical).</li>
+              <li>Time is critical: cool core temperature ASAP &mdash; any delay increases risk of death.</li>
+            </ul>
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#9888; Examiner tip:</strong> Distinguish between heat cramps (mild &mdash; rehydrate, stretch) and heat stroke (emergency &mdash; cool the core aggressively). Mentioning ice packs on neck/groin/armpits is a high-quality response.</p>
+  </div>
+</div>
+
+<!-- ===== 3C.4 HEAT ACCLIMATISATION ===== -->
+<div class="box-wrap teal" id="sec3C4">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9728; 3C.4 &mdash; Heat Acclimatisation</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Heat acclimatisation</strong> is the process of becoming accustomed to a new climate (or new conditions) because of gradual adaptations. By living or training in hot conditions and being exposed to heat stress, athletes adapt and become better at regulating their core temperature &mdash; resulting in <strong>reduced cardiovascular strain and enhanced exercise-heat performance</strong>.</p>
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Protocol element</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Train/practice <strong>once per day</strong> in the first five days in a hotter climate</td><td>Avoid overload while body begins adapting.</td></tr>
+          <tr><td>Avoid training for <strong>more than two hours per day</strong></td><td>Keep early sessions short to manage heat stress.</td></tr>
+          <tr><td>Follow days with multiple sessions with a single-session or rest day</td><td>Recovery is essential to adapt, not just push.</td></tr>
+          <tr><td>Increase training intensity <strong>gradually</strong> over a few days</td><td>Progressive overload tailored to heat.</td></tr>
+          <tr><td>Increase <strong>sodium intake</strong> via food or fluids in the first few days</td><td>Sweating loses sodium; replacement keeps you hydrated &amp; functional.</td></tr>
+          <tr><td>Keep <strong>cooling stations</strong> stocked with drinks, ice towels and fans</td><td>External heat-loss aids during practice.</td></tr>
+          <tr><td>Take <strong>frequent rest breaks</strong></td><td>Allow body to cool between bouts.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Acclimatisation adaptations diagram -->
+<div class="diagram-wrap teal">
+  <div class="diagram-head teal" onclick="toggleB(this)">
+    <span>&#128202; Heat Acclimatisation Adaptations</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 760 460" style="max-width:820px;width:100%;display:inline-block;">
+      <!-- centre runner silhouette -->
+      <ellipse cx="380" cy="120" rx="22" ry="26" fill="#888"/>
+      <path d="M360,150 Q352,200 358,260 Q345,310 340,370 Q336,420 348,440 L368,440 Q364,400 374,360 Q380,330 386,300 Q396,330 402,360 Q412,400 408,440 L428,440 Q440,420 436,370 Q431,310 418,260 Q424,200 416,150 Z"
+            fill="#888"/>
+
+      <!-- HEART box -->
+      <rect x="20" y="50" width="220" height="58" rx="6" fill="#fdf8f0" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="130" y="68" text-anchor="middle" fill="#5a3800" font-size="11" font-weight="bold">HEART</text>
+      <text x="130" y="84" text-anchor="middle" fill="#5a3800" font-size="10">&#8595; Exercising heart rate</text>
+      <text x="130" y="100" text-anchor="middle" fill="#5a3800" font-size="10">&#8593; Exercising stroke volume</text>
+      <line x1="240" y1="80" x2="360" y2="120" stroke="#aaa" stroke-width="1"/>
+
+      <!-- CORE box -->
+      <rect x="20" y="135" width="220" height="42" rx="6" fill="#fdf8f0" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="130" y="153" text-anchor="middle" fill="#5a3800" font-size="11" font-weight="bold">CORE</text>
+      <text x="130" y="169" text-anchor="middle" fill="#5a3800" font-size="10">&#8595; Exercising core temperature</text>
+      <line x1="240" y1="156" x2="360" y2="180" stroke="#aaa" stroke-width="1"/>
+
+      <!-- PERFORMANCE box -->
+      <rect x="20" y="210" width="220" height="74" rx="6" fill="#fdf8f0" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="130" y="228" text-anchor="middle" fill="#5a3800" font-size="11" font-weight="bold">PERFORMANCE</text>
+      <text x="130" y="244" text-anchor="middle" fill="#5a3800" font-size="10">&#8593; Faster performance in heat</text>
+      <text x="130" y="260" text-anchor="middle" fill="#5a3800" font-size="10">&#8593; Time to exhaustion in heat</text>
+      <text x="130" y="276" text-anchor="middle" fill="#5a3800" font-size="10">&#8593; Higher intensity before LIP</text>
+      <line x1="240" y1="248" x2="360" y2="280" stroke="#aaa" stroke-width="1"/>
+
+      <!-- PERCEPTION box -->
+      <rect x="520" y="50" width="220" height="58" rx="6" fill="#eaf4f7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="630" y="68" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">PERCEPTION</text>
+      <text x="630" y="84" text-anchor="middle" fill="#1a3060" font-size="10">&#8595; RPE (rate of perceived exertion)</text>
+      <text x="630" y="100" text-anchor="middle" fill="#1a3060" font-size="10">&#8595; Thermal stress</text>
+      <line x1="520" y1="80" x2="402" y2="120" stroke="#aaa" stroke-width="1"/>
+
+      <!-- SWEAT box -->
+      <rect x="520" y="135" width="220" height="74" rx="6" fill="#eaf4f7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="630" y="153" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">SWEAT</text>
+      <text x="630" y="169" text-anchor="middle" fill="#1a3060" font-size="10">&#8593; Sweat sensitivity (starts sooner)</text>
+      <text x="630" y="185" text-anchor="middle" fill="#1a3060" font-size="10">&#8593; Sweat rate</text>
+      <text x="630" y="201" text-anchor="middle" fill="#1a3060" font-size="10">&#8593; Sodium retention</text>
+      <line x1="520" y1="170" x2="402" y2="180" stroke="#aaa" stroke-width="1"/>
+
+      <!-- SKIN box -->
+      <rect x="520" y="235" width="220" height="58" rx="6" fill="#eaf4f7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="630" y="253" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">SKIN</text>
+      <text x="630" y="269" text-anchor="middle" fill="#1a3060" font-size="10">&#8595; Exercising skin temperature</text>
+      <text x="630" y="285" text-anchor="middle" fill="#1a3060" font-size="10">&#8593; Maximum skin blood flow</text>
+      <line x1="520" y1="262" x2="402" y2="280" stroke="#aaa" stroke-width="1"/>
+
+      <!-- Bottom legend -->
+      <rect x="40" y="340" width="680" height="100" rx="6" fill="#f0fdf4" stroke="#5DCAA5" stroke-width="1.5"/>
+      <text x="380" y="362" text-anchor="middle" fill="#085041" font-size="11" font-weight="bold">Key idea</text>
+      <text x="380" y="382" text-anchor="middle" fill="#1a1a18" font-size="10">Heat acclimatisation reduces cardiovascular strain &amp; enhances exercise-heat performance.</text>
+      <text x="380" y="398" text-anchor="middle" fill="#1a1a18" font-size="10">Sweat glands become resistant to fatigue &mdash; higher sweat rates can be sustained.</text>
+      <text x="380" y="414" text-anchor="middle" fill="#1a1a18" font-size="10">Earlier sweating &amp; greater sweating &rarr; improved evaporative cooling &rarr; reduced body heat storage.</text>
+      <text x="380" y="430" text-anchor="middle" fill="#1a1a18" font-size="10">Lower skin temperatures &rarr; less blood diverted to skin &rarr; more blood available to muscles.</text>
+    </svg>
+    <p class="diagram-caption">After ~5&ndash;14 days of heat exposure, the body shows measurable adaptations across heart, core, sweat, skin, perception and performance &mdash; all of which let the athlete perform better in heat.</p>
+  </div>
+</div>
+
+<!-- ===== 3C.5 HEAT LOSS MECHANISMS ===== -->
+<div class="box-wrap blue" id="sec3C5">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#127754; 3C.5 &mdash; Four Ways to Lose Heat</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">The body dissipates heat using four physical mechanisms. Most exam questions focus on <strong>radiation</strong> and <strong>evaporation</strong> &mdash; these are the primary methods during exercise.</p>
+    <div style="overflow-x:auto;">
+      <table class="bt">
+        <thead><tr><th>Method</th><th>How it works</th><th>Sport example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Radiation</strong></td><td>Heat passes from the blood vessels to the skin and into the air above the skin (no contact needed).</td><td>Heat radiates off a runner&apos;s skin into surrounding air on a cool day.</td></tr>
+          <tr><td><strong>Evaporation</strong></td><td>Heat is decreased via the conversion of a liquid to a gas. Sweat evaporating off the skin is the body&apos;s key cooling method.</td><td>A marathon runner&apos;s sweat evaporates &mdash; cooling the body. High humidity blocks this!</td></tr>
+          <tr><td><strong>Conduction</strong></td><td>Transfer of thermal energy between two solids in direct contact.</td><td>A tennis player drapes an ice towel over their shoulders during the change of ends.</td></tr>
+          <tr><td><strong>Convection</strong></td><td>Heat transferred by the circulation of a fluid (e.g. water) or gas (e.g. air) over the body.</td><td>Pouring water over yourself, or standing in front of a fan; wind cooling a cyclist.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; Exam trap:</strong> Pouring water over yourself = <strong>convection</strong>, not conduction. The water flows over your body. Wet towels on your shoulders = <strong>conduction</strong> (solid-to-solid contact via the wet cloth).</p>
+  </div>
+</div>
+
+<!-- Mechanisms diagram -->
+<div class="diagram-wrap blue">
+  <div class="diagram-head blue" onclick="toggleB(this)">
+    <span>&#128202; Visual: Four Heat-Loss Mechanisms in Action</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 720 280" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- RADIATION -->
+      <rect x="14" y="20" width="160" height="240" rx="8" fill="#fdf2ec" stroke="#D85A30" stroke-width="2"/>
+      <text x="94" y="42" text-anchor="middle" fill="#7a3010" font-size="12" font-weight="bold">RADIATION</text>
+      <!-- person -->
+      <circle cx="94" cy="100" r="14" fill="#D85A30"/>
+      <rect x="80" y="115" width="28" height="50" rx="5" fill="#D85A30"/>
+      <!-- radiation waves -->
+      <path d="M70,75 Q60,68 65,55" stroke="#D85A30" stroke-width="1.5" fill="none"/>
+      <path d="M118,75 Q128,68 123,55" stroke="#D85A30" stroke-width="1.5" fill="none"/>
+      <path d="M60,90 Q48,85 50,72" stroke="#D85A30" stroke-width="1.5" fill="none"/>
+      <path d="M128,90 Q140,85 138,72" stroke="#D85A30" stroke-width="1.5" fill="none"/>
+      <text x="94" y="195" text-anchor="middle" fill="#7a3010" font-size="9.5">Heat &rarr; skin</text>
+      <text x="94" y="208" text-anchor="middle" fill="#7a3010" font-size="9.5">&rarr; air above</text>
+      <text x="94" y="226" text-anchor="middle" fill="#888" font-size="9" font-style="italic">No contact needed</text>
+      <text x="94" y="246" text-anchor="middle" fill="#7a3010" font-size="9">e.g. heat radiating</text>
+      <text x="94" y="256" text-anchor="middle" fill="#7a3010" font-size="9">from a runner</text>
+
+      <!-- EVAPORATION -->
+      <rect x="190" y="20" width="160" height="240" rx="8" fill="#eaf4f7" stroke="#378ADD" stroke-width="2"/>
+      <text x="270" y="42" text-anchor="middle" fill="#1a3060" font-size="12" font-weight="bold">EVAPORATION</text>
+      <circle cx="270" cy="100" r="14" fill="#378ADD"/>
+      <rect x="256" y="115" width="28" height="50" rx="5" fill="#378ADD"/>
+      <!-- sweat drops becoming vapour -->
+      <circle cx="244" cy="135" r="3" fill="#378ADD"/>
+      <circle cx="296" cy="138" r="3" fill="#378ADD"/>
+      <circle cx="238" cy="115" r="2" fill="#aac6e0"/>
+      <circle cx="302" cy="118" r="2" fill="#aac6e0"/>
+      <circle cx="232" cy="95" r="2" fill="#cad6e0"/>
+      <circle cx="308" cy="98" r="2" fill="#cad6e0"/>
+      <text x="232" y="85" text-anchor="middle" fill="#888" font-size="8">vapour</text>
+      <text x="308" y="88" text-anchor="middle" fill="#888" font-size="8">vapour</text>
+      <text x="270" y="195" text-anchor="middle" fill="#1a3060" font-size="9.5">Sweat (liquid)</text>
+      <text x="270" y="208" text-anchor="middle" fill="#1a3060" font-size="9.5">&rarr; vapour (gas)</text>
+      <text x="270" y="226" text-anchor="middle" fill="#888" font-size="9" font-style="italic">Body&apos;s key cooling</text>
+      <text x="270" y="246" text-anchor="middle" fill="#1a3060" font-size="9">e.g. marathon</text>
+      <text x="270" y="256" text-anchor="middle" fill="#1a3060" font-size="9">runner sweating</text>
+
+      <!-- CONDUCTION -->
+      <rect x="366" y="20" width="160" height="240" rx="8" fill="#eaf7f2" stroke="#5DCAA5" stroke-width="2"/>
+      <text x="446" y="42" text-anchor="middle" fill="#1a5a44" font-size="12" font-weight="bold">CONDUCTION</text>
+      <circle cx="446" cy="100" r="14" fill="#5DCAA5"/>
+      <rect x="432" y="115" width="28" height="50" rx="5" fill="#5DCAA5"/>
+      <!-- ice towel -->
+      <rect x="412" y="106" width="68" height="14" rx="3" fill="#b8d8f0" stroke="#1a3060" stroke-width="1"/>
+      <text x="446" y="115" text-anchor="middle" fill="#1a3060" font-size="7">ICE TOWEL</text>
+      <text x="446" y="195" text-anchor="middle" fill="#1a5a44" font-size="9.5">Solid touches solid</text>
+      <text x="446" y="208" text-anchor="middle" fill="#1a5a44" font-size="9.5">&rarr; heat transfers</text>
+      <text x="446" y="226" text-anchor="middle" fill="#888" font-size="9" font-style="italic">Direct contact</text>
+      <text x="446" y="246" text-anchor="middle" fill="#1a5a44" font-size="9">e.g. ice towel on</text>
+      <text x="446" y="256" text-anchor="middle" fill="#1a5a44" font-size="9">tennis player&apos;s shoulders</text>
+
+      <!-- CONVECTION -->
+      <rect x="542" y="20" width="160" height="240" rx="8" fill="#fdf8f0" stroke="#BA7517" stroke-width="2"/>
+      <text x="622" y="42" text-anchor="middle" fill="#5a3800" font-size="12" font-weight="bold">CONVECTION</text>
+      <circle cx="622" cy="100" r="14" fill="#BA7517"/>
+      <rect x="608" y="115" width="28" height="50" rx="5" fill="#BA7517"/>
+      <!-- wind/water lines -->
+      <line x1="556" y1="100" x2="600" y2="100" stroke="#BA7517" stroke-width="2" marker-end="url(#arrAmb)"/>
+      <line x1="556" y1="120" x2="600" y2="120" stroke="#BA7517" stroke-width="2" marker-end="url(#arrAmb)"/>
+      <line x1="556" y1="140" x2="600" y2="140" stroke="#BA7517" stroke-width="2" marker-end="url(#arrAmb)"/>
+      <line x1="556" y1="160" x2="600" y2="160" stroke="#BA7517" stroke-width="2" marker-end="url(#arrAmb)"/>
+      <defs>
+        <marker id="arrAmb" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <polygon points="0,0 6,3 0,6" fill="#BA7517"/>
+        </marker>
+      </defs>
+      <text x="622" y="195" text-anchor="middle" fill="#5a3800" font-size="9.5">Fluid/gas flows</text>
+      <text x="622" y="208" text-anchor="middle" fill="#5a3800" font-size="9.5">over body</text>
+      <text x="622" y="226" text-anchor="middle" fill="#888" font-size="9" font-style="italic">Moving medium</text>
+      <text x="622" y="246" text-anchor="middle" fill="#5a3800" font-size="9">e.g. fan on cyclist,</text>
+      <text x="622" y="256" text-anchor="middle" fill="#5a3800" font-size="9">pouring water</text>
+    </svg>
+    <p class="diagram-caption">In real sport, multiple mechanisms operate at once. A cyclist on a hot day uses <strong>radiation</strong> + <strong>convection</strong> (wind) + <strong>evaporation</strong> (sweat) at the same time, sometimes assisted by <strong>conduction</strong> (ice towel at rest stop).</p>
+  </div>
+</div>
+
+<!-- ===== Worked example - VCAA 2003 ===== -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Worked Example &mdash; VCAA 2003 Q4di-ii (2 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><em>The Murray River Canoe Marathon is an event held in January which lasts five days. The participants usually paddle for many hours each day. The event is usually conducted in extremely hot conditions. In past events some paddlers have suffered heat exhaustion. The paddler should drink fluid during each day&apos;s paddling to help avoid heat exhaustion. <strong>State two other actions that would help prevent heat exhaustion.</strong></em></p>
+    <div style="background:#f8f8fa;border-left:4px solid #BA7517;padding:10px 12px;margin:8px 0;border-radius:0 4px 4px 0;">
+      <p style="font-size:.86rem;font-weight:bold;color:#5a3800;margin-bottom:6px;">Acceptable answers (any TWO)</p>
+      <ul style="margin:0 0 0 20px;font-size:.86rem;line-height:1.6;">
+        <li>Wear lightweight/light-coloured loose fitting clothing</li>
+        <li>Wear ice vests</li>
+        <li>Wear a hat (e.g. legionnaires)</li>
+        <li>Apply wet towels</li>
+        <li>Wet the skin/clothes regularly</li>
+        <li>Acclimatisation</li>
+        <li>Carbo-hydration (carbohydrate + hydration)</li>
+        <li>Starting earlier in the day (to avoid peak heat)</li>
+      </ul>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Marking guide</th><th>Marks</th></tr></thead>
+        <tbody>
+          <tr><td>State one strategy that would reduce likelihood of heat exhaustion occurring</td><td>1</td></tr>
+          <tr><td>State a second (different) strategy that would reduce likelihood of heat exhaustion occurring</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#9888; Examiner tip:</strong> The two strategies must be <strong>different</strong> &mdash; &ldquo;drink water&rdquo; and &ldquo;drink electrolyte fluids&rdquo; are both hydration and would only earn one mark. Pick two from different categories (e.g. clothing + timing, or acclimatisation + cooling aids).</p>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="box-wrap gray">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Summary &mdash; The Big Picture</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Vasodilation &amp; vasoconstriction</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>Vasodilation: smooth muscle relaxes &rarr; widening of blood vessels &rarr; increased blood flow.</li>
+      <li>Vasoconstriction: smooth muscle contracts &rarr; narrowing of blood vessels &rarr; reduced blood flow.</li>
+      <li>Both processes occur simultaneously and assist with thermoregulation.</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Hyperthermia and effects of overheating</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>Hyperthermia: body &lsquo;heats up&apos; and core temp rises &rarr; potential performance drops.</li>
+      <li>Heat cramps (+1&deg;) &rarr; heat exhaustion (+2&deg;) &rarr; heat stroke (+3&deg; / medical emergency).</li>
+      <li>Heat acclimatisation: lower HR, lower core temp, higher sweat rate, lower skin temp, sweating starts sooner.</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Four ways to lose heat</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li><strong>Radiation:</strong> blood flow to skin surface; heat into air.</li>
+      <li><strong>Evaporation:</strong> sweat (slows at high core temps to conserve water).</li>
+      <li><strong>Conduction:</strong> surface-to-surface contact (hotter &rarr; cooler).</li>
+      <li><strong>Convection:</strong> flow of water/air over skin.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== KEY TERMS ===== -->
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch3 Part C &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightboxBtn()">&#10005;</button>
+    <img id="lightbox-img" src="" alt="Textbook figure">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <p class="lightbox-filename" id="lightbox-filename"></p>
+    <div class="lightbox-error" id="lightbox-error">&#9888; Image not found. Ensure the image file is in the same folder as this HTML file.</div>
+  </div>
+</div>
+
+<script>
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function openLightbox(filename, caption) {
+  var overlay = document.getElementById("lightbox");
+  var img = document.getElementById("lightbox-img");
+  var cap = document.getElementById("lightbox-caption");
+  var fn  = document.getElementById("lightbox-filename");
+  var err = document.getElementById("lightbox-error");
+  img.src = filename; cap.textContent = caption;
+  fn.textContent = "File: " + filename;
+  err.className = "lightbox-error";
+  img.onerror = function() { err.className = "lightbox-error show"; };
+  img.onload  = function() { err.className = "lightbox-error"; };
+  overlay.className = "lightbox-overlay open";
+  document.body.style.overflow = "hidden";
+}
+function closeLightboxBtn() {
+  document.getElementById("lightbox").className = "lightbox-overlay";
+  document.body.style.overflow = "";
+}
+function closeLightbox(e) {
+  if (e.target === document.getElementById("lightbox")) closeLightboxBtn();
+}
+document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeLightboxBtn(); });
+
+var terms = [
+  { cat: "3C.1 Homeostasis & Thermoregulation", color: "blue", hot: false, items: [
+    { name: "Homeostasis", def: "Means 'same state'. The process of keeping the internal body environment in a steady state.", eg: "Body temperature, blood pH, blood glucose and body water levels are all kept within narrow ranges by homeostasis.", note: "" },
+    { name: "Thermoregulation", def: "The body's efforts to maintain its optimum operating temperature around 37 C.", eg: "Sweating in hot weather and shivering in cold weather are both examples.", note: "Normal core range: 36.5-37.5 C." },
+    { name: "Hyperthermia", def: "Occurs when the body gains more heat than it loses. Core temperature rises above normal.", eg: "Marathon runners in hot weather are at high risk of hyperthermia.", note: "Far more common in sport than hypothermia." },
+    { name: "Hypothermia", def: "Occurs when core temperatures fall below the minimum required to maintain basic metabolic functions.", eg: "An open-water swimmer in cold water can rapidly become hypothermic.", note: "Mild: 32-35 C. Moderate: 28-31 C. Severe: under 28 C." }
+  ]},
+  { cat: "3C.2 Vasodilation, Vasoconstriction & Precapillary Sphincters", color: "purple", hot: true, items: [
+    { name: "Vasodilation", def: "Widening/opening of blood vessels (especially arteries and arterioles) caused by relaxation of the surrounding smooth muscle. Increases blood flow to that area.", eg: "Vasodilation at the skin during exercise lets heat radiate out and cool the body.", note: "Key heat-loss mechanism." },
+    { name: "Vasoconstriction", def: "Narrowing/closing of blood vessels caused by contraction (squeeze) of the surrounding smooth muscle. Reduces blood flow to that area.", eg: "Vasoconstriction at the skin in cold weather keeps warm blood in the core.", note: "Key heat-retention mechanism." },
+    { name: "Precapillary sphincter", def: "A band of smooth muscle that surrounds each branch of the capillary as it leaves the arteriole. Opens or closes to control flow into capillary beds.", eg: "Brain closes the sphincters in non-essential capillary beds during heavy exercise, redirecting blood to working muscles.", note: "Sphincters create the vascular shunt." },
+    { name: "Hypothalamus", def: "The brain region that receives data from thermoreceptors and coordinates the body's temperature response.", eg: "The hypothalamus triggers sweating when it detects rising core temperature.", note: "Hypothalamus monitors core blood temperature; skin receptors monitor external temperature." }
+  ]},
+  { cat: "3C.3 Hyperthermia Stages", color: "coral", hot: true, items: [
+    { name: "Heat cramps", def: "Mild hyperthermia (core temp 37-38 C). Symptoms: cramping, dizziness. A warning sign to decrease intensity or stop.", eg: "A footballer gets calf cramps in the third quarter on a hot day.", note: "First aid: cool area, rehydrate, gentle stretching, fresh fruit for potassium." },
+    { name: "Heat exhaustion", def: "Moderate hyperthermia (core temp 38-40 C). Symptoms: excessive sweating, cool and/or clammy skin, weak but rapid pulse.", eg: "A marathon runner becomes faint and pale in the final 5 km.", note: "First aid: move to shade, sip fluids, sponge cold water + fan, stop fanning if shivering starts." },
+    { name: "Heat stroke", def: "Severe hyperthermia (core temp above 40 C). Symptoms: severe disorientation, hot and/or dry red skin, unconsciousness, shock. A medical emergency.", eg: "An athlete collapses with hot red skin during summer competition.", note: "Time is critical. Cool the core ASAP. Apply ice packs to neck, groin and armpits. Any delay raises risk of death." }
+  ]},
+  { cat: "3C.4 Heat Acclimatisation", color: "teal", hot: true, items: [
+    { name: "Acclimatisation", def: "The process of becoming accustomed to a new climate or to new conditions because of gradual adaptations.", eg: "An Australian marathoner spends 10 days training in Doha before a World Championship in heat.", note: "Develops through repeated natural or artificial heat exposures over ~5-14 days." },
+    { name: "Heat acclimatisation adaptations", def: "Physiological changes from repeated heat exposure: lower exercising HR, higher exercising SV, lower exercising core and skin temp, higher sweat rate and sodium retention, sweating starts sooner.", eg: "After 10 days in heat, a runner sweats at a lower core temp - meaning earlier cooling.", note: "Reduces cardiovascular strain and enhances exercise-heat performance." },
+    { name: "Lactate inflection point (LIP)", def: "The exercise intensity above which lactate begins to accumulate rapidly in the blood. Heat acclimatisation allows athletes to reach higher intensities before LIP.", eg: "After acclimatisation, an athlete can run faster before their lactate climbs steeply.", note: "Linked to performance gains from heat training." }
+  ]},
+  { cat: "3C.5 Heat Loss Mechanisms", color: "blue", hot: true, items: [
+    { name: "Radiation", def: "Heat passes from the blood vessels to the skin and into the air above the skin. No physical contact is needed.", eg: "Heat radiates off a hot runner's skin into the surrounding cooler air.", note: "Primary heat-loss method when air is cooler than body and humidity is low." },
+    { name: "Evaporation", def: "Heat is decreased via the conversion of a liquid to a gas. Evaporation of sweat is the method the body uses to cool itself.", eg: "A cyclist's sweat evaporates off the skin, removing heat with it.", note: "Humidity limits sweat evaporation - this is why humid days feel hotter." },
+    { name: "Conduction", def: "The transfer of thermal energy between two solids in direct contact with each other.", eg: "A tennis player puts an ice towel on their shoulders during change of ends.", note: "Heat moves from hotter to cooler object until both are equal." },
+    { name: "Convection", def: "Heat is transferred by the circulation of a fluid (e.g. water) or a gas (e.g. air) over a body.", eg: "Pouring water over yourself, or standing in front of a fan to cool down; wind cooling a cyclist.", note: "Pouring water on yourself is convection (water flows over body), not conduction." }
+  ]}
+];
+
+var currentQuery = '';
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
+}
+function buildList(source) {
+  var list = document.getElementById('list');
+  var noRes = document.getElementById('no-results');
+  list.innerHTML = '';
+  var isSearching = currentQuery !== '';
+  if (!source || !source.length) { noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    var wrap = document.createElement('div');
+    wrap.className = 'cat-wrap ' + (cat.color || 'blue');
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : '';
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    wrap.innerHTML = '<div class="cat-head"><span>' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">' + arrow + '</span></div></div>';
+    var head = wrap.querySelector('.cat-head');
+    (function(w, h) {
+      h.onclick = function() {
+        var b = w.querySelector('.cat-body');
+        var a = h.querySelector('.cat-arrow');
+        var o = b.classList.toggle('open');
+        a.innerHTML = o ? '&#9650;' : '&#9660;';
+      };
+    })(wrap, head);
+    var body = document.createElement('div');
+    body.className = bodyClass;
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement('div');
+      t.className = 'term';
+      var dn = isSearching ? highlight(item.name, currentQuery) : item.name;
+      var dd = isSearching ? highlight(item.def,  currentQuery) : item.def;
+      var de = item.eg ? (isSearching ? highlight(item.eg, currentQuery) : item.eg) : '';
+      var noteHtml = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : '';
+      var egHtml   = de ? '<span class="term-eg">Eg: ' + de + '</span>' : '';
+      var tbClass  = isSearching ? 'term-body open' : 'term-body';
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + dn + '</span><span class="arrow">&#9660;</span></div><div class="' + tbClass + '"><p class="term-def">' + dd + '</p>' + egHtml + noteHtml + '</div>';
+      body.appendChild(t);
+    }
+    wrap.appendChild(body);
+    list.appendChild(wrap);
+  }
+}
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  var clearBtn = document.getElementById('search-clear');
+  clearBtn.className = currentQuery ? 'visible' : '';
+  if (!currentQuery) { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    var matchItems = [];
+    for (var j = 0; j < terms[i].items.length; j++) {
+      var item = terms[i].items[j];
+      if (item.name.toLowerCase().indexOf(val) !== -1 ||
+          item.def.toLowerCase().indexOf(val) !== -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(val) !== -1)) {
+        matchItems.push(item);
+      }
+    }
+    if (matchItems.length) filtered.push({ cat: terms[i].cat, color: terms[i].color, hot: terms[i].hot, items: matchItems });
+  }
+  buildList(filtered);
+  var total = 0;
+  for (var k = 0; k < filtered.length; k++) total += filtered[k].items.length;
+  countEl.textContent = total + ' result' + (total !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  document.getElementById('search-clear').className = '';
+  buildList(terms);
+}
+buildList(terms);
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+
+</script>
+</body>
+</html>

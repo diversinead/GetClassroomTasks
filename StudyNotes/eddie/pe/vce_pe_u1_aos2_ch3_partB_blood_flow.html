@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch3 Part B: Blood Flow at Rest &amp; in Response to Exercise</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.65; padding: 16px; }
+
+    h1 { text-align: center; font-size: 0.79em; font-weight: 600; color: #5F5E5A; margin-bottom: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+    .chapter-title { text-align: center; font-size: 1.43em; font-weight: 700; color: #085041; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .subtitle { text-align: center; color: #5F5E5A; font-size: 0.86em; margin-bottom: 14px; font-style: italic; }
+
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 14px; }
+    .nav-pill { background: #fff; color: #1a1a18; border: 1.5px solid #D3D1C7; border-radius: 20px; padding: 4px 12px; font-size: 0.79em; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+    .nav-pill:hover { background: #085041; color: #fff; border-color: #085041; }
+
+    .search-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .search-wrap input { flex: 1; min-width: 160px; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; background: #fff; outline: none; font-family: inherit; }
+    .search-wrap input:focus { border-color: #1D9E75; }
+    #search-clear { display: none; padding: 5px 12px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; font-size: 0.82em; cursor: pointer; color: #1a1a18; font-weight: 600; font-family: inherit; }
+    #search-clear.visible { display: inline-block; }
+    #search-count { font-size: 0.82em; color: #5F5E5A; white-space: nowrap; min-width: 60px; }
+    mark { background: #ffe066; border-radius: 2px; padding: 0 2px; }
+
+    .section-label { text-align: center; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; padding: 14px 0 4px; }
+
+    /* Diagram wrap */
+    .diagram-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .diagram-wrap.blue { border-left-color: #378ADD; }
+    .diagram-wrap.purple { border-left-color: #AFA9EC; }
+    .diagram-wrap.amber { border-left-color: #BA7517; }
+    .diagram-wrap.coral { border-left-color: #D85A30; }
+    .diagram-wrap.teal { border-left-color: #5DCAA5; }
+    .diagram-head { background: #fff; padding: 11px 14px; font-weight: 700; font-size: 0.93em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a1a18; border-radius: 7px; }
+    .diagram-head:hover { background: #F8F7F3; }
+    .diagram-head.blue   { background: #f5f8fd; color: #1a3060; }
+    .diagram-head.purple { background: #f7f6fe; color: #2e2870; }
+    .diagram-head.amber  { background: #fdf8f0; color: #5a3800; }
+    .diagram-head.coral  { background: #fdf2ec; color: #7a3010; }
+    .diagram-head.teal   { background: #eaf7f2; color: #1a5a44; }
+    .diagram-body { display: none; padding: 12px; text-align: center; }
+    .diagram-body.open { display: block; }
+    .diagram-caption { font-size: .81rem; color: #555; margin-top: 8px; font-style: italic; text-align: left; }
+    .cat-arrow { font-size: .82rem; margin-left: 6px; }
+
+    /* Box wrap */
+    .box-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .box-wrap.blue { border-left-color: #90bce6; }
+    .box-wrap.purple { border-left-color: #c8c4f4; }
+    .box-wrap.teal { border-left-color: #5DCAA5; }
+    .box-wrap.amber { border-left-color: #d4a055; }
+    .box-wrap.coral { border-left-color: #e8a48a; }
+    .box-wrap.gray { border-left-color: #c8c6be; }
+    .box-toggle { color: #1a1a18; border-radius: 7px;  padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .box-body { display: none; padding: 12px 14px; }
+    .box-body.open { display: block; }
+    .box-note { font-size: .82rem; color: #444; margin-top: 9px; background: #fafafa; border-left: 4px solid #5DCAA5; padding: 6px 10px; border-radius: 0 4px 4px 0; }
+    .tip-box { font-size: .85rem; color: #444; margin-top: 10px; background: #eaf7f2; border-left: 4px solid #5DCAA5; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .tip-box strong { color: #1a5a44; }
+    .warn-box { font-size: .85rem; color: #444; margin-top: 10px; background: #fdf6e8; border-left: 4px solid #BA7517; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .warn-box strong { color: #5a3800; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; margin: 4px 0; }
+    th { background: #4a4a5a; color: #fff; padding: 7px 9px; text-align: left; font-size: .84rem; }
+    td { padding: 6px 9px; border-bottom: 1px solid #e8e8ee; vertical-align: top; text-align: left; }
+    tr:nth-child(even) td { background: #f8f8fa; }
+    tr:hover td { background: #f2f2f6; }
+    .ct th { background: #2C2C2A; }
+    .mt th { background: #085041; }
+    .pt th { background: #3C3489; }
+
+    /* Formula box */
+    .formula-box { background: #fdf8f0; border: 2px solid #BA7517; border-radius: 8px; padding: 14px 18px; margin: 6px 0 10px; text-align: center; }
+    .formula-box .label { color: #5a3800; font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .formula-box .eq { font-size: 1.15em; font-weight: 700; color: #1a1a18; }
+    .formula-box .eq small { font-weight: 400; color: #888; font-size: 0.85em; display: block; margin-top: 2px; }
+
+    /* Key terms */
+    #list { padding: 0 16px 16px; }
+    .cat-wrap { border: 2px solid #90bce6; border-radius: 8px; margin-bottom: 9px; overflow: hidden; }
+    .cat-wrap.purple { border-left-color: #c8c4f4; }
+    .cat-wrap.teal { border-left-color: #7dd8be; }
+    .cat-wrap.coral { border-left-color: #e8a48a; }
+    .cat-wrap.amber { border-left-color: #d4a055; }
+    .cat-wrap.blue { border-left-color: #90bce6; }
+    .cat-wrap.pink { border-left-color: #e8a0c0; }
+    .cat-wrap.gray { border-left-color: #c8c6be; }
+    .cat-head { padding: 11px 14px; font-weight: 700; cursor: pointer; font-size: 0.93em; color: #1a1a18; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; border-radius: 7px; }
+    .cat-head:hover { background: #F8F7F3; }
+    .cat-head-right { display: flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: normal; color: #555; }
+    .cat-body { display: none; padding: 5px 11px 9px; }
+    .cat-body.open { display: block; }
+    .term { border-bottom: 1px solid #eee; padding: 5px 0; }
+    .term:last-child { border-bottom: none; }
+    .term-title { cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: .86rem; padding: 3px 2px; }
+    .term-body { display: none; padding: 5px 3px 3px; font-size: .84rem; }
+    .term-body.open { display: block; }
+    .term-def { margin-bottom: 3px; color: #222; }
+    .term-eg { display: block; font-style: italic; color: #555; font-size: .82rem; margin-top: 2px; }
+    .term-note { display: block; margin-top: 5px; background: #fdf6e8; border-left: 3px solid #BA7517; padding: 4px 8px; font-size: .81rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .arrow { font-size: .78rem; }
+    .hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
+    .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a3d48; color: #d6eef3; padding: 4px 9px; border-radius: 6px; font-size: .76rem; white-space: nowrap; z-index: 10; font-weight: normal; }
+    .hot-badge:hover .tip { display: block; }
+
+    #no-results { display: none; text-align: center; color: #888; padding: 18px; font-style: italic; }
+    svg text { font-family: Georgia, serif; }
+
+    /* Lightbox */
+    .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-inner { background: #fff; border-radius: 10px; max-width: 92vw; max-height: 90vh; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 9px; position: relative; overflow: auto; }
+    .lightbox-inner img { max-width: 100%; max-height: 68vh; border-radius: 6px; object-fit: contain; }
+    .lightbox-caption { font-size: .9rem; color: #222; text-align: center; }
+    .lightbox-filename { font-size: .76rem; color: #888; }
+    .lightbox-error { display: none; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 13px; border-radius: 6px; font-size: .84rem; text-align: center; }
+    .lightbox-error.show { display: block; }
+    .lightbox-close { position: absolute; top: 9px; right: 13px; font-size: 1.3rem; cursor: pointer; color: #555; background: none; border: none; line-height: 1; }
+
+    .footer { text-align: center; font-size: .77rem; color: #888; padding: 18px 16px 26px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+    @media (max-width: 600px) { h1 { font-size: 1.05rem; } }
+
+    /* Font size toggle */
+    .size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+    .sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+    .sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+    .sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+    .section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &middot; Unit 1 AOS 2</h1>
+<p class="chapter-title">Chapter 3 Part B &mdash; Blood Flow at Rest &amp; in Response to Exercise</p>
+<p class="subtitle">Live it Up 5th ed.</p>
+
+<!-- TEXT SIZE TOGGLE -->
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<!-- ===== 3B.1 OVERVIEW ===== -->
+<div class="section-divider">&#128218; Chapter contents</div>
+
+<div class="box-wrap blue" id="sec3B1">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#10084; 3B.1 &mdash; Cardiac Output, Stroke Volume &amp; Heart Rate</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">Three variables describe how much blood the heart moves. They are linked by a single formula. <strong>You will not be asked to do hard calculations</strong> &mdash; you need to understand how each variable behaves at rest and during exercise.</p>
+    <div class="formula-box">
+      <div class="label">Cardiac Output Formula</div>
+      <div class="eq">Q = SV &times; HR
+        <small>Cardiac Output (L/min) = Stroke Volume (mL/beat) &times; Heart Rate (bpm)</small>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Variable</th><th>What it is</th><th>Units</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Cardiac output (Q)</strong></td><td>The volume of blood pumped out of the heart per minute.</td><td>L/min</td></tr>
+          <tr><td><strong>Stroke volume (SV)</strong></td><td>The volume of blood pumped out of the heart per beat (per systole).</td><td>mL/beat</td></tr>
+          <tr><td><strong>Heart rate (HR)</strong></td><td>The number of times the heart beats per minute.</td><td>bpm</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Example calc: 60 bpm &times; 70 mL = 4,200 mL/min = <strong>4.2 L/min</strong> at rest.</p>
+  </div>
+</div>
+
+<!-- ===== 3B.2 RESPONSE AT DIFFERENT INTENSITIES ===== -->
+<div class="box-wrap amber" id="sec3B2">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; 3B.2 &mdash; Response at Different Exercise Intensities</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">As exercise intensity rises from rest up to maximal effort (VO<sub>2</sub> max), the three variables respond differently. HR and Q rise <strong>linearly</strong>. SV rises only up to a point, then plateaus &mdash; this is its <strong>finite capacity</strong>.</p>
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Intensity</th><th>Heart rate (bpm)</th><th>Stroke volume (mL)</th><th>Cardiac output</th></tr></thead>
+        <tbody>
+          <tr><td>Rest</td><td>60</td><td>60</td><td>3,600 mL/min (3.6 L)</td></tr>
+          <tr><td>25% VO<sub>2</sub> max</td><td>70 &#8593;</td><td>80 &#8593;</td><td>5,600 mL/min (5.6 L)</td></tr>
+          <tr><td>50% VO<sub>2</sub> max</td><td>100 &#8593;</td><td>100 &#8593; <em>(plateau)</em></td><td>10,000 mL/min (10 L)</td></tr>
+          <tr><td>70% VO<sub>2</sub> max</td><td>140 &#8593;</td><td>100 <em>(no change)</em></td><td>14,000 mL/min (14 L)</td></tr>
+          <tr><td>VO<sub>2</sub> max</td><td>200 &#8593;</td><td>100 <em>(no change)</em></td><td>20,000 mL/min (20 L)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#9888; Did you know?</strong> Stroke volume only rises until ~40&ndash;50% of max heart rate, then plateaus. Above that intensity, <strong>only heart rate keeps cardiac output climbing.</strong></p>
+  </div>
+</div>
+
+<!-- ===== Response curves diagram ===== -->
+<div class="diagram-wrap teal">
+  <div class="diagram-head teal" onclick="toggleB(this)">
+    <span>&#128202; Response Curves &mdash; How HR, SV &amp; Q Change with Intensity</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 640 360" style="max-width:760px;width:100%;display:inline-block;">
+      <!-- background -->
+      <rect x="0" y="0" width="640" height="360" fill="#fff"/>
+
+      <!-- chart area: x from 70 to 590, y from 30 to 290 -->
+      <!-- y-axis labels (left = HR/SV) -->
+      <text x="58" y="34" text-anchor="end" fill="#555" font-size="9">200</text>
+      <text x="58" y="86" text-anchor="end" fill="#555" font-size="9">160</text>
+      <text x="58" y="138" text-anchor="end" fill="#555" font-size="9">120</text>
+      <text x="58" y="190" text-anchor="end" fill="#555" font-size="9">80</text>
+      <text x="58" y="242" text-anchor="end" fill="#555" font-size="9">40</text>
+      <text x="58" y="294" text-anchor="end" fill="#555" font-size="9">0</text>
+      <text x="32" y="160" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold" transform="rotate(-90,32,160)">HR (bpm)  /  SV (mL)</text>
+
+      <!-- y-axis (right = Q) -->
+      <text x="600" y="34" fill="#378ADD" font-size="9">25</text>
+      <text x="600" y="86" fill="#378ADD" font-size="9">20</text>
+      <text x="600" y="138" fill="#378ADD" font-size="9">15</text>
+      <text x="600" y="190" fill="#378ADD" font-size="9">10</text>
+      <text x="600" y="242" fill="#378ADD" font-size="9">5</text>
+      <text x="600" y="294" fill="#378ADD" font-size="9">0</text>
+      <text x="624" y="160" text-anchor="middle" fill="#378ADD" font-size="10" font-weight="bold" transform="rotate(90,624,160)">Q (L/min)</text>
+
+      <!-- gridlines -->
+      <line x1="70" y1="30"  x2="590" y2="30"  stroke="#eee" stroke-width="1"/>
+      <line x1="70" y1="82"  x2="590" y2="82"  stroke="#eee" stroke-width="1"/>
+      <line x1="70" y1="134" x2="590" y2="134" stroke="#eee" stroke-width="1"/>
+      <line x1="70" y1="186" x2="590" y2="186" stroke="#eee" stroke-width="1"/>
+      <line x1="70" y1="238" x2="590" y2="238" stroke="#eee" stroke-width="1"/>
+
+      <!-- x-axis -->
+      <line x1="70" y1="290" x2="590" y2="290" stroke="#444" stroke-width="1.5"/>
+      <line x1="70" y1="30"  x2="70"  y2="290" stroke="#444" stroke-width="1.5"/>
+      <line x1="590" y1="30" x2="590" y2="290" stroke="#444" stroke-width="1.5"/>
+
+      <!-- x-axis labels -->
+      <text x="110" y="306" text-anchor="middle" fill="#444" font-size="10">Rest</text>
+      <text x="218" y="306" text-anchor="middle" fill="#444" font-size="10">25%</text>
+      <text x="326" y="306" text-anchor="middle" fill="#444" font-size="10">50%</text>
+      <text x="434" y="306" text-anchor="middle" fill="#444" font-size="10">70%</text>
+      <text x="542" y="306" text-anchor="middle" fill="#444" font-size="10">VO2 max</text>
+      <text x="326" y="324" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold">Exercise intensity</text>
+
+      <!-- HEART RATE line (coral/pink) -->
+      <!-- HR positions: 60(212), 70(199), 100(160), 140(108), 200(30) -->
+      <polyline points="110,212 218,199 326,160 434,108 542,30" fill="none" stroke="#D85A30" stroke-width="3"/>
+      <circle cx="110" cy="212" r="4" fill="#D85A30"/>
+      <circle cx="218" cy="199" r="4" fill="#D85A30"/>
+      <circle cx="326" cy="160" r="4" fill="#D85A30"/>
+      <circle cx="434" cy="108" r="4" fill="#D85A30"/>
+      <circle cx="542" cy="30"  r="4" fill="#D85A30"/>
+
+      <!-- STROKE VOLUME line (purple) -->
+      <!-- SV positions: 60(212), 80(186), 100(160), 100(160), 100(160) -->
+      <polyline points="110,212 218,186 326,160 434,160 542,160" fill="none" stroke="#AFA9EC" stroke-width="3"/>
+      <circle cx="110" cy="212" r="4" fill="#7869C9"/>
+      <circle cx="218" cy="186" r="4" fill="#7869C9"/>
+      <circle cx="326" cy="160" r="4" fill="#7869C9"/>
+      <circle cx="434" cy="160" r="4" fill="#7869C9"/>
+      <circle cx="542" cy="160" r="4" fill="#7869C9"/>
+      <!-- plateau callout -->
+      <text x="488" y="154" text-anchor="middle" fill="#7869C9" font-size="9" font-style="italic">plateau</text>
+
+      <!-- CARDIAC OUTPUT line (blue) -->
+      <!-- Q positions on right scale: 3.6(252), 5.6(231), 10(186), 14(145), 20(82) -->
+      <polyline points="110,252 218,231 326,186 434,145 542,82" fill="none" stroke="#378ADD" stroke-width="3" stroke-dasharray="6,3"/>
+      <circle cx="110" cy="252" r="4" fill="#378ADD"/>
+      <circle cx="218" cy="231" r="4" fill="#378ADD"/>
+      <circle cx="326" cy="186" r="4" fill="#378ADD"/>
+      <circle cx="434" cy="145" r="4" fill="#378ADD"/>
+      <circle cx="542" cy="82"  r="4" fill="#378ADD"/>
+
+      <!-- legend -->
+      <rect x="84" y="338" width="14" height="3" fill="#D85A30"/>
+      <text x="104" y="342" fill="#7a3010" font-size="10">Heart rate (HR)</text>
+      <rect x="220" y="338" width="14" height="3" fill="#AFA9EC"/>
+      <text x="240" y="342" fill="#2e2870" font-size="10">Stroke volume (SV)</text>
+      <rect x="378" y="338" width="14" height="3" fill="#378ADD"/>
+      <text x="398" y="342" fill="#1a3060" font-size="10">Cardiac output (Q)</text>
+    </svg>
+    <p class="diagram-caption"><strong>HR</strong> and <strong>Q</strong> rise in a roughly linear pattern from rest to VO<sub>2</sub> max. <strong>SV</strong> rises only to ~50% intensity and then plateaus at its finite capacity. Beyond that, cardiac output keeps climbing only because HR keeps climbing.</p>
+  </div>
+</div>
+
+<!-- Deep dive panel -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#127919; Deep Dive &mdash; Three Key Points to Remember</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Variable</th><th>Pattern of change</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Heart rate</strong></td><td>Rises in a direct linear relationship with exercise intensity.</td><td>Sympathetic NS &amp; adrenaline drive HR up; parasympathetic withdrawal removes the resting brake.</td></tr>
+          <tr><td><strong>Stroke volume</strong></td><td>Rises along with intensity up to its finite capacity (around 40&ndash;50% max HR), then plateaus.</td><td>The ventricle can only stretch and fill so much (preload limit). Once full, SV cannot rise further.</td></tr>
+          <tr><td><strong>Cardiac output</strong></td><td>Rises in a linear response to exercise intensity. At high intensity, this is driven mainly by increased heart rate.</td><td>Q = SV &times; HR. Once SV plateaus, only HR can drive Q higher.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; Common exam trap:</strong> &ldquo;During a marathon a runner increases their pace &mdash; what increases?&rdquo; If they were already running, SV has already plateaued. Only <strong>HR and cardiac output</strong> increase further.</p>
+  </div>
+</div>
+
+<!-- ===== 3B.3 REDISTRIBUTION OF BLOOD ===== -->
+<div class="diagram-wrap coral" id="sec3B3">
+  <div class="diagram-head coral" onclick="toggleB(this)">
+    <span>&#128640; 3B.3 &mdash; Redistribution of Blood During Exercise</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <p style="font-size:.88rem;margin-bottom:10px;text-align:left;">As exercise begins, working muscles need more fuel and oxygen, and produce more waste. The body diverts blood away from organs that don&apos;t urgently need it (kidneys, liver, intestines, skin at rest) and sends it to the working muscles instead.</p>
+
+    <!-- vasodilation / vasoconstriction SVG -->
+    <svg viewBox="0 0 640 280" style="max-width:720px;width:100%;display:inline-block;">
+      <!-- title -->
+      <text x="320" y="22" text-anchor="middle" fill="#1a1a18" font-size="13" font-weight="bold">Cross-section of an artery / arteriole</text>
+
+      <!-- NORMAL -->
+      <text x="115" y="48" text-anchor="middle" fill="#1a1a18" font-size="12" font-weight="bold">Normal</text>
+      <!-- outer wall -->
+      <circle cx="115" cy="150" r="70" fill="#f9d8d0" stroke="#c0392b" stroke-width="2"/>
+      <!-- inner wall -->
+      <circle cx="115" cy="150" r="50" fill="#e8a090" stroke="#c0392b" stroke-width="1.5"/>
+      <!-- lumen -->
+      <circle cx="115" cy="150" r="32" fill="#c0392b" opacity="0.65"/>
+      <text x="115" y="155" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">lumen</text>
+      <text x="115" y="240" text-anchor="middle" fill="#555" font-size="10">Baseline diameter</text>
+      <text x="115" y="254" text-anchor="middle" fill="#555" font-size="10">Normal blood flow</text>
+
+      <!-- VASODILATION -->
+      <text x="320" y="48" text-anchor="middle" fill="#085041" font-size="12" font-weight="bold">Vasodilation</text>
+      <circle cx="320" cy="150" r="70" fill="#f9d8d0" stroke="#c0392b" stroke-width="2"/>
+      <!-- thinner wall (smaller media ring) -->
+      <circle cx="320" cy="150" r="58" fill="#e8a090" stroke="#c0392b" stroke-width="1.5"/>
+      <!-- LARGER lumen -->
+      <circle cx="320" cy="150" r="46" fill="#c0392b" opacity="0.65"/>
+      <text x="320" y="155" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold">wider</text>
+      <!-- outward arrows showing widening -->
+      <line x1="320" y1="92"  x2="320" y2="78"  stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrG)"/>
+      <line x1="320" y1="208" x2="320" y2="222" stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrG)"/>
+      <line x1="262" y1="150" x2="248" y2="150" stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrG)"/>
+      <line x1="378" y1="150" x2="392" y2="150" stroke="#5DCAA5" stroke-width="2" marker-end="url(#arrG)"/>
+      <text x="320" y="240" text-anchor="middle" fill="#085041" font-size="10" font-weight="bold">Vessel widens</text>
+      <text x="320" y="254" text-anchor="middle" fill="#085041" font-size="10">&#8593; blood flow to area</text>
+
+      <!-- VASOCONSTRICTION -->
+      <text x="525" y="48" text-anchor="middle" fill="#7a3010" font-size="12" font-weight="bold">Vasoconstriction</text>
+      <circle cx="525" cy="150" r="70" fill="#f9d8d0" stroke="#c0392b" stroke-width="2"/>
+      <!-- THICKER wall -->
+      <circle cx="525" cy="150" r="58" fill="#e8a090" stroke="#c0392b" stroke-width="1.5"/>
+      <circle cx="525" cy="150" r="38" fill="#e8a090" stroke="#c0392b" stroke-width="1.5"/>
+      <!-- SMALL lumen -->
+      <circle cx="525" cy="150" r="18" fill="#c0392b" opacity="0.7"/>
+      <text x="525" y="154" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">tight</text>
+      <!-- inward arrows showing narrowing -->
+      <line x1="525" y1="100" x2="525" y2="114" stroke="#D85A30" stroke-width="2" marker-end="url(#arrR2)"/>
+      <line x1="525" y1="200" x2="525" y2="186" stroke="#D85A30" stroke-width="2" marker-end="url(#arrR2)"/>
+      <line x1="475" y1="150" x2="489" y2="150" stroke="#D85A30" stroke-width="2" marker-end="url(#arrR2)"/>
+      <line x1="575" y1="150" x2="561" y2="150" stroke="#D85A30" stroke-width="2" marker-end="url(#arrR2)"/>
+      <text x="525" y="240" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">Vessel narrows</text>
+      <text x="525" y="254" text-anchor="middle" fill="#7a3010" font-size="10">&#8595; blood flow to area</text>
+
+      <defs>
+        <marker id="arrG" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#5DCAA5"/>
+        </marker>
+        <marker id="arrR2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#D85A30"/>
+        </marker>
+      </defs>
+    </svg>
+    <p class="diagram-caption"><strong>Vasodilation</strong> (widening) of arteries/arterioles &#8594; more blood to that body part. Used at <strong>working muscles</strong> during exercise. <strong>Vasoconstriction</strong> (narrowing) &#8594; less blood to that body part. Used at <strong>non-essential organs</strong> (kidneys, liver, intestines, skin at rest). They happen at the <strong>same time</strong> &mdash; redirecting blood where it&apos;s needed most.</p>
+  </div>
+</div>
+
+<!-- Vascular shunt explanation -->
+<div class="box-wrap coral">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128260; The Vascular Shunt &mdash; What &amp; Why</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">The redistribution of blood throughout the body during exercise is called the <strong>vascular shunt</strong>. It occurs because:</p>
+    <ul style="font-size:.88rem;margin:6px 0 10px 22px;">
+      <li>Working muscles need <strong>more oxygen</strong> and <strong>more fuel</strong> (glucose, fatty acids) &mdash; both delivered by blood.</li>
+      <li>Working muscles produce <strong>more waste</strong> (CO<sub>2</sub>, lactate, heat) that needs to be removed faster.</li>
+      <li>Organs that aren&apos;t critical during exercise (kidneys, liver, intestines, skin at rest) can temporarily get less blood.</li>
+    </ul>
+    <p class="box-note">&#128161; Once exercise stops and recovery is complete, blood distribution returns to its <strong>pre-exercise (resting) levels</strong>.</p>
+  </div>
+</div>
+
+<!-- Blood distribution chart -->
+<div class="diagram-wrap coral">
+  <div class="diagram-head coral" onclick="toggleB(this)">
+    <span>&#128200; Blood Distribution at Rest vs Exercise</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 640 320" style="max-width:760px;width:100%;display:inline-block;">
+      <!-- title -->
+      <text x="320" y="22" text-anchor="middle" fill="#1a1a18" font-size="12" font-weight="bold">% of cardiac output going to muscle vs organs</text>
+
+      <!-- 4 bars: Rest, Light, Moderate, Maximal -->
+      <!-- Bar width 80, gap 50, baseline y=270, height up to 230 = 100% scale -->
+
+      <!-- chart y-axis -->
+      <line x1="70" y1="50" x2="70" y2="270" stroke="#444" stroke-width="1.5"/>
+      <line x1="70" y1="270" x2="600" y2="270" stroke="#444" stroke-width="1.5"/>
+      <text x="64" y="56" text-anchor="end" fill="#555" font-size="9">100%</text>
+      <text x="64" y="108" text-anchor="end" fill="#555" font-size="9">75%</text>
+      <text x="64" y="160" text-anchor="end" fill="#555" font-size="9">50%</text>
+      <text x="64" y="212" text-anchor="end" fill="#555" font-size="9">25%</text>
+      <text x="64" y="274" text-anchor="end" fill="#555" font-size="9">0%</text>
+      <line x1="70" y1="56"  x2="600" y2="56"  stroke="#eee" stroke-width="1"/>
+      <line x1="70" y1="108" x2="600" y2="108" stroke="#eee" stroke-width="1"/>
+      <line x1="70" y1="160" x2="600" y2="160" stroke="#eee" stroke-width="1"/>
+      <line x1="70" y1="212" x2="600" y2="212" stroke="#eee" stroke-width="1"/>
+
+      <!-- REST: muscles 20%, organs 80% -->
+      <!-- bar at x=110, width 80 -->
+      <rect x="110" y="218" width="80" height="52" fill="#D85A30"/>
+      <text x="150" y="248" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">20%</text>
+      <rect x="110" y="54"  width="80" height="164" fill="#90bce6"/>
+      <text x="150" y="142" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">80%</text>
+      <text x="150" y="288" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold">REST</text>
+
+      <!-- LIGHT: muscles ~55%, organs ~45% -->
+      <rect x="240" y="126" width="80" height="144" fill="#D85A30"/>
+      <text x="280" y="200" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">55%</text>
+      <rect x="240" y="54"  width="80" height="72" fill="#90bce6"/>
+      <text x="280" y="96" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">45%</text>
+      <text x="280" y="288" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold">LIGHT</text>
+
+      <!-- MODERATE: muscles ~70%, organs ~30% -->
+      <rect x="370" y="92" width="80" height="178" fill="#D85A30"/>
+      <text x="410" y="190" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">70%</text>
+      <rect x="370" y="54"  width="80" height="38" fill="#90bce6"/>
+      <text x="410" y="78" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">30%</text>
+      <text x="410" y="288" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold">MODERATE</text>
+
+      <!-- MAXIMAL: muscles ~85%, organs ~15% -->
+      <rect x="500" y="76" width="80" height="194" fill="#D85A30"/>
+      <text x="540" y="180" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">85%</text>
+      <rect x="500" y="54"  width="80" height="22" fill="#90bce6"/>
+      <text x="540" y="70" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">15%</text>
+      <text x="540" y="288" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold">MAXIMAL</text>
+
+      <text x="335" y="312" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold">Exercise intensity</text>
+
+      <!-- legend -->
+      <rect x="76" y="36" width="14" height="10" fill="#D85A30"/>
+      <text x="94" y="44" fill="#7a3010" font-size="10">Working muscles</text>
+      <rect x="220" y="36" width="14" height="10" fill="#90bce6"/>
+      <text x="238" y="44" fill="#1a3060" font-size="10">Organs (kidneys, liver, gut, skin, brain etc.)</text>
+    </svg>
+    <p class="diagram-caption"><strong>At rest:</strong> ~20% of cardiac output goes to muscles, ~80% to organs. <strong>Light exercise:</strong> already a big shift (~50&ndash;60% to muscles). <strong>Maximal exercise:</strong> up to ~80&ndash;90% of blood leaving the heart goes to working muscles. Note: cardiac output itself is also much larger during exercise, so muscles get a bigger share of a bigger pie.</p>
+  </div>
+</div>
+
+<!-- Thermoregulation tip -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#127777; Thermoregulation &mdash; Vasodilation to the Skin</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">When the body <strong>overheats</strong> during exercise (or in hot conditions), it has to thermoregulate. The brain sends more blood to the <strong>skin&apos;s surface via vasodilation</strong> so that heat can be lost.</p>
+    <p style="font-size:.88rem;margin-bottom:8px;">This is a key exception to the &ldquo;all blood goes to muscles&rdquo; rule. In hot conditions:</p>
+    <ul style="font-size:.88rem;margin:6px 0 10px 22px;">
+      <li><strong>Skin:</strong> vasodilation &#8594; more blood to surface to dump heat.</li>
+      <li><strong>Working muscles:</strong> may experience <strong>vasoconstriction</strong> as a result &mdash; less blood available than they&apos;d otherwise get.</li>
+      <li>Performance can drop because less oxygenated blood reaches the muscles.</li>
+    </ul>
+    <p class="tip-box"><strong>&#128161; Teacher&apos;s tip:</strong> Vasodilation and vasoconstriction occur <strong>simultaneously</strong> &mdash; some body parts receive more blood whilst others receive less. The system is always shifting where blood goes based on what the body needs most.</p>
+  </div>
+</div>
+
+<!-- Worked example (VCAA 2020) -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Worked Example &mdash; VCAA 2020 (4 marks)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><em>The Ironman Triathlon is usually scheduled to be held at a time when athletes will not have to compete in high temperatures. Explain, physiologically, what occurs when exercising in high temperatures and suggest what implications this could have on an athlete&apos;s performance.</em></p>
+
+    <div style="background:#f8f8fa;border-left:4px solid #BA7517;padding:10px 12px;margin:8px 0;border-radius:0 4px 4px 0;">
+      <p style="font-size:.86rem;font-weight:bold;color:#5a3800;margin-bottom:6px;">Sample answer</p>
+      <p style="font-size:.86rem;line-height:1.6;">As the body tries to cool itself, blood flow is redirected to the skin and away from working muscle. This redistribution assists with thermoregulation but affects muscular energy production, as less oxygenated blood is available to the muscles. As a result of sweating, there is potential for blood to become more viscous, further decreasing oxygen availability. The result would be that the athlete slows down because of a slower rate of energy production.</p>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Mark criteria</th><th>Marks</th></tr></thead>
+        <tbody>
+          <tr><td>Identify that high temperatures increase the need to thermoregulate and cool down</td><td>1</td></tr>
+          <tr><td>State that to cool down, blood is redistributed to the skin&apos;s surface via vasodilation</td><td>1</td></tr>
+          <tr><td>Outline that less blood and oxygen is sent to working muscles due to vasoconstriction</td><td>1</td></tr>
+          <tr><td>Outline that having less blood and oxygen at working muscles will result in a decreased rate of energy production</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#9888; Examiner tip:</strong> Always name the mechanism (vasodilation / vasoconstriction) AND its effect (more / less blood to that area) AND the downstream consequence (slower energy production / drop in performance). Missing any link costs a mark.</p>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="box-wrap gray">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Summary &mdash; The Two Big Ideas</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>1. Cardiac output, stroke volume and heart rate at different intensities</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>Stroke volume (volume pumped per beat) has a <strong>finite capacity</strong> and peaks around 40&ndash;50% max HR.</li>
+      <li>Heart rate and cardiac output increase <strong>linearly</strong> in relation to exercise intensity.</li>
+      <li>Formula: <strong>Q = SV &times; HR</strong>.</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>2. Redistribution of blood during exercise</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>The brain sends blood to different body parts depending on need (the <strong>vascular shunt</strong>).</li>
+      <li><strong>Vasodilation</strong> = widening of arteries, increases blood supply.</li>
+      <li><strong>Vasoconstriction</strong> = narrowing of arteries, reduces blood supply.</li>
+      <li>At rest: ~80% to organs, ~20% to muscles.</li>
+      <li>Light exercise: a large shift &mdash; 50&ndash;60% redirected to working muscles.</li>
+      <li>Maximal exercise: up to 80&ndash;90% of blood leaving the heart goes to working muscles.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== KEY TERMS ===== -->
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch3 Part B &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightboxBtn()">&#10005;</button>
+    <img id="lightbox-img" src="" alt="Textbook figure">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <p class="lightbox-filename" id="lightbox-filename"></p>
+    <div class="lightbox-error" id="lightbox-error">&#9888; Image not found. Ensure the image file is in the same folder as this HTML file.</div>
+  </div>
+</div>
+
+<script>
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function openLightbox(filename, caption) {
+  var overlay = document.getElementById("lightbox");
+  var img = document.getElementById("lightbox-img");
+  var cap = document.getElementById("lightbox-caption");
+  var fn  = document.getElementById("lightbox-filename");
+  var err = document.getElementById("lightbox-error");
+  img.src = filename; cap.textContent = caption;
+  fn.textContent = "File: " + filename;
+  err.className = "lightbox-error";
+  img.onerror = function() { err.className = "lightbox-error show"; };
+  img.onload  = function() { err.className = "lightbox-error"; };
+  overlay.className = "lightbox-overlay open";
+  document.body.style.overflow = "hidden";
+}
+function closeLightboxBtn() {
+  document.getElementById("lightbox").className = "lightbox-overlay";
+  document.body.style.overflow = "";
+}
+function closeLightbox(e) {
+  if (e.target === document.getElementById("lightbox")) closeLightboxBtn();
+}
+document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeLightboxBtn(); });
+
+var terms = [
+  { cat: "3B.1 Cardiac Output, Stroke Volume & Heart Rate", color: "blue", hot: true, items: [
+    { name: "Cardiac output (Q)", def: "The volume of blood pumped out of the heart per minute. Measured in L/min.", eg: "At rest: 60 bpm x 70 mL = 4,200 mL/min = 4.2 L/min.", note: "Always state units (L/min) and remember it is the LEFT ventricle. Formula: Q = SV x HR." },
+    { name: "Stroke volume (SV)", def: "The volume of blood pumped out of the heart per beat (per systole). Measured in mL/beat.", eg: "Typical SV at rest is 60-70 mL per beat.", note: "SV has a FINITE CAPACITY. It peaks around 40-50% max HR then plateaus." },
+    { name: "Heart rate (HR)", def: "The number of times the heart beats per minute. Measured in bpm.", eg: "Resting HR is 60-100 bpm; max HR is roughly 220 minus age.", note: "HR rises in a direct linear relationship with exercise intensity." }
+  ]},
+  { cat: "3B.2 Response at Different Exercise Intensities", color: "amber", hot: true, items: [
+    { name: "Finite capacity", def: "A maximum amount or volume to which further increases cannot occur.", eg: "Stroke volume has a finite capacity around 100 mL in untrained people - it cannot exceed this even at maximal exercise.", note: "Used specifically about SV. Once reached, only HR can drive further Q increases." },
+    { name: "Linear relationship", def: "A relationship in which one variable changes at a constant rate as another variable changes.", eg: "HR rises linearly as exercise intensity rises - from 60 bpm at rest up to 200 bpm at VO2 max.", note: "Both HR and Q have a linear relationship with intensity. SV does NOT - it plateaus." },
+    { name: "VO2 max", def: "The maximum rate at which an individual can take in, transport and use oxygen during exercise. The benchmark of aerobic fitness.", eg: "An elite endurance athlete may have a VO2 max of 70-85 mL/kg/min.", note: "Intensities in this topic are expressed as percentages of VO2 max." },
+    { name: "Stroke volume plateau", def: "The point during exercise (around 40-50% max HR or 50% VO2 max) where SV reaches its finite capacity and stops increasing.", eg: "Beyond 50% VO2 max, only heart rate keeps cardiac output rising.", note: "Common exam misconception: students think SV keeps rising to VO2 max. It does not." }
+  ]},
+  { cat: "3B.3 Redistribution of Blood", color: "coral", hot: true, items: [
+    { name: "Vasodilation", def: "The dilation, opening or widening of blood vessels, especially arteries and arterioles. Increases blood flow to that area.", eg: "Arterioles supplying working leg muscles vasodilate during running to deliver more O2.", note: "Increases blood supply to the area. Used at working muscles during exercise, and at skin during thermoregulation." },
+    { name: "Vasoconstriction", def: "The constriction, closing or narrowing of blood vessels, especially arteries and arterioles. Reduces blood flow to that area.", eg: "Arterioles to the kidneys, liver and intestines vasoconstrict during exercise so muscles get more blood.", note: "Reduces blood supply to non-essential organs during exercise. Driven by sympathetic NS." },
+    { name: "Vascular shunt", def: "A process that occurs during exercise when the body redirects blood flow to working muscles and away from other organs.", eg: "During a 5km run, the vascular shunt redirects up to 85% of cardiac output to leg muscles.", note: "Redistribution of blood during exercise = vascular shunt. Reverses once exercise stops and recovery completes." },
+    { name: "Redistribution of blood", def: "The process by which the body changes where blood is sent so that working muscles get more and non-essential organs get less during exercise.", eg: "At rest: 80% to organs, 20% to muscle. At max exercise: 10-20% to organs, 80-90% to muscle.", note: "Also known as the vascular shunt. Achieved by simultaneous vasodilation and vasoconstriction." },
+    { name: "Thermoregulation", def: "The process by which the body maintains its core temperature within a safe range, typically by sending more blood to the skin (vasodilation) to dump heat.", eg: "On a hot day, blood is diverted to the skin via vasodilation, sometimes at the cost of muscle blood flow.", note: "In hot conditions, thermoregulation can compete with muscles for blood - performance drops." }
+  ]}
+];
+
+var currentQuery = '';
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
+}
+function buildList(source) {
+  var list = document.getElementById('list');
+  var noRes = document.getElementById('no-results');
+  list.innerHTML = '';
+  var isSearching = currentQuery !== '';
+  if (!source || !source.length) { noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    var wrap = document.createElement('div');
+    wrap.className = 'cat-wrap ' + (cat.color || 'blue');
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : '';
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    wrap.innerHTML = '<div class="cat-head"><span>' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">' + arrow + '</span></div></div>';
+    var head = wrap.querySelector('.cat-head');
+    (function(w, h) {
+      h.onclick = function() {
+        var b = w.querySelector('.cat-body');
+        var a = h.querySelector('.cat-arrow');
+        var o = b.classList.toggle('open');
+        a.innerHTML = o ? '&#9650;' : '&#9660;';
+      };
+    })(wrap, head);
+    var body = document.createElement('div');
+    body.className = bodyClass;
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement('div');
+      t.className = 'term';
+      var dn = isSearching ? highlight(item.name, currentQuery) : item.name;
+      var dd = isSearching ? highlight(item.def,  currentQuery) : item.def;
+      var de = item.eg ? (isSearching ? highlight(item.eg, currentQuery) : item.eg) : '';
+      var noteHtml = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : '';
+      var egHtml   = de ? '<span class="term-eg">Eg: ' + de + '</span>' : '';
+      var tbClass  = isSearching ? 'term-body open' : 'term-body';
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + dn + '</span><span class="arrow">&#9660;</span></div><div class="' + tbClass + '"><p class="term-def">' + dd + '</p>' + egHtml + noteHtml + '</div>';
+      body.appendChild(t);
+    }
+    wrap.appendChild(body);
+    list.appendChild(wrap);
+  }
+}
+
+// ===== Chapter-section search =====
+var sectionIndex = null;
+var autoExpandedSections = [];
+
+function buildSectionIndex() {
+  if (sectionIndex !== null) return sectionIndex;
+  sectionIndex = [];
+  var els = document.querySelectorAll('[id^="sec"]');
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    if (!/^sec\d/.test(el.id) && !/^sec3B/.test(el.id)) continue;
+    var body = el.querySelector('.box-body, .diagram-body');
+    if (!body) continue;
+    sectionIndex.push({
+      id: el.id, el: el, body: body,
+      arrow: el.querySelector('.cat-arrow'),
+      text: (body.textContent || '').toLowerCase()
+    });
+  }
+  return sectionIndex;
+}
+
+function highlightSectionText(root, re) {
+  var nodes = [];
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n) {
+      if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      var p = n.parentElement;
+      while (p) {
+        if (p.classList && p.classList.contains('hl')) return NodeFilter.FILTER_REJECT;
+        if (p.namespaceURI === 'http://www.w3.org/2000/svg') return NodeFilter.FILTER_REJECT;
+        p = p.parentElement;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (var i = 0; i < nodes.length; i++) {
+    var n = nodes[i];
+    var text = n.nodeValue;
+    re.lastIndex = 0;
+    if (!re.test(text)) continue;
+    re.lastIndex = 0;
+    var frag = document.createDocumentFragment();
+    var lastIdx = 0, m;
+    while ((m = re.exec(text)) !== null) {
+      if (m.index > lastIdx) frag.appendChild(document.createTextNode(text.substring(lastIdx, m.index)));
+      var span = document.createElement('span');
+      span.className = 'hl';
+      span.textContent = m[0];
+      frag.appendChild(span);
+      lastIdx = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    if (lastIdx < text.length) frag.appendChild(document.createTextNode(text.substring(lastIdx)));
+    n.parentNode.replaceChild(frag, n);
+  }
+}
+
+function clearSectionHighlights(root) {
+  var spans = root.querySelectorAll('span.hl');
+  for (var i = 0; i < spans.length; i++) {
+    var s = spans[i];
+    var p = s.parentNode;
+    p.replaceChild(document.createTextNode(s.textContent), s);
+    p.normalize();
+  }
+}
+
+function applySectionSearch(q) {
+  for (var i = 0; i < autoExpandedSections.length; i++) {
+    var s = autoExpandedSections[i];
+    s.body.classList.remove('open');
+    if (s.arrow) s.arrow.innerHTML = '&#9660;';
+    clearSectionHighlights(s.body);
+  }
+  autoExpandedSections = [];
+  if (!q) return 0;
+  var sections = buildSectionIndex();
+  var ql = q.toLowerCase();
+  var re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  var count = 0;
+  for (var i = 0; i < sections.length; i++) {
+    var sec = sections[i];
+    if (sec.text.indexOf(ql) > -1) {
+      sec.body.classList.add('open');
+      if (sec.arrow) sec.arrow.innerHTML = '&#9650;';
+      highlightSectionText(sec.body, re);
+      autoExpandedSections.push(sec);
+      count++;
+    }
+  }
+  return count;
+}
+
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  var clearBtn = document.getElementById('search-clear');
+  clearBtn.className = currentQuery ? 'visible' : '';
+  if (!currentQuery) { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    var matchItems = [];
+    for (var j = 0; j < terms[i].items.length; j++) {
+      var item = terms[i].items[j];
+      if (item.name.toLowerCase().indexOf(val) !== -1 ||
+          item.def.toLowerCase().indexOf(val) !== -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(val) !== -1)) {
+        matchItems.push(item);
+      }
+    }
+    if (matchItems.length) filtered.push({ cat: terms[i].cat, color: terms[i].color, hot: terms[i].hot, items: matchItems });
+  }
+  buildList(filtered);
+  var total = 0;
+  for (var k = 0; k < filtered.length; k++) total += filtered[k].items.length;
+  countEl.textContent = total + ' result' + (total !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  document.getElementById('search-clear').className = '';
+  buildList(terms);
+}
+buildList(terms);
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+
+</script>
+</body>
+</html>
