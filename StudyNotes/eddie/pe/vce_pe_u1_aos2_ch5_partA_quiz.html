@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch5 Part A: Quiz &amp; Exam Practice</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.65; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+    .tab-bar { display: flex; background: #eaf4f7; border-bottom: 2px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-size: .93rem; font-family: Georgia, serif; cursor: pointer; color: #1a3d48; font-weight: bold; }
+    .tab-btn.active { background: #2c5f6e; color: #fff; }
+    .tab-btn:hover:not(.active) { background: #d6eef3; }
+    .tab-pane { display: none; padding: 14px; max-width: 860px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+    .score-bar { background: #fff; border: 1px solid #c8dde4; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .score-text { font-size: .9rem; color: #1a3d48; }
+    .score-text strong { color: #2c5f6e; font-size: 1.08rem; }
+    .progress-track { flex: 1; min-width: 100px; height: 9px; background: #dde4ea; border-radius: 5px; overflow: hidden; }
+    .progress-bar { height: 100%; background: #5DCAA5; border-radius: 5px; width: 0%; transition: width .4s; }
+    .reset-btn { background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: .84rem; font-family: Georgia, serif; }
+    .reset-btn:hover { background: #2c5f6e; color: #fff; }
+    .q-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; padding: 16px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #5DCAA5; background: #f4fdf9; }
+    .q-card.wrong { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num { font-size: .76rem; font-weight: bold; color: #2c5f6e; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; }
+    .q-text { font-size: .93rem; margin-bottom: 11px; font-weight: bold; }
+    .mc-options { display: flex; flex-direction: column; gap: 7px; }
+    .mc-opt { display: flex; align-items: flex-start; gap: 9px; padding: 9px 12px; border: 1px solid #c8dde4; border-radius: 6px; cursor: pointer; font-size: .88rem; }
+    .mc-opt:hover { background: #eaf4f7; }
+    .mc-opt.selected-correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; font-weight: bold; }
+    .mc-opt.selected-wrong { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .mc-opt.reveal-correct { background: #e0f7ef; border-color: #5DCAA5; }
+    .mc-opt.disabled { cursor: default; pointer-events: none; }
+    .opt-letter { font-weight: bold; color: #2c5f6e; min-width: 16px; }
+    .tf-options { display: flex; gap: 10px; margin-top: 7px; }
+    .tf-btn { flex: 1; padding: 9px; border: 2px solid #c8dde4; border-radius: 6px; background: #fff; font-family: Georgia, serif; font-size: .93rem; cursor: pointer; font-weight: bold; }
+    .tf-btn:hover { background: #eaf4f7; }
+    .tf-btn.correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; }
+    .tf-btn.wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.disabled { cursor: default; pointer-events: none; }
+    .match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 9px 0; }
+    .match-col-head { font-weight: bold; font-size: .81rem; color: #2c5f6e; padding: 3px 0; border-bottom: 2px solid #2c5f6e; margin-bottom: 3px; }
+    .match-term { padding: 6px 0; font-size: .86rem; border-bottom: 1px solid #eee; }
+    .match-select { width: 100%; padding: 5px 7px; border: 1px solid #c8dde4; border-radius: 5px; font-family: Georgia, serif; font-size: .83rem; margin-bottom: 3px; }
+    .match-check-btn { margin-top: 7px; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-family: Georgia, serif; font-size: .88rem; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .q-feedback { margin-top: 9px; display: none; padding: 9px 12px; border-radius: 6px; font-size: .86rem; border-left: 4px solid #5DCAA5; background: #f4fdf9; }
+    .q-feedback.show { display: block; }
+    .q-feedback.wrong-fb { background: #deeef2; border-left-color: #2c5f6e; }
+    .q-section-head { background: #2c5f6e; color: #fff; padding: 8px 13px; border-radius: 6px; margin: 20px 0 11px; font-size: .9rem; font-weight: bold; }
+    .eq-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; margin-bottom: 18px; overflow: hidden; }
+    .eq-head { background: #eaf4f7; padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .eq-type  { background: #2c5f6e; color: #fff; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-marks { background: #d6eef3; color: #1a3d48; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; padding: 9px 13px; margin: 10px 14px 0; font-size: .86rem; border-radius: 0 5px 5px 0; }
+    .eq-q { padding: 10px 14px 3px; font-weight: bold; font-size: .93rem; }
+    .eq-body { padding: 9px 14px 14px; }
+    .eq-answer-area { width: 100%; min-height: 80px; border: 1px solid #c8dde4; border-radius: 6px; padding: 9px; font-family: Georgia, serif; font-size: .86rem; resize: vertical; }
+    .eq-reveal-btn { margin-top: 9px; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-family: Georgia, serif; font-size: .86rem; }
+    .eq-reveal-btn:hover { background: #2c5f6e; color: #fff; }
+    .eq-model { display: none; margin-top: 10px; border: 1px solid #c8dde4; border-radius: 7px; overflow: hidden; }
+    .eq-model.open { display: block; }
+    .eq-model-head { background: #e0f7ef; padding: 7px 13px; font-weight: bold; color: #085041; font-size: .88rem; }
+    .eq-model-body { padding: 9px 13px; }
+    .mark-row { display: flex; align-items: flex-start; gap: 9px; padding: 4px 0; border-bottom: 1px solid #eee; font-size: .86rem; }
+    .mark-row:last-child { border-bottom: none; }
+    .mark-tick { color: #5DCAA5; font-weight: bold; min-width: 16px; }
+    .examiner-tip { background: #fdf8f0; border-left: 3px solid #BA7517; padding: 7px 11px; margin-top: 7px; font-size: .82rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .footer { text-align: center; font-size: .76rem; color: #888; padding: 18px 16px 24px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<h1>VCE Physical Education &mdash; Unit 1 AOS 2</h1>
+<p class="subtitle">Chapter 5 Part A &middot; Quiz &amp; Exam Practice &middot; 5A: Improving Cardiorespiratory Health</p>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('quiz')">&#127919; Quiz</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<div id="tab-quiz" class="tab-pane active">
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#127919; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is an example of regular AND sufficient aerobic exercise to improve cardiorespiratory functioning?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> Minh (17 years old) participates in two soccer training sessions (60 minutes each) per week and plays a match every Saturday</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> Tracey (25 years old) swims 40 laps at her local pool every weekday at moderate intensity. Each session takes just over one hour to complete</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> Stevie (50 years old) works out regularly at the gym. Two days a week are spent working out with weights and two days are spent on the rowing machines</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> Tassos (14 years old) runs for 20 minutes on the treadmill in their home gym each day before school</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">Participation in regular aerobic exercise at sufficient intensity leads to a reduction in working heart rate during moderate-intensity activities, due to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> More blood being ejected per minute and the heart not needing to work as hard</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> More blood being sent to the heart instead of the working muscles</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> Lower diastolic blood pressure resulting in a lower rate of perceived exertion (RPE)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> Maximum heart rate increasing</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">Regular aerobic exercise results in greater amounts of oxygen being provided to working muscles due to increased:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> Respiratory frequency</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> VO2 maximum</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> Glycogen sparing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> Diaphragm and intercostal contraction force and endurance</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">Improved functioning and capacity of the cardiorespiratory system will increase the likelihood of an individual participating in a wider range of activities, as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> Exercise becomes easier to perform as both systems become more efficient</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> The immune system improves</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> There is an increase in &apos;fat burning&apos; reducing mass and making it easier to move around</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> More oxygen is delivered to the brain leading to an increased sense of well-being</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">For aerobic exercise to provide a health benefit and improve cardiorespiratory functioning, it needs to occur at approximately:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> 30&ndash;50% max HR (light intensity)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> 50&ndash;70% max HR (moderate-light intensity)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> 70&ndash;85% max HR (moderate-vigorous intensity)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> 95&ndash;100% max HR (maximal intensity)</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">Cardiac hypertrophy as a result of regular aerobic training refers to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> An increase in the number of heart muscle fibres</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> An increase in the size and thickness of heart muscle fibres (especially the left ventricle)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> Damage to the heart wall caused by training stress</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> An increase in resting heart rate</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is NOT a respiratory adaptation to regular aerobic training?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> Increased lung capacity and tidal volume</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> Increased alveolar size and surface area</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> Increased capillarisation around the alveoli</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> Increased resting respiratory rate</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which aerobic training method uses work intervals at intensities close to max HR or VO2 max, separated by short recoveries?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> Continuous training</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> Fartlek training</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> Long interval training</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> HIIT (High Intensity Interval Training)</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section-head">&#9989; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">Sedentary behaviour refers to time spent sitting or lying down (other than sleeping).</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">Regular aerobic training causes the left ventricle to hypertrophy, leading to increased stroke volume.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">After regular aerobic training, resting systolic blood pressure increases.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">Australian physical activity guidelines for adults (18&ndash;64) recommend 2.5&ndash;5 hours of moderate activity OR 1.25&ndash;2.5 hours of vigorous activity per week.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">Alveoli only increase in SIZE with regular aerobic training - they do not increase in number.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-section-head">&#128279; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 14 &mdash; Matching</div>
+    <div class="q-text">Match each cardiovascular adaptation to its effect on cardiovascular functioning.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Adaptation</div>
+        <div class="match-term">Increased left ventricle thickness</div>
+        <div class="match-term">Increased blood volume</div>
+        <div class="match-term">Increased a-vO2 difference</div>
+        <div class="match-term">Decreased blood pressure</div>
+        <div class="match-term">Increased vascularisation</div>
+      </div>
+      <div>
+        <div class="match-col-head">Effect</div>
+        <select class="match-select" id="m1-1"><option value="">-- select --</option><option>Greater contraction force - increases stroke volume and cardiac output</option><option>More red blood cells and plasma - greater O2-carrying capacity and waste removal</option><option>More O2 extracted from blood at the muscles - exercise feels easier</option><option>Heart does not need to work as hard at rest - more fuel and oxygen reach muscles</option><option>Higher capillary density - better O2 delivery and waste removal at muscles</option></select>
+        <select class="match-select" id="m1-2"><option value="">-- select --</option><option>Greater contraction force - increases stroke volume and cardiac output</option><option>More red blood cells and plasma - greater O2-carrying capacity and waste removal</option><option>More O2 extracted from blood at the muscles - exercise feels easier</option><option>Heart does not need to work as hard at rest - more fuel and oxygen reach muscles</option><option>Higher capillary density - better O2 delivery and waste removal at muscles</option></select>
+        <select class="match-select" id="m1-3"><option value="">-- select --</option><option>Greater contraction force - increases stroke volume and cardiac output</option><option>More red blood cells and plasma - greater O2-carrying capacity and waste removal</option><option>More O2 extracted from blood at the muscles - exercise feels easier</option><option>Heart does not need to work as hard at rest - more fuel and oxygen reach muscles</option><option>Higher capillary density - better O2 delivery and waste removal at muscles</option></select>
+        <select class="match-select" id="m1-4"><option value="">-- select --</option><option>Greater contraction force - increases stroke volume and cardiac output</option><option>More red blood cells and plasma - greater O2-carrying capacity and waste removal</option><option>More O2 extracted from blood at the muscles - exercise feels easier</option><option>Heart does not need to work as hard at rest - more fuel and oxygen reach muscles</option><option>Higher capillary density - better O2 delivery and waste removal at muscles</option></select>
+        <select class="match-select" id="m1-5"><option value="">-- select --</option><option>Greater contraction force - increases stroke volume and cardiac output</option><option>More red blood cells and plasma - greater O2-carrying capacity and waste removal</option><option>More O2 extracted from blood at the muscles - exercise feels easier</option><option>Heart does not need to work as hard at rest - more fuel and oxygen reach muscles</option><option>Higher capillary density - better O2 delivery and waste removal at muscles</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 15 &mdash; Matching</div>
+    <div class="q-text">Match each respiratory adaptation to its effect.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Adaptation</div>
+        <div class="match-term">Increased lung capacity</div>
+        <div class="match-term">Increased tidal volume</div>
+        <div class="match-term">Increased alveolar size &amp; surface area</div>
+        <div class="match-term">Increased capillarisation</div>
+        <div class="match-term">Stronger diaphragm &amp; intercostals</div>
+      </div>
+      <div>
+        <div class="match-col-head">Effect</div>
+        <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Lungs become more elastic - greater amount of O2 moves in/out per breath</option><option>More air inspired per breath - increases ventilation (VE = TV x RR)</option><option>Much greater surface area for gas exchange - more O2 uptake</option><option>More blood can flow through lung capillaries - more O2 uptake and CO2 removal</option><option>Larger and deeper breaths can be taken for longer with less fatigue</option></select>
+        <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Lungs become more elastic - greater amount of O2 moves in/out per breath</option><option>More air inspired per breath - increases ventilation (VE = TV x RR)</option><option>Much greater surface area for gas exchange - more O2 uptake</option><option>More blood can flow through lung capillaries - more O2 uptake and CO2 removal</option><option>Larger and deeper breaths can be taken for longer with less fatigue</option></select>
+        <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Lungs become more elastic - greater amount of O2 moves in/out per breath</option><option>More air inspired per breath - increases ventilation (VE = TV x RR)</option><option>Much greater surface area for gas exchange - more O2 uptake</option><option>More blood can flow through lung capillaries - more O2 uptake and CO2 removal</option><option>Larger and deeper breaths can be taken for longer with less fatigue</option></select>
+        <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Lungs become more elastic - greater amount of O2 moves in/out per breath</option><option>More air inspired per breath - increases ventilation (VE = TV x RR)</option><option>Much greater surface area for gas exchange - more O2 uptake</option><option>More blood can flow through lung capillaries - more O2 uptake and CO2 removal</option><option>Larger and deeper breaths can be taken for longer with less fatigue</option></select>
+        <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Lungs become more elastic - greater amount of O2 moves in/out per breath</option><option>More air inspired per breath - increases ventilation (VE = TV x RR)</option><option>Much greater surface area for gas exchange - more O2 uptake</option><option>More blood can flow through lung capillaries - more O2 uptake and CO2 removal</option><option>Larger and deeper breaths can be taken for longer with less fatigue</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each aerobic training method to its description.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Method</div>
+        <div class="match-term">Continuous</div>
+        <div class="match-term">Fartlek</div>
+        <div class="match-term">Long interval</div>
+        <div class="match-term">HIIT</div>
+        <div class="match-term">Moderate-vigorous intensity</div>
+      </div>
+      <div>
+        <div class="match-col-head">Description</div>
+        <select class="match-select" id="m3-1"><option value="">-- select --</option><option>Steady intensity for an extended time without rest</option><option>Speed play - intensity varies throughout the session</option><option>Long efforts (e.g. 3-8 min) at vigorous intensity, separated by rest periods</option><option>Work intervals close to max HR / VO2 max with short recoveries</option><option>The 70-85% max HR zone that delivers health benefits</option></select>
+        <select class="match-select" id="m3-2"><option value="">-- select --</option><option>Steady intensity for an extended time without rest</option><option>Speed play - intensity varies throughout the session</option><option>Long efforts (e.g. 3-8 min) at vigorous intensity, separated by rest periods</option><option>Work intervals close to max HR / VO2 max with short recoveries</option><option>The 70-85% max HR zone that delivers health benefits</option></select>
+        <select class="match-select" id="m3-3"><option value="">-- select --</option><option>Steady intensity for an extended time without rest</option><option>Speed play - intensity varies throughout the session</option><option>Long efforts (e.g. 3-8 min) at vigorous intensity, separated by rest periods</option><option>Work intervals close to max HR / VO2 max with short recoveries</option><option>The 70-85% max HR zone that delivers health benefits</option></select>
+        <select class="match-select" id="m3-4"><option value="">-- select --</option><option>Steady intensity for an extended time without rest</option><option>Speed play - intensity varies throughout the session</option><option>Long efforts (e.g. 3-8 min) at vigorous intensity, separated by rest periods</option><option>Work intervals close to max HR / VO2 max with short recoveries</option><option>The 70-85% max HR zone that delivers health benefits</option></select>
+        <select class="match-select" id="m3-5"><option value="">-- select --</option><option>Steady intensity for an extended time without rest</option><option>Speed play - intensity varies throughout the session</option><option>Long efforts (e.g. 3-8 min) at vigorous intensity, separated by rest periods</option><option>Work intervals close to max HR / VO2 max with short recoveries</option><option>The 70-85% max HR zone that delivers health benefits</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+</div>
+
+<div id="tab-exam" class="tab-pane">
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">2 marks</span></div>
+    <div class="eq-q">1. State the Australian physical activity guidelines for ONE of the following age groups: young people (5-17) OR adults (18-64). Include type, intensity and duration.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Young people (5-17): at least 1 hour of moderate-to-vigorous activity per day involving mainly aerobic activities, with vigorous activities incorporated at least 3 days/week. (2 marks)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>OR Adults (18-64): be active on most days; 2.5-5 hours moderate OR 1.25-2.5 hours vigorous per week (or an equivalent combination). (2 marks)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Include all THREE elements - type (aerobic), intensity (moderate-vigorous) and duration (hours/week). Missing any costs a mark.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">2. Describe THREE cardiovascular adaptations to regular aerobic training and explain how EACH improves cardiovascular function.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Any one of: Increased left ventricle thickness (hypertrophy) - greater contraction force increases stroke volume and cardiac output. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Any one of: Increased blood volume - more red blood cells = greater O2-carrying capacity; more plasma assists thermoregulation. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Any one of: Increased a-vO2 diff - more O2 extracted from blood at the muscles; OR decreased blood pressure - heart works less at rest; OR increased vascularisation - higher capillary density delivers more O2 to working muscles. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> NAME the adaptation, then EXPLAIN how it improves function. &ldquo;Increased stroke volume&rdquo; alone is worth no marks - link it to greater Q, more O2 to muscles, lower HR at same workload, etc.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">3. Describe THREE respiratory adaptations to regular aerobic training and explain how each improves respiratory function.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Increased lung capacity / tidal volume - lungs become more elastic and breathing muscles stronger, so more air moves in and out per breath. This raises ventilation (VE = TV x RR). (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Increased alveolar size, number and capillarisation - much greater surface area for gas exchange, allowing more O2 to be taken up per breath and more CO2 to be removed. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Improved strength and endurance of the diaphragm and intercostal muscles - allows larger, deeper breaths for longer with less fatigue, supporting prolonged participation. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Link the adaptation to gas exchange or ventilation. Use the formula VE = TV x RR explicitly if the question is about tidal volume.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">Sara is 35, sedentary and works at a desk job. Her doctor recommends she begin regular aerobic exercise.</div>
+    <div class="eq-q">4. Explain how improved cardiorespiratory health and capacity would lead to increased lifestyle options for Sara over time. Give TWO specific examples of activities she may become more likely to participate in.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>As Sara&apos;s cardiorespiratory function improves, exercise feels easier (lower RPE) at the same workload - both systems become more efficient. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Her self-efficacy rises - she gains confidence to participate in moderate-intensity activities she previously avoided. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Two examples: walking around a golf course; a spin class at the gym; bushwalking; stand-up paddle boarding; cycling; dancing for an evening. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Link the physiological change (improved function) to the behavioural outcome (more participation) to the practical example (specific activities). All three together earn full marks.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-stimulus">Aerobic exercise needs to be performed regularly AND at sufficient intensity to produce cardiorespiratory benefits.</div>
+    <div class="eq-q">5. Explain what is meant by &lsquo;regular and sufficient&apos; aerobic exercise (define both terms). Then describe THREE specific cardiovascular adaptations AND THREE specific respiratory adaptations that result from this exercise, explaining how each helps deliver more O2 to working muscles.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:140px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>&apos;Regular&apos; refers to the frequency of exercise (e.g. most days of the week). &apos;Sufficient&apos; refers to duration and intensity - it must reach moderate-vigorous intensity (70-85% max HR) for long enough to deliver a benefit. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Cardiovascular 1: Increased left ventricle thickness (hypertrophy) - greater contraction force pushes more blood out per beat (higher SV), increasing cardiac output and O2 delivery. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Cardiovascular 2: Increased blood volume - more red blood cells raise the blood&apos;s oxygen-carrying capacity, delivering more O2 to working muscles per minute. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Cardiovascular 3: Increased vascularisation - higher capillary density around muscle fibres means O2 has less distance to diffuse and more capillaries through which to deliver it. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Respiratory 1: Increased tidal volume - more air drawn in per breath (boosted by stronger diaphragm/intercostals and more elastic lungs) raises ventilation and brings more O2 to the alveoli. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Respiratory 2 + 3: Increased alveolar size, number AND capillarisation around them dramatically increases the surface area and blood flow at the alveolar/capillary interface, meaning much more O2 crosses into the blood per breath. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always answer ALL parts. Define BOTH &apos;regular&apos; AND &apos;sufficient&apos;. List THREE adaptations from EACH system, with the link to oxygen delivery for each one. Quoting specific values (70-85% max HR) shows confident knowledge.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch5 Part A Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'quiz' ? 0 : 1].className = 'tab-btn active';
+}
+var totalQ = 16; var answered = 0; var correctCount = 0;
+function updateScore(gotIt) {
+  answered++; if (gotIt) correctCount++;
+  document.getElementById('score-correct').textContent = correctCount;
+  document.getElementById('score-total').textContent = answered;
+  document.getElementById('progress-bar').style.width = Math.round((answered / totalQ) * 100) + '%';
+}
+var mcAnswers = {
+  mc1: { correct: 'B', explanation: 'Tracey: 5 days x 1 hr = 5 hrs/week at moderate intensity. That meets the adult guideline (2.5-5 hrs moderate). Minh is just under guideline (about 3 hrs total). Stevie does weights, not aerobic. Tassos is below 1 hr/day.' },
+  mc2: { correct: 'A', explanation: 'After training, stroke volume rises so more blood is ejected per beat AND per minute. The heart needs fewer beats to deliver the same cardiac output - working HR at the same intensity falls.' },
+  mc3: { correct: 'D', explanation: 'Stronger and more enduring diaphragm/intercostals allow deeper breaths for longer - more O2 reaches the lungs and is transferred to blood, then delivered to working muscles. VO2 max is a measure, not a cause; glycogen sparing helps fuel, not O2 delivery.' },
+  mc4: { correct: 'A', explanation: 'When both systems become more efficient, exercise feels easier (lower RPE) at the same workload. People are more likely to take on new activities and exercise more often.' },
+  mc5: { correct: 'C', explanation: 'For aerobic exercise to deliver a health benefit and improve cardiorespiratory functioning, it must occur at 70-85% max HR (moderate-vigorous intensity). Below this, the stimulus is too small. Maximal intensity is anaerobic.' },
+  mc6: { correct: 'B', explanation: 'Hypertrophy = increase in SIZE and THICKNESS of muscle fibres, NOT in number. In the heart, this happens mainly in the left ventricle - thicker walls and larger chamber = greater contraction force and higher stroke volume.' },
+  mc7: { correct: 'D', explanation: 'Resting respiratory rate does NOT increase with training - if anything it slightly decreases (more efficient breathing). The others (lung capacity, alveolar surface area, capillarisation) are all respiratory adaptations to training.' },
+  mc8: { correct: 'D', explanation: 'HIIT = work intervals close to max HR / VO2 max separated by short recoveries. Continuous is steady-state, Fartlek varies intensity less extremely, long interval uses longer efforts in the vigorous (not near-max) zone.' }
+};
+var tfAnswers = {
+  tf1: { correct: true,  explanation: 'TRUE - sedentary behaviour is sitting or lying down other than sleeping. Reducing sedentary time is a key health goal, separate from increasing exercise.' },
+  tf2: { correct: true,  explanation: 'TRUE - left ventricle hypertrophy (thicker walls, larger chamber) is the classic cardiac adaptation to aerobic training. It directly raises stroke volume.' },
+  tf3: { correct: false, explanation: 'FALSE - resting systolic BP DECREASES with regular aerobic training. The heart works less hard to deliver the same cardiac output. This is why aerobic exercise is prescribed for hypertension.' },
+  tf4: { correct: true,  explanation: 'TRUE - the Australian guidelines for adults 18-64 are: be active on most days; 2.5-5 hrs moderate OR 1.25-2.5 hrs vigorous per week (or a combination).' },
+  tf5: { correct: false, explanation: 'FALSE - alveoli increase in BOTH size AND number with regular aerobic training (this is unusual - muscle fibres only increase in size). This is partly why aerobic training is so effective.' }
+};
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var opts = card.querySelectorAll('.mc-opt');
+  var ans = mcAnswers[qid]; var letters = ['A','B','C','D'];
+  var correct = (chosen === ans.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkTF(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = tfAnswers[qid]; var correct = (chosen === ans.correct);
+  var btns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add('disabled');
+    if ((btns[i].textContent === 'True') === ans.correct) btns[i].classList.add('correct');
+  }
+  if (!correct) el.classList.add('wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkMatch(qid, correctMap, fbid) {
+  var allCorrect = true;
+  var keys = Object.keys(correctMap);
+  for (var i = 0; i < keys.length; i++) {
+    var sel = document.getElementById(keys[i]);
+    if (!sel || sel.value !== correctMap[keys[i]]) { allCorrect = false; break; }
+  }
+  var msg = allCorrect ? '&#10003; All correct!' : 'Not quite. Correct answers:';
+  if (!allCorrect) for (var i = 0; i < keys.length; i++) msg += '<br>&#10003; ' + correctMap[keys[i]];
+  var fb = document.getElementById(fbid);
+  fb.innerHTML = msg;
+  fb.className = 'q-feedback show' + (allCorrect ? '' : ' wrong-fb');
+  var card = document.getElementById(qid);
+  card.classList.add(allCorrect ? 'correct' : 'wrong');
+  var sels = card.querySelectorAll('.match-select');
+  for (var i = 0; i < sels.length; i++) sels[i].disabled = true;
+  var btn = card.querySelector('.match-check-btn');
+  if (btn) btn.disabled = true;
+  updateScore(allCorrect);
+}
+function checkMatch1() {
+  checkMatch('match1',{
+    'm1-1':'Greater contraction force - increases stroke volume and cardiac output',
+    'm1-2':'More red blood cells and plasma - greater O2-carrying capacity and waste removal',
+    'm1-3':'More O2 extracted from blood at the muscles - exercise feels easier',
+    'm1-4':'Heart does not need to work as hard at rest - more fuel and oxygen reach muscles',
+    'm1-5':'Higher capillary density - better O2 delivery and waste removal at muscles'
+  },'fb-match1');
+}
+function checkMatch2() {
+  checkMatch('match2',{
+    'm2-1':'Lungs become more elastic - greater amount of O2 moves in/out per breath',
+    'm2-2':'More air inspired per breath - increases ventilation (VE = TV x RR)',
+    'm2-3':'Much greater surface area for gas exchange - more O2 uptake',
+    'm2-4':'More blood can flow through lung capillaries - more O2 uptake and CO2 removal',
+    'm2-5':'Larger and deeper breaths can be taken for longer with less fatigue'
+  },'fb-match2');
+}
+function checkMatch3() {
+  checkMatch('match3',{
+    'm3-1':'Steady intensity for an extended time without rest',
+    'm3-2':'Speed play - intensity varies throughout the session',
+    'm3-3':'Long efforts (e.g. 3-8 min) at vigorous intensity, separated by rest periods',
+    'm3-4':'Work intervals close to max HR / VO2 max with short recoveries',
+    'm3-5':'The 70-85% max HR zone that delivers health benefits'
+  },'fb-match3');
+}
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+function resetQuiz() {
+  answered = 0; correctCount = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var tfs = cards[i].querySelectorAll('.tf-btn');
+    for (var j = 0; j < tfs.length; j++) {
+      tfs[j].className = 'tf-btn';
+      var v = tfs[j].textContent === 'True';
+      tfs[j].onclick = (function(b,id,val){return function(){checkTF(b,id,val);};})(tfs[j],cards[i].id,v);
+    }
+    var sels = cards[i].querySelectorAll('.match-select');
+    for (var j = 0; j < sels.length; j++) { sels[j].disabled = false; sels[j].value = ''; }
+    var mb = cards[i].querySelector('.match-check-btn');
+    if (mb) mb.disabled = false;
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>

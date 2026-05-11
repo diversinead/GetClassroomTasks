@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch5 Part A: Improving Cardiorespiratory Health</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.65; padding: 16px; }
+
+    h1 { text-align: center; font-size: 0.79em; font-weight: 600; color: #5F5E5A; margin-bottom: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+    .chapter-title { text-align: center; font-size: 1.43em; font-weight: 700; color: #085041; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .subtitle { text-align: center; color: #5F5E5A; font-size: 0.86em; margin-bottom: 14px; font-style: italic; }
+
+    .search-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .search-wrap input { flex: 1; min-width: 160px; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; background: #fff; outline: none; font-family: inherit; }
+    .search-wrap input:focus { border-color: #1D9E75; }
+    #search-clear { display: none; padding: 5px 12px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; font-size: 0.82em; cursor: pointer; color: #1a1a18; font-weight: 600; font-family: inherit; }
+    #search-clear.visible { display: inline-block; }
+    #search-count { font-size: 0.82em; color: #5F5E5A; white-space: nowrap; min-width: 60px; }
+    mark { background: #ffe066; border-radius: 2px; padding: 0 2px; }
+
+    .diagram-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .diagram-wrap.blue { border-left-color: #378ADD; }
+    .diagram-wrap.purple { border-left-color: #AFA9EC; }
+    .diagram-wrap.amber { border-left-color: #BA7517; }
+    .diagram-wrap.coral { border-left-color: #D85A30; }
+    .diagram-wrap.teal { border-left-color: #5DCAA5; }
+    .diagram-head { background: #fff; padding: 11px 14px; font-weight: 700; font-size: 0.93em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a1a18; border-radius: 7px; }
+    .diagram-head:hover { background: #F8F7F3; }
+    .diagram-head.blue   { background: #f5f8fd; color: #1a3060; }
+    .diagram-head.purple { background: #f7f6fe; color: #2e2870; }
+    .diagram-head.amber  { background: #fdf8f0; color: #5a3800; }
+    .diagram-head.coral  { background: #fdf2ec; color: #7a3010; }
+    .diagram-head.teal   { background: #eaf7f2; color: #1a5a44; }
+    .diagram-body { display: none; padding: 12px; text-align: center; }
+    .diagram-body.open { display: block; }
+    .diagram-caption { font-size: .81rem; color: #555; margin-top: 8px; font-style: italic; text-align: left; }
+    .cat-arrow { font-size: .82rem; margin-left: 6px; }
+
+    .box-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .box-wrap.blue { border-left-color: #90bce6; }
+    .box-wrap.purple { border-left-color: #c8c4f4; }
+    .box-wrap.teal { border-left-color: #5DCAA5; }
+    .box-wrap.amber { border-left-color: #d4a055; }
+    .box-wrap.coral { border-left-color: #e8a48a; }
+    .box-wrap.gray { border-left-color: #c8c6be; }
+    .box-toggle { color: #1a1a18; border-radius: 7px;  padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .box-body { display: none; padding: 12px 14px; }
+    .box-body.open { display: block; }
+    .box-note { font-size: .82rem; color: #444; margin-top: 9px; background: #fafafa; border-left: 4px solid #5DCAA5; padding: 6px 10px; border-radius: 0 4px 4px 0; }
+    .tip-box { font-size: .85rem; color: #444; margin-top: 10px; background: #eaf7f2; border-left: 4px solid #5DCAA5; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .tip-box strong { color: #1a5a44; }
+    .warn-box { font-size: .85rem; color: #444; margin-top: 10px; background: #fdf6e8; border-left: 4px solid #BA7517; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .warn-box strong { color: #5a3800; }
+
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; margin: 4px 0; }
+    th { background: #4a4a5a; color: #fff; padding: 7px 9px; text-align: left; font-size: .84rem; }
+    td { padding: 6px 9px; border-bottom: 1px solid #e8e8ee; vertical-align: top; text-align: left; }
+    tr:nth-child(even) td { background: #f8f8fa; }
+    tr:hover td { background: #f2f2f6; }
+    .ct th { background: #2C2C2A; }
+    .mt th { background: #085041; }
+    .pt th { background: #3C3489; }
+    .bt th { background: #1a3060; }
+    .rt th { background: #7a3010; }
+
+    #list { padding: 0 16px 16px; }
+    .cat-wrap { border: 2px solid #90bce6; border-radius: 8px; margin-bottom: 9px; overflow: hidden; }
+    .cat-wrap.purple { border-left-color: #c8c4f4; }
+    .cat-wrap.teal { border-left-color: #7dd8be; }
+    .cat-wrap.coral { border-left-color: #e8a48a; }
+    .cat-wrap.amber { border-left-color: #d4a055; }
+    .cat-wrap.blue { border-left-color: #90bce6; }
+    .cat-wrap.pink { border-left-color: #e8a0c0; }
+    .cat-wrap.gray { border-left-color: #c8c6be; }
+    .cat-head { padding: 11px 14px; font-weight: 700; cursor: pointer; font-size: 0.93em; color: #1a1a18; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; border-radius: 7px; }
+    .cat-head:hover { background: #F8F7F3; }
+    .cat-head-right { display: flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: normal; color: #555; }
+    .cat-body { display: none; padding: 5px 11px 9px; }
+    .cat-body.open { display: block; }
+    .term { border-bottom: 1px solid #eee; padding: 5px 0; }
+    .term:last-child { border-bottom: none; }
+    .term-title { cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: .86rem; padding: 3px 2px; }
+    .term-body { display: none; padding: 5px 3px 3px; font-size: .84rem; }
+    .term-body.open { display: block; }
+    .term-def { margin-bottom: 3px; color: #222; }
+    .term-eg { display: block; font-style: italic; color: #555; font-size: .82rem; margin-top: 2px; }
+    .term-note { display: block; margin-top: 5px; background: #fdf6e8; border-left: 3px solid #BA7517; padding: 4px 8px; font-size: .81rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .arrow { font-size: .78rem; }
+    .hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
+    .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a3d48; color: #d6eef3; padding: 4px 9px; border-radius: 6px; font-size: .76rem; white-space: nowrap; z-index: 10; font-weight: normal; }
+    .hot-badge:hover .tip { display: block; }
+
+    #no-results { display: none; text-align: center; color: #888; padding: 18px; font-style: italic; }
+    svg text { font-family: Georgia, serif; }
+
+    .footer { text-align: center; font-size: .77rem; color: #888; padding: 18px 16px 26px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+    @media (max-width: 600px) { h1 { font-size: 1.05rem; } }
+
+    .size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+    .sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+    .sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+    .sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+    .section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &middot; Unit 1 AOS 2</h1>
+<p class="chapter-title">Chapter 5 Part A &mdash; Improving Cardiorespiratory Health</p>
+<p class="subtitle">Live it Up 5th ed.</p>
+
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<div class="section-divider">&#128218; Chapter contents</div>
+
+<!-- ===== 5A.1 HEALTH & FITNESS BENEFITS ===== -->
+<div class="box-wrap blue" id="sec5A1">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128170; 5A.1 &mdash; Regular Aerobic Exercise: Health &amp; Fitness Benefits</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">Participating in <strong>regular physical activity</strong> and limiting <strong>sedentary behaviour</strong> is essential to good health and psychosocial wellbeing. To get a cardiovascular, respiratory and musculoskeletal benefit, you need to participate in <strong>sufficient levels</strong>.</p>
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Physical activity</strong></td><td>Any bodily movement produced by skeletal muscles that uses energy.</td></tr>
+          <tr><td><strong>Exercise</strong> &amp; <strong>sport</strong></td><td>Common subcategories of physical activity that are <strong>structured or planned</strong>.</td></tr>
+          <tr><td><strong>Sedentary behaviour</strong></td><td>The daily amount of time spent <strong>sitting or lying down</strong> (other than sleeping).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; Note:</strong> In Unit 2, you&apos;ll cover physical, social, mental, emotional and spiritual benefits of regular participation. The focus here is on the <strong>physical functioning and capacity</strong> of the cardiorespiratory systems.</p>
+  </div>
+</div>
+
+<!-- Activity guidelines table -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128197; Australian Physical Activity Guidelines</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Age group</th><th>Recommended amount and type</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Young people (5&ndash;17 years)</strong></td><td>
+            <ul style="margin:0 0 0 16px;font-size:.85rem;line-height:1.55;">
+              <li>At least <strong>1 hour</strong> of moderate-to-vigorous activity per day involving <strong>mainly aerobic activities</strong>.</li>
+              <li><strong>Vigorous</strong> activities at least <strong>3 days per week</strong>.</li>
+              <li>Several hours of <strong>light activities</strong> per day.</li>
+            </ul>
+          </td></tr>
+          <tr><td><strong>Adults (18&ndash;64 years)</strong></td><td>
+            <ul style="margin:0 0 0 16px;font-size:.85rem;line-height:1.55;">
+              <li>Be active on <strong>most days</strong> (preferably all).</li>
+              <li>Weekly total: <strong>2.5&ndash;5 hours moderate</strong>, OR <strong>1.25&ndash;2.5 hours vigorous</strong>, OR an equivalent combination of both.</li>
+            </ul>
+          </td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Aerobic exercise intensity diagram -->
+<div class="diagram-wrap amber">
+  <div class="diagram-head amber" onclick="toggleB(this)">
+    <span>&#128293; Aerobic Exercise Intensity Zones &amp; Training Methods</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <p style="font-size:.88rem;margin-bottom:10px;text-align:left;">For aerobic exercise to provide a <strong>health benefit</strong> or improve cardiorespiratory functioning, it needs to occur at <strong>moderate to vigorous intensity</strong> (70&ndash;85% max HR). Aerobic activities and exercises primarily rely on energy generated through the <strong>aerobic energy system</strong>.</p>
+
+    <svg viewBox="0 0 720 320" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- Y axis (intensity %) -->
+      <line x1="60" y1="40" x2="60" y2="270" stroke="#444" stroke-width="1.5"/>
+      <line x1="60" y1="270" x2="280" y2="270" stroke="#444" stroke-width="1.5"/>
+      <text x="22" y="155" text-anchor="middle" fill="#1a1a18" font-size="10" font-weight="bold" transform="rotate(-90,22,155)">% max HR</text>
+      <text x="170" y="295" text-anchor="middle" fill="#1a1a18" font-size="9" font-style="italic">Aerobic intensity scale</text>
+
+      <!-- gridlines + axis labels -->
+      <text x="52" y="55" text-anchor="end" fill="#555" font-size="9">100</text>
+      <line x1="60" y1="52" x2="280" y2="52" stroke="#eee" stroke-width="1"/>
+      <text x="52" y="98" text-anchor="end" fill="#555" font-size="9">85</text>
+      <line x1="60" y1="95" x2="280" y2="95" stroke="#eee" stroke-width="1"/>
+      <text x="52" y="148" text-anchor="end" fill="#555" font-size="9">70</text>
+      <line x1="60" y1="145" x2="280" y2="145" stroke="#eee" stroke-width="1"/>
+      <text x="52" y="200" text-anchor="end" fill="#555" font-size="9">50</text>
+      <line x1="60" y1="200" x2="280" y2="200" stroke="#eee" stroke-width="1"/>
+      <text x="52" y="272" text-anchor="end" fill="#555" font-size="9">0</text>
+
+      <!-- HIIT zone (above 85%) -->
+      <rect x="64" y="52" width="212" height="43" fill="#fde2d0" stroke="#7a3010" stroke-width="1"/>
+      <text x="170" y="78" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">HIIT zone (close to max HR)</text>
+
+      <!-- Vigorous zone (70-85%) -->
+      <rect x="64" y="95" width="212" height="50" fill="#D85A30" opacity="0.7" stroke="#7a3010" stroke-width="1"/>
+      <text x="170" y="125" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Vigorous (70&ndash;85%)</text>
+
+      <!-- Moderate zone (50-70%) -->
+      <rect x="64" y="145" width="212" height="55" fill="#3C3489" opacity="0.45" stroke="#3C3489" stroke-width="1"/>
+      <text x="170" y="178" text-anchor="middle" fill="#fff" font-size="11" font-weight="bold">Moderate (50&ndash;70%)</text>
+
+      <!-- Light/rest zone -->
+      <rect x="64" y="200" width="212" height="70" fill="#eaf7f2" stroke="#085041" stroke-width="1"/>
+      <text x="170" y="240" text-anchor="middle" fill="#1a5a44" font-size="10" font-weight="bold">Light / rest</text>
+
+      <!-- Health benefit zone arrow -->
+      <line x1="290" y1="95" x2="290" y2="145" stroke="#D85A30" stroke-width="3"/>
+      <line x1="287" y1="98" x2="293" y2="98" stroke="#D85A30" stroke-width="3"/>
+      <line x1="287" y1="142" x2="293" y2="142" stroke="#D85A30" stroke-width="3"/>
+      <text x="298" y="118" fill="#7a3010" font-size="10" font-weight="bold">Health benefit zone</text>
+      <text x="298" y="132" fill="#888" font-size="9">70&ndash;85% max HR</text>
+
+      <!-- TRAINING METHODS box -->
+      <rect x="316" y="40" width="180" height="240" rx="8" fill="#fdf8f0" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="406" y="62" text-anchor="middle" fill="#5a3800" font-size="11" font-weight="bold">Aerobic training methods</text>
+      <line x1="328" y1="74" x2="494" y2="74" stroke="#BA7517" stroke-width="0.5"/>
+      <text x="332" y="92" fill="#5a3800" font-size="10">&#9679; <tspan font-weight="bold">Continuous</tspan></text>
+      <text x="345" y="106" fill="#555" font-size="9">Steady intensity for extended time</text>
+      <text x="332" y="128" fill="#5a3800" font-size="10">&#9679; <tspan font-weight="bold">Fartlek</tspan></text>
+      <text x="345" y="142" fill="#555" font-size="9">Speed play &mdash; varying intensities</text>
+      <text x="332" y="164" fill="#5a3800" font-size="10">&#9679; <tspan font-weight="bold">Long Interval</tspan></text>
+      <text x="345" y="178" fill="#555" font-size="9">Long efforts with rest periods</text>
+      <text x="332" y="200" fill="#5a3800" font-size="10">&#9679; <tspan font-weight="bold">HIIT</tspan></text>
+      <text x="345" y="214" fill="#555" font-size="9">High Intensity Interval Training &mdash;</text>
+      <text x="345" y="226" fill="#555" font-size="9">close to max HR / VO&#8322; max</text>
+      <text x="345" y="238" fill="#555" font-size="9">during work periods</text>
+
+      <!-- AEROBIC ACTIVITIES box -->
+      <rect x="516" y="40" width="180" height="240" rx="8" fill="#eaf7f2" stroke="#085041" stroke-width="1.5"/>
+      <text x="606" y="62" text-anchor="middle" fill="#1a5a44" font-size="11" font-weight="bold">Aerobic activities</text>
+      <line x1="528" y1="74" x2="694" y2="74" stroke="#085041" stroke-width="0.5"/>
+      <text x="540" y="94" fill="#1a5a44" font-size="10">&#9679; Running</text>
+      <text x="540" y="114" fill="#1a5a44" font-size="10">&#9679; Cycling</text>
+      <text x="540" y="134" fill="#1a5a44" font-size="10">&#9679; Swimming</text>
+      <text x="540" y="154" fill="#1a5a44" font-size="10">&#9679; Dancing</text>
+      <text x="540" y="174" fill="#1a5a44" font-size="10">&#9679; Rowing</text>
+      <text x="540" y="194" fill="#1a5a44" font-size="10">&#9679; Hiking</text>
+      <text x="540" y="214" fill="#1a5a44" font-size="10">&#9679; Bushwalking</text>
+    </svg>
+    <p class="diagram-caption">All three energy systems work together at every intensity, but <strong>one will make the biggest contribution</strong>. Aerobic activities target the 70&ndash;85% max HR &lsquo;health benefit zone&rsquo;. HIIT pushes briefly into the closer-to-max zone during work periods, with recoveries in between.</p>
+  </div>
+</div>
+
+<!-- ===== 5A.2 CARDIOVASCULAR IMPROVEMENTS ===== -->
+<div class="box-wrap coral" id="sec5A2">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#10084; 5A.2 &mdash; Cardiovascular Improvements (Chronic Adaptations)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">Regular aerobic exercise produces long-term changes to the cardiovascular system. These <strong>chronic adaptations</strong> increase how much blood and oxygen the body can deliver to working muscles.</p>
+    <div style="overflow-x:auto;">
+      <table class="rt">
+        <thead><tr><th>Adaptation</th><th>How it improves function</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Increased left ventricle thickness</strong> (cardiac hypertrophy)</td><td>The left ventricle (systemic blood flow) hypertrophies &rarr; greater contraction force &rarr; increases SV and Q &rarr; more blood pumped per beat AND per minute.</td></tr>
+          <tr><td><strong>Increased stroke volume</strong></td><td>Larger left ventricle holds and ejects more blood per cycle. Contributes to higher cardiac output &rarr; more O<sub>2</sub>, fuels and nutrients to muscles, more CO<sub>2</sub> and wastes removed.</td></tr>
+          <tr><td><strong>Increased blood volume</strong></td><td>More red blood cells = greater O<sub>2</sub>-carrying capacity. More plasma helps remove wastes and maintains homeostasis &amp; thermoregulation.</td></tr>
+          <tr><td><strong>Improved oxygen extraction</strong> (&#8593; a-vO<sub>2</sub> diff)</td><td>More O<sub>2</sub> is extracted from blood at the capillaries. Exercise can occur at higher aerobic intensities OR moderate intensity feels easier (lower RPE).</td></tr>
+          <tr><td><strong>Decreased systolic blood pressure</strong></td><td>The heart does not need to work as hard at rest. More fuel and oxygen reaches muscles.</td></tr>
+          <tr><td><strong>Increased vascularisation</strong> (capillarisation)</td><td>An increase in capillary density combined with improved blood redistribution to active muscles. Better O<sub>2</sub> &amp; nutrient delivery AND improved waste removal.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#9888; Hypertrophy:</strong> An increase in SIZE and THICKNESS of muscle fibres without an increase in their <em>amount</em>. The same muscle fibres become bigger and stronger.</p>
+  </div>
+</div>
+
+<!-- Heart adaptation visual -->
+<div class="diagram-wrap coral">
+  <div class="diagram-head coral" onclick="toggleB(this)">
+    <span>&#128202; Visual: Untrained vs Trained Heart (Left Ventricle)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 720 320" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- UNTRAINED -->
+      <text x="180" y="22" text-anchor="middle" fill="#1a1a18" font-size="13" font-weight="bold">UNTRAINED heart</text>
+
+      <!-- heart shape -->
+      <path d="M180,260 C100,210 50,170 70,120 C85,80 130,75 180,115 C230,75 275,80 290,120 C310,170 260,210 180,260 Z"
+            fill="#fce8e0" stroke="#c0392b" stroke-width="2"/>
+      <!-- left ventricle interior (thin wall) -->
+      <ellipse cx="220" cy="170" rx="40" ry="55" fill="#fff" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="220" y="170" text-anchor="middle" fill="#7a1a00" font-size="9" font-weight="bold">LV</text>
+      <text x="220" y="183" text-anchor="middle" fill="#7a1a00" font-size="7">chamber</text>
+
+      <!-- wall thickness label -->
+      <line x1="262" y1="170" x2="285" y2="170" stroke="#888" stroke-width="0.8"/>
+      <text x="290" y="173" fill="#555" font-size="8">thin wall</text>
+
+      <text x="180" y="288" text-anchor="middle" fill="#1a1a18" font-size="10">SV: ~70 mL/beat (at rest)</text>
+      <text x="180" y="302" text-anchor="middle" fill="#1a1a18" font-size="10">Resting HR: ~75 bpm</text>
+
+      <!-- TRAINED -->
+      <text x="540" y="22" text-anchor="middle" fill="#7a3010" font-size="13" font-weight="bold">TRAINED heart (after aerobic training)</text>
+
+      <path d="M540,265 C440,215 380,165 410,110 C425,65 480,60 540,105 C600,60 655,65 670,110 C700,165 640,215 540,265 Z"
+            fill="#fce8e0" stroke="#c0392b" stroke-width="3"/>
+      <!-- left ventricle - thicker walls -->
+      <ellipse cx="586" cy="172" rx="48" ry="62" fill="#fce8e0" stroke="#c0392b" stroke-width="2"/>
+      <ellipse cx="586" cy="172" rx="32" ry="44" fill="#fff" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="586" y="170" text-anchor="middle" fill="#7a1a00" font-size="9" font-weight="bold">LV</text>
+      <text x="586" y="183" text-anchor="middle" fill="#7a1a00" font-size="7">larger chamber</text>
+
+      <line x1="634" y1="172" x2="657" y2="172" stroke="#7a3010" stroke-width="0.8"/>
+      <text x="662" y="175" fill="#7a3010" font-size="8" font-weight="bold">thicker wall</text>
+
+      <text x="540" y="288" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">SV: ~100&ndash;120 mL/beat (at rest)</text>
+      <text x="540" y="302" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">Resting HR: ~45&ndash;55 bpm</text>
+
+      <!-- arrow between -->
+      <line x1="320" y1="170" x2="395" y2="170" stroke="#7a3010" stroke-width="2" marker-end="url(#arrR)"/>
+      <text x="358" y="160" text-anchor="middle" fill="#7a3010" font-size="9" font-weight="bold">regular aerobic</text>
+      <text x="358" y="172" text-anchor="middle" fill="#7a3010" font-size="9" font-weight="bold">exercise</text>
+
+      <defs>
+        <marker id="arrR" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#7a3010"/>
+        </marker>
+      </defs>
+    </svg>
+    <p class="diagram-caption">After months of regular aerobic training, the <strong>left ventricle hypertrophies</strong> &mdash; thicker walls AND a larger chamber. The heart pumps more blood per beat (higher SV) at a lower resting heart rate. The trained athlete&apos;s heart does the same work with less effort.</p>
+  </div>
+</div>
+
+<!-- ===== 5A.3 RESPIRATORY IMPROVEMENTS ===== -->
+<div class="box-wrap teal" id="sec5A3">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129729; 5A.3 &mdash; Respiratory Improvements (Chronic Adaptations)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;">Regular aerobic exercise also produces measurable changes in the respiratory system. These adaptations let more air move in and out of the lungs, and let more O<sub>2</sub> cross the alveolar/capillary interface.</p>
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Adaptation</th><th>How it improves function</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Increased lung capacity</strong></td><td>Lungs become more elastic &rarr; can expand further &rarr; a greater amount of O<sub>2</sub> moves in/out per breath.</td></tr>
+          <tr><td><strong>Increased tidal volume</strong></td><td>Increased elasticity + stronger diaphragm &amp; intercostal muscles &rarr; more air inspired per breath. Greater TV increases ventilation (VE = TV &times; RR) &rarr; more O<sub>2</sub> in, more CO<sub>2</sub> out.</td></tr>
+          <tr><td><strong>Increased alveolar size &amp; surface area</strong></td><td>Greatly increases the surface area available for gaseous exchange &rarr; greater O<sub>2</sub> uptake, more aerobic energy production.</td></tr>
+          <tr><td><strong>Increased capillarisation</strong> (at lungs)</td><td>More capillaries around alveoli &rarr; more blood can flow in/out &rarr; more O<sub>2</sub> uptake AND more CO<sub>2</sub> removal.</td></tr>
+          <tr><td><strong>Improved strength &amp; endurance of diaphragm and intercostals</strong></td><td>Greater contraction force &rarr; thoracic cavity expands more &rarr; deeper breaths. Greater endurance &rarr; muscles contract longer without fatigue.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; Did you know?</strong> Alveoli increase in size AND number with regular training. Muscle fibres (skeletal) increase in size only &mdash; they do NOT typically increase in number.</p>
+  </div>
+</div>
+
+<!-- Pre vs post training capillarisation visual -->
+<div class="diagram-wrap teal">
+  <div class="diagram-head teal" onclick="toggleB(this)">
+    <span>&#128202; Visual: Pre vs Post Aerobic Training (Alveoli &amp; Capillaries)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <svg viewBox="0 0 720 280" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- PRE training -->
+      <text x="180" y="22" text-anchor="middle" fill="#1a1a18" font-size="13" font-weight="bold">PRE aerobic training</text>
+
+      <!-- alveoli cluster (smaller, fewer capillaries) -->
+      <circle cx="160" cy="130" r="32" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+      <circle cx="210" cy="130" r="32" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+      <circle cx="185" cy="170" r="28" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+
+      <!-- few capillaries -->
+      <path d="M120,130 Q145,135 175,130" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+      <path d="M125,150 Q160,158 195,150" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+      <path d="M175,180 Q200,185 230,180" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+
+      <text x="185" y="232" text-anchor="middle" fill="#1a1a18" font-size="10">Smaller alveoli, fewer capillaries</text>
+      <text x="185" y="248" text-anchor="middle" fill="#888" font-size="9" font-style="italic">Less surface area for gas exchange</text>
+
+      <!-- arrow -->
+      <line x1="290" y1="155" x2="370" y2="155" stroke="#085041" stroke-width="2.5" marker-end="url(#arrG3)"/>
+      <text x="330" y="142" text-anchor="middle" fill="#085041" font-size="10" font-weight="bold">regular aerobic</text>
+      <text x="330" y="154" text-anchor="middle" fill="#085041" font-size="10" font-weight="bold">exercise</text>
+
+      <!-- POST training -->
+      <text x="540" y="22" text-anchor="middle" fill="#1a5a44" font-size="13" font-weight="bold">POST aerobic training</text>
+
+      <!-- alveoli cluster (LARGER, more) -->
+      <circle cx="490" cy="110" r="38" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+      <circle cx="555" cy="120" r="36" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+      <circle cx="615" cy="115" r="32" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+      <circle cx="510" cy="170" r="32" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+      <circle cx="575" cy="180" r="34" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+
+      <!-- MANY capillaries (dense web) -->
+      <path d="M450,110 Q485,118 530,115 Q570,118 615,115" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+      <path d="M455,130 Q500,138 550,135 Q600,138 645,130" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+      <path d="M460,155 Q510,165 560,160 Q605,165 640,155" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+      <path d="M470,175 Q520,185 575,180 Q620,185 640,175" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+      <path d="M470,200 Q525,210 580,205 Q620,210 635,200" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+
+      <text x="555" y="232" text-anchor="middle" fill="#1a5a44" font-size="10" font-weight="bold">Larger &amp; more alveoli + dense capillary web</text>
+      <text x="555" y="248" text-anchor="middle" fill="#888" font-size="9" font-style="italic">Much more surface area &amp; gas exchange</text>
+
+      <defs>
+        <marker id="arrG3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#085041"/>
+        </marker>
+      </defs>
+    </svg>
+    <p class="diagram-caption">Aerobic training increases <strong>alveolar size, alveolar number AND capillary density</strong> around them. Both the diffusion area and the volume of blood that can pass through it grow &mdash; so much more O<sub>2</sub> can move from alveoli into blood per breath.</p>
+  </div>
+</div>
+
+<!-- ===== 5A.4 LIFESTYLE OPTIONS ===== -->
+<div class="box-wrap amber" id="sec5A4">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#127939; 5A.4 &mdash; Improved Cardiorespiratory Health &amp; Lifestyle Options</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:10px;">When the cardiorespiratory system becomes more efficient, exercise becomes <strong>easier to perform</strong>. People can take on a wider range of activities &mdash; even at higher intensities &mdash; without getting exhausted. This opens up new lifestyle choices.</p>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Individuals are therefore more likely to:</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;line-height:1.7;">
+      <li><strong>Exercise with increased frequency</strong> &mdash; meeting or exceeding activity guidelines.</li>
+      <li><strong>Decrease sedentary or inactive behaviour.</strong></li>
+      <li>Participate in activities requiring <strong>vigorous or strenuous effort</strong> (above RPE 8).</li>
+      <li>Have <strong>higher self-efficacy</strong> to participate in activities requiring moderate-to-high endurance &mdash; bushwalking, stand-up paddle boarding, cycling &mdash; that they might previously have avoided.</li>
+      <li>Participate in moderate aerobic activities &mdash; walking around a golf course, attending a spin class, dancing for a long evening.</li>
+    </ul>
+    <p class="tip-box"><strong>&#128161; The exam idea:</strong> Improved cardiorespiratory function and capacity &rarr; exercise feels easier &rarr; person is more likely to exercise more often AND at higher intensities &rarr; their fitness improves further. It&apos;s a positive feedback loop.</p>
+  </div>
+</div>
+
+<!-- ===== SUMMARY ===== -->
+<div class="box-wrap gray">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Summary &mdash; The Big Picture</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Health &amp; fitness benefits of regular aerobic exercise</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>&apos;Regular&apos; refers to frequency; &apos;sufficient&apos; refers to duration and intensity.</li>
+      <li>5&ndash;17 yrs: at least 1 hr moderate-vigorous activity per day.</li>
+      <li>18&ndash;64 yrs: 2.5&ndash;5 hrs moderate OR 1.25&ndash;2.5 hrs vigorous per week.</li>
+      <li>For health benefit, exercise at 70&ndash;85% max HR.</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Cardiovascular improvements (6 adaptations)</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>&#8593; left ventricle thickness</li>
+      <li>&#8593; stroke volume</li>
+      <li>&#8593; blood volume</li>
+      <li>&#8593; a-vO<sub>2</sub> diff</li>
+      <li>&#8595; blood pressure (resting systolic)</li>
+      <li>&#8593; vascularisation / capillarisation</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Respiratory improvements (5 adaptations)</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>&#8593; lung capacity</li>
+      <li>&#8593; tidal volume</li>
+      <li>&#8593; alveolar size, number, surface area + capillarisation</li>
+      <li>&#8593; strength and endurance of diaphragm &amp; intercostal muscles</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Lifestyle options</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>Improved capacity makes exercise easier &rarr; more frequent exercise at higher intensities.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== KEY TERMS ===== -->
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch5 Part A &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+function jumpTo(id) { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+var terms = [
+  { cat: "5A.1 Aerobic Exercise & Health Benefits", color: "blue", hot: true, items: [
+    { name: "Sedentary behaviour", def: "The daily amount of time spent sitting or lying down (other than sleeping).", eg: "Watching TV for 4 hours after school is sedentary behaviour - not the same as resting.", note: "Health guidelines aim to LIMIT this, not just increase exercise." },
+    { name: "Physical activity", def: "Any bodily movement produced by skeletal muscles that uses energy.", eg: "Walking to the shops, taking the stairs, gardening - all physical activity.", note: "" },
+    { name: "Exercise", def: "A subcategory of physical activity that is structured and planned - performed deliberately to maintain or improve fitness.", eg: "A 30-minute jog along a planned route is exercise. Walking to school is physical activity but not exercise.", note: "" },
+    { name: "Sport", def: "A structured competitive form of physical activity, usually with rules.", eg: "Playing in a school football match.", note: "" },
+    { name: "Moderate to vigorous intensity", def: "The intensity range (70-85% max HR) at which aerobic exercise produces a health benefit and improves cardiorespiratory functioning.", eg: "Brisk jogging or steady cycling that leaves you breathing harder but able to hold a conversation.", note: "Memorise: 70-85% max HR = health benefit zone." }
+  ]},
+  { cat: "5A.2 Aerobic Training Methods", color: "amber", hot: true, items: [
+    { name: "Continuous training", def: "Aerobic training performed at a steady intensity for an extended time without rest.", eg: "Jogging at the same pace for 45 minutes.", note: "" },
+    { name: "Fartlek training", def: "Aerobic training that varies intensity throughout the session ('speed play') - mixing fast bursts with slower recovery.", eg: "Running where you sprint to a landmark, jog to the next one, sprint again - intensity changes constantly.", note: "Swedish word meaning 'speed play'." },
+    { name: "Long interval training", def: "Aerobic training using long efforts (e.g. 3-8 min) at vigorous intensity separated by rest periods.", eg: "Running 4 x 1km at 85% max HR with 2 min rest between.", note: "" },
+    { name: "HIIT (High Intensity Interval Training)", def: "Training using work intervals at intensities close to max HR or VO2 max, alternating with recoveries.", eg: "30 seconds sprint at near max effort, 30 seconds easy jog, repeated 10 times.", note: "Work intervals are CLOSE to max HR - higher than vigorous zone." }
+  ]},
+  { cat: "5A.3 Cardiovascular Adaptations", color: "coral", hot: true, items: [
+    { name: "Cardiovascular", def: "Involving the heart, blood vessels and blood.", eg: "The cardiovascular system delivers oxygen and nutrients to all tissues.", note: "" },
+    { name: "Hypertrophy", def: "An increase in SIZE and THICKNESS of muscle fibres without an increase in their amount.", eg: "Cardiac hypertrophy: the left ventricle wall thickens after months of aerobic training.", note: "Existing fibres get bigger. Alveoli increase in size AND number, but muscle fibres do not increase in number." },
+    { name: "Increased left ventricle thickness", def: "Aerobic training causes the left ventricle to hypertrophy. Greater contraction force increases stroke volume and cardiac output.", eg: "An elite cyclist's left ventricle wall is noticeably thicker than an untrained person's.", note: "" },
+    { name: "Increased stroke volume", def: "After aerobic training, more blood is ejected per beat. SV at rest may rise from ~70 mL to ~110 mL.", eg: "Trained athletes can have stroke volumes of 150+ mL at maximal exercise.", note: "Why elite athletes have lower resting HR - they pump same Q with fewer beats." },
+    { name: "Increased blood volume", def: "Regular aerobic exercise raises total blood volume. More red blood cells = greater O2-carrying capacity. More plasma assists thermoregulation and waste removal.", eg: "An endurance runner has 1-2 L more blood than an untrained person.", note: "" },
+    { name: "Arteriovenous oxygen difference (a-vO2 diff)", def: "The difference in oxygen concentration between arterioles and venules - an indirect measure of how much O2 muscles use. Increases with training.", eg: "Training widens a-vO2 diff so muscles extract more O2 per 100 mL of blood, even at moderate intensity.", note: "Lower RPE at the same workload after training." },
+    { name: "Decreased blood pressure", def: "Aerobic training reduces resting systolic blood pressure. The heart works less to deliver the same cardiac output.", eg: "Hypertension can be partially managed through 30 min daily aerobic exercise.", note: "" },
+    { name: "Increased vascularisation", def: "An increase in capillary density at the muscles. Combined with improved blood redistribution, this delivers more O2 and removes more wastes.", eg: "More capillaries in trained muscle fibres mean every fibre is closer to a blood supply.", note: "Also called capillarisation." }
+  ]},
+  { cat: "5A.4 Respiratory Adaptations", color: "teal", hot: true, items: [
+    { name: "Ventilation", def: "The amount of air that flows into and out of the lungs per minute. VE = TV x RR.", eg: "At rest: 12 bpm x 0.5 L = 6 L/min. At max exercise: 50 bpm x 3 L = 150 L/min.", note: "" },
+    { name: "Increased lung capacity", def: "Lungs become more elastic after regular training, expanding further so more air moves in and out per breath.", eg: "An elite swimmer's vital capacity may be 7+ litres vs an untrained person's ~5 L.", note: "" },
+    { name: "Increased tidal volume", def: "More air can be inspired per breath - driven by greater elasticity AND stronger respiratory muscles.", eg: "TV at rest is ~0.5 L; trained athletes can reach 3+ L at max exercise.", note: "Greater TV multiplies ventilation directly via VE = TV x RR." },
+    { name: "Increased alveolar size & surface area", def: "Regular aerobic training increases both the size AND number of alveoli, dramatically increasing the surface area for gas exchange.", eg: "Larger and more numerous alveoli let more O2 cross into blood per breath.", note: "Alveoli are unique - they increase in SIZE AND NUMBER. Muscle fibres only increase in size." },
+    { name: "Increased capillarisation (at lungs)", def: "More capillaries around the alveoli. More blood can flow in/out, increasing O2 uptake and CO2 removal.", eg: "Pre-training: sparse capillary web around alveoli. Post-training: dense capillary network.", note: "" },
+    { name: "Improved diaphragm and intercostal strength/endurance", def: "Stronger respiratory muscles contract with more force AND for longer without fatigue. Allows larger, deeper breaths for longer.", eg: "Marathon runners can sustain a high RR without their diaphragm fatiguing.", note: "" }
+  ]},
+  { cat: "5A.5 Lifestyle Outcomes", color: "blue", hot: false, items: [
+    { name: "Self-efficacy", def: "An individual's belief in their own ability to succeed at a task. Improved fitness raises self-efficacy to take on new activities.", eg: "After 6 months of aerobic training, a person feels confident to try bushwalking or stand-up paddle boarding.", note: "Improved fitness + higher self-efficacy = exercise more, more often." },
+    { name: "RPE (Rate of Perceived Exertion)", def: "How hard exercise feels to the individual, often rated 1-10 or 6-20 (Borg scale). Falls at the same workload after aerobic training.", eg: "An untrained person rates a 5km run as RPE 8; after 3 months training, the same run feels like RPE 5.", note: "" }
+  ]}
+];
+
+var currentQuery = '';
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
+}
+function buildList(source) {
+  var list = document.getElementById('list');
+  var noRes = document.getElementById('no-results');
+  list.innerHTML = '';
+  var isSearching = currentQuery !== '';
+  if (!source || !source.length) { noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    var wrap = document.createElement('div');
+    wrap.className = 'cat-wrap ' + (cat.color || 'blue');
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : '';
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    wrap.innerHTML = '<div class="cat-head"><span>' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">' + arrow + '</span></div></div>';
+    var head = wrap.querySelector('.cat-head');
+    (function(w, h) {
+      h.onclick = function() {
+        var b = w.querySelector('.cat-body');
+        var a = h.querySelector('.cat-arrow');
+        var o = b.classList.toggle('open');
+        a.innerHTML = o ? '&#9650;' : '&#9660;';
+      };
+    })(wrap, head);
+    var body = document.createElement('div');
+    body.className = bodyClass;
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement('div');
+      t.className = 'term';
+      var dn = isSearching ? highlight(item.name, currentQuery) : item.name;
+      var dd = isSearching ? highlight(item.def,  currentQuery) : item.def;
+      var de = item.eg ? (isSearching ? highlight(item.eg, currentQuery) : item.eg) : '';
+      var noteHtml = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : '';
+      var egHtml   = de ? '<span class="term-eg">Eg: ' + de + '</span>' : '';
+      var tbClass  = isSearching ? 'term-body open' : 'term-body';
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + dn + '</span><span class="arrow">&#9660;</span></div><div class="' + tbClass + '"><p class="term-def">' + dd + '</p>' + egHtml + noteHtml + '</div>';
+      body.appendChild(t);
+    }
+    wrap.appendChild(body);
+    list.appendChild(wrap);
+  }
+}
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  var clearBtn = document.getElementById('search-clear');
+  clearBtn.className = currentQuery ? 'visible' : '';
+  if (!currentQuery) { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    var matchItems = [];
+    for (var j = 0; j < terms[i].items.length; j++) {
+      var item = terms[i].items[j];
+      if (item.name.toLowerCase().indexOf(val) !== -1 ||
+          item.def.toLowerCase().indexOf(val) !== -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(val) !== -1)) {
+        matchItems.push(item);
+      }
+    }
+    if (matchItems.length) filtered.push({ cat: terms[i].cat, color: terms[i].color, hot: terms[i].hot, items: matchItems });
+  }
+  buildList(filtered);
+  var total = 0;
+  for (var k = 0; k < filtered.length; k++) total += filtered[k].items.length;
+  countEl.textContent = total + ' result' + (total !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  document.getElementById('search-clear').className = '';
+  buildList(terms);
+}
+buildList(terms);
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+</script>
+</body>
+</html>

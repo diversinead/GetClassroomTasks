@@ -240,7 +240,8 @@ def render_markdown(text):
         # Bullet list
         if re.match(r'^\s*[-*]\s+', line):
             j = i
-            while j < n and re.match(r'^\s*[-*]\s+', lines[j]):
+            # Stop at checkbox-list lines so they get rendered as their own block
+            while j < n and re.match(r'^\s*[-*]\s+', lines[j]) and not re.match(r'^\s*-\s+\[[ xX]\]\s+', lines[j]):
                 j += 1
             out.append(_render_ul(lines[i:j]))
             i = j

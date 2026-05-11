@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch5 Part B: Quiz &amp; Exam Practice</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.65; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+    .tab-bar { display: flex; background: #eaf4f7; border-bottom: 2px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-size: .93rem; font-family: Georgia, serif; cursor: pointer; color: #1a3d48; font-weight: bold; }
+    .tab-btn.active { background: #2c5f6e; color: #fff; }
+    .tab-btn:hover:not(.active) { background: #d6eef3; }
+    .tab-pane { display: none; padding: 14px; max-width: 860px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+    .score-bar { background: #fff; border: 1px solid #c8dde4; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .score-text { font-size: .9rem; color: #1a3d48; }
+    .score-text strong { color: #2c5f6e; font-size: 1.08rem; }
+    .progress-track { flex: 1; min-width: 100px; height: 9px; background: #dde4ea; border-radius: 5px; overflow: hidden; }
+    .progress-bar { height: 100%; background: #5DCAA5; border-radius: 5px; width: 0%; transition: width .4s; }
+    .reset-btn { background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: .84rem; font-family: Georgia, serif; }
+    .reset-btn:hover { background: #2c5f6e; color: #fff; }
+    .q-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; padding: 16px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #5DCAA5; background: #f4fdf9; }
+    .q-card.wrong { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num { font-size: .76rem; font-weight: bold; color: #2c5f6e; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; }
+    .q-text { font-size: .93rem; margin-bottom: 11px; font-weight: bold; }
+    .mc-options { display: flex; flex-direction: column; gap: 7px; }
+    .mc-opt { display: flex; align-items: flex-start; gap: 9px; padding: 9px 12px; border: 1px solid #c8dde4; border-radius: 6px; cursor: pointer; font-size: .88rem; }
+    .mc-opt:hover { background: #eaf4f7; }
+    .mc-opt.selected-correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; font-weight: bold; }
+    .mc-opt.selected-wrong { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .mc-opt.reveal-correct { background: #e0f7ef; border-color: #5DCAA5; }
+    .mc-opt.disabled { cursor: default; pointer-events: none; }
+    .opt-letter { font-weight: bold; color: #2c5f6e; min-width: 16px; }
+    .tf-options { display: flex; gap: 10px; margin-top: 7px; }
+    .tf-btn { flex: 1; padding: 9px; border: 2px solid #c8dde4; border-radius: 6px; background: #fff; font-family: Georgia, serif; font-size: .93rem; cursor: pointer; font-weight: bold; }
+    .tf-btn:hover { background: #eaf4f7; }
+    .tf-btn.correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; }
+    .tf-btn.wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.disabled { cursor: default; pointer-events: none; }
+    .match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 9px 0; }
+    .match-col-head { font-weight: bold; font-size: .81rem; color: #2c5f6e; padding: 3px 0; border-bottom: 2px solid #2c5f6e; margin-bottom: 3px; }
+    .match-term { padding: 6px 0; font-size: .86rem; border-bottom: 1px solid #eee; }
+    .match-select { width: 100%; padding: 5px 7px; border: 1px solid #c8dde4; border-radius: 5px; font-family: Georgia, serif; font-size: .83rem; margin-bottom: 3px; }
+    .match-check-btn { margin-top: 7px; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-family: Georgia, serif; font-size: .88rem; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .q-feedback { margin-top: 9px; display: none; padding: 9px 12px; border-radius: 6px; font-size: .86rem; border-left: 4px solid #5DCAA5; background: #f4fdf9; }
+    .q-feedback.show { display: block; }
+    .q-feedback.wrong-fb { background: #deeef2; border-left-color: #2c5f6e; }
+    .q-section-head { background: #2c5f6e; color: #fff; padding: 8px 13px; border-radius: 6px; margin: 20px 0 11px; font-size: .9rem; font-weight: bold; }
+    .eq-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; margin-bottom: 18px; overflow: hidden; }
+    .eq-head { background: #eaf4f7; padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .eq-type  { background: #2c5f6e; color: #fff; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-marks { background: #d6eef3; color: #1a3d48; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; padding: 9px 13px; margin: 10px 14px 0; font-size: .86rem; border-radius: 0 5px 5px 0; }
+    .eq-q { padding: 10px 14px 3px; font-weight: bold; font-size: .93rem; }
+    .eq-body { padding: 9px 14px 14px; }
+    .eq-answer-area { width: 100%; min-height: 80px; border: 1px solid #c8dde4; border-radius: 6px; padding: 9px; font-family: Georgia, serif; font-size: .86rem; resize: vertical; }
+    .eq-reveal-btn { margin-top: 9px; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-family: Georgia, serif; font-size: .86rem; }
+    .eq-reveal-btn:hover { background: #2c5f6e; color: #fff; }
+    .eq-model { display: none; margin-top: 10px; border: 1px solid #c8dde4; border-radius: 7px; overflow: hidden; }
+    .eq-model.open { display: block; }
+    .eq-model-head { background: #e0f7ef; padding: 7px 13px; font-weight: bold; color: #085041; font-size: .88rem; }
+    .eq-model-body { padding: 9px 13px; }
+    .mark-row { display: flex; align-items: flex-start; gap: 9px; padding: 4px 0; border-bottom: 1px solid #eee; font-size: .86rem; }
+    .mark-row:last-child { border-bottom: none; }
+    .mark-tick { color: #5DCAA5; font-weight: bold; min-width: 16px; }
+    .examiner-tip { background: #fdf8f0; border-left: 3px solid #BA7517; padding: 7px 11px; margin-top: 7px; font-size: .82rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .footer { text-align: center; font-size: .76rem; color: #888; padding: 18px 16px 24px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<h1>VCE Physical Education &mdash; Unit 1 AOS 2</h1>
+<p class="subtitle">Chapter 5 Part B &middot; Quiz &amp; Exam Practice &middot; 5B: Permitted &amp; Prohibited Performance Enhancement</p>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('quiz')">&#127919; Quiz</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<div id="tab-quiz" class="tab-pane active">
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#127919; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is an example of a sociocultural factor when considering the use of prohibited substances?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> The cost of the substance or practice</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> Whether everyone has equal access to the practice or strategy</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> Peer adherence and support of WADA rules</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> The belief that someone can get away with using prohibited practices</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">Athletes consider using prohibited practices to improve their performances because they:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> Are seeking to improve at faster rates than what would otherwise occur via training</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> Believe others involved in their sport are using them to gain an unfair advantage</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> Have access to masking agents which make prohibited substances undetectable</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> All of the above</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">Altitude training that occurs at sea-level in simulated environments is often used instead of actually travelling or training at high altitudes because:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> It results in greater amounts of red blood cells being produced as an adaptive response</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> It is less disruptive to normal routines and training</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> The improvements last for longer</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> There are less associated health risks</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">The use of EPO and other blood doping practices is used by some endurance athletes to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> Increase immunity to allow training to continue uninterrupted</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> Decrease the amount of atrophy (muscle breakdown) and enhance recovery</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> Increase rate of red blood cell production leading to increased VO2 maximum</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> Increase the strength of the diaphragm and intercostal muscles contributing to increased ventilation</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">Beta blockers are permitted in MOST sports because they:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> Do not provide any performance benefits (in those sports)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> Decrease tremor and improve hand steadiness resulting in improved performance outcomes</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> Decrease blood pressure and the risk of cardiovascular problems</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> Decrease heart rate and the frequency of beats to allow increased concentration</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">According to WADA, a substance or method is added to the prohibited list when it meets at least:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> ONE of three criteria: enhances performance, harms health, or violates spirit of sport</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> TWO of three criteria: enhances performance, harms health, or violates spirit of sport</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> ALL THREE criteria: enhances performance, harms health, AND violates spirit of sport</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> The single criterion of being banned by national governments</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">Gene doping is BEST defined as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> The therapeutic use of DNA manipulation to treat genetic diseases</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> The non-therapeutic use of genes, genetic elements and/or cells that have the capacity to enhance athletic performance</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> A natural process that occurs during endurance training</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> A method to detect prohibited substances in blood samples</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">Which of the following is the MAIN physiological mechanism by which altitude training improves endurance performance?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> Reduced lung capacity caused by hypoxic stress</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> Increased kidney production of EPO leading to more red blood cells and better oxygen transport</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> Increased adrenaline production lowering perceived effort</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> Decreased capillarisation reducing waste removal</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section-head">&#9989; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">Altitude training is permitted by WADA because it uses natural physiological responses to a hypoxic environment.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">An elevation training mask (ETM) produces all the same adaptations as actual altitude training, including increased red blood cell production.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">Beta blockers are banned in archery and pistol shooting because they reduce tremor and anxiety, giving an unfair advantage in precision sports.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">Autologous blood transfusions are permitted by WADA because the athlete only uses their own blood.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">The biological passport monitors an athlete&apos;s biological markers over time to detect doping indirectly.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-section-head">&#128279; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 14 &mdash; Matching</div>
+    <div class="q-text">Match each strategy to whether it is PERMITTED or PROHIBITED.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Strategy</div>
+        <div class="match-term">Altitude training (live high, train high)</div>
+        <div class="match-term">Synthetic EPO injection</div>
+        <div class="match-term">Beta blockers (in archery)</div>
+        <div class="match-term">Elevation training mask</div>
+        <div class="match-term">Autologous blood transfusion</div>
+      </div>
+      <div>
+        <div class="match-col-head">Status</div>
+        <select class="match-select" id="m1-1"><option value="">-- select --</option><option>PERMITTED - uses natural altitude-induced adaptation</option><option>PROHIBITED - artificially increases red blood cells (blood doping)</option><option>PROHIBITED in precision sports - blocks adrenaline, reduces tremor</option><option>PERMITTED - stresses respiratory muscles but does not simulate altitude</option><option>PROHIBITED - injecting own stored blood to boost RBC count (blood doping)</option></select>
+        <select class="match-select" id="m1-2"><option value="">-- select --</option><option>PERMITTED - uses natural altitude-induced adaptation</option><option>PROHIBITED - artificially increases red blood cells (blood doping)</option><option>PROHIBITED in precision sports - blocks adrenaline, reduces tremor</option><option>PERMITTED - stresses respiratory muscles but does not simulate altitude</option><option>PROHIBITED - injecting own stored blood to boost RBC count (blood doping)</option></select>
+        <select class="match-select" id="m1-3"><option value="">-- select --</option><option>PERMITTED - uses natural altitude-induced adaptation</option><option>PROHIBITED - artificially increases red blood cells (blood doping)</option><option>PROHIBITED in precision sports - blocks adrenaline, reduces tremor</option><option>PERMITTED - stresses respiratory muscles but does not simulate altitude</option><option>PROHIBITED - injecting own stored blood to boost RBC count (blood doping)</option></select>
+        <select class="match-select" id="m1-4"><option value="">-- select --</option><option>PERMITTED - uses natural altitude-induced adaptation</option><option>PROHIBITED - artificially increases red blood cells (blood doping)</option><option>PROHIBITED in precision sports - blocks adrenaline, reduces tremor</option><option>PERMITTED - stresses respiratory muscles but does not simulate altitude</option><option>PROHIBITED - injecting own stored blood to boost RBC count (blood doping)</option></select>
+        <select class="match-select" id="m1-5"><option value="">-- select --</option><option>PERMITTED - uses natural altitude-induced adaptation</option><option>PROHIBITED - artificially increases red blood cells (blood doping)</option><option>PROHIBITED in precision sports - blocks adrenaline, reduces tremor</option><option>PERMITTED - stresses respiratory muscles but does not simulate altitude</option><option>PROHIBITED - injecting own stored blood to boost RBC count (blood doping)</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 15 &mdash; Matching</div>
+    <div class="q-text">Match each substance/method to its primary mode of action.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Substance / Method</div>
+        <div class="match-term">EPO</div>
+        <div class="match-term">Beta blockers</div>
+        <div class="match-term">Homologous transfusion</div>
+        <div class="match-term">Gene doping</div>
+        <div class="match-term">Altitude training</div>
+      </div>
+      <div>
+        <div class="match-col-head">Mode of action</div>
+        <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Stimulates RBC production - directly enhances O2-carrying capacity</option><option>Blocks adrenaline - reduces heart rate and tremor</option><option>Adds RBCs by infusing matched donor blood</option><option>Modifies DNA to alter genetic expression for performance gain</option><option>Hypoxic environment triggers natural EPO release and broader adaptations</option></select>
+        <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Stimulates RBC production - directly enhances O2-carrying capacity</option><option>Blocks adrenaline - reduces heart rate and tremor</option><option>Adds RBCs by infusing matched donor blood</option><option>Modifies DNA to alter genetic expression for performance gain</option><option>Hypoxic environment triggers natural EPO release and broader adaptations</option></select>
+        <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Stimulates RBC production - directly enhances O2-carrying capacity</option><option>Blocks adrenaline - reduces heart rate and tremor</option><option>Adds RBCs by infusing matched donor blood</option><option>Modifies DNA to alter genetic expression for performance gain</option><option>Hypoxic environment triggers natural EPO release and broader adaptations</option></select>
+        <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Stimulates RBC production - directly enhances O2-carrying capacity</option><option>Blocks adrenaline - reduces heart rate and tremor</option><option>Adds RBCs by infusing matched donor blood</option><option>Modifies DNA to alter genetic expression for performance gain</option><option>Hypoxic environment triggers natural EPO release and broader adaptations</option></select>
+        <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Stimulates RBC production - directly enhances O2-carrying capacity</option><option>Blocks adrenaline - reduces heart rate and tremor</option><option>Adds RBCs by infusing matched donor blood</option><option>Modifies DNA to alter genetic expression for performance gain</option><option>Hypoxic environment triggers natural EPO release and broader adaptations</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each consideration to its category.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Consideration</div>
+        <div class="match-term">Does the strategy comply with WADA?</div>
+        <div class="match-term">Is the strategy reflective of community values?</div>
+        <div class="match-term">Are there unspoken pressures within the team?</div>
+        <div class="match-term">Can all athletes access this strategy?</div>
+        <div class="match-term">Have athletes been educated about the risks?</div>
+      </div>
+      <div>
+        <div class="match-col-head">Category</div>
+        <select class="match-select" id="m3-1"><option value="">-- select --</option><option>Ethical - Legal compliance</option><option>Ethical - Role modelling</option><option>Sociocultural - Peers</option><option>Ethical - Fairness</option><option>Sociocultural - Education</option></select>
+        <select class="match-select" id="m3-2"><option value="">-- select --</option><option>Ethical - Legal compliance</option><option>Ethical - Role modelling</option><option>Sociocultural - Peers</option><option>Ethical - Fairness</option><option>Sociocultural - Education</option></select>
+        <select class="match-select" id="m3-3"><option value="">-- select --</option><option>Ethical - Legal compliance</option><option>Ethical - Role modelling</option><option>Sociocultural - Peers</option><option>Ethical - Fairness</option><option>Sociocultural - Education</option></select>
+        <select class="match-select" id="m3-4"><option value="">-- select --</option><option>Ethical - Legal compliance</option><option>Ethical - Role modelling</option><option>Sociocultural - Peers</option><option>Ethical - Fairness</option><option>Sociocultural - Education</option></select>
+        <select class="match-select" id="m3-5"><option value="">-- select --</option><option>Ethical - Legal compliance</option><option>Ethical - Role modelling</option><option>Sociocultural - Peers</option><option>Ethical - Fairness</option><option>Sociocultural - Education</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+</div>
+
+<div id="tab-exam" class="tab-pane">
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">1. State the three WADA criteria used to determine whether a substance or method should be prohibited. Explain how many of these criteria need to be met for prohibition.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>1. It has the potential to (or actually does) enhance performance in sport. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>2. It has the potential or represents an actual risk to the athlete&apos;s health. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>3. It violates the spirit of sport (as described in the WADA Code). A substance/method is prohibited when it meets at least TWO of these three criteria. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> The &ldquo;at least 2 of 3&rdquo; rule is a hot exam topic. Memorise the three criteria precisely.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-q">2. Describe TWO ethical considerations AND TWO sociocultural considerations associated with the use of performance-enhancing strategies.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Ethical 1 (any one of): Legal compliance - does the strategy comply with WADA/Sport Integrity Australia? OR Honesty - is there transparency in use? OR Fairness - is there a level playing field? (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Ethical 2 (different from above): Safety - are there health risks? OR Role-modelling - does it reflect community values? (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Sociocultural 1 (any one of): Cultural norms - what does society consider fair play? OR Peers - unspoken pressures within the team? OR Social acceptance - is doping normalised in this sport? (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Sociocultural 2 (different from above): Socioeconomic status - does income affect choices? OR Education - have athletes been informed about risks? (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Each consideration should be NAMED then BRIEFLY EXPLAINED - one without the other won&apos;t earn full marks. Don&apos;t repeat themes from the same category.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-q">3. Describe how altitude training improves endurance performance. Name THREE specific physiological adaptations that occur.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Altitude training exposes the body to a hypoxic (low-oxygen) environment, typically at 2000+ metres elevation. This forces the body to adapt to cope with reduced O2 availability. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Adaptation 1: Elevated EPO production by the kidneys triggers greater production of red blood cells, enhancing the blood&apos;s O2-carrying capacity. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Adaptation 2: Increased alveolar size, number and surface area for greater gaseous exchange at the lungs. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Adaptation 3 (any): Increased capillarisation for better O2 delivery to muscles AND/OR enhanced mitochondrial production for more efficient aerobic ATP production. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always name the hypoxic environment as the trigger. Each named adaptation must include WHY it improves performance - just listing them won&apos;t score full marks.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">An endurance cyclist is considering using EPO to enhance their performance in an upcoming race.</div>
+    <div class="eq-q">4. Explain how EPO would improve performance, AND describe TWO potential health risks of EPO use.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Synthetic EPO injection significantly increases red blood cell production above normal levels. More RBCs means much greater oxygen-carrying capacity. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>More oxygen reaching working muscles = higher VO2 max, greater aerobic energy production, improved endurance performance and faster recovery. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Risk 1: Blood clotting - the blood becomes thicker and more viscous, increasing the risk of blood clots, strokes or heart attacks. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Risk 2 (any other): High blood pressure leading to long-term vessel damage; heart/kidney damage from working harder; potentially fatal cardiovascular events. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always link the BENEFIT to physiology (more RBCs &rarr; more O2 &rarr; better aerobic energy). For risks, be specific - &ldquo;harmful to health&rdquo; isn&apos;t enough.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-stimulus">A national-level archer is preparing for the Olympics. Their coach mentions that beta blockers could help with their performance, but they are concerned about the legality and consequences.</div>
+    <div class="eq-q">5. (a) Explain what beta blockers are and HOW they work. (b) Explain why beta blockers are permitted in many sports but PROHIBITED in archery. (c) Identify TWO ethical considerations the athlete should reflect on, AND TWO health risks they should be aware of.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:140px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>(a) Beta blockers are medications that work by blocking the effects of adrenaline, resulting in reduced heart rate and widened blood vessels. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>(b) In most sports, beta blockers don&apos;t enhance endurance, strength or speed - they actually reduce performance - so they are permitted. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>(b cont.) In archery (and other precision sports like pistol shooting), they provide an unfair advantage by decreasing tremor (steadier hand) and reducing anxiety (optimal arousal) - so they are prohibited. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>(c) Ethical 1: Legal compliance - using a banned substance in archery violates WADA/Sport Integrity Australia rules and would result in sanctions. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>(c cont.) Ethical 2: Fairness - violates the &ldquo;level playing field&rdquo; principle by gaining an advantage other athletes choose not to take. OR Role-modelling - high-profile athletes set examples for younger competitors. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>(c cont.) Two health risks (any two): hypotension (low blood pressure); altered blood sugar; asthma attacks; cardiac failure. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Mechanism FIRST (blocks adrenaline &rarr; reduces HR &amp; tremor), then SPORT-SPECIFIC explanation of why it&apos;s banned in precision sports. Tie ethics back to WADA and fairness.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch5 Part B Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'quiz' ? 0 : 1].className = 'tab-btn active';
+}
+var totalQ = 16; var answered = 0; var correctCount = 0;
+function updateScore(gotIt) {
+  answered++; if (gotIt) correctCount++;
+  document.getElementById('score-correct').textContent = correctCount;
+  document.getElementById('score-total').textContent = answered;
+  document.getElementById('progress-bar').style.width = Math.round((answered / totalQ) * 100) + '%';
+}
+var mcAnswers = {
+  mc1: { correct: 'C', explanation: 'Peer adherence to WADA rules is a SOCIOCULTURAL factor (group norms, behaviours, beliefs). Cost (A) and access (B) are ethical/practical considerations. Belief about not getting caught (D) is psychological, not sociocultural.' },
+  mc2: { correct: 'D', explanation: 'All three are reasons athletes use prohibited substances: dissatisfaction with current performance/wanting faster gains, belief that rivals are using and getting an advantage, AND availability of masking agents to avoid detection.' },
+  mc3: { correct: 'B', explanation: 'Simulated altitude (live high, train low) is preferred because it is LESS disruptive to family/training routines and avoids altitude sickness and training intensity issues. It produces similar (though not identical) adaptations.' },
+  mc4: { correct: 'C', explanation: 'EPO and blood doping increase the RATE of red blood cell production, raising oxygen-carrying capacity and VO2 max. They don\'t increase immunity, reduce muscle atrophy, or strengthen respiratory muscles.' },
+  mc5: { correct: 'A', explanation: 'Beta blockers do not enhance endurance, strength or speed - in fact they reduce performance in most sports. They\'re only banned in precision sports (archery, shooting) where reducing tremor gives an unfair advantage.' },
+  mc6: { correct: 'B', explanation: 'WADA prohibits substances/methods that meet at least TWO of three criteria: enhances performance, harms health, OR violates spirit of sport. All three are not required.' },
+  mc7: { correct: 'B', explanation: 'Gene doping is the NON-THERAPEUTIC use of genes, genetic elements and/or cells to enhance athletic performance. Therapeutic DNA manipulation is gene therapy (legal). It is not natural, and it is not a detection method.' },
+  mc8: { correct: 'B', explanation: 'The hypoxic environment at altitude stimulates the kidneys to release MORE EPO. This naturally increases RBC production, enhancing O2 transport. Other adaptations (capillarisation, alveolar surface area, mitochondria) contribute too but EPO/RBC is the primary mechanism.' }
+};
+var tfAnswers = {
+  tf1: { correct: true,  explanation: 'TRUE - altitude training uses natural physiological responses to a low-oxygen environment. The body produces its own EPO. This is permitted by WADA.' },
+  tf2: { correct: false, explanation: 'FALSE - the ETM stresses respiratory muscles (improves diaphragm/intercostal strength) but does NOT replicate true altitude. No acclimatisation occurs and no EPO/RBC response.' },
+  tf3: { correct: true,  explanation: 'TRUE - beta blockers reduce tremor and anxiety, giving unfair advantage in archery and pistol shooting where a steady hand and calm pulse improve precision.' },
+  tf4: { correct: false, explanation: 'FALSE - autologous transfusions are PROHIBITED by WADA. Even though the athlete uses their own blood, they artificially boost RBC count, enhancing performance. All blood doping is banned regardless of blood source.' },
+  tf5: { correct: true,  explanation: 'TRUE - the biological passport monitors blood and urine markers over time. Anomalies (e.g. sudden RBC spikes) flag suspected doping even if the substance itself isn\'t found at the time of testing.' }
+};
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var opts = card.querySelectorAll('.mc-opt');
+  var ans = mcAnswers[qid]; var letters = ['A','B','C','D'];
+  var correct = (chosen === ans.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkTF(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = tfAnswers[qid]; var correct = (chosen === ans.correct);
+  var btns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add('disabled');
+    if ((btns[i].textContent === 'True') === ans.correct) btns[i].classList.add('correct');
+  }
+  if (!correct) el.classList.add('wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkMatch(qid, correctMap, fbid) {
+  var allCorrect = true;
+  var keys = Object.keys(correctMap);
+  for (var i = 0; i < keys.length; i++) {
+    var sel = document.getElementById(keys[i]);
+    if (!sel || sel.value !== correctMap[keys[i]]) { allCorrect = false; break; }
+  }
+  var msg = allCorrect ? '&#10003; All correct!' : 'Not quite. Correct answers:';
+  if (!allCorrect) for (var i = 0; i < keys.length; i++) msg += '<br>&#10003; ' + correctMap[keys[i]];
+  var fb = document.getElementById(fbid);
+  fb.innerHTML = msg;
+  fb.className = 'q-feedback show' + (allCorrect ? '' : ' wrong-fb');
+  var card = document.getElementById(qid);
+  card.classList.add(allCorrect ? 'correct' : 'wrong');
+  var sels = card.querySelectorAll('.match-select');
+  for (var i = 0; i < sels.length; i++) sels[i].disabled = true;
+  var btn = card.querySelector('.match-check-btn');
+  if (btn) btn.disabled = true;
+  updateScore(allCorrect);
+}
+function checkMatch1() {
+  checkMatch('match1',{
+    'm1-1':'PERMITTED - uses natural altitude-induced adaptation',
+    'm1-2':'PROHIBITED - artificially increases red blood cells (blood doping)',
+    'm1-3':'PROHIBITED in precision sports - blocks adrenaline, reduces tremor',
+    'm1-4':'PERMITTED - stresses respiratory muscles but does not simulate altitude',
+    'm1-5':'PROHIBITED - injecting own stored blood to boost RBC count (blood doping)'
+  },'fb-match1');
+}
+function checkMatch2() {
+  checkMatch('match2',{
+    'm2-1':'Stimulates RBC production - directly enhances O2-carrying capacity',
+    'm2-2':'Blocks adrenaline - reduces heart rate and tremor',
+    'm2-3':'Adds RBCs by infusing matched donor blood',
+    'm2-4':'Modifies DNA to alter genetic expression for performance gain',
+    'm2-5':'Hypoxic environment triggers natural EPO release and broader adaptations'
+  },'fb-match2');
+}
+function checkMatch3() {
+  checkMatch('match3',{
+    'm3-1':'Ethical - Legal compliance',
+    'm3-2':'Ethical - Role modelling',
+    'm3-3':'Sociocultural - Peers',
+    'm3-4':'Ethical - Fairness',
+    'm3-5':'Sociocultural - Education'
+  },'fb-match3');
+}
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+function resetQuiz() {
+  answered = 0; correctCount = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var tfs = cards[i].querySelectorAll('.tf-btn');
+    for (var j = 0; j < tfs.length; j++) {
+      tfs[j].className = 'tf-btn';
+      var v = tfs[j].textContent === 'True';
+      tfs[j].onclick = (function(b,id,val){return function(){checkTF(b,id,val);};})(tfs[j],cards[i].id,v);
+    }
+    var sels = cards[i].querySelectorAll('.match-select');
+    for (var j = 0; j < sels.length; j++) { sels[j].disabled = false; sels[j].value = ''; }
+    var mb = cards[i].querySelector('.match-check-btn');
+    if (mb) mb.disabled = false;
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>

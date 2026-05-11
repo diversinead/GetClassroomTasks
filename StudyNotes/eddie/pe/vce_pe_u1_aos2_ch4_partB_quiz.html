@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch4 Part B: Quiz &amp; Exam Practice</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.65; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+    .tab-bar { display: flex; background: #eaf4f7; border-bottom: 2px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-size: .93rem; font-family: Georgia, serif; cursor: pointer; color: #1a3d48; font-weight: bold; }
+    .tab-btn.active { background: #2c5f6e; color: #fff; }
+    .tab-btn:hover:not(.active) { background: #d6eef3; }
+    .tab-pane { display: none; padding: 14px; max-width: 860px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+    .score-bar { background: #fff; border: 1px solid #c8dde4; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .score-text { font-size: .9rem; color: #1a3d48; }
+    .score-text strong { color: #2c5f6e; font-size: 1.08rem; }
+    .progress-track { flex: 1; min-width: 100px; height: 9px; background: #dde4ea; border-radius: 5px; overflow: hidden; }
+    .progress-bar { height: 100%; background: #5DCAA5; border-radius: 5px; width: 0%; transition: width .4s; }
+    .reset-btn { background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: .84rem; font-family: Georgia, serif; }
+    .reset-btn:hover { background: #2c5f6e; color: #fff; }
+    .q-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; padding: 16px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #5DCAA5; background: #f4fdf9; }
+    .q-card.wrong { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num { font-size: .76rem; font-weight: bold; color: #2c5f6e; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; }
+    .q-text { font-size: .93rem; margin-bottom: 11px; font-weight: bold; }
+    .mc-options { display: flex; flex-direction: column; gap: 7px; }
+    .mc-opt { display: flex; align-items: flex-start; gap: 9px; padding: 9px 12px; border: 1px solid #c8dde4; border-radius: 6px; cursor: pointer; font-size: .88rem; }
+    .mc-opt:hover { background: #eaf4f7; }
+    .mc-opt.selected-correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; font-weight: bold; }
+    .mc-opt.selected-wrong { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .mc-opt.reveal-correct { background: #e0f7ef; border-color: #5DCAA5; }
+    .mc-opt.disabled { cursor: default; pointer-events: none; }
+    .opt-letter { font-weight: bold; color: #2c5f6e; min-width: 16px; }
+    .tf-options { display: flex; gap: 10px; margin-top: 7px; }
+    .tf-btn { flex: 1; padding: 9px; border: 2px solid #c8dde4; border-radius: 6px; background: #fff; font-family: Georgia, serif; font-size: .93rem; cursor: pointer; font-weight: bold; }
+    .tf-btn:hover { background: #eaf4f7; }
+    .tf-btn.correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; }
+    .tf-btn.wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.disabled { cursor: default; pointer-events: none; }
+    .match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 9px 0; }
+    .match-col-head { font-weight: bold; font-size: .81rem; color: #2c5f6e; padding: 3px 0; border-bottom: 2px solid #2c5f6e; margin-bottom: 3px; }
+    .match-term { padding: 6px 0; font-size: .86rem; border-bottom: 1px solid #eee; }
+    .match-select { width: 100%; padding: 5px 7px; border: 1px solid #c8dde4; border-radius: 5px; font-family: Georgia, serif; font-size: .83rem; margin-bottom: 3px; }
+    .match-check-btn { margin-top: 7px; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-family: Georgia, serif; font-size: .88rem; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .q-feedback { margin-top: 9px; display: none; padding: 9px 12px; border-radius: 6px; font-size: .86rem; border-left: 4px solid #5DCAA5; background: #f4fdf9; }
+    .q-feedback.show { display: block; }
+    .q-feedback.wrong-fb { background: #deeef2; border-left-color: #2c5f6e; }
+    .q-section-head { background: #2c5f6e; color: #fff; padding: 8px 13px; border-radius: 6px; margin: 20px 0 11px; font-size: .9rem; font-weight: bold; }
+    .eq-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; margin-bottom: 18px; overflow: hidden; }
+    .eq-head { background: #eaf4f7; padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .eq-type  { background: #2c5f6e; color: #fff; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-marks { background: #d6eef3; color: #1a3d48; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; padding: 9px 13px; margin: 10px 14px 0; font-size: .86rem; border-radius: 0 5px 5px 0; }
+    .eq-q { padding: 10px 14px 3px; font-weight: bold; font-size: .93rem; }
+    .eq-body { padding: 9px 14px 14px; }
+    .eq-answer-area { width: 100%; min-height: 80px; border: 1px solid #c8dde4; border-radius: 6px; padding: 9px; font-family: Georgia, serif; font-size: .86rem; resize: vertical; }
+    .eq-reveal-btn { margin-top: 9px; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-family: Georgia, serif; font-size: .86rem; }
+    .eq-reveal-btn:hover { background: #2c5f6e; color: #fff; }
+    .eq-model { display: none; margin-top: 10px; border: 1px solid #c8dde4; border-radius: 7px; overflow: hidden; }
+    .eq-model.open { display: block; }
+    .eq-model-head { background: #e0f7ef; padding: 7px 13px; font-weight: bold; color: #085041; font-size: .88rem; }
+    .eq-model-body { padding: 9px 13px; }
+    .mark-row { display: flex; align-items: flex-start; gap: 9px; padding: 4px 0; border-bottom: 1px solid #eee; font-size: .86rem; }
+    .mark-row:last-child { border-bottom: none; }
+    .mark-tick { color: #5DCAA5; font-weight: bold; min-width: 16px; }
+    .examiner-tip { background: #fdf8f0; border-left: 3px solid #BA7517; padding: 7px 11px; margin-top: 7px; font-size: .82rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .footer { text-align: center; font-size: .76rem; color: #888; padding: 18px 16px 24px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<h1>VCE Physical Education &mdash; Unit 1 AOS 2</h1>
+<p class="subtitle">Chapter 4 Part B &middot; Quiz &amp; Exam Practice &middot; 4B: Take Up &amp; Transport of Oxygen</p>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('quiz')">&#127919; Quiz</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<div id="tab-quiz" class="tab-pane active">
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#127919; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">The concentration of oxygen will be HIGHER in:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> The venules than the arterioles</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> Blood going from the heart to the lungs compared to the heart to the rest of the body</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> Capillaries surrounding the alveoli than those surrounding muscles</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> The vena cava (right side of heart) than the aorta (left side of heart)</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">At rest, the oxygen consumption:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> Can easily be met by the cardiorespiratory systems</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> Is higher than when someone is jogging</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> Would be higher for a 70 kg person than a 60 kg person</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> Is between 12 and 15 L/min</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">During exercise:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> Heart rate increases whilst respiratory rate plateaus sub-maximally</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> Respiratory rate and tidal volume both increase or decrease in line with exercise intensity</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> There is a direct linear relationship between exercise intensity and both heart rate and respiratory rate</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> The respiratory system increases its contribution to oxygen uptake more than the cardiovascular system increases oxygen delivery</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">During EPOC:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> Oxygen demand is met by oxygen supply</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> The cardiovascular and respiratory systems both return to pre-exercise levels at the same rate</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> Oxygen supply to working muscles remains above resting levels for longer when an active recovery is undertaken, compared to a passive recovery</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> Muscles squeezing blood vessels increases the amount of oxygen available to muscles recovering from exercise</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">At rest, the a-vO2 difference is approximately 6 mL of O2 per 100 mL of blood. At maximal exercise, this widens to approximately:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> 3 mL per 100 mL blood</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> 8 mL per 100 mL blood</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> 15 mL per 100 mL blood</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> 25 mL per 100 mL blood</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">Which sequence correctly describes the pulmonary circuit?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> Left side of heart -> aorta -> body -> vena cava -> right side of heart</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> Right side of heart -> pulmonary artery -> lungs -> pulmonary vein -> left side of heart</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> Lungs -> pulmonary artery -> right side of heart -> aorta -> body</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> Body -> right side of heart -> pulmonary vein -> lungs</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">Steady state is best defined as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> Exercise performed at a constant pace</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> When the body can match oxygen supply to oxygen demand</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> The point at which an athlete cannot continue exercising</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> The plateau of stroke volume during exercise</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">A coach asks an athlete to perform an active recovery rather than just sitting down after a hard session. The PRIMARY physiological reason is to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> Increase tidal volume back to resting levels faster</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> Keep oxygen supply elevated so accumulated metabolic by-products (such as H+) can be oxidised faster</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> Prevent the heart rate from rising to dangerous levels</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> Reduce oxygen consumption immediately to resting levels</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section-head">&#9989; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">The pulmonary artery is the only artery in the body that carries deoxygenated blood.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">An active recovery produces a SMALLER EPOC than a passive recovery.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">Heart rate and respiratory rate both have a direct linear relationship with exercise intensity right up to VO2 max.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">Stroke volume and tidal volume both rise linearly with exercise intensity without plateauing.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">EPOC stands for Excess Post-exercise Oxygen Consumption.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-section-head">&#128279; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 14 &mdash; Matching</div>
+    <div class="q-text">Match each term to its definition.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Term</div>
+        <div class="match-term">Cardiorespiratory</div>
+        <div class="match-term">Vascular</div>
+        <div class="match-term">Pulmonary circulation</div>
+        <div class="match-term">Systemic circulation</div>
+        <div class="match-term">Steady state</div>
+      </div>
+      <div>
+        <div class="match-col-head">Definition</div>
+        <select class="match-select" id="m1-1"><option value="">-- select --</option><option>Heart and respiratory system working together</option><option>All blood vessels through which blood, fuels and wastes are transported</option><option>Blood circuit between heart and lungs - picks up O2, releases CO2</option><option>Blood circuit between heart and body - delivers O2, collects CO2</option><option>When the body can match oxygen supply to oxygen demand</option></select>
+        <select class="match-select" id="m1-2"><option value="">-- select --</option><option>Heart and respiratory system working together</option><option>All blood vessels through which blood, fuels and wastes are transported</option><option>Blood circuit between heart and lungs - picks up O2, releases CO2</option><option>Blood circuit between heart and body - delivers O2, collects CO2</option><option>When the body can match oxygen supply to oxygen demand</option></select>
+        <select class="match-select" id="m1-3"><option value="">-- select --</option><option>Heart and respiratory system working together</option><option>All blood vessels through which blood, fuels and wastes are transported</option><option>Blood circuit between heart and lungs - picks up O2, releases CO2</option><option>Blood circuit between heart and body - delivers O2, collects CO2</option><option>When the body can match oxygen supply to oxygen demand</option></select>
+        <select class="match-select" id="m1-4"><option value="">-- select --</option><option>Heart and respiratory system working together</option><option>All blood vessels through which blood, fuels and wastes are transported</option><option>Blood circuit between heart and lungs - picks up O2, releases CO2</option><option>Blood circuit between heart and body - delivers O2, collects CO2</option><option>When the body can match oxygen supply to oxygen demand</option></select>
+        <select class="match-select" id="m1-5"><option value="">-- select --</option><option>Heart and respiratory system working together</option><option>All blood vessels through which blood, fuels and wastes are transported</option><option>Blood circuit between heart and lungs - picks up O2, releases CO2</option><option>Blood circuit between heart and body - delivers O2, collects CO2</option><option>When the body can match oxygen supply to oxygen demand</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 15 &mdash; Matching</div>
+    <div class="q-text">Match each variable to how it changes with exercise intensity.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Variable</div>
+        <div class="match-term">Heart rate (HR)</div>
+        <div class="match-term">Respiratory rate (RR)</div>
+        <div class="match-term">Stroke volume (SV)</div>
+        <div class="match-term">Tidal volume (TV)</div>
+        <div class="match-term">a-vO2 difference</div>
+      </div>
+      <div>
+        <div class="match-col-head">Pattern of change</div>
+        <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Direct linear rise right up to VO2 max</option><option>Rises linearly with intensity to VO2 max (mirrors HR)</option><option>Rises then plateaus around 40-50% maximum effort</option><option>Rises then plateaus at moderate intensity</option><option>Widens from ~6 mL/100 mL at rest to ~15 mL/100 mL at max exercise</option></select>
+        <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Direct linear rise right up to VO2 max</option><option>Rises linearly with intensity to VO2 max (mirrors HR)</option><option>Rises then plateaus around 40-50% maximum effort</option><option>Rises then plateaus at moderate intensity</option><option>Widens from ~6 mL/100 mL at rest to ~15 mL/100 mL at max exercise</option></select>
+        <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Direct linear rise right up to VO2 max</option><option>Rises linearly with intensity to VO2 max (mirrors HR)</option><option>Rises then plateaus around 40-50% maximum effort</option><option>Rises then plateaus at moderate intensity</option><option>Widens from ~6 mL/100 mL at rest to ~15 mL/100 mL at max exercise</option></select>
+        <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Direct linear rise right up to VO2 max</option><option>Rises linearly with intensity to VO2 max (mirrors HR)</option><option>Rises then plateaus around 40-50% maximum effort</option><option>Rises then plateaus at moderate intensity</option><option>Widens from ~6 mL/100 mL at rest to ~15 mL/100 mL at max exercise</option></select>
+        <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Direct linear rise right up to VO2 max</option><option>Rises linearly with intensity to VO2 max (mirrors HR)</option><option>Rises then plateaus around 40-50% maximum effort</option><option>Rises then plateaus at moderate intensity</option><option>Widens from ~6 mL/100 mL at rest to ~15 mL/100 mL at max exercise</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each recovery feature to active or passive recovery.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Feature</div>
+        <div class="match-term">Sitting or lying down after exercise</div>
+        <div class="match-term">Easy jogging after a hard interval session</div>
+        <div class="match-term">Larger EPOC, more H+ oxidised</div>
+        <div class="match-term">HR and RR return to resting faster</div>
+        <div class="match-term">Muscular pump assists venous return</div>
+      </div>
+      <div>
+        <div class="match-col-head">Recovery type</div>
+        <select class="match-select" id="m3-1"><option value="">-- select --</option><option>Passive recovery (stopping all activity)</option><option>Active recovery (reduced-intensity activity continues)</option><option>Active recovery (extra O2 needed for longer)</option><option>Passive recovery (smaller post-exercise demand)</option><option>Active recovery (continuing contractions aid blood return)</option></select>
+        <select class="match-select" id="m3-2"><option value="">-- select --</option><option>Passive recovery (stopping all activity)</option><option>Active recovery (reduced-intensity activity continues)</option><option>Active recovery (extra O2 needed for longer)</option><option>Passive recovery (smaller post-exercise demand)</option><option>Active recovery (continuing contractions aid blood return)</option></select>
+        <select class="match-select" id="m3-3"><option value="">-- select --</option><option>Passive recovery (stopping all activity)</option><option>Active recovery (reduced-intensity activity continues)</option><option>Active recovery (extra O2 needed for longer)</option><option>Passive recovery (smaller post-exercise demand)</option><option>Active recovery (continuing contractions aid blood return)</option></select>
+        <select class="match-select" id="m3-4"><option value="">-- select --</option><option>Passive recovery (stopping all activity)</option><option>Active recovery (reduced-intensity activity continues)</option><option>Active recovery (extra O2 needed for longer)</option><option>Passive recovery (smaller post-exercise demand)</option><option>Active recovery (continuing contractions aid blood return)</option></select>
+        <select class="match-select" id="m3-5"><option value="">-- select --</option><option>Passive recovery (stopping all activity)</option><option>Active recovery (reduced-intensity activity continues)</option><option>Active recovery (extra O2 needed for longer)</option><option>Passive recovery (smaller post-exercise demand)</option><option>Active recovery (continuing contractions aid blood return)</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+</div>
+
+<div id="tab-exam" class="tab-pane">
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">1. Describe how the respiratory system and cardiovascular system work together to take up and transport oxygen to working muscles during exercise.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The respiratory system takes up oxygen from the air, drawing it into the lungs where gaseous exchange occurs at the alveolar/capillary interface. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Oxygen diffuses into the blood, binds to haemoglobin and is pumped by the heart through the systemic circuit to the working muscles. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At the muscle capillaries, oxygen diffuses into the muscle for energy production; CO2 diffuses out and is transported back to the lungs to be exhaled - completing the cycle. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Use the terms cardiorespiratory, pulmonary, systemic and gaseous exchange explicitly. Show the chain from air -> alveoli -> blood -> heart -> muscles.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">2 marks</span></div>
+    <div class="eq-q">2. Define steady state and explain why it is achieved at rest.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Steady state is when the body can match oxygen supply to oxygen demand. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At rest, the body&apos;s oxygen demand is LOW and is easily met by the cardiorespiratory systems - HR and RR are low and in sync. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Steady state happens at rest AND during low-to-moderate intensity exercise (not only at rest).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">3. Describe what is meant by the a-vO2 difference and explain how it changes from rest to maximal exercise. Use values from the textbook in your answer.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The a-vO2 difference (arteriovenous oxygen difference) is the difference in oxygen content between arterial blood entering the muscle and venous blood leaving it - it measures how much O2 the muscles have extracted. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At rest, the a-vO2 difference is approximately 6 mL O2 per 100 mL of blood (18 mL arterial - 12 mL venous). (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At maximal exercise it widens to approximately 15 mL O2 per 100 mL blood (18 mL arterial - 3 mL venous) - because working muscles extract much more oxygen. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Quote the exact numbers from the textbook (6 mL at rest, 15 mL at max). The widening of a-vO2 diff is a key way the body delivers more O2 to muscles during exercise.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">A runner finishes a 5 km time trial. Their coach insists they jog for 10 minutes at low intensity rather than sit down on the grass.</div>
+    <div class="eq-q">4. Identify what type of recovery the coach has prescribed and explain THREE physiological benefits of this approach compared to a passive recovery.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The coach has prescribed an ACTIVE recovery - continuing the activity at a reduced intensity. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Benefit 1: Oxygen consumption (EPOC) remains above resting levels for longer, allowing greater oxidation of accumulated metabolic by-products like H+. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Benefit 2: The muscular/vascular pump from continued muscle contractions promotes venous return to the heart and prevents venous pooling in the legs. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Benefit 3: Continued blood flow assists with thermoregulation - heat continues to be transported to the skin to be dissipated. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Three distinct benefits earn three marks. Link H+ oxidation, venous return AND thermoregulation. Don&apos;t repeat the same idea differently.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-q">5. Describe the cardiorespiratory response to a single bout of moderate-intensity exercise from rest, through exercise, to recovery. Explain how heart rate, respiratory rate, stroke volume and tidal volume change at each stage, and what happens to EPOC after the bout. Reference both the direct linear relationship and finite capacity in your answer.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:140px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At rest: HR, RR, SV and TV are at low resting levels. The body is in steady state - oxygen supply matches oxygen demand. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At exercise onset: HR and RR rise rapidly in a direct linear relationship with exercise intensity, mirroring each other as the demand for O2 increases. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Stroke volume and tidal volume also rise, but only up to their finite capacity (around 40-50% maximum effort), then they plateau. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>During steady-state moderate exercise, HR and RR level off at an elevated rate as the body matches O2 supply to the new (higher) demand. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At exercise off-set (recovery): HR and RR fall but remain above resting levels for some time - this elevated O2 consumption is EPOC (Excess Post-exercise Oxygen Consumption). (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>EPOC supplies the extra oxygen needed to oxidise accumulated metabolic by-products (H+), replenish energy stores and return the body to homeostasis. An active recovery extends EPOC; a passive recovery shortens it. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Walk through ALL stages - rest, onset, steady state, off-set, EPOC. Use the keywords direct linear relationship and finite capacity explicitly. Mention what EPOC is used for, not just that it exists.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch4 Part B Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'quiz' ? 0 : 1].className = 'tab-btn active';
+}
+var totalQ = 16; var answered = 0; var correctCount = 0;
+function updateScore(gotIt) {
+  answered++; if (gotIt) correctCount++;
+  document.getElementById('score-correct').textContent = correctCount;
+  document.getElementById('score-total').textContent = answered;
+  document.getElementById('progress-bar').style.width = Math.round((answered / totalQ) * 100) + '%';
+}
+var mcAnswers = {
+  mc1: { correct: 'C', explanation: 'Oxygen concentration is HIGHEST in the capillaries surrounding the alveoli - this is just after gas exchange where O2 has been picked up from the lungs. The capillaries surrounding muscles have lower O2 (it has been extracted by tissues).' },
+  mc2: { correct: 'A', explanation: 'At rest, oxygen demand is LOW and easily met by the cardiorespiratory systems (this is steady state). Resting VO2 is ~3.5 mL/kg/min (1 MET), not 12-15 L/min. Body mass alone does not change resting consumption much.' },
+  mc3: { correct: 'C', explanation: 'There is a direct linear relationship between exercise intensity and both HR and RR. Both rise together as intensity rises and fall together as intensity falls. The respiratory and cardiovascular systems work in sync.' },
+  mc4: { correct: 'C', explanation: 'EPOC = O2 consumption above resting levels during recovery. Active recovery keeps O2 supply elevated for longer - clearing metabolic by-products faster than passive recovery.' },
+  mc5: { correct: 'C', explanation: 'a-vO2 diff widens from ~6 mL/100 mL at rest (18-12) to ~15 mL/100 mL at maximal exercise (18-3). The muscles extract nearly all the oxygen from arterial blood at max effort.' },
+  mc6: { correct: 'B', explanation: 'Pulmonary circuit: right side of heart -> pulmonary artery (deoxy) -> lungs -> pulmonary vein (oxy) -> left side of heart. The pulmonary artery is the only artery carrying deoxygenated blood.' },
+  mc7: { correct: 'B', explanation: 'Steady state = when the body can match O2 supply to O2 demand. Occurs at rest and during low-moderate intensity exercise.' },
+  mc8: { correct: 'B', explanation: 'Active recovery keeps HR, RR and ventilation elevated - so more O2 is delivered to the muscles, allowing accumulated H+ and lactate to be oxidised faster than during passive recovery.' }
+};
+var tfAnswers = {
+  tf1: { correct: true,  explanation: 'TRUE - the pulmonary artery is the ONLY artery carrying deoxygenated blood (because arteries are defined by direction = away from heart, not by oxygen content). Pulmonary artery carries deoxy blood from right ventricle to lungs.' },
+  tf2: { correct: false, explanation: 'FALSE - active recovery produces a LARGER EPOC, not smaller. Continuing low-intensity activity keeps HR, RR and ventilation elevated for longer, so total O2 consumption above resting is greater.' },
+  tf3: { correct: true,  explanation: 'TRUE - HR and RR both have a direct linear relationship with exercise intensity right up to VO2 max. (SV and TV do NOT - they plateau at moderate intensity.)' },
+  tf4: { correct: false, explanation: 'FALSE - SV and TV have FINITE CAPACITY. They rise then plateau (around 40-50% max effort for SV). HR and RR keep rising linearly to VO2 max.' },
+  tf5: { correct: true,  explanation: 'TRUE - EPOC stands for Excess Post-exercise Oxygen Consumption. The amount of O2 consumed above resting levels during recovery.' }
+};
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var opts = card.querySelectorAll('.mc-opt');
+  var ans = mcAnswers[qid]; var letters = ['A','B','C','D'];
+  var correct = (chosen === ans.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkTF(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = tfAnswers[qid]; var correct = (chosen === ans.correct);
+  var btns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add('disabled');
+    if ((btns[i].textContent === 'True') === ans.correct) btns[i].classList.add('correct');
+  }
+  if (!correct) el.classList.add('wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkMatch(qid, correctMap, fbid) {
+  var allCorrect = true;
+  var keys = Object.keys(correctMap);
+  for (var i = 0; i < keys.length; i++) {
+    var sel = document.getElementById(keys[i]);
+    if (!sel || sel.value !== correctMap[keys[i]]) { allCorrect = false; break; }
+  }
+  var msg = allCorrect ? '&#10003; All correct!' : 'Not quite. Correct answers:';
+  if (!allCorrect) for (var i = 0; i < keys.length; i++) msg += '<br>&#10003; ' + correctMap[keys[i]];
+  var fb = document.getElementById(fbid);
+  fb.innerHTML = msg;
+  fb.className = 'q-feedback show' + (allCorrect ? '' : ' wrong-fb');
+  var card = document.getElementById(qid);
+  card.classList.add(allCorrect ? 'correct' : 'wrong');
+  var sels = card.querySelectorAll('.match-select');
+  for (var i = 0; i < sels.length; i++) sels[i].disabled = true;
+  var btn = card.querySelector('.match-check-btn');
+  if (btn) btn.disabled = true;
+  updateScore(allCorrect);
+}
+function checkMatch1() {
+  checkMatch('match1',{
+    'm1-1':'Heart and respiratory system working together',
+    'm1-2':'All blood vessels through which blood, fuels and wastes are transported',
+    'm1-3':'Blood circuit between heart and lungs - picks up O2, releases CO2',
+    'm1-4':'Blood circuit between heart and body - delivers O2, collects CO2',
+    'm1-5':'When the body can match oxygen supply to oxygen demand'
+  },'fb-match1');
+}
+function checkMatch2() {
+  checkMatch('match2',{
+    'm2-1':'Direct linear rise right up to VO2 max',
+    'm2-2':'Rises linearly with intensity to VO2 max (mirrors HR)',
+    'm2-3':'Rises then plateaus around 40-50% maximum effort',
+    'm2-4':'Rises then plateaus at moderate intensity',
+    'm2-5':'Widens from ~6 mL/100 mL at rest to ~15 mL/100 mL at max exercise'
+  },'fb-match2');
+}
+function checkMatch3() {
+  checkMatch('match3',{
+    'm3-1':'Passive recovery (stopping all activity)',
+    'm3-2':'Active recovery (reduced-intensity activity continues)',
+    'm3-3':'Active recovery (extra O2 needed for longer)',
+    'm3-4':'Passive recovery (smaller post-exercise demand)',
+    'm3-5':'Active recovery (continuing contractions aid blood return)'
+  },'fb-match3');
+}
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+function resetQuiz() {
+  answered = 0; correctCount = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var tfs = cards[i].querySelectorAll('.tf-btn');
+    for (var j = 0; j < tfs.length; j++) {
+      tfs[j].className = 'tf-btn';
+      var v = tfs[j].textContent === 'True';
+      tfs[j].onclick = (function(b,id,val){return function(){checkTF(b,id,val);};})(tfs[j],cards[i].id,v);
+    }
+    var sels = cards[i].querySelectorAll('.match-select');
+    for (var j = 0; j < sels.length; j++) { sels[j].disabled = false; sels[j].value = ''; }
+    var mb = cards[i].querySelector('.match-check-btn');
+    if (mb) mb.disabled = false;
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>

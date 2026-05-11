@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch4 Part A: The Respiratory System</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #F5F4F0; color: #1a1a18; font-size: 14px; line-height: 1.65; padding: 16px; }
+
+    h1 { text-align: center; font-size: 0.79em; font-weight: 600; color: #5F5E5A; margin-bottom: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+    .chapter-title { text-align: center; font-size: 1.43em; font-weight: 700; color: #085041; margin-bottom: 4px; letter-spacing: -0.3px; }
+    .subtitle { text-align: center; color: #5F5E5A; font-size: 0.86em; margin-bottom: 14px; font-style: italic; }
+
+    .search-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .search-wrap input { flex: 1; min-width: 160px; padding: 9px 14px; border: 1.5px solid #D3D1C7; border-radius: 8px; font-size: 1em; background: #fff; outline: none; font-family: inherit; }
+    .search-wrap input:focus { border-color: #1D9E75; }
+    #search-clear { display: none; padding: 5px 12px; border-radius: 5px; border: 1px solid #D3D1C7; background: #fff; font-size: 0.82em; cursor: pointer; color: #1a1a18; font-weight: 600; font-family: inherit; }
+    #search-clear.visible { display: inline-block; }
+    #search-count { font-size: 0.82em; color: #5F5E5A; white-space: nowrap; min-width: 60px; }
+    mark { background: #ffe066; border-radius: 2px; padding: 0 2px; }
+
+    /* Diagram wrap */
+    .diagram-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .diagram-wrap.blue { border-left-color: #378ADD; }
+    .diagram-wrap.purple { border-left-color: #AFA9EC; }
+    .diagram-wrap.amber { border-left-color: #BA7517; }
+    .diagram-wrap.coral { border-left-color: #D85A30; }
+    .diagram-wrap.teal { border-left-color: #5DCAA5; }
+    .diagram-head { background: #fff; padding: 11px 14px; font-weight: 700; font-size: 0.93em; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #1a1a18; border-radius: 7px; }
+    .diagram-head:hover { background: #F8F7F3; }
+    .diagram-head.blue   { background: #f5f8fd; color: #1a3060; }
+    .diagram-head.purple { background: #f7f6fe; color: #2e2870; }
+    .diagram-head.amber  { background: #fdf8f0; color: #5a3800; }
+    .diagram-head.coral  { background: #fdf2ec; color: #7a3010; }
+    .diagram-head.teal   { background: #eaf7f2; color: #1a5a44; }
+    .diagram-body { display: none; padding: 12px; text-align: center; }
+    .diagram-body.open { display: block; }
+    .diagram-caption { font-size: .81rem; color: #555; margin-top: 8px; font-style: italic; text-align: left; }
+    .cat-arrow { font-size: .82rem; margin-left: 6px; }
+
+    /* Box wrap */
+    .box-wrap { border: 2px solid #5DCAA5; border-radius: 8px; margin: 10px 16px; background: #fff; overflow: hidden; }
+    .box-wrap.blue { border-left-color: #90bce6; }
+    .box-wrap.purple { border-left-color: #c8c4f4; }
+    .box-wrap.teal { border-left-color: #5DCAA5; }
+    .box-wrap.amber { border-left-color: #d4a055; }
+    .box-wrap.coral { border-left-color: #e8a48a; }
+    .box-wrap.gray { border-left-color: #c8c6be; }
+    .box-toggle { color: #1a1a18; border-radius: 7px;  padding: 9px 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .9rem; font-weight: bold; color: #1a3d48; }
+    .box-body { display: none; padding: 12px 14px; }
+    .box-body.open { display: block; }
+    .box-note { font-size: .82rem; color: #444; margin-top: 9px; background: #fafafa; border-left: 4px solid #5DCAA5; padding: 6px 10px; border-radius: 0 4px 4px 0; }
+    .tip-box { font-size: .85rem; color: #444; margin-top: 10px; background: #eaf7f2; border-left: 4px solid #5DCAA5; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .tip-box strong { color: #1a5a44; }
+    .warn-box { font-size: .85rem; color: #444; margin-top: 10px; background: #fdf6e8; border-left: 4px solid #BA7517; padding: 8px 12px; border-radius: 0 4px 4px 0; }
+    .warn-box strong { color: #5a3800; }
+
+    /* Formula box */
+    .formula-box { background: #fdf8f0; border: 2px solid #BA7517; border-radius: 8px; padding: 14px 18px; margin: 6px 0 10px; text-align: center; }
+    .formula-box .label { color: #5a3800; font-size: .82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .formula-box .eq { font-size: 1.15em; font-weight: 700; color: #1a1a18; }
+    .formula-box .eq small { font-weight: 400; color: #888; font-size: 0.85em; display: block; margin-top: 2px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: .86rem; margin: 4px 0; }
+    th { background: #4a4a5a; color: #fff; padding: 7px 9px; text-align: left; font-size: .84rem; }
+    td { padding: 6px 9px; border-bottom: 1px solid #e8e8ee; vertical-align: top; text-align: left; }
+    tr:nth-child(even) td { background: #f8f8fa; }
+    tr:hover td { background: #f2f2f6; }
+    .ct th { background: #2C2C2A; }
+    .mt th { background: #085041; }
+    .pt th { background: #3C3489; }
+    .bt th { background: #1a3060; }
+
+    /* Key terms */
+    #list { padding: 0 16px 16px; }
+    .cat-wrap { border: 2px solid #90bce6; border-radius: 8px; margin-bottom: 9px; overflow: hidden; }
+    .cat-wrap.purple { border-left-color: #c8c4f4; }
+    .cat-wrap.teal { border-left-color: #7dd8be; }
+    .cat-wrap.coral { border-left-color: #e8a48a; }
+    .cat-wrap.amber { border-left-color: #d4a055; }
+    .cat-wrap.blue { border-left-color: #90bce6; }
+    .cat-wrap.pink { border-left-color: #e8a0c0; }
+    .cat-wrap.gray { border-left-color: #c8c6be; }
+    .cat-head { padding: 11px 14px; font-weight: 700; cursor: pointer; font-size: 0.93em; color: #1a1a18; background: #fff; display: flex; justify-content: space-between; align-items: center; user-select: none; border-radius: 7px; }
+    .cat-head:hover { background: #F8F7F3; }
+    .cat-head-right { display: flex; align-items: center; gap: 9px; font-size: .78rem; font-weight: normal; color: #555; }
+    .cat-body { display: none; padding: 5px 11px 9px; }
+    .cat-body.open { display: block; }
+    .term { border-bottom: 1px solid #eee; padding: 5px 0; }
+    .term:last-child { border-bottom: none; }
+    .term-title { cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: .86rem; padding: 3px 2px; }
+    .term-body { display: none; padding: 5px 3px 3px; font-size: .84rem; }
+    .term-body.open { display: block; }
+    .term-def { margin-bottom: 3px; color: #222; }
+    .term-eg { display: block; font-style: italic; color: #555; font-size: .82rem; margin-top: 2px; }
+    .term-note { display: block; margin-top: 5px; background: #fdf6e8; border-left: 3px solid #BA7517; padding: 4px 8px; font-size: .81rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .arrow { font-size: .78rem; }
+    .hot-badge { display: inline-block; background: #E24B4A; color: #fff; font-size: 0.7em; font-weight: 700; border-radius: 10px; padding: 2px 8px; margin-left: auto; position: relative; cursor: default; letter-spacing: 0.4px; white-space: nowrap; }
+    .hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #1a3d48; color: #d6eef3; padding: 4px 9px; border-radius: 6px; font-size: .76rem; white-space: nowrap; z-index: 10; font-weight: normal; }
+    .hot-badge:hover .tip { display: block; }
+
+    #no-results { display: none; text-align: center; color: #888; padding: 18px; font-style: italic; }
+    svg text { font-family: Georgia, serif; }
+
+    .lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-inner { background: #fff; border-radius: 10px; max-width: 92vw; max-height: 90vh; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 9px; position: relative; overflow: auto; }
+    .lightbox-inner img { max-width: 100%; max-height: 68vh; border-radius: 6px; object-fit: contain; }
+    .lightbox-caption { font-size: .9rem; color: #222; text-align: center; }
+    .lightbox-filename { font-size: .76rem; color: #888; }
+    .lightbox-error { display: none; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 13px; border-radius: 6px; font-size: .84rem; text-align: center; }
+    .lightbox-error.show { display: block; }
+    .lightbox-close { position: absolute; top: 9px; right: 13px; font-size: 1.3rem; cursor: pointer; color: #555; background: none; border: none; line-height: 1; }
+
+    .footer { text-align: center; font-size: .77rem; color: #888; padding: 18px 16px 26px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+    @media (max-width: 600px) { h1 { font-size: 1.05rem; } }
+
+    .size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+    .size-row span { font-size: 0.79em; color: #5F5E5A; font-weight: 600; }
+    .sz-btn { padding: 4px 11px; border-radius: 6px; border: 1.5px solid #D3D1C7; background: #fff; font-size: 0.79em; cursor: pointer; font-weight: 600; color: #1a1a18; font-family: inherit; }
+    .sz-btn.active { background: #085041; color: #fff; border-color: #085041; }
+    .sz-btn:hover:not(.active) { background: #F5F4F0; }
+
+    .section-divider { font-size: 0.93em; font-weight: 700; color: #fff; background: #1a1a18; border-radius: 8px; padding: 10px 14px; margin: 22px 0 14px; letter-spacing: 0.3px; }
+  </style>
+</head>
+<body>
+
+<h1>VCE Physical Education &middot; Unit 1 AOS 2</h1>
+<p class="chapter-title">Chapter 4 Part A &mdash; The Respiratory System</p>
+<p class="subtitle">Live it Up 5th ed.</p>
+
+<div class="size-row">
+  <span>Text size:</span>
+  <button class="sz-btn active" id="sz-s" onclick="setSize(14)">Default</button>
+  <button class="sz-btn" id="sz-m" onclick="setSize(17)">Large</button>
+  <button class="sz-btn" id="sz-l" onclick="setSize(20)">X-Large</button>
+</div>
+
+<div class="search-wrap">
+  <input id="search" type="text" placeholder="&#128269; Search key terms..." oninput="doSearch(this.value)">
+  <button id="search-clear" onclick="clearSearch()">&#10005; Clear</button>
+  <span id="search-count"></span>
+</div>
+
+<div class="section-divider">&#128218; Chapter contents</div>
+
+<!-- ===== 4A.1 STRUCTURES ===== -->
+<div class="diagram-wrap blue" id="sec4A1">
+  <div class="diagram-head blue" onclick="toggleB(this)">
+    <span>&#129729; 4A.1 &mdash; Structures of the Respiratory System</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <p style="font-size:.88rem;margin-bottom:10px;text-align:left;">The respiratory system has <strong>two zones</strong> that work together. The conducting zone moves air in and out (no gas exchange). The respiratory zone is where actual gaseous exchange happens.</p>
+
+    <svg viewBox="0 0 720 480" style="max-width:760px;width:100%;display:inline-block;">
+      <!-- head/nose/mouth -->
+      <ellipse cx="280" cy="60" rx="40" ry="46" fill="#f5d8c8" stroke="#1a1a18" stroke-width="1.5"/>
+      <text x="280" y="55" text-anchor="middle" fill="#1a1a18" font-size="9.5" font-weight="bold">Nose</text>
+      <text x="280" y="68" text-anchor="middle" fill="#1a1a18" font-size="9.5" font-weight="bold">/ Mouth</text>
+
+      <!-- pharynx -->
+      <rect x="265" y="106" width="30" height="36" fill="#f5d8c8" stroke="#1a1a18" stroke-width="1.5"/>
+      <line x1="320" y1="118" x2="420" y2="110" stroke="#888" stroke-width="1"/>
+      <text x="425" y="113" fill="#378ADD" font-size="10" font-weight="bold">Pharynx</text>
+      <text x="425" y="125" fill="#555" font-size="8.5">throat &mdash; air + food share path</text>
+
+      <!-- larynx -->
+      <path d="M260,142 L300,142 L296,168 L264,168 Z" fill="#f5d8c8" stroke="#1a1a18" stroke-width="1.5"/>
+      <line x1="300" y1="155" x2="420" y2="148" stroke="#888" stroke-width="1"/>
+      <text x="425" y="151" fill="#378ADD" font-size="10" font-weight="bold">Larynx</text>
+      <text x="425" y="163" fill="#555" font-size="8.5">voice box; protects airway during swallow</text>
+
+      <!-- trachea -->
+      <rect x="266" y="168" width="28" height="86" fill="#f0c0a8" stroke="#1a1a18" stroke-width="1.5"/>
+      <!-- cartilage rings -->
+      <line x1="266" y1="180" x2="294" y2="180" stroke="#888" stroke-width="0.8"/>
+      <line x1="266" y1="195" x2="294" y2="195" stroke="#888" stroke-width="0.8"/>
+      <line x1="266" y1="210" x2="294" y2="210" stroke="#888" stroke-width="0.8"/>
+      <line x1="266" y1="225" x2="294" y2="225" stroke="#888" stroke-width="0.8"/>
+      <line x1="266" y1="240" x2="294" y2="240" stroke="#888" stroke-width="0.8"/>
+      <line x1="294" y1="210" x2="420" y2="205" stroke="#888" stroke-width="1"/>
+      <text x="425" y="208" fill="#378ADD" font-size="10" font-weight="bold">Trachea</text>
+      <text x="425" y="220" fill="#555" font-size="8.5">windpipe &mdash; cartilage rings</text>
+
+      <!-- bronchi (left and right) -->
+      <path d="M280,254 L220,290 L210,328" stroke="#e8a090" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <path d="M280,254 L340,290 L350,328" stroke="#e8a090" stroke-width="14" stroke-linecap="round" fill="none"/>
+      <line x1="200" y1="310" x2="115" y2="300" stroke="#888" stroke-width="1"/>
+      <text x="110" y="303" text-anchor="end" fill="#378ADD" font-size="10" font-weight="bold">Bronchi</text>
+      <text x="110" y="315" text-anchor="end" fill="#555" font-size="8.5">L &amp; R primary</text>
+
+      <!-- bronchioles -->
+      <path d="M210,328 L184,360 M210,328 L228,362 M210,328 L196,372" stroke="#e8a090" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path d="M350,328 L378,360 M350,328 L332,362 M350,328 L362,374" stroke="#e8a090" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path d="M184,360 L170,378 M184,360 L196,386" stroke="#e8a090" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M378,360 L394,380 M378,360 L368,388" stroke="#e8a090" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <line x1="180" y1="378" x2="115" y2="360" stroke="#888" stroke-width="1"/>
+      <text x="110" y="363" text-anchor="end" fill="#378ADD" font-size="10" font-weight="bold">Bronchioles</text>
+      <text x="110" y="375" text-anchor="end" fill="#555" font-size="8.5">smaller branches</text>
+
+      <!-- lung outlines -->
+      <path d="M150,260 Q120,280 110,330 Q105,400 130,440 Q170,455 200,420 Q230,400 245,360 Q255,310 245,270 Q220,250 180,255 Z"
+            fill="#fce8e0" stroke="#7a3010" stroke-width="1.5" opacity="0.5"/>
+      <path d="M410,260 Q440,280 450,330 Q455,400 430,440 Q390,455 360,420 Q330,400 315,360 Q305,310 315,270 Q340,250 380,255 Z"
+            fill="#fce8e0" stroke="#7a3010" stroke-width="1.5" opacity="0.5"/>
+      <line x1="246" y1="370" x2="425" y2="380" stroke="#888" stroke-width="1"/>
+      <text x="430" y="383" fill="#7a3010" font-size="10" font-weight="bold">Lungs</text>
+
+      <!-- alveoli cluster (zoom-in) -->
+      <circle cx="180" cy="396" r="5" fill="#fce8e0" stroke="#7a3010" stroke-width="1"/>
+      <circle cx="190" cy="404" r="5" fill="#fce8e0" stroke="#7a3010" stroke-width="1"/>
+      <circle cx="200" cy="396" r="5" fill="#fce8e0" stroke="#7a3010" stroke-width="1"/>
+      <circle cx="395" cy="394" r="5" fill="#fce8e0" stroke="#7a3010" stroke-width="1"/>
+      <circle cx="385" cy="404" r="5" fill="#fce8e0" stroke="#7a3010" stroke-width="1"/>
+      <circle cx="375" cy="394" r="5" fill="#fce8e0" stroke="#7a3010" stroke-width="1"/>
+
+      <!-- ====== Zoom inset ====== -->
+      <rect x="510" y="252" width="200" height="200" rx="10" fill="#fff9f4" stroke="#BA7517" stroke-width="1.5"/>
+      <text x="610" y="270" text-anchor="middle" fill="#5a3800" font-size="11" font-weight="bold">Respiratory zone (zoom)</text>
+      <!-- respiratory bronchiole -->
+      <path d="M520,290 Q545,300 555,320 Q565,335 575,335" stroke="#e8a090" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <text x="555" y="290" fill="#5a3800" font-size="9">Respiratory bronchiole</text>
+      <!-- alveolar duct -->
+      <path d="M575,335 L605,338 L615,335" stroke="#e8a090" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <text x="615" y="320" fill="#5a3800" font-size="9">Alveolar duct</text>
+      <!-- alveoli cluster -->
+      <circle cx="635" cy="345" r="13" fill="#fce8e0" stroke="#7a3010" stroke-width="1.2"/>
+      <circle cx="652" cy="356" r="11" fill="#fce8e0" stroke="#7a3010" stroke-width="1.2"/>
+      <circle cx="640" cy="370" r="12" fill="#fce8e0" stroke="#7a3010" stroke-width="1.2"/>
+      <circle cx="620" cy="370" r="10" fill="#fce8e0" stroke="#7a3010" stroke-width="1.2"/>
+      <circle cx="625" cy="385" r="11" fill="#fce8e0" stroke="#7a3010" stroke-width="1.2"/>
+      <circle cx="645" cy="392" r="10" fill="#fce8e0" stroke="#7a3010" stroke-width="1.2"/>
+      <text x="640" y="425" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">Alveoli</text>
+      <text x="640" y="438" text-anchor="middle" fill="#555" font-size="8.5">gas exchange happens here</text>
+
+      <!-- Zone labels -->
+      <rect x="14" y="14" width="170" height="34" rx="6" fill="#eaf4f7" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="99" y="32" text-anchor="middle" fill="#1a3060" font-size="10" font-weight="bold">Zone 1: Conducting</text>
+      <text x="99" y="44" text-anchor="middle" fill="#1a3060" font-size="8.5">moves air; NO gas exchange</text>
+
+      <rect x="14" y="232" width="170" height="34" rx="6" fill="#fce8e0" stroke="#7a3010" stroke-width="1.5"/>
+      <text x="99" y="250" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">Zone 2: Respiratory</text>
+      <text x="99" y="262" text-anchor="middle" fill="#7a3010" font-size="8.5">gas exchange site</text>
+    </svg>
+    <p class="diagram-caption">Air follows the path: <strong>nose/mouth &rarr; pharynx &rarr; larynx &rarr; trachea &rarr; bronchi &rarr; bronchioles &rarr; respiratory bronchioles &rarr; alveolar ducts &rarr; alveoli</strong>. Only the last three (in the respiratory zone) are involved in gas exchange.</p>
+  </div>
+</div>
+
+<!-- Conducting vs Respiratory comparison -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; The Two Zones &mdash; Side-by-Side</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Feature</th><th>Conducting zone</th><th>Respiratory zone</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Structures</strong></td><td>Mouth/nose, pharynx, larynx, trachea, bronchi, bronchioles</td><td>Respiratory bronchioles, alveolar ducts, alveoli</td></tr>
+          <tr><td><strong>Main role</strong></td><td>Bring air into and out of the lungs</td><td>Site of gaseous exchange (O<sub>2</sub> in, CO<sub>2</sub> out)</td></tr>
+          <tr><td><strong>Gas exchange?</strong></td><td>NO &mdash; not involved</td><td>YES &mdash; this is where it happens</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; Common exam trap:</strong> &ldquo;The bronchus makes up part of the respiratory zone&rdquo; is FALSE. The bronchi are still in the conducting zone. Gas exchange does NOT happen until the respiratory bronchioles and alveoli.</p>
+  </div>
+</div>
+
+<!-- ===== 4A.2 INSPIRATION AND EXPIRATION ===== -->
+<div class="diagram-wrap teal" id="sec4A2">
+  <div class="diagram-head teal" onclick="toggleB(this)">
+    <span>&#127934; 4A.2 &mdash; Inspiration &amp; Expiration (Mechanics of Breathing)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <p style="font-size:.88rem;margin-bottom:10px;text-align:left;">Two muscles move air in and out of the lungs: the <strong>diaphragm</strong> (dome-shaped muscle at base of chest) and the <strong>intercostal muscles</strong> (between each rib). <strong>Inspiration is ACTIVE</strong>, expiration at rest is <strong>PASSIVE</strong>.</p>
+
+    <svg viewBox="0 0 720 360" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- INSPIRATION -->
+      <text x="180" y="22" text-anchor="middle" fill="#085041" font-size="13" font-weight="bold">INSPIRATION (inhale)</text>
+      <!-- chest cavity outline -->
+      <path d="M80,60 Q70,140 90,220 Q110,250 180,250 Q250,250 270,220 Q290,140 280,60 Z" fill="#eaf7f2" stroke="#085041" stroke-width="2"/>
+      <!-- ribs -->
+      <path d="M100,80 Q180,75 260,80" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M95,105 Q180,100 265,105" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M92,130 Q180,124 268,130" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M90,155 Q180,148 270,155" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M90,180 Q180,172 270,180" stroke="#888" stroke-width="2" fill="none"/>
+      <!-- diaphragm (flattened) -->
+      <path d="M95,220 Q180,225 265,220" stroke="#D85A30" stroke-width="3" fill="none"/>
+      <!-- arrows: ribs up & out, diaphragm down -->
+      <line x1="80" y1="120" x2="65" y2="115" stroke="#085041" stroke-width="2" marker-end="url(#arrG)"/>
+      <line x1="280" y1="120" x2="295" y2="115" stroke="#085041" stroke-width="2" marker-end="url(#arrG)"/>
+      <text x="35" y="120" text-anchor="middle" fill="#085041" font-size="9">ribs up</text>
+      <text x="35" y="132" text-anchor="middle" fill="#085041" font-size="9">&amp; out</text>
+      <line x1="180" y1="235" x2="180" y2="265" stroke="#D85A30" stroke-width="2" marker-end="url(#arrR3)"/>
+      <text x="180" y="285" text-anchor="middle" fill="#D85A30" font-size="9.5" font-weight="bold">diaphragm contracts</text>
+      <text x="180" y="297" text-anchor="middle" fill="#D85A30" font-size="9">&amp; flattens (active)</text>
+      <!-- air arrow in -->
+      <line x1="180" y1="44" x2="180" y2="68" stroke="#378ADD" stroke-width="3" marker-end="url(#arrB2)"/>
+      <text x="180" y="38" text-anchor="middle" fill="#378ADD" font-size="9.5" font-weight="bold">AIR IN</text>
+      <!-- outcome -->
+      <text x="180" y="320" text-anchor="middle" fill="#1a1a18" font-size="10">Chest volume &#8593; &rarr; lung pressure &#8595; &rarr; air flows in</text>
+      <text x="180" y="338" text-anchor="middle" fill="#888" font-size="9" font-style="italic">Active process &mdash; requires energy</text>
+
+      <!-- EXPIRATION -->
+      <text x="540" y="22" text-anchor="middle" fill="#7a3010" font-size="13" font-weight="bold">EXPIRATION (exhale)</text>
+      <path d="M455,68 Q445,140 465,210 Q485,238 540,238 Q595,238 615,210 Q635,140 625,68 Z" fill="#fdf2ec" stroke="#7a3010" stroke-width="2"/>
+      <!-- ribs (lower position) -->
+      <path d="M470,88 Q540,82 610,88" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M467,112 Q540,106 613,112" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M465,135 Q540,128 615,135" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M464,158 Q540,150 616,158" stroke="#888" stroke-width="2" fill="none"/>
+      <path d="M464,180 Q540,170 616,180" stroke="#888" stroke-width="2" fill="none"/>
+      <!-- diaphragm (domed shape, raised) -->
+      <path d="M470,215 Q540,180 610,215" stroke="#D85A30" stroke-width="3" fill="none"/>
+      <!-- arrows: ribs down, diaphragm up -->
+      <line x1="440" y1="120" x2="455" y2="125" stroke="#7a3010" stroke-width="2" marker-end="url(#arrAm)"/>
+      <line x1="640" y1="120" x2="625" y2="125" stroke="#7a3010" stroke-width="2" marker-end="url(#arrAm)"/>
+      <text x="420" y="120" text-anchor="middle" fill="#7a3010" font-size="9">ribs</text>
+      <text x="420" y="132" text-anchor="middle" fill="#7a3010" font-size="9">fall</text>
+      <line x1="540" y1="230" x2="540" y2="205" stroke="#D85A30" stroke-width="2" marker-end="url(#arrR3)"/>
+      <text x="540" y="260" text-anchor="middle" fill="#D85A30" font-size="9.5" font-weight="bold">diaphragm relaxes</text>
+      <text x="540" y="272" text-anchor="middle" fill="#D85A30" font-size="9">&amp; domes upward</text>
+      <!-- air arrow out -->
+      <line x1="540" y1="60" x2="540" y2="40" stroke="#7a3010" stroke-width="3" marker-end="url(#arrAm)"/>
+      <text x="540" y="32" text-anchor="middle" fill="#7a3010" font-size="9.5" font-weight="bold">AIR OUT</text>
+      <text x="540" y="320" text-anchor="middle" fill="#1a1a18" font-size="10">Chest volume &#8595; &rarr; lung pressure &#8593; &rarr; air forced out</text>
+      <text x="540" y="338" text-anchor="middle" fill="#888" font-size="9" font-style="italic">Passive at rest &mdash; no energy required</text>
+
+      <defs>
+        <marker id="arrG" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#085041"/>
+        </marker>
+        <marker id="arrR3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#D85A30"/>
+        </marker>
+        <marker id="arrB2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#378ADD"/>
+        </marker>
+        <marker id="arrAm" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#7a3010"/>
+        </marker>
+      </defs>
+    </svg>
+    <p class="diagram-caption">Gases <strong>always flow from high pressure to low pressure</strong>. Inspiration creates a low-pressure space in the lungs (by expanding chest cavity); expiration creates a high-pressure space (by shrinking chest cavity).</p>
+  </div>
+</div>
+
+<!-- Mechanics table -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128194; Mechanics Side-by-Side &mdash; Active vs Passive</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="mt">
+        <thead><tr><th>Step</th><th>Inspiration (active)</th><th>Expiration at rest (passive)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Diaphragm</strong></td><td>Contracts &amp; flattens (pulls down)</td><td>Relaxes &amp; returns to dome shape (moves up)</td></tr>
+          <tr><td><strong>Intercostals</strong></td><td>External intercostals contract &mdash; lift ribs up &amp; out</td><td>Intercostals relax &mdash; ribs fall back to resting position</td></tr>
+          <tr><td><strong>Thoracic volume</strong></td><td>Increases</td><td>Decreases</td></tr>
+          <tr><td><strong>Lung pressure</strong></td><td>Decreases (below atmospheric)</td><td>Increases (above atmospheric)</td></tr>
+          <tr><td><strong>Air flow</strong></td><td>IN to the lungs</td><td>OUT of the lungs</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#9888; Did you know?</strong> The diaphragm is unique &mdash; unlike muscles that move your limbs, it works automatically without conscious thought. When you get &lsquo;winded&apos;, the diaphragm spasms and stops functioning properly &mdash; which is why air gets sucked in suddenly afterward.</p>
+  </div>
+</div>
+
+<!-- ===== Tidal volume & ventilation ===== -->
+<div class="box-wrap amber" id="sec4A2b">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Tidal Volume, Respiratory Rate &amp; Minute Ventilation</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:10px;">As exercise intensity rises, the body needs more O<sub>2</sub> in and more CO<sub>2</sub> out. It achieves this by increasing <strong>both</strong> the depth of each breath (TV) and the frequency of breaths (RR).</p>
+    <div class="formula-box">
+      <div class="label">Minute Ventilation Formula</div>
+      <div class="eq">VE = RR &times; TV
+        <small>Minute Ventilation (L/min) = Respiratory Rate (bpm) &times; Tidal Volume (L)</small>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>State</th><th>Tidal volume (TV)</th><th>Respiratory rate (RR)</th><th>Minute ventilation (VE)</th></tr></thead>
+        <tbody>
+          <tr><td>Rest</td><td>0.5 L</td><td>12 bpm</td><td>6 L/min</td></tr>
+          <tr><td>Jogging</td><td>0.7 L</td><td>20 bpm</td><td>14 L/min</td></tr>
+          <tr><td>Running</td><td>0.7 L</td><td>40 bpm</td><td>28 L/min</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; Like cardiac output:</strong> Tidal volume has a finite capacity &mdash; at moderate intensities it plateaus, and further VE increases come mainly from rising respiratory rate.</p>
+  </div>
+</div>
+
+<!-- ===== 4A.3 BRAIN CONTROL ===== -->
+<div class="diagram-wrap purple" id="sec4A3">
+  <div class="diagram-head purple" onclick="toggleB(this)">
+    <span>&#129504; 4A.3 &mdash; The Brain Monitoring &amp; Controlling Breathing</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <p style="font-size:.88rem;margin-bottom:10px;text-align:left;">Breathing is controlled automatically by the <strong>brainstem</strong>. Two structures &mdash; the <strong>medulla</strong> and the <strong>pons</strong> &mdash; combine automatic responses with feedback from chemical sensors (chemoreceptors).</p>
+
+    <svg viewBox="0 0 720 380" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- brain outline -->
+      <path d="M180,40 Q120,40 100,90 Q90,140 110,180 Q120,200 140,210 L160,215 L165,235 L175,238 L180,232 Q200,232 200,210 Q230,200 240,170 Q250,140 240,100 Q230,50 180,40 Z"
+            fill="#fbe6f0" stroke="#1a1a18" stroke-width="1.5"/>
+      <!-- pons -->
+      <ellipse cx="200" cy="200" rx="22" ry="14" fill="#c8c4f4" stroke="#3C3489" stroke-width="1.5"/>
+      <text x="200" y="204" text-anchor="middle" fill="#1a1a18" font-size="9" font-weight="bold">Pons</text>
+      <!-- medulla -->
+      <ellipse cx="180" cy="234" rx="20" ry="13" fill="#AFA9EC" stroke="#3C3489" stroke-width="2"/>
+      <text x="180" y="237" text-anchor="middle" fill="#1a1a18" font-size="9" font-weight="bold">Medulla</text>
+
+      <line x1="240" y1="200" x2="320" y2="160" stroke="#3C3489" stroke-width="1.5"/>
+      <text x="324" y="158" fill="#3C3489" font-size="10" font-weight="bold">Pons</text>
+      <text x="324" y="172" fill="#555" font-size="9">- smooths inhale-exhale transition</text>
+      <text x="324" y="184" fill="#555" font-size="9">- adjusts breathing during exercise stress</text>
+
+      <line x1="200" y1="234" x2="320" y2="232" stroke="#3C3489" stroke-width="1.5"/>
+      <text x="324" y="230" fill="#3C3489" font-size="10" font-weight="bold">Medulla</text>
+      <text x="324" y="244" fill="#555" font-size="9">- central chemoreceptors here</text>
+      <text x="324" y="256" fill="#555" font-size="9">- detects rising CO&#8322; in brain fluid</text>
+      <text x="324" y="268" fill="#555" font-size="9">- triggers &#8593; rate &amp; depth of breathing</text>
+      <text x="324" y="280" fill="#555" font-size="9">- also controls diaphragm/intercostal firing</text>
+
+      <!-- aorta & carotid arteries -->
+      <line x1="178" y1="247" x2="178" y2="275" stroke="#c0392b" stroke-width="3"/>
+      <circle cx="178" cy="284" r="9" fill="#c0392b" opacity="0.7"/>
+      <text x="178" y="287" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">Aorta/</text>
+      <text x="178" y="296" text-anchor="middle" fill="#fff" font-size="8" font-weight="bold">carotid</text>
+      <line x1="190" y1="284" x2="320" y2="310" stroke="#c0392b" stroke-width="1.5"/>
+      <text x="324" y="308" fill="#c0392b" font-size="10" font-weight="bold">Peripheral chemoreceptors</text>
+      <text x="324" y="322" fill="#555" font-size="9">- in aorta &amp; carotid arteries</text>
+      <text x="324" y="334" fill="#555" font-size="9">- detect FALLING O&#8322; in blood</text>
+      <text x="324" y="346" fill="#555" font-size="9">- signal brain to &#8593; breathing</text>
+
+      <!-- chemoreceptor flow -->
+      <rect x="496" y="60" width="208" height="288" rx="10" fill="#f5f8fd" stroke="#378ADD" stroke-width="1.5"/>
+      <text x="600" y="82" text-anchor="middle" fill="#1a3060" font-size="11" font-weight="bold">Feedback Loop</text>
+
+      <rect x="510" y="100" width="180" height="32" rx="5" fill="#fce8e0" stroke="#7a3010" stroke-width="1"/>
+      <text x="600" y="120" text-anchor="middle" fill="#7a3010" font-size="10">Exercise &rarr; &#8593; CO&#8322;, &#8595; O&#8322;</text>
+
+      <line x1="600" y1="132" x2="600" y2="148" stroke="#888" stroke-width="1.5" marker-end="url(#arrG2)"/>
+
+      <rect x="510" y="150" width="180" height="32" rx="5" fill="#f7f6fe" stroke="#3C3489" stroke-width="1"/>
+      <text x="600" y="170" text-anchor="middle" fill="#3C3489" font-size="10">Chemoreceptors detect change</text>
+
+      <line x1="600" y1="182" x2="600" y2="198" stroke="#888" stroke-width="1.5" marker-end="url(#arrG2)"/>
+
+      <rect x="510" y="200" width="180" height="32" rx="5" fill="#f7f6fe" stroke="#3C3489" stroke-width="1"/>
+      <text x="600" y="220" text-anchor="middle" fill="#3C3489" font-size="10">Medulla &amp; pons signal increase</text>
+
+      <line x1="600" y1="232" x2="600" y2="248" stroke="#888" stroke-width="1.5" marker-end="url(#arrG2)"/>
+
+      <rect x="510" y="250" width="180" height="32" rx="5" fill="#eaf7f2" stroke="#085041" stroke-width="1"/>
+      <text x="600" y="270" text-anchor="middle" fill="#085041" font-size="10">Faster, deeper breathing</text>
+
+      <line x1="600" y1="282" x2="600" y2="298" stroke="#888" stroke-width="1.5" marker-end="url(#arrG2)"/>
+
+      <rect x="510" y="300" width="180" height="32" rx="5" fill="#eaf7f2" stroke="#085041" stroke-width="1"/>
+      <text x="600" y="320" text-anchor="middle" fill="#085041" font-size="10">&#8593; O&#8322; in / &#8593; CO&#8322; out</text>
+
+      <defs>
+        <marker id="arrG2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#888"/>
+        </marker>
+      </defs>
+    </svg>
+    <p class="diagram-caption">The <strong>medulla</strong> houses <strong>central chemoreceptors</strong> that detect rising CO<sub>2</sub> in brain fluid. The <strong>aorta and carotid arteries</strong> house <strong>peripheral chemoreceptors</strong> that detect falling O<sub>2</sub> in blood. Both feed signals to the brainstem, which adjusts breathing rate and depth.</p>
+  </div>
+</div>
+
+<!-- Brain control reference table -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128209; Quick Reference &mdash; Who Does What</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="pt">
+        <thead><tr><th>Structure</th><th>Location</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Medulla</strong></td><td>Brainstem</td><td>Controls frequency of contractions of the diaphragm &amp; intercostals. Senses rising CO<sub>2</sub> via central chemoreceptors and triggers &#8593; rate/depth of breathing.</td></tr>
+          <tr><td><strong>Pons</strong></td><td>Brainstem (above medulla)</td><td>Responds to exercise stress; ensures smooth, uninterrupted transition between inhaling and exhaling.</td></tr>
+          <tr><td><strong>Central chemoreceptors</strong></td><td>Within the medulla</td><td>Sensitive to CO<sub>2</sub> levels in brain fluid (indirectly reflects blood CO<sub>2</sub>).</td></tr>
+          <tr><td><strong>Peripheral chemoreceptors</strong></td><td>Aorta and carotid arteries</td><td>Monitor levels of O<sub>2</sub> in blood &mdash; signal brain to &#8593; breathing if O<sub>2</sub> falls too low.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip-box"><strong>&#128161; In an exam:</strong> If the question is about the brain detecting CO<sub>2</sub>, the answer is <strong>central chemoreceptors in the medulla</strong>. If it&apos;s about detecting O<sub>2</sub> in the blood, the answer is <strong>peripheral chemoreceptors in the aorta/carotid arteries</strong>.</p>
+  </div>
+</div>
+
+<!-- ===== 4A.4 GASEOUS EXCHANGE ===== -->
+<div class="diagram-wrap coral" id="sec4A4">
+  <div class="diagram-head coral" onclick="toggleB(this)">
+    <span>&#128168; 4A.4 &mdash; Gaseous Exchange at the Lungs &amp; Muscles</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="diagram-body">
+    <p style="font-size:.88rem;margin-bottom:10px;text-align:left;">Gases <strong>always</strong> move from areas of high pressure/concentration to low pressure/concentration. This happens at two sites: the <strong>lungs</strong> (external respiration) and the <strong>muscles &amp; tissues</strong> (internal respiration).</p>
+
+    <svg viewBox="0 0 720 320" style="max-width:780px;width:100%;display:inline-block;">
+      <!-- LUNGS exchange -->
+      <text x="180" y="22" text-anchor="middle" fill="#1a3060" font-size="13" font-weight="bold">EXTERNAL respiration (LUNGS)</text>
+
+      <!-- alveolus -->
+      <ellipse cx="100" cy="160" rx="60" ry="55" fill="#fdf2ec" stroke="#7a3010" stroke-width="2"/>
+      <text x="100" y="155" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">Alveolus</text>
+      <text x="100" y="172" text-anchor="middle" fill="#1a1a18" font-size="8.5">HIGH O&#8322;</text>
+      <text x="100" y="184" text-anchor="middle" fill="#1a1a18" font-size="8.5">LOW CO&#8322;</text>
+
+      <!-- capillary -->
+      <rect x="200" y="120" width="120" height="80" rx="6" fill="#eaf4f7" stroke="#1a3060" stroke-width="2"/>
+      <text x="260" y="148" text-anchor="middle" fill="#1a3060" font-size="10" font-weight="bold">Capillary</text>
+      <text x="260" y="166" text-anchor="middle" fill="#1a1a18" font-size="8.5">LOW O&#8322;</text>
+      <text x="260" y="178" text-anchor="middle" fill="#1a1a18" font-size="8.5">HIGH CO&#8322;</text>
+
+      <!-- O2 arrow (alveolus to capillary) -->
+      <line x1="158" y1="148" x2="202" y2="148" stroke="#378ADD" stroke-width="3" marker-end="url(#arrB3)"/>
+      <text x="180" y="138" text-anchor="middle" fill="#378ADD" font-size="11" font-weight="bold">O&#8322; &rarr;</text>
+
+      <!-- CO2 arrow (capillary to alveolus) -->
+      <line x1="202" y1="180" x2="158" y2="180" stroke="#7a3010" stroke-width="3" marker-end="url(#arrAm2)"/>
+      <text x="180" y="200" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">&larr; CO&#8322;</text>
+
+      <text x="180" y="240" text-anchor="middle" fill="#1a1a18" font-size="10">O&#8322; picked up by haemoglobin &rarr; transported to muscles</text>
+      <text x="180" y="256" text-anchor="middle" fill="#1a1a18" font-size="10">CO&#8322; released from blood &rarr; exhaled</text>
+      <text x="180" y="278" text-anchor="middle" fill="#1a3060" font-size="9.5" font-style="italic">At the alveolar/capillary interface</text>
+
+      <!-- MUSCLES exchange -->
+      <text x="540" y="22" text-anchor="middle" fill="#7a3010" font-size="13" font-weight="bold">INTERNAL respiration (MUSCLES)</text>
+
+      <!-- capillary -->
+      <rect x="420" y="120" width="120" height="80" rx="6" fill="#eaf4f7" stroke="#1a3060" stroke-width="2"/>
+      <text x="480" y="148" text-anchor="middle" fill="#1a3060" font-size="10" font-weight="bold">Capillary</text>
+      <text x="480" y="166" text-anchor="middle" fill="#1a1a18" font-size="8.5">HIGH O&#8322;</text>
+      <text x="480" y="178" text-anchor="middle" fill="#1a1a18" font-size="8.5">LOW CO&#8322;</text>
+
+      <!-- muscle -->
+      <rect x="600" y="118" width="100" height="84" rx="6" fill="#fce8e0" stroke="#7a3010" stroke-width="2"/>
+      <text x="650" y="148" text-anchor="middle" fill="#7a3010" font-size="10" font-weight="bold">Muscle cell</text>
+      <text x="650" y="166" text-anchor="middle" fill="#1a1a18" font-size="8.5">LOW O&#8322;</text>
+      <text x="650" y="178" text-anchor="middle" fill="#1a1a18" font-size="8.5">HIGH CO&#8322;</text>
+
+      <!-- O2 arrow (capillary to muscle) -->
+      <line x1="542" y1="148" x2="598" y2="148" stroke="#378ADD" stroke-width="3" marker-end="url(#arrB3)"/>
+      <text x="570" y="138" text-anchor="middle" fill="#378ADD" font-size="11" font-weight="bold">O&#8322; &rarr;</text>
+
+      <!-- CO2 arrow (muscle to capillary) -->
+      <line x1="598" y1="180" x2="542" y2="180" stroke="#7a3010" stroke-width="3" marker-end="url(#arrAm2)"/>
+      <text x="570" y="200" text-anchor="middle" fill="#7a3010" font-size="11" font-weight="bold">&larr; CO&#8322;</text>
+
+      <text x="540" y="240" text-anchor="middle" fill="#1a1a18" font-size="10">O&#8322; diffuses into muscle &rarr; used for energy (cellular respiration)</text>
+      <text x="540" y="256" text-anchor="middle" fill="#1a1a18" font-size="10">CO&#8322; produced by muscle &rarr; diffuses into blood &rarr; back to lungs</text>
+      <text x="540" y="278" text-anchor="middle" fill="#7a3010" font-size="9.5" font-style="italic">At the capillary/muscle interface</text>
+
+      <defs>
+        <marker id="arrB3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#378ADD"/>
+        </marker>
+        <marker id="arrAm2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <polygon points="0,0 7,3.5 0,7" fill="#7a3010"/>
+        </marker>
+      </defs>
+    </svg>
+    <p class="diagram-caption">At BOTH sites, gases follow the same rule: <strong>high to low pressure</strong>. At the lungs, O<sub>2</sub> moves into blood (alveolus has more); CO<sub>2</sub> moves out (blood has more). At the muscles it&apos;s reversed: O<sub>2</sub> moves out of blood (muscle is depleted); CO<sub>2</sub> moves in (muscle just produced it).</p>
+  </div>
+</div>
+
+<!-- External vs Internal respiration -->
+<div class="box-wrap coral">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128279; External vs Internal Respiration &mdash; Quick Reference</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="bt">
+        <thead><tr><th>Term</th><th>Where it occurs</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>External respiration</strong></td><td>At the LUNGS (alveolar/capillary interface)</td><td>O<sub>2</sub> enters blood; CO<sub>2</sub> leaves blood to be exhaled.</td></tr>
+          <tr><td><strong>Internal respiration</strong></td><td>At the MUSCLES &amp; tissues (capillary/muscle interface)</td><td>O<sub>2</sub> leaves blood to enter muscles; CO<sub>2</sub> enters blood from muscles.</td></tr>
+          <tr><td><strong>Cellular respiration</strong></td><td>INSIDE the muscle cells</td><td>The metabolic process that breaks down glucose to produce ATP (energy). Can be aerobic or anaerobic. Produces CO<sub>2</sub> as a by-product.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="warn-box"><strong>&#9888; Easy to confuse:</strong> &ldquo;Respiration&rdquo; in PE can mean both <strong>breathing</strong> (air in and out of lungs) and <strong>gas exchange</strong> (at lungs / muscles) and <strong>cellular respiration</strong> (energy production). Read carefully to know which the exam wants.</p>
+  </div>
+</div>
+
+<!-- ===== Summary ===== -->
+<div class="box-wrap gray">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Summary &mdash; The Whole Chain</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Structures of the respiratory system</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>Conducting zone: mouth/nose &rarr; pharynx &rarr; larynx &rarr; trachea &rarr; bronchi &rarr; bronchioles. Brings air in/out. NO gas exchange.</li>
+      <li>Respiratory zone: respiratory bronchioles, alveolar ducts, alveoli. Site of gas exchange.</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Inspiration &amp; expiration</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>Inspiration is ACTIVE: diaphragm + intercostals contract &rarr; chest volume &#8593; &rarr; lung pressure &#8595; &rarr; air in.</li>
+      <li>Expiration at rest is PASSIVE: muscles relax &rarr; chest volume &#8595; &rarr; lung pressure &#8593; &rarr; air out.</li>
+      <li>Minute ventilation: <strong>VE = RR &times; TV</strong> (e.g. rest 12 &times; 0.5 = 6 L/min).</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Brain control</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li><strong>Medulla</strong> &amp; <strong>pons</strong> in the brainstem control breathing.</li>
+      <li>Central chemoreceptors in the medulla detect rising CO<sub>2</sub>.</li>
+      <li>Peripheral chemoreceptors in the aorta/carotid arteries detect falling O<sub>2</sub>.</li>
+    </ul>
+    <p style="font-size:.88rem;margin-bottom:8px;"><strong>Gaseous exchange</strong></p>
+    <ul style="font-size:.88rem;margin:0 0 10px 22px;">
+      <li>External respiration: at lungs &mdash; O<sub>2</sub> in, CO<sub>2</sub> out.</li>
+      <li>Internal respiration: at muscles &mdash; O<sub>2</sub> in to muscle, CO<sub>2</sub> out to blood.</li>
+      <li>Gases always move <strong>high &rarr; low</strong> pressure/concentration.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== KEY TERMS ===== -->
+<div class="section-divider" id="secTerms">&#128269; Key terms <span style="font-weight:400;opacity:0.7;font-size:0.9em;margin-left:8px;">search above or click a section to expand</span></div>
+<div id="list"></div>
+<div id="no-results">No terms match your search.</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch4 Part A &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+function jumpTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+var terms = [
+  { cat: "4A.1 Respiratory Structures", color: "blue", hot: true, items: [
+    { name: "Conducting zone", def: "The structures that bring air into and out of the lungs but are NOT involved in gaseous exchange. Includes mouth/nose, pharynx, larynx, trachea, bronchi and bronchioles.", eg: "When you inhale through your nose during a run, air travels through every conducting-zone structure before reaching the alveoli.", note: "Common trap: students forget the bronchi/bronchioles are still conducting zone, not respiratory zone." },
+    { name: "Respiratory zone", def: "The structures responsible for gaseous exchange. Includes respiratory bronchioles, alveolar ducts and alveoli.", eg: "Gas exchange does NOT begin until air reaches respiratory bronchioles deep in the lungs.", note: "" },
+    { name: "Pharynx", def: "The throat - a shared passageway for both air and food (where they split toward the larynx vs oesophagus).", eg: "When you swallow and breathe at the same time, food can enter the larynx by mistake (choking).", note: "" },
+    { name: "Larynx", def: "The voice box. Protects the airway during swallowing and produces sound for speech.", eg: "Speaking and laughing while running uses the larynx whilst air still moves to lungs.", note: "" },
+    { name: "Trachea", def: "The windpipe. A tube reinforced by cartilage rings that connects larynx to bronchi.", eg: "The cartilage rings stop the trachea collapsing under negative pressure during deep breaths.", note: "" },
+    { name: "Bronchi", def: "Two large primary airways that branch from the trachea into the left and right lung.", eg: "The right bronchus is more vertical, which is why inhaled objects tend to lodge on the right side.", note: "" },
+    { name: "Bronchioles", def: "Smaller branched airways within the lungs that lead toward respiratory bronchioles and alveoli.", eg: "Asthma narrows the bronchioles - bronchodilators (inhalers) reopen them.", note: "" },
+    { name: "Alveoli", def: "Tiny sac-like structures at the end of the respiratory tree. Site of gas exchange with surrounding capillaries.", eg: "Adults have approximately 300 million alveoli - huge surface area for diffusion.", note: "" },
+    { name: "Gaseous exchange", def: "The movement of gases from areas of high concentration to low concentration. O2 and CO2 move in opposite directions at lungs and muscles.", eg: "At the alveolar/capillary interface, O2 moves into blood and CO2 moves out simultaneously.", note: "" }
+  ]},
+  { cat: "4A.2 Inspiration & Expiration", color: "teal", hot: true, items: [
+    { name: "Inspiration", def: "Commonly referred to as inhaling. The active process of breathing air INTO the body. Requires contraction of the diaphragm and intercostals.", eg: "Each inhale during running is a separate inspiration.", note: "Inspiration is ALWAYS active - requires energy." },
+    { name: "Expiration", def: "Commonly referred to as exhaling. The process of breathing air OUT of the body. Passive at rest (muscles relax); active during exercise.", eg: "At rest expiration costs no energy; during sprinting the abdominal muscles actively push air out.", note: "Passive at rest, active during heavy exercise." },
+    { name: "Diaphragm", def: "A dome-shaped muscular partition at the base of the thoracic cavity, attached to lower ribs, spine and sternum. The primary muscle of breathing.", eg: "Singers train diaphragm control for sustained notes.", note: "Contracts and flattens to inspire; relaxes and domes upward to expire." },
+    { name: "Intercostal muscles", def: "Eleven sets of muscles located between each rib that help form and move the chest wall.", eg: "External intercostals lift the ribs UP and OUT during inspiration to enlarge the chest cavity.", note: "External = inspiration. Internal = forced expiration during exercise." },
+    { name: "Tidal volume (TV)", def: "The amount of air inhaled and exhaled per breath. At rest ~0.5 L; rises during exercise.", eg: "TV rises from 0.5 L at rest to ~0.7 L during jogging, then plateaus around moderate intensity.", note: "Plateaus at moderate intensity - further VE increases come from RR." },
+    { name: "Respiratory rate (RR)", def: "The number of breaths per minute. At rest ~12 bpm; rises with intensity up to ~40+ bpm.", eg: "An elite cyclist may reach 50+ bpm at VO2 max.", note: "RR keeps rising even after TV plateaus." },
+    { name: "Pulmonary ventilation (VE)", def: "The volume of air moved into and out of the respiratory tract each minute. Also called minute ventilation. VE = RR x TV.", eg: "Rest: 12 x 0.5 = 6 L/min. Running: 40 x 0.7 = 28 L/min.", note: "Formula: VE = RR x TV. Always state units L/min." }
+  ]},
+  { cat: "4A.3 Brain Control of Breathing", color: "purple", hot: true, items: [
+    { name: "Medulla", def: "Part of the brainstem that regulates the cardiovascular and respiratory systems. Houses central chemoreceptors and controls the firing rate of the diaphragm and intercostals.", eg: "Rising CO2 in brain fluid is detected here, triggering deeper and faster breathing.", note: "Central chemoreceptors live here. Always link to CO2 detection." },
+    { name: "Pons", def: "Part of the brainstem above the medulla. Adjusts breathing rate in response to exercise stress and ensures smooth transitions between inhaling and exhaling.", eg: "When you start running, the pons helps your breathing rhythm shift smoothly rather than jerk between in and out.", note: "" },
+    { name: "Chemoreceptors", def: "Sensory receptors that detect changes in chemical levels and send a neural signal to the brain.", eg: "Chemoreceptors detect that CO2 is rising and oxygen falling, then trigger faster breathing.", note: "Two types: central (medulla, detect CO2) and peripheral (aorta/carotid, detect O2)." },
+    { name: "Central chemoreceptors", def: "Located in the medulla. Sensitive to CO2 levels in brain fluid, which indirectly reflects blood CO2.", eg: "During hard exercise, blood CO2 rises - central chemoreceptors detect this and trigger faster breathing.", note: "Always link central chemoreceptors to CO2 (NOT O2)." },
+    { name: "Peripheral chemoreceptors", def: "Located in the aorta and carotid arteries. Monitor O2 levels in blood and signal the brain to increase breathing if O2 falls too low.", eg: "At altitude, low atmospheric O2 triggers peripheral chemoreceptors to increase breathing rate.", note: "Always link peripheral chemoreceptors to O2." }
+  ]},
+  { cat: "4A.4 Gaseous Exchange", color: "coral", hot: true, items: [
+    { name: "External respiration", def: "Gaseous exchange that occurs at the LUNGS, directly with the external environment. O2 enters blood; CO2 leaves blood to be exhaled.", eg: "Every inhale and exchange at the alveolus is external respiration.", note: "EXTERNAL = at LUNGS." },
+    { name: "Internal respiration", def: "Gaseous exchange that occurs INSIDE the body, at the muscles and tissues. O2 leaves blood and enters muscles; CO2 leaves muscles and enters blood.", eg: "Working leg muscles during a sprint extract O2 from passing blood - that exchange is internal respiration.", note: "INTERNAL = at MUSCLES." },
+    { name: "Alveolar/capillary interface", def: "The alveolar-capillary barrier or membrane situated in the gas-exchanging region of the lungs. One cell thick to allow rapid diffusion.", eg: "An adult's total alveolar-capillary surface area is ~70 m^2 - the size of a small flat.", note: "" },
+    { name: "Cellular respiration", def: "A metabolic process inside cells that breaks down glucose to produce ATP and other by-products. Can be aerobic (uses O2) or anaerobic (no O2 needed).", eg: "During endurance exercise, muscle cells perform aerobic cellular respiration to produce ATP from glucose + O2.", note: "Don't confuse cellular respiration with breathing. Cellular = inside the cell making ATP." },
+    { name: "Haemoglobin", def: "Iron-containing protein in red blood cells that binds and transports oxygen.", eg: "Each red blood cell carries ~250 million haemoglobin molecules - each binds 4 O2.", note: "Iron deficiency reduces haemoglobin -> reduces O2 transport -> reduces performance." }
+  ]}
+];
+
+var currentQuery = '';
+function highlight(text, query) {
+  if (!query) return text;
+  var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
+}
+function buildList(source) {
+  var list = document.getElementById('list');
+  var noRes = document.getElementById('no-results');
+  list.innerHTML = '';
+  var isSearching = currentQuery !== '';
+  if (!source || !source.length) { noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    var wrap = document.createElement('div');
+    wrap.className = 'cat-wrap ' + (cat.color || 'blue');
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic</span></span>' : '';
+    var bodyClass = isSearching ? 'cat-body open' : 'cat-body';
+    var arrow = isSearching ? '&#9650;' : '&#9660;';
+    wrap.innerHTML = '<div class="cat-head"><span>' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">' + arrow + '</span></div></div>';
+    var head = wrap.querySelector('.cat-head');
+    (function(w, h) {
+      h.onclick = function() {
+        var b = w.querySelector('.cat-body');
+        var a = h.querySelector('.cat-arrow');
+        var o = b.classList.toggle('open');
+        a.innerHTML = o ? '&#9650;' : '&#9660;';
+      };
+    })(wrap, head);
+    var body = document.createElement('div');
+    body.className = bodyClass;
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement('div');
+      t.className = 'term';
+      var dn = isSearching ? highlight(item.name, currentQuery) : item.name;
+      var dd = isSearching ? highlight(item.def,  currentQuery) : item.def;
+      var de = item.eg ? (isSearching ? highlight(item.eg, currentQuery) : item.eg) : '';
+      var noteHtml = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : '';
+      var egHtml   = de ? '<span class="term-eg">Eg: ' + de + '</span>' : '';
+      var tbClass  = isSearching ? 'term-body open' : 'term-body';
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + dn + '</span><span class="arrow">&#9660;</span></div><div class="' + tbClass + '"><p class="term-def">' + dd + '</p>' + egHtml + noteHtml + '</div>';
+      body.appendChild(t);
+    }
+    wrap.appendChild(body);
+    list.appendChild(wrap);
+  }
+}
+function doSearch(q) {
+  currentQuery = q.trim();
+  var val = currentQuery.toLowerCase();
+  var countEl = document.getElementById('search-count');
+  var clearBtn = document.getElementById('search-clear');
+  clearBtn.className = currentQuery ? 'visible' : '';
+  if (!currentQuery) { buildList(terms); countEl.textContent = ''; return; }
+  var filtered = [];
+  for (var i = 0; i < terms.length; i++) {
+    var matchItems = [];
+    for (var j = 0; j < terms[i].items.length; j++) {
+      var item = terms[i].items[j];
+      if (item.name.toLowerCase().indexOf(val) !== -1 ||
+          item.def.toLowerCase().indexOf(val) !== -1 ||
+          (item.eg && item.eg.toLowerCase().indexOf(val) !== -1)) {
+        matchItems.push(item);
+      }
+    }
+    if (matchItems.length) filtered.push({ cat: terms[i].cat, color: terms[i].color, hot: terms[i].hot, items: matchItems });
+  }
+  buildList(filtered);
+  var total = 0;
+  for (var k = 0; k < filtered.length; k++) total += filtered[k].items.length;
+  countEl.textContent = total + ' result' + (total !== 1 ? 's' : '');
+  var listEl = document.getElementById('list');
+  if (listEl) listEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function clearSearch() {
+  currentQuery = '';
+  document.getElementById('search').value = '';
+  document.getElementById('search-count').textContent = '';
+  document.getElementById('search-clear').className = '';
+  buildList(terms);
+}
+buildList(terms);
+
+function setSize(px) {
+  document.body.style.fontSize = px + 'px';
+  var ids = ['sz-s','sz-m','sz-l'];
+  var sizes = [14,17,20];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    btn.className = (sizes[i] === px) ? 'sz-btn active' : 'sz-btn';
+  }
+}
+</script>
+</body>
+</html>

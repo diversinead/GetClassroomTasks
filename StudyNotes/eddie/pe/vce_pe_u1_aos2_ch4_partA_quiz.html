@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCE PE &mdash; Ch4 Part A: Quiz &amp; Exam Practice</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #f4f4f6; color: #1a1a2e; font-size: 15px; line-height: 1.65; }
+    h1 { background: linear-gradient(135deg, #2c5f6e 0%, #1a3d48 100%); color: #fff; text-align: center; padding: 20px 16px 12px; font-size: 1.4rem; }
+    .subtitle { background: #1a3d48; color: #d6eef3; text-align: center; padding: 6px 16px 10px; font-size: .86rem; }
+    .tab-bar { display: flex; background: #eaf4f7; border-bottom: 2px solid #2c5f6e; }
+    .tab-btn { flex: 1; padding: 12px; border: none; background: none; font-size: .93rem; font-family: Georgia, serif; cursor: pointer; color: #1a3d48; font-weight: bold; }
+    .tab-btn.active { background: #2c5f6e; color: #fff; }
+    .tab-btn:hover:not(.active) { background: #d6eef3; }
+    .tab-pane { display: none; padding: 14px; max-width: 860px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+    .score-bar { background: #fff; border: 1px solid #c8dde4; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .score-text { font-size: .9rem; color: #1a3d48; }
+    .score-text strong { color: #2c5f6e; font-size: 1.08rem; }
+    .progress-track { flex: 1; min-width: 100px; height: 9px; background: #dde4ea; border-radius: 5px; overflow: hidden; }
+    .progress-bar { height: 100%; background: #5DCAA5; border-radius: 5px; width: 0%; transition: width .4s; }
+    .reset-btn { background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: .84rem; font-family: Georgia, serif; }
+    .reset-btn:hover { background: #2c5f6e; color: #fff; }
+    .q-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; padding: 16px; margin-bottom: 14px; }
+    .q-card.correct { border-color: #5DCAA5; background: #f4fdf9; }
+    .q-card.wrong { border-color: #9adcc5; background: #f0f7f9; }
+    .q-num { font-size: .76rem; font-weight: bold; color: #2c5f6e; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; }
+    .q-text { font-size: .93rem; margin-bottom: 11px; font-weight: bold; }
+    .mc-options { display: flex; flex-direction: column; gap: 7px; }
+    .mc-opt { display: flex; align-items: flex-start; gap: 9px; padding: 9px 12px; border: 1px solid #c8dde4; border-radius: 6px; cursor: pointer; font-size: .88rem; }
+    .mc-opt:hover { background: #eaf4f7; }
+    .mc-opt.selected-correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; font-weight: bold; }
+    .mc-opt.selected-wrong { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .mc-opt.reveal-correct { background: #e0f7ef; border-color: #5DCAA5; }
+    .mc-opt.disabled { cursor: default; pointer-events: none; }
+    .opt-letter { font-weight: bold; color: #2c5f6e; min-width: 16px; }
+    .tf-options { display: flex; gap: 10px; margin-top: 7px; }
+    .tf-btn { flex: 1; padding: 9px; border: 2px solid #c8dde4; border-radius: 6px; background: #fff; font-family: Georgia, serif; font-size: .93rem; cursor: pointer; font-weight: bold; }
+    .tf-btn:hover { background: #eaf4f7; }
+    .tf-btn.correct { background: #e0f7ef; border-color: #5DCAA5; color: #085041; }
+    .tf-btn.wrong   { background: #deeef2; border-color: #2c5f6e; color: #1a3d48; }
+    .tf-btn.disabled { cursor: default; pointer-events: none; }
+    .match-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 9px 0; }
+    .match-col-head { font-weight: bold; font-size: .81rem; color: #2c5f6e; padding: 3px 0; border-bottom: 2px solid #2c5f6e; margin-bottom: 3px; }
+    .match-term { padding: 6px 0; font-size: .86rem; border-bottom: 1px solid #eee; }
+    .match-select { width: 100%; padding: 5px 7px; border: 1px solid #c8dde4; border-radius: 5px; font-family: Georgia, serif; font-size: .83rem; margin-bottom: 3px; }
+    .match-check-btn { margin-top: 7px; background: #2c5f6e; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-family: Georgia, serif; font-size: .88rem; }
+    .match-check-btn:hover { background: #1a3d48; }
+    .q-feedback { margin-top: 9px; display: none; padding: 9px 12px; border-radius: 6px; font-size: .86rem; border-left: 4px solid #5DCAA5; background: #f4fdf9; }
+    .q-feedback.show { display: block; }
+    .q-feedback.wrong-fb { background: #deeef2; border-left-color: #2c5f6e; }
+    .q-section-head { background: #2c5f6e; color: #fff; padding: 8px 13px; border-radius: 6px; margin: 20px 0 11px; font-size: .9rem; font-weight: bold; }
+    .eq-card { background: #fff; border: 2px solid #c8dde4; border-radius: 9px; margin-bottom: 18px; overflow: hidden; }
+    .eq-head { background: #eaf4f7; padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .eq-type  { background: #2c5f6e; color: #fff; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-marks { background: #d6eef3; color: #1a3d48; border-radius: 12px; padding: 2px 11px; font-size: .76rem; font-weight: bold; }
+    .eq-stimulus { background: #f0f7f9; border-left: 4px solid #2c5f6e; padding: 9px 13px; margin: 10px 14px 0; font-size: .86rem; border-radius: 0 5px 5px 0; }
+    .eq-q { padding: 10px 14px 3px; font-weight: bold; font-size: .93rem; }
+    .eq-body { padding: 9px 14px 14px; }
+    .eq-answer-area { width: 100%; min-height: 80px; border: 1px solid #c8dde4; border-radius: 6px; padding: 9px; font-family: Georgia, serif; font-size: .86rem; resize: vertical; }
+    .eq-reveal-btn { margin-top: 9px; background: #eaf4f7; border: 1px solid #2c5f6e; color: #1a3d48; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-family: Georgia, serif; font-size: .86rem; }
+    .eq-reveal-btn:hover { background: #2c5f6e; color: #fff; }
+    .eq-model { display: none; margin-top: 10px; border: 1px solid #c8dde4; border-radius: 7px; overflow: hidden; }
+    .eq-model.open { display: block; }
+    .eq-model-head { background: #e0f7ef; padding: 7px 13px; font-weight: bold; color: #085041; font-size: .88rem; }
+    .eq-model-body { padding: 9px 13px; }
+    .mark-row { display: flex; align-items: flex-start; gap: 9px; padding: 4px 0; border-bottom: 1px solid #eee; font-size: .86rem; }
+    .mark-row:last-child { border-bottom: none; }
+    .mark-tick { color: #5DCAA5; font-weight: bold; min-width: 16px; }
+    .examiner-tip { background: #fdf8f0; border-left: 3px solid #BA7517; padding: 7px 11px; margin-top: 7px; font-size: .82rem; border-radius: 0 4px 4px 0; color: #5a3800; }
+    .footer { text-align: center; font-size: .76rem; color: #888; padding: 18px 16px 24px; border-top: 1px solid #e0e0e6; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<h1>VCE Physical Education &mdash; Unit 1 AOS 2</h1>
+<p class="subtitle">Chapter 4 Part A &middot; Quiz &amp; Exam Practice &middot; 4A: The Respiratory System</p>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('quiz')">&#127919; Quiz</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<div id="tab-quiz" class="tab-pane active">
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#127919; Multiple Choice</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-num">Question 1 &mdash; Multiple Choice</div>
+    <div class="q-text">Which statement is CORRECT when applied to the respiratory system?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span> The bronchus makes up part of the respiratory zone</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span> The conducting zone is where gaseous exchange occurs</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span> The alveoli are part of the respiratory zone</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span> The larynx directs air into the trachea (and is part of the respiratory zone)</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-num">Question 2 &mdash; Multiple Choice</div>
+    <div class="q-text">During inspiration:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span> The diaphragm contracts and the intercostal muscles relax</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span> The size of the chest cavity increases along with an increase in tidal volume</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span> The diaphragm passively contracts whilst the intercostals actively contract</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span> Tidal volume keeps increasing along with increases in respiratory rate, up to VO2 max</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-num">Question 3 &mdash; Multiple Choice</div>
+    <div class="q-text">Breathing is controlled by the respiratory centre located in the brain. When the respiratory centre senses that carbon dioxide levels are increasing, it will:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span> Increase the rate at which the cardiovascular and respiratory systems are working</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span> Send messages to the diaphragm to contract more forcefully and the intercostals to relax</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span> Initiate a fainting response as a protective mechanism</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span> Send signals to the muscles to decrease their rate of contraction until more oxygen can be supplied</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-num">Question 4 &mdash; Multiple Choice</div>
+    <div class="q-text">When considering gaseous exchange at the lungs, which statement is CORRECT?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span> Oxygen will move from the capillaries to the alveoli</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span> Carbon dioxide will diffuse from the alveoli to the capillaries</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span> Gases will move from areas of high concentration to areas of lower concentration</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span> Oxygen levels in the capillaries are higher than those in the alveoli</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-num">Question 5 &mdash; Multiple Choice</div>
+    <div class="q-text">A runner has a tidal volume of 0.7 L and a respiratory rate of 40 bpm. Their minute ventilation is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span> 14 L/min</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span> 18 L/min</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span> 28 L/min</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span> 40.7 L/min</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-num">Question 6 &mdash; Multiple Choice</div>
+    <div class="q-text">Which receptors monitor the LEVEL OF OXYGEN in the blood and signal the brain to increase breathing if O2 falls too low?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span> Central chemoreceptors in the medulla</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span> Peripheral chemoreceptors in the aorta and carotid arteries</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span> Proprioceptors in the diaphragm</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span> Thermoreceptors in the hypothalamus</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-num">Question 7 &mdash; Multiple Choice</div>
+    <div class="q-text">Which best describes external respiration?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span> Gaseous exchange occurring inside the body at muscles and tissues</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span> Gaseous exchange occurring at the lungs, directly with the external environment</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span> The breakdown of glucose inside muscle cells to produce ATP</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span> Air being moved through the conducting zone without exchange</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-num">Question 8 &mdash; Multiple Choice</div>
+    <div class="q-text">During expiration at REST:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span> The diaphragm and intercostals both actively contract</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span> The diaphragm relaxes and returns to its dome shape; intercostals relax; air flows out passively</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span> Thoracic volume increases and lung pressure decreases</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span> Air flows from low pressure to high pressure</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section-head">&#9989; True or False</div>
+
+  <div class="q-card" id="tf1">
+    <div class="q-num">Question 9 &mdash; True or False</div>
+    <div class="q-text">Gaseous exchange occurs in the bronchi and bronchioles.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf1',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf1',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf1"></div>
+  </div>
+
+  <div class="q-card" id="tf2">
+    <div class="q-num">Question 10 &mdash; True or False</div>
+    <div class="q-text">Inspiration is an active process, whereas expiration at rest is passive.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf2',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf2',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf2"></div>
+  </div>
+
+  <div class="q-card" id="tf3">
+    <div class="q-num">Question 11 &mdash; True or False</div>
+    <div class="q-text">Central chemoreceptors in the medulla are sensitive to CO2 levels.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf3',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf3',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf3"></div>
+  </div>
+
+  <div class="q-card" id="tf4">
+    <div class="q-num">Question 12 &mdash; True or False</div>
+    <div class="q-text">Cellular respiration is the same thing as gaseous exchange at the alveoli.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf4',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf4',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf4"></div>
+  </div>
+
+  <div class="q-card" id="tf5">
+    <div class="q-num">Question 13 &mdash; True or False</div>
+    <div class="q-text">Gases always move from areas of high pressure to areas of low pressure.</div>
+    <div class="tf-options">
+      <button class="tf-btn" onclick="checkTF(this,'tf5',true)">True</button>
+      <button class="tf-btn" onclick="checkTF(this,'tf5',false)">False</button>
+    </div>
+    <div class="q-feedback" id="fb-tf5"></div>
+  </div>
+
+  <div class="q-section-head">&#128279; Matching</div>
+
+  <div class="q-card" id="match1">
+    <div class="q-num">Question 14 &mdash; Matching</div>
+    <div class="q-text">Match each respiratory structure to its zone and role.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Structure</div>
+        <div class="match-term">Trachea</div>
+        <div class="match-term">Bronchi</div>
+        <div class="match-term">Bronchioles</div>
+        <div class="match-term">Alveoli</div>
+        <div class="match-term">Pharynx</div>
+      </div>
+      <div>
+        <div class="match-col-head">Description</div>
+        <select class="match-select" id="m1-1"><option value="">-- select --</option><option>Windpipe with cartilage rings - conducting zone</option><option>Two primary airways branching to left and right lung - conducting zone</option><option>Smaller branched airways within the lungs - conducting zone</option><option>Tiny sacs at the end of the respiratory tree - respiratory zone, gas exchange site</option><option>Shared passageway for air and food - conducting zone</option></select>
+        <select class="match-select" id="m1-2"><option value="">-- select --</option><option>Windpipe with cartilage rings - conducting zone</option><option>Two primary airways branching to left and right lung - conducting zone</option><option>Smaller branched airways within the lungs - conducting zone</option><option>Tiny sacs at the end of the respiratory tree - respiratory zone, gas exchange site</option><option>Shared passageway for air and food - conducting zone</option></select>
+        <select class="match-select" id="m1-3"><option value="">-- select --</option><option>Windpipe with cartilage rings - conducting zone</option><option>Two primary airways branching to left and right lung - conducting zone</option><option>Smaller branched airways within the lungs - conducting zone</option><option>Tiny sacs at the end of the respiratory tree - respiratory zone, gas exchange site</option><option>Shared passageway for air and food - conducting zone</option></select>
+        <select class="match-select" id="m1-4"><option value="">-- select --</option><option>Windpipe with cartilage rings - conducting zone</option><option>Two primary airways branching to left and right lung - conducting zone</option><option>Smaller branched airways within the lungs - conducting zone</option><option>Tiny sacs at the end of the respiratory tree - respiratory zone, gas exchange site</option><option>Shared passageway for air and food - conducting zone</option></select>
+        <select class="match-select" id="m1-5"><option value="">-- select --</option><option>Windpipe with cartilage rings - conducting zone</option><option>Two primary airways branching to left and right lung - conducting zone</option><option>Smaller branched airways within the lungs - conducting zone</option><option>Tiny sacs at the end of the respiratory tree - respiratory zone, gas exchange site</option><option>Shared passageway for air and food - conducting zone</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch1()">Check Answers</button>
+    <div class="q-feedback" id="fb-match1"></div>
+  </div>
+
+  <div class="q-card" id="match2">
+    <div class="q-num">Question 15 &mdash; Matching</div>
+    <div class="q-text">Match each brain or sensor structure to its role in controlling breathing.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Structure</div>
+        <div class="match-term">Medulla</div>
+        <div class="match-term">Pons</div>
+        <div class="match-term">Central chemoreceptors</div>
+        <div class="match-term">Peripheral chemoreceptors</div>
+        <div class="match-term">Diaphragm</div>
+      </div>
+      <div>
+        <div class="match-col-head">Role</div>
+        <select class="match-select" id="m2-1"><option value="">-- select --</option><option>Controls firing rate of breathing muscles; senses CO2 in brain fluid</option><option>Adjusts breathing during exercise; smooths inhale-exhale transition</option><option>Located in the medulla; detect rising CO2 in brain fluid</option><option>Located in aorta and carotid arteries; detect falling O2 in blood</option><option>Dome-shaped muscle that contracts to draw air into the lungs</option></select>
+        <select class="match-select" id="m2-2"><option value="">-- select --</option><option>Controls firing rate of breathing muscles; senses CO2 in brain fluid</option><option>Adjusts breathing during exercise; smooths inhale-exhale transition</option><option>Located in the medulla; detect rising CO2 in brain fluid</option><option>Located in aorta and carotid arteries; detect falling O2 in blood</option><option>Dome-shaped muscle that contracts to draw air into the lungs</option></select>
+        <select class="match-select" id="m2-3"><option value="">-- select --</option><option>Controls firing rate of breathing muscles; senses CO2 in brain fluid</option><option>Adjusts breathing during exercise; smooths inhale-exhale transition</option><option>Located in the medulla; detect rising CO2 in brain fluid</option><option>Located in aorta and carotid arteries; detect falling O2 in blood</option><option>Dome-shaped muscle that contracts to draw air into the lungs</option></select>
+        <select class="match-select" id="m2-4"><option value="">-- select --</option><option>Controls firing rate of breathing muscles; senses CO2 in brain fluid</option><option>Adjusts breathing during exercise; smooths inhale-exhale transition</option><option>Located in the medulla; detect rising CO2 in brain fluid</option><option>Located in aorta and carotid arteries; detect falling O2 in blood</option><option>Dome-shaped muscle that contracts to draw air into the lungs</option></select>
+        <select class="match-select" id="m2-5"><option value="">-- select --</option><option>Controls firing rate of breathing muscles; senses CO2 in brain fluid</option><option>Adjusts breathing during exercise; smooths inhale-exhale transition</option><option>Located in the medulla; detect rising CO2 in brain fluid</option><option>Located in aorta and carotid arteries; detect falling O2 in blood</option><option>Dome-shaped muscle that contracts to draw air into the lungs</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch2()">Check Answers</button>
+    <div class="q-feedback" id="fb-match2"></div>
+  </div>
+
+  <div class="q-card" id="match3">
+    <div class="q-num">Question 16 &mdash; Matching</div>
+    <div class="q-text">Match each key term to its definition.</div>
+    <div class="match-wrap">
+      <div>
+        <div class="match-col-head">Term</div>
+        <div class="match-term">Tidal volume</div>
+        <div class="match-term">Respiratory rate</div>
+        <div class="match-term">Minute ventilation</div>
+        <div class="match-term">External respiration</div>
+        <div class="match-term">Internal respiration</div>
+      </div>
+      <div>
+        <div class="match-col-head">Definition</div>
+        <select class="match-select" id="m3-1"><option value="">-- select --</option><option>Volume of air inhaled and exhaled per breath</option><option>Number of breaths per minute</option><option>Volume of air moved in and out of the respiratory tract per minute (RR x TV)</option><option>Gaseous exchange at the LUNGS - O2 in, CO2 out</option><option>Gaseous exchange at the MUSCLES and tissues - O2 in to muscle, CO2 out to blood</option></select>
+        <select class="match-select" id="m3-2"><option value="">-- select --</option><option>Volume of air inhaled and exhaled per breath</option><option>Number of breaths per minute</option><option>Volume of air moved in and out of the respiratory tract per minute (RR x TV)</option><option>Gaseous exchange at the LUNGS - O2 in, CO2 out</option><option>Gaseous exchange at the MUSCLES and tissues - O2 in to muscle, CO2 out to blood</option></select>
+        <select class="match-select" id="m3-3"><option value="">-- select --</option><option>Volume of air inhaled and exhaled per breath</option><option>Number of breaths per minute</option><option>Volume of air moved in and out of the respiratory tract per minute (RR x TV)</option><option>Gaseous exchange at the LUNGS - O2 in, CO2 out</option><option>Gaseous exchange at the MUSCLES and tissues - O2 in to muscle, CO2 out to blood</option></select>
+        <select class="match-select" id="m3-4"><option value="">-- select --</option><option>Volume of air inhaled and exhaled per breath</option><option>Number of breaths per minute</option><option>Volume of air moved in and out of the respiratory tract per minute (RR x TV)</option><option>Gaseous exchange at the LUNGS - O2 in, CO2 out</option><option>Gaseous exchange at the MUSCLES and tissues - O2 in to muscle, CO2 out to blood</option></select>
+        <select class="match-select" id="m3-5"><option value="">-- select --</option><option>Volume of air inhaled and exhaled per breath</option><option>Number of breaths per minute</option><option>Volume of air moved in and out of the respiratory tract per minute (RR x TV)</option><option>Gaseous exchange at the LUNGS - O2 in, CO2 out</option><option>Gaseous exchange at the MUSCLES and tissues - O2 in to muscle, CO2 out to blood</option></select>
+      </div>
+    </div>
+    <button class="match-check-btn" onclick="checkMatch3()">Check Answers</button>
+    <div class="q-feedback" id="fb-match3"></div>
+  </div>
+</div>
+
+<div id="tab-exam" class="tab-pane">
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">1. Name the two zones of the respiratory system and state which structures belong to each. Identify which zone is responsible for gaseous exchange.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The conducting zone includes the mouth/nose, pharynx, larynx, trachea, bronchi and bronchioles. It moves air in and out of the lungs. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The respiratory zone includes respiratory bronchioles, alveolar ducts and alveoli. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The respiratory zone is responsible for gaseous exchange. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Be precise - the bronchi and bronchioles are still in the conducting zone. Only the RESPIRATORY bronchioles (deeper) belong to the respiratory zone.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-q">2. Describe what happens to the diaphragm, intercostal muscles, thoracic volume and lung pressure during inspiration.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Diaphragm contracts (is active) and flattens, pulling down. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>External intercostal muscles contract, lifting the ribs up and outward. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Thoracic (chest cavity) volume increases. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Lung pressure decreases below atmospheric, causing air to flow into the lungs. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always include the cause-and-effect chain: muscle action -> volume change -> pressure change -> air movement. Just naming the muscles loses marks.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">A swimmer has a respiratory rate of 30 breaths per minute and a tidal volume of 0.6 L.</div>
+    <div class="eq-q">3. Calculate the swimmer&apos;s minute ventilation. Show your working and express the answer in L/min.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Formula: VE = RR x TV. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Working: 30 x 0.6 = 18 L/min. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Answer: 18 L/min. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Always state the formula explicitly. Always include units in the final answer (L/min).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-q">4. Explain how the brain detects and responds to rising CO2 levels in the blood during exercise. Name the brain structures and receptors involved.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Central chemoreceptors located in the medulla detect rising CO2 levels in the brain fluid, which indirectly reflects blood CO2. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>(Peripheral chemoreceptors in the aorta and carotid arteries can also detect falling O2 levels.) (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The medulla then increases the rate and depth of breathing by increasing the firing rate to the diaphragm and intercostal muscles. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>This brings in more O2 and expels more CO2 - returning blood gas levels toward normal. The pons also adjusts breathing pattern to keep inhale-exhale transitions smooth. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> Link CHEMORECEPTOR to GAS: central -> CO2; peripheral -> O2. Mixing these up is a common mistake.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-stimulus">A cross-country runner inhales air on a cool morning. Trace what happens to a molecule of oxygen from the moment it enters the runner&apos;s nose until it reaches a working leg muscle and is used to produce energy.</div>
+    <div class="eq-q">5. Describe the complete pathway and key processes. Use the terms: conducting zone, respiratory zone, alveolar/capillary interface, haemoglobin, external respiration, internal respiration, and cellular respiration.</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:140px;"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Oxygen enters through the nose and passes through the CONDUCTING ZONE: pharynx -> larynx -> trachea -> bronchi -> bronchioles. No gas exchange occurs here. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The oxygen then enters the RESPIRATORY ZONE: respiratory bronchioles -> alveolar ducts -> alveoli. Gas exchange now occurs. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At the ALVEOLAR/CAPILLARY INTERFACE, oxygen diffuses from areas of high concentration (alveolus) to low concentration (capillary blood). This is EXTERNAL RESPIRATION. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>The oxygen is picked up by HAEMOGLOBIN in red blood cells and transported via the pulmonary vein -> left side of heart -> aorta -> systemic arteries -> capillaries supplying the leg muscle. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>At the muscle capillary, oxygen diffuses from blood (high O2) into the muscle cell (low O2) - INTERNAL RESPIRATION. (1 mark)</span></div>
+          <div class="mark-row"><span class="mark-tick">&#10003;</span><span>Inside the muscle cell, oxygen is used for CELLULAR RESPIRATION (aerobic breakdown of glucose) to produce ATP for energy. (1 mark)</span></div>
+        </div>
+        <div class="examiner-tip"><strong>&#9888; Examiner tip:</strong> A complete chain answer scores all 6 marks. Examiners are looking for the terminology in the right order. Use the keywords explicitly - implying them costs marks.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="footer">VCE Physical Education &mdash; Unit 1 AOS 2 &middot; Ch4 Part A Quiz &middot; Live it Up 5th ed. &middot; &#9733;</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'quiz' ? 0 : 1].className = 'tab-btn active';
+}
+var totalQ = 16; var answered = 0; var correctCount = 0;
+function updateScore(gotIt) {
+  answered++; if (gotIt) correctCount++;
+  document.getElementById('score-correct').textContent = correctCount;
+  document.getElementById('score-total').textContent = answered;
+  document.getElementById('progress-bar').style.width = Math.round((answered / totalQ) * 100) + '%';
+}
+var mcAnswers = {
+  mc1: { correct: 'C', explanation: 'The alveoli are part of the respiratory zone (along with respiratory bronchioles and alveolar ducts). The bronchus is still in the conducting zone. Gas exchange does NOT occur in the conducting zone.' },
+  mc2: { correct: 'B', explanation: 'During inspiration, BOTH the diaphragm and external intercostals contract (active). Chest cavity volume increases and tidal volume of air drawn in increases. TV does plateau at moderate intensity (not all the way to VO2 max).' },
+  mc3: { correct: 'A', explanation: 'Rising CO2 triggers the medulla via central chemoreceptors. The respiratory centre signals both the cardiovascular system (to circulate faster) and respiratory system (to breathe faster/deeper) to clear CO2.' },
+  mc4: { correct: 'C', explanation: 'Gases ALWAYS move high to low concentration. Oxygen moves from alveoli (high) to capillaries (low); CO2 moves from capillaries (high) to alveoli (low).' },
+  mc5: { correct: 'C', explanation: 'VE = RR x TV = 40 x 0.7 = 28 L/min.' },
+  mc6: { correct: 'B', explanation: 'Peripheral chemoreceptors in the aorta and carotid arteries detect O2. Central chemoreceptors in the medulla detect CO2. Always pair the location with the right gas.' },
+  mc7: { correct: 'B', explanation: 'External respiration = gas exchange at the LUNGS (with the external environment via the alveolar/capillary interface). Internal respiration = gas exchange at muscles/tissues.' },
+  mc8: { correct: 'B', explanation: 'At rest, expiration is passive - muscles simply relax. Diaphragm returns to dome shape and ribs fall back. Chest volume decreases -> lung pressure increases -> air flows out (high to low pressure).' }
+};
+var tfAnswers = {
+  tf1: { correct: false, explanation: 'FALSE - the bronchi and bronchioles are still in the CONDUCTING zone. Gas exchange happens in the respiratory zone: respiratory bronchioles, alveolar ducts and alveoli.' },
+  tf2: { correct: true,  explanation: 'TRUE - inspiration always requires active muscle contraction (diaphragm + intercostals). Expiration at rest is passive (muscles simply relax), but during exercise expiration becomes active.' },
+  tf3: { correct: true,  explanation: 'TRUE - central chemoreceptors in the medulla detect rising CO2 in brain fluid (which reflects blood CO2). Peripheral chemoreceptors in aorta/carotid detect O2.' },
+  tf4: { correct: false, explanation: 'FALSE - cellular respiration is the metabolic breakdown of glucose to produce ATP INSIDE the cell. Gas exchange at the alveoli is external respiration. Two different processes.' },
+  tf5: { correct: true,  explanation: 'TRUE - gases (like all fluids) always diffuse from high pressure/concentration to low pressure/concentration. This is the basis of all gaseous exchange.' }
+};
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var opts = card.querySelectorAll('.mc-opt');
+  var ans = mcAnswers[qid]; var letters = ['A','B','C','D'];
+  var correct = (chosen === ans.correct);
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkTF(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = tfAnswers[qid]; var correct = (chosen === ans.correct);
+  var btns = card.querySelectorAll('.tf-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].classList.add('disabled');
+    if ((btns[i].textContent === 'True') === ans.correct) btns[i].classList.add('correct');
+  }
+  if (!correct) el.classList.add('wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.textContent = ans.explanation;
+  fb.className = 'q-feedback show' + (correct ? '' : ' wrong-fb');
+  updateScore(correct);
+}
+function checkMatch(qid, correctMap, fbid) {
+  var allCorrect = true;
+  var keys = Object.keys(correctMap);
+  for (var i = 0; i < keys.length; i++) {
+    var sel = document.getElementById(keys[i]);
+    if (!sel || sel.value !== correctMap[keys[i]]) { allCorrect = false; break; }
+  }
+  var msg = allCorrect ? '&#10003; All correct!' : 'Not quite. Correct answers:';
+  if (!allCorrect) for (var i = 0; i < keys.length; i++) msg += '<br>&#10003; ' + correctMap[keys[i]];
+  var fb = document.getElementById(fbid);
+  fb.innerHTML = msg;
+  fb.className = 'q-feedback show' + (allCorrect ? '' : ' wrong-fb');
+  var card = document.getElementById(qid);
+  card.classList.add(allCorrect ? 'correct' : 'wrong');
+  var sels = card.querySelectorAll('.match-select');
+  for (var i = 0; i < sels.length; i++) sels[i].disabled = true;
+  var btn = card.querySelector('.match-check-btn');
+  if (btn) btn.disabled = true;
+  updateScore(allCorrect);
+}
+function checkMatch1() {
+  checkMatch('match1',{
+    'm1-1':'Windpipe with cartilage rings - conducting zone',
+    'm1-2':'Two primary airways branching to left and right lung - conducting zone',
+    'm1-3':'Smaller branched airways within the lungs - conducting zone',
+    'm1-4':'Tiny sacs at the end of the respiratory tree - respiratory zone, gas exchange site',
+    'm1-5':'Shared passageway for air and food - conducting zone'
+  },'fb-match1');
+}
+function checkMatch2() {
+  checkMatch('match2',{
+    'm2-1':'Controls firing rate of breathing muscles; senses CO2 in brain fluid',
+    'm2-2':'Adjusts breathing during exercise; smooths inhale-exhale transition',
+    'm2-3':'Located in the medulla; detect rising CO2 in brain fluid',
+    'm2-4':'Located in aorta and carotid arteries; detect falling O2 in blood',
+    'm2-5':'Dome-shaped muscle that contracts to draw air into the lungs'
+  },'fb-match2');
+}
+function checkMatch3() {
+  checkMatch('match3',{
+    'm3-1':'Volume of air inhaled and exhaled per breath',
+    'm3-2':'Number of breaths per minute',
+    'm3-3':'Volume of air moved in and out of the respiratory tract per minute (RR x TV)',
+    'm3-4':'Gaseous exchange at the LUNGS - O2 in, CO2 out',
+    'm3-5':'Gaseous exchange at the MUSCLES and tissues - O2 in to muscle, CO2 out to blood'
+  },'fb-match3');
+}
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+function resetQuiz() {
+  answered = 0; correctCount = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var tfs = cards[i].querySelectorAll('.tf-btn');
+    for (var j = 0; j < tfs.length; j++) {
+      tfs[j].className = 'tf-btn';
+      var v = tfs[j].textContent === 'True';
+      tfs[j].onclick = (function(b,id,val){return function(){checkTF(b,id,val);};})(tfs[j],cards[i].id,v);
+    }
+    var sels = cards[i].querySelectorAll('.match-select');
+    for (var j = 0; j < sels.length; j++) { sels[j].disabled = false; sels[j].value = ''; }
+    var mb = cards[i].querySelector('.match-check-btn');
+    if (mb) mb.disabled = false;
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>
