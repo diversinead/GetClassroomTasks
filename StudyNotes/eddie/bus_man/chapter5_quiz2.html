@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VCE Business Management — Topic 5 Quiz 2</title>
+<title>VCE Business Management — Chapter 5 Quiz 2</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;padding:16px;font-size:14px;max-width:780px;margin:0 auto}
@@ -65,7 +65,7 @@ h1{font-size:21px;font-weight:700;color:#4B1528;margin-bottom:4px}
 </head>
 <body>
 
-<h1>VCE Business Management &mdash; Topic 5 Quiz 2</h1>
+<h1>VCE Business Management &mdash; Chapter 5 Quiz 2</h1>
 <p class="subtitle">Implementing Change &middot; 15 questions &middot; Mixed format &middot; Fresh questions across all subtopics</p>
 
 <div class="score-tracker">
@@ -92,7 +92,7 @@ h1{font-size:21px;font-weight:700;color:#4B1528;margin-bottom:4px}
   <div class="btn-row"><button class="btn btn-check" id="chk1" onclick="checkMC(1,'C')">Check answer</button></div>
   <div class="answer-box" id="ans1">
     <strong>&#10003; Correct answer: C &mdash; Laissez-faire</strong>
-    Laissez-faire leadership gives staff full autonomy to make decisions independently, with the leader providing minimal direction. Setting a budget and deadline but leaving all other decisions to the team is the defining feature of laissez-faire. It is appropriate here because the team consists of highly specialised experts who have more technical knowledge than the CEO. Autocratic (A) is the opposite. Democratic (B) involves collective decision-making with the leader. Consultative (D) is not a Lewin leadership style &mdash; it is a management style from Topic 1.
+    Laissez-faire leadership gives staff full autonomy to make decisions independently, with the leader providing minimal direction. Setting a budget and deadline but leaving all other decisions to the team is the defining feature of laissez-faire. It is appropriate here because the team consists of highly specialised experts who have more technical knowledge than the CEO. Autocratic (A) is the opposite. Democratic (B) involves collective decision-making with the leader. Consultative (D) is not a Lewin leadership style &mdash; it is a management style from Chapter 1.
     <div class="mark-scheme"><p><strong>Mark scheme:</strong> 1 mark for selecting C.</p></div>
   </div>
 </div>
@@ -339,7 +339,7 @@ h1{font-size:21px;font-weight:700;color:#4B1528;margin-bottom:4px}
   <button class="btn" style="background:#4B1528;color:#fff;padding:12px 28px;font-size:14px;border-radius:9px" onclick="finishQuiz()">&#127942; Finish &amp; see my score</button>
 </div>
 <button id="reset-btn" onclick="resetQuiz()">&#8635; Reset quiz</button>
-<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Topic 5 Quiz 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
+<p class="footer" style="margin-top:20px">VCE Business Management &mdash; Chapter 5 Quiz 2 &middot; Jacaranda Key Concepts 7th ed. &middot; For study use only</p>
 
 <script>
 var mcAnswers={};var mcCorrectCount=0;var totalAnswered=0;
@@ -347,7 +347,7 @@ function selectMC(el,groupId,letter){if(mcAnswers[groupId]&&mcAnswers[groupId].l
 function checkMC(qNum,correctLetter){var groupId="mc"+qNum;var group=document.getElementById(groupId);if(!group)return;var selected=mcAnswers[groupId]?mcAnswers[groupId].selected:null;if(!selected){alert("Please select an answer first.");return;}if(mcAnswers[groupId]&&mcAnswers[groupId].locked)return;mcAnswers[groupId].locked=true;var opts=group.querySelectorAll(".mc-opt");var letters=["A","B","C","D"];for(var i=0;i<opts.length;i++){opts[i].classList.add("disabled");if(letters[i]===correctLetter){opts[i].classList.add("opt-correct");}else if(letters[i]===selected){opts[i].classList.add("opt-wrong");}}var ansBox=document.getElementById("ans"+qNum);ansBox.classList.add("open");var isCorrect=(selected===correctLetter);ansBox.classList.add(isCorrect?"ans-correct":"ans-wrong");document.getElementById("qc"+qNum).classList.add(isCorrect?"correct":"incorrect");var chkBtn=document.getElementById("chk"+qNum);chkBtn.classList.add("btn-disabled");chkBtn.disabled=true;chkBtn.innerHTML=isCorrect?"&#10003; Correct!":"&#10007; Incorrect";if(isCorrect)mcCorrectCount++;totalAnswered++;updateProgress();}
 function revealAnswer(qNum){var ansBox=document.getElementById("ans"+qNum);if(ansBox.classList.contains("open"))return;ansBox.classList.add("open");document.getElementById("qc"+qNum).classList.add("revealed");totalAnswered++;updateProgress();var card=document.getElementById("qc"+qNum);var btns=card.querySelectorAll(".btn-reveal");for(var i=0;i<btns.length;i++){btns[i].innerHTML="&#10003; Answer revealed";btns[i].classList.add("btn-disabled");btns[i].disabled=true;}}
 function updateProgress(){var pct=Math.round((totalAnswered/15)*100);document.getElementById("prog-bar").style.width=pct+"%";document.getElementById("prog-label").textContent=totalAnswered+" of 15 questions attempted";document.getElementById("live-score").textContent=totalAnswered;document.getElementById("live-correct").textContent=mcCorrectCount+" MC correct";}
-function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review your extended responses against the model answers &mdash; for Q15 in particular, check whether you evaluated both frameworks before making a recommendation.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the Senge disciplines and force field analysis sections in your Topic 5 cheat sheet.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Topic 5 cheat sheet and focus on the resistance causes and strategies table, and make sure you know all five Senge disciplines.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
+function finishQuiz(){var banner=document.getElementById("score-banner");var total=5;var pct=Math.round((mcCorrectCount/total)*100);var cls,msg,sub;if(pct>=80){cls="score-great";msg="&#127942; Excellent work!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review your extended responses against the model answers &mdash; for Q15 in particular, check whether you evaluated both frameworks before making a recommendation.";}else if(pct>=60){cls="score-ok";msg="&#128218; Good effort &mdash; keep reviewing!";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Review the Senge disciplines and force field analysis sections in your Chapter 5 cheat sheet.";}else{cls="score-low";msg="&#128214; More revision needed";sub="You scored "+mcCorrectCount+"/"+total+" on multiple choice ("+pct+"%). Head back to your Chapter 5 cheat sheet and focus on the resistance causes and strategies table, and make sure you know all five Senge disciplines.";}banner.className=cls;banner.innerHTML="<h2>"+msg+"</h2><p>"+sub+"</p>";banner.style.display="block";banner.scrollIntoView({behavior:"smooth"});document.getElementById("reset-btn").style.display="block";}
 function resetQuiz(){if(!confirm("Reset the quiz? All your answers will be cleared."))return;location.reload();}
 updateProgress();
 </script>

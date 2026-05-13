@@ -66,7 +66,7 @@
         window.correctCount = document.querySelectorAll(CORRECT_SEL).length;
       if (typeof window.answered === 'number')
         window.answered = document.querySelectorAll(ANSWERED_SEL).length;
-      // topic2_quiz* pattern: mcAnswered (total) + mcCorrect (right)
+      // chapter2_quiz* / accounting quiz pattern: mcAnswered (total) + mcCorrect (right)
       if (typeof window.mcAnswered === 'number')
         window.mcAnswered = document.querySelectorAll(ANSWERED_SEL).length;
       if (typeof window.mcCorrect === 'number')

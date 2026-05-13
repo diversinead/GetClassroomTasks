@@ -1,4 +1,4 @@
-# VCE Business Management — Topic 3 (AOS 3) Operations Management
+# VCE Business Management — Chapter 3 (AOS 3) Operations Management
 ## Workbook notes: introductory lessons (Chapters 3.1, 3.2, 3.4, 3.5)
 
 > Source: Jacaranda *Key Concepts in VCE Business Management* (7th ed.) and Albert Park College portal pages.

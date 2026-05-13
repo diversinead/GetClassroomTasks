@@ -3,7 +3,7 @@
 ## Purpose
 Generate interactive HTML cheat sheets for VCE Business Management Units 3 & 4
 using the Jacaranda Key Concepts 7th edition (Chapman, Phelan, Richardson, Rabenda, Smithies).
-Each topic becomes a standalone `.html` file students can open in any browser.
+Each chapter becomes a standalone `.html` file students can open in any browser.
 
 ---
 
@@ -17,7 +17,7 @@ The VCE exam tests students on:
 - **Discussing** advantages and disadvantages
 - **Constructing** structured written responses using command terms
 
-Therefore cheat sheets must include MORE than just term definitions. Every topic needs:
+Therefore cheat sheets must include MORE than just term definitions. Every chapter needs:
 1. Key terms with plain English definitions (accordion — searchable)
 2. Advantages / disadvantages panels for every strategy or approach
 3. Comparison tables where concepts are commonly compared in exams
@@ -29,19 +29,19 @@ Therefore cheat sheets must include MORE than just term definitions. Every topic
 ## Book Structure
 
 **Unit 3 — Managing a Business**
-| Topic | Title | Area of Study |
-|-------|-------|---------------|
-| Topic 1 | Business Foundations | AOS 1 |
-| Topic 2 | Human Resource Management | AOS 2 |
-| Topic 3 | Operations Management | AOS 3 |
+| Chapter | Title | Area of Study |
+|---------|-------|---------------|
+| Chapter 1 | Business Foundations | AOS 1 |
+| Chapter 2 | Human Resource Management | AOS 2 |
+| Chapter 3 | Operations Management | AOS 3 |
 
 **Unit 4 — Transforming a Business**
-| Topic | Title | Area of Study |
-|-------|-------|---------------|
-| Topic 4 | Reviewing Performance — the Need for Change | AOS 1 |
-| Topic 5 | Implementing Change | AOS 2 |
+| Chapter | Title | Area of Study |
+|---------|-------|---------------|
+| Chapter 4 | Reviewing Performance — the Need for Change | AOS 1 |
+| Chapter 5 | Implementing Change | AOS 2 |
 
-Each topic has numbered subtopics (e.g. 1.2, 1.3) rather than chapters.
+Each chapter has numbered subsections (e.g. 1.2, 1.3).
 
 ---
 
@@ -88,8 +88,8 @@ Every file must have these elements in this order:
 
 ### Subtitle format
 ```html
-<h1>VCE Business Management &mdash; Topic N</h1>
-<p class="subtitle">Topic Title &middot; Jacaranda Key Concepts 7th ed. &middot; tap any term or panel to expand</p>
+<h1>VCE Business Management &mdash; Chapter N</h1>
+<p class="subtitle">Chapter Title &middot; Jacaranda Key Concepts 7th ed. &middot; tap any term or panel to expand</p>
 ```
 
 ### Font size toggle
@@ -661,21 +661,21 @@ table.ct.amber-head th { background: #412402; }
 
 ---
 
-## Hot Topics by Topic (confirmed high-frequency exam areas)
+## Hot Topics by Chapter (confirmed high-frequency exam areas)
 
-| Topic | Hot subtopics |
-|-------|--------------|
-| Topic 1 | Management styles, Management skills, Corporate culture, Stakeholders |
-| Topic 2 | Motivation theories (Maslow, Locke, Lawrence & Nohria), Training types, Performance management, Termination, Workplace participants, Dispute resolution |
-| Topic 3 | Operations strategies, Quality management, Technology & automation, CSR in operations |
-| Topic 4 | Key Performance Indicators (KPIs), Forces for change, SWOT analysis |
-| Topic 5 | Leadership styles (Lewin), Strategies to overcome resistance, Kotter 8-step model, Learning organisation |
+| Chapter | Hot subtopics |
+|---------|---------------|
+| Chapter 1 | Management styles, Management skills, Corporate culture, Stakeholders |
+| Chapter 2 | Motivation theories (Maslow, Locke, Lawrence & Nohria), Training types, Performance management, Termination, Workplace participants, Dispute resolution |
+| Chapter 3 | Operations strategies, Quality management, Technology & automation, CSR in operations |
+| Chapter 4 | Key Performance Indicators (KPIs), Forces for change, SWOT analysis |
+| Chapter 5 | Leadership styles (Lewin), Strategies to overcome resistance, Kotter 8-step model, Learning organisation |
 
 ---
 
-## Topic 2 Coverage Checklist (confirmed complete)
+## Chapter 2 Coverage Checklist (confirmed complete)
 
-Before finalising any Topic 2 file, verify all key knowledge areas are covered:
+Before finalising any Chapter 2 file, verify all key knowledge areas are covered:
 
 - [ ] Relationship between HRM and business objectives
 - [ ] Maslow's Hierarchy of Needs — five levels, management application
@@ -704,7 +704,7 @@ Before finalising any Topic 2 file, verify all key knowledge areas are covered:
 
 ---
 
-## Recommended Panel Structure per Topic
+## Recommended Panel Structure per Chapter
 
 Always include these panels in this order:
 1. **Font size toggle** (.size-row) — above search bar, every file
@@ -734,7 +734,7 @@ Always include these panels in this order:
 | Maslow bars too harsh | Replaced solid saturated colours with muted pastels + dark text |
 | Model answer steps hard to read | Replaced amber fill with white + left-border accent only |
 | Command terms incomplete | Added: Outline, Analyse, Distinguish, Recommend |
-| Topic 2 missing key knowledge areas | Added: support strategies, sanction strategies, transition considerations, workplace participants (employer associations, unions, FWC), modern awards, enterprise agreements (BOOT), NES, dispute resolution process, mediation vs arbitration |
+| Chapter 2 missing key knowledge areas | Added: support strategies, sanction strategies, transition considerations, workplace participants (employer associations, unions, FWC), modern awards, enterprise agreements (BOOT), NES, dispute resolution process, mediation vs arbitration |
 
 ---
 
