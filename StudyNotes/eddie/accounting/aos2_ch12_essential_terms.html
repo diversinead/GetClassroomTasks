@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 12: Price-setting strategies</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F7F5EF; color: #2C2C2A; line-height: 1.5; padding: 16px 0 40px; }
+h1 { font-size: 22px; font-weight: 800; color: #2C2C2A; padding: 0 14px; letter-spacing: -0.3px; }
+.subtitle { font-size: 13px; color: #6E6D67; padding: 2px 14px 14px; }
+#search { display: block; width: calc(100% - 28px); margin: 0 14px 14px; padding: 10px 14px; border: 1.5px solid #D8D5CA; border-radius: 10px; font-size: 14px; background: #fff; outline: none; }
+#search:focus { border-color: #3C3489; }
+.section-label { margin: 16px 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; }
+.footer { font-size: 11px; color: #888; text-align: center; padding: 24px 14px 0; }
+
+/* Category accordion */
+.cat { margin: 10px 10px; border-radius: 12px; overflow: hidden; border: 1.5px solid #ccc; background: #fff; }
+.cat.purple { border-color: #AFA9EC; }
+.cat.teal { border-color: #5DCAA5; }
+.cat.coral { border-color: #D85A30; }
+.cat.amber { border-color: #BA7517; }
+.cat.blue { border-color: #378ADD; }
+.cat.pink { border-color: #D4537E; }
+.cat.gray { border-color: #888780; }
+
+.cat-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; cursor: pointer; font-weight: 700; font-size: 14px; gap: 10px; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); color: #4B1528; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+.cat-head-text { flex: 1; min-width: 0; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head small { font-size: 11px; font-weight: 600; opacity: 0.7; }
+.cat-arrow { font-size: 11px; }
+
+.cat-body { max-height: 4000px; transition: max-height 0.3s ease; overflow: hidden; }
+.cat-body.collapsed { max-height: 0; }
+
+/* Hot badge */
+.hot-badge { position: relative; display: inline-flex; align-items: center; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; font-weight: 500; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* Term */
+.term { border-top: 1px solid #EEEAE0; }
+.term:first-child { border-top: none; }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: #2C2C2A; gap: 10px; }
+.term-title span:first-child { flex: 1; }
+.arrow { font-size: 10px; color: #888; }
+.term-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 14px; }
+.term-body.open { max-height: 800px; padding: 0 14px 12px; }
+.term-def { font-size: 13px; color: #3D3D3A; margin-bottom: 8px; }
+.term-eg { display: block; font-size: 12px; color: #555; font-style: italic; padding: 7px 10px; border-left: 3px solid #D8D5CA; background: #F7F5EF; border-radius: 0 6px 6px 0; }
+.term-note { display: block; font-size: 12px; font-style: italic; padding: 7px 10px; margin-top: 7px; background: #FFF4E3; border-left: 3px solid #BA7517; color: #412402; border-radius: 0 6px 6px 0; }
+
+.cat.purple .term-eg { background: #EEEDFE; border-left-color: #AFA9EC; color: #3C3489; }
+.cat.teal .term-eg { background: #E1F5EE; border-left-color: #5DCAA5; color: #085041; }
+.cat.coral .term-eg { background: #FAECE7; border-left-color: #D85A30; color: #4A1B0C; }
+.cat.amber .term-eg { background: #FAEEDA; border-left-color: #BA7517; color: #412402; }
+.cat.blue .term-eg { background: #E6F1FB; border-left-color: #378ADD; color: #042C53; }
+.cat.pink .term-eg { background: #FBEAF0; border-left-color: #D4537E; color: #4B1528; }
+.cat.gray .term-eg { background: #F1EFE8; border-left-color: #888780; color: #2C2C2A; }
+
+/* Collapsible panels */
+.box-wrap { margin: 10px; border-radius: 12px; border: 1.5px solid #ccc; background: #fff; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-wrap.gray { border-color: #888780; }
+
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 13.5px; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); color: #3C3489; }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.18); color: #412402; }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.22); color: #042C53; }
+.box-wrap.gray .box-toggle { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+.box-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 14px; }
+.box-body.open { max-height: 4500px; padding: 12px 14px 14px; }
+.box-note { margin-top: 10px; font-size: 12px; font-style: italic; padding: 8px 10px; background: #FFF8E3; border-left: 3px solid #BA7517; border-radius: 0 6px 6px 0; color: #412402; }
+
+/* Comparison table */
+.ct { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ct th, .ct td { padding: 8px 9px; text-align: left; border-bottom: 1px solid #EEEAE0; vertical-align: top; }
+.ct th { background: #F1EFE8; font-weight: 700; color: #2C2C2A; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+.ct td strong { color: #3C3489; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 1.5px 6px; border-radius: 4px; margin-right: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+.tag-r { background: #FAECE7; color: #4A1B0C; }
+.tag-g { background: #E1F5EE; color: #085041; }
+.tag-y { background: #FAEEDA; color: #412402; }
+.tag-b { background: #E6F1FB; color: #042C53; }
+.tag-p { background: #EEEDFE; color: #3C3489; }
+
+/* Formula cards */
+.formula-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.fcard { background: #fff; border: 1px solid #E8E4D5; border-radius: 8px; padding: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.fcard h3 { font-size: 13.5px; color: #2C2C2A; margin-bottom: 8px; font-weight: 700; }
+.fcard .formula { background: #F7F5EF; color: #2C2C2A; border: 1px solid #E8E4D5; padding: 9px 12px; border-radius: 6px; font-family: "SF Mono", Consolas, monospace; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 9px; }
+.fcard p { font-size: 12px; color: #555; margin-bottom: 9px; }
+.fcard .worked { background: #F7F5EF; border-left: 3px solid #BA7517; padding: 8px 10px; font-size: 12px; color: #412402; border-radius: 0 6px 6px 0; }
+@media (min-width: 640px) { .formula-grid { grid-template-columns: 1fr 1fr; } }
+
+/* Income statement template */
+.is-table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-family: "SF Mono", Consolas, monospace; }
+.is-table td { padding: 5px 8px; vertical-align: top; }
+.is-table td.num { text-align: right; white-space: nowrap; font-weight: 600; }
+.is-table tr.is-head td { background: #E6F1FB; color: #042C53; font-weight: 700; padding: 7px 8px; border-top: 1px solid #378ADD; border-bottom: 1px solid #378ADD; text-transform: uppercase; font-size: 11px; letter-spacing: 0.4px; }
+.is-table tr.is-section td { background: rgba(133,183,235,0.18); color: #042C53; font-weight: 700; padding: 6px 8px; font-size: 11.5px; }
+.is-table tr.is-sub td { border-top: 1px solid #378ADD; font-weight: 700; padding-top: 7px; padding-bottom: 7px; color: #042C53; }
+.is-table tr.is-net td { border-top: 2px solid #BA7517; border-bottom: 2px solid #BA7517; background: #FFF4E3; font-weight: 700; padding: 8px; color: #412402; }
+.is-table tr.is-loss td { border-top: 2px solid #D85A30; border-bottom: 2px solid #D85A30; background: #FAECE7; font-weight: 700; padding: 8px; color: #4A1B0C; }
+.is-indent { padding-left: 18px !important; }
+
+/* Break-even graph */
+.be-graph-wrap { background: #fff; border: 1px solid #E8E4D5; border-radius: 8px; padding: 12px; }
+.be-graph { width: 100%; height: auto; display: block; }
+.be-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11.5px; margin-top: 10px; justify-content: center; }
+.be-legend-item { display: inline-flex; align-items: center; gap: 6px; color: #2C2C2A; }
+.be-legend-swatch { display: inline-block; width: 18px; height: 3px; border-radius: 2px; }
+
+/* Mark-up workings */
+.mu-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.mu-table th, .mu-table td { padding: 7px 9px; text-align: right; border-bottom: 1px solid #EEEAE0; }
+.mu-table th:first-child, .mu-table td:first-child { text-align: left; }
+.mu-table th { background: #F1EFE8; font-weight: 700; color: #2C2C2A; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+.mu-table .mu-50 td.num { background: #FAECE7; color: #4A1B0C; }
+.mu-table .mu-90 td.num { background: #FAEEDA; color: #412402; }
+.mu-table .mu-150 td.num { background: #E1F5EE; color: #085041; }
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 12</h1>
+<p class="subtitle">Price-setting strategies &middot; tap any term to expand</p>
+<input id="search" placeholder="Search terms or definitions..." oninput="filterTerms(this.value)">
+
+<p class="section-label">&#128202; Visual Reference Panels</p>
+
+<!-- Panel 1: Cost behaviour comparison -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; Cost Behaviour &mdash; fixed vs variable vs semi-variable</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Feature</th><th>Fixed costs</th><th>Variable costs</th><th>Semi-variable costs</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Behaviour</strong></td>
+            <td>Stays the same in total no matter how many units are produced or sold</td>
+            <td>Total cost rises and falls in direct proportion to units produced or sold</td>
+            <td>Has a fixed base PLUS a variable component that grows with activity</td>
+          </tr>
+          <tr>
+            <td><strong>Per-unit cost</strong></td>
+            <td><span class="tag tag-g">falls</span>Per-unit fixed cost falls as more units are sold</td>
+            <td><span class="tag tag-y">constant</span>Per-unit variable cost stays the same</td>
+            <td><span class="tag tag-y">mixed</span>Falls slightly as the fixed component is spread wider</td>
+          </tr>
+          <tr>
+            <td><strong>Examples</strong></td>
+            <td><span class="tag tag-p">FC</span>Rent, salaries, insurance, depreciation of equipment</td>
+            <td><span class="tag tag-b">VC</span>Raw materials, packaging, commission per sale, GST on inputs</td>
+            <td><span class="tag tag-y">SVC</span>Electricity bill with a fixed service charge plus usage; phone plan with base fee plus call charges</td>
+          </tr>
+          <tr>
+            <td><strong>On a break-even graph</strong></td>
+            <td>Horizontal line</td>
+            <td>Line starting at $0 sloping up</td>
+            <td>Line starting at the fixed base sloping up</td>
+          </tr>
+          <tr>
+            <td><strong>Reliable Golf Buggies (Mar 2028)</strong></td>
+            <td>Salaries $1,600 + Cleaning $400 + Rent $2,400 = <strong>$4,400</strong></td>
+            <td>Cost of buggies $6,400 &divide; 80 units = <strong>$80 per buggy</strong></td>
+            <td>n/a in this example</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; If a question gives you ONLY total costs, split them by behaviour first. The break-even formulas only work once costs are sorted into FC vs VC.</p>
+  </div>
+</div>
+
+<!-- Panel 2: Key formulas -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129518; Key Formulas &mdash; pricing &amp; break-even</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div class="formula-grid">
+      <div class="fcard">
+        <h3>Selling price from cost + mark-up</h3>
+        <div class="formula">Selling price = Cost &times; (1 + mark-up%)</div>
+        <p>Apply a percentage mark-up to the cost price to set the selling price.</p>
+        <div class="worked">Jeans cost $40, 90% mark-up<br>
+          <strong>= 40 &times; 1.90 = $76 selling price</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Actual mark-up %</h3>
+        <div class="formula">((Selling &minus; Cost) &divide; Cost) &times; 100</div>
+        <p>Work backwards from a known selling price to the mark-up percentage actually applied.</p>
+        <div class="worked">Cookbook cost $18, sells for $29<br>
+          <strong>= (11 &divide; 18) &times; 100 = 61.1%</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Contribution margin per unit</h3>
+        <div class="formula">Selling price &minus; Variable cost per unit</div>
+        <p>The dollars from each unit sold that go toward paying fixed costs and then profit.</p>
+        <div class="worked">Golf buggy sells $120, var cost $80<br>
+          <strong>= $120 &minus; $80 = $40 per buggy</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Break-even point (units)</h3>
+        <div class="formula">Fixed costs &divide; Contribution margin per unit</div>
+        <p>How many units must be sold for revenue to exactly cover all costs &mdash; no profit, no loss.</p>
+        <div class="worked">FC $4,400, contribution $40<br>
+          <strong>= 4,400 &divide; 40 = 110 buggies</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Break-even point (sales $)</h3>
+        <div class="formula">Break-even units &times; Selling price</div>
+        <p>The total revenue figure that exactly covers all costs.</p>
+        <div class="worked">110 buggies at $120 each<br>
+          <strong>= 110 &times; $120 = $13,200</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Units for a target profit</h3>
+        <div class="formula">(Fixed costs + Target profit) &divide; Contribution per unit</div>
+        <p>Add the desired profit on top of fixed costs &mdash; treat profit like another fixed cost to clear.</p>
+        <div class="worked">FC $4,400, target $2,000, margin $40<br>
+          <strong>= 6,400 &divide; 40 = 160 buggies</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Selling price for a target profit</h3>
+        <div class="formula">((FC + Target profit) &divide; Units) + VC per unit</div>
+        <p>Used when units are capped (capacity limit) and price is the lever instead of volume.</p>
+        <div class="worked">FC $4,400, target $2,000, 100 units, VC $80<br>
+          <strong>= (6,400 &divide; 100) + 80 = $144</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Margin of safety</h3>
+        <div class="formula">Actual sales &minus; Break-even sales</div>
+        <p>How far sales could fall before the business slips into loss &mdash; the size of the safety buffer.</p>
+        <div class="worked">Sales 160 units, BE 110 units<br>
+          <strong>= 50 units (or $6,000 in sales $)</strong></div>
+      </div>
+    </div>
+    <p class="box-note">&#128161; Always work in <strong>per-unit</strong> figures (selling price, variable cost, contribution) before applying the break-even formulas &mdash; mixing totals and per-unit numbers is the most common arithmetic mistake.</p>
+  </div>
+</div>
+
+<!-- Panel 3: Mark-up workings (textbook Ex 1) -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128221; Mark-up worked example &mdash; clothing store (textbook Ex 1)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#3C3489;"><strong>Scenario:</strong> A clothing store sells three product lines. Calculate the selling price under each mark-up rate.</p>
+    <div style="overflow-x:auto;">
+      <table class="mu-table">
+        <thead><tr>
+          <th>Item</th>
+          <th>Cost price</th>
+          <th class="mu-50">50% mark-up</th>
+          <th class="mu-90">90% mark-up</th>
+          <th class="mu-150">150% mark-up</th>
+        </tr></thead>
+        <tbody>
+          <tr class="mu-50">
+            <td>Jeans</td><td class="num">$40</td>
+            <td class="num">$60</td><td class="num">$76</td><td class="num">$100</td>
+          </tr>
+          <tr class="mu-90">
+            <td>T-shirts</td><td class="num">$10</td>
+            <td class="num">$15</td><td class="num">$19</td><td class="num">$25</td>
+          </tr>
+          <tr class="mu-150">
+            <td>Baseball caps</td><td class="num">$5</td>
+            <td class="num">$7.50</td><td class="num">$9.50</td><td class="num">$12.50</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; A consistent percentage mark-up gives different dollar mark-ups on different items &mdash; that is why a $5 cap and a $40 pair of jeans don&apos;t share the same dollar profit even at the same %.</p>
+  </div>
+</div>
+
+<!-- Panel 4: Break-even graph (Reliable Golf Buggies) -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Break-even Graph &mdash; Reliable Golf Buggies</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#042C53;"><strong>Scenario:</strong> Chris Biffin sells golf buggies at $120 each. Variable cost = $80/buggy. Fixed costs = $4,400/month. Break-even = 110 buggies / $13,200 in sales.</p>
+    <div class="be-graph-wrap">
+      <svg class="be-graph" viewBox="0 0 460 320" xmlns="http://www.w3.org/2000/svg" aria-label="Break-even graph for Reliable Golf Buggies">
+        <!-- Axes -->
+        <line x1="50" y1="280" x2="430" y2="280" stroke="#2C2C2A" stroke-width="1.5"/>
+        <line x1="50" y1="20"  x2="50"  y2="280" stroke="#2C2C2A" stroke-width="1.5"/>
+        <!-- Y gridlines and labels: $0, $4400, $8800, $13200, $17600 (top ~ $19200) -->
+        <line x1="50" y1="222" x2="430" y2="222" stroke="#EEEAE0" stroke-width="1"/>
+        <line x1="50" y1="164" x2="430" y2="164" stroke="#EEEAE0" stroke-width="1"/>
+        <line x1="50" y1="106" x2="430" y2="106" stroke="#EEEAE0" stroke-width="1"/>
+        <line x1="50" y1="48"  x2="430" y2="48"  stroke="#EEEAE0" stroke-width="1"/>
+        <text x="44" y="284" font-size="10" fill="#555" text-anchor="end">$0</text>
+        <text x="44" y="226" font-size="10" fill="#555" text-anchor="end">$4,400</text>
+        <text x="44" y="168" font-size="10" fill="#555" text-anchor="end">$8,800</text>
+        <text x="44" y="110" font-size="10" fill="#555" text-anchor="end">$13,200</text>
+        <text x="44" y="52"  font-size="10" fill="#555" text-anchor="end">$17,600</text>
+        <!-- X axis labels: 0, 40, 80, 120, 160 units (scale: 380 px = 160 units => 2.375 px/unit; x = 50 + units*2.375) -->
+        <text x="50"  y="298" font-size="10" fill="#555" text-anchor="middle">0</text>
+        <text x="145" y="298" font-size="10" fill="#555" text-anchor="middle">40</text>
+        <text x="240" y="298" font-size="10" fill="#555" text-anchor="middle">80</text>
+        <text x="335" y="298" font-size="10" fill="#555" text-anchor="middle">120</text>
+        <text x="430" y="298" font-size="10" fill="#555" text-anchor="middle">160</text>
+        <text x="240" y="316" font-size="11" fill="#2C2C2A" text-anchor="middle" font-weight="600">Units sold</text>
+        <text x="14"  y="150" font-size="11" fill="#2C2C2A" text-anchor="middle" font-weight="600" transform="rotate(-90 14 150)">Dollars ($)</text>
+
+        <!-- Loss area (below TR, above TC from 0 to BE) -->
+        <polygon points="50,222 311.25,106 50,280" fill="#FAECE7" opacity="0.55"/>
+        <!-- Profit area (above TC, below TR from BE to 160) -->
+        <polygon points="311.25,106 430,48 430,89.5" fill="#E1F5EE" opacity="0.7"/>
+
+        <!-- Fixed cost line at $4,400 (y=222) -->
+        <line x1="50" y1="222" x2="430" y2="222" stroke="#888780" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="425" y="216" font-size="10" fill="#2C2C2A" text-anchor="end" font-weight="600">FC = $4,400</text>
+
+        <!-- Total cost line: starts at (0, 4400) ends at (160, 4400+160*80=17200) -->
+        <!-- y for $17,200 = 280 - (17200/19200)*260 = 280 - 232.92 = 47.08 -->
+        <line x1="50" y1="222" x2="430" y2="47" stroke="#D85A30" stroke-width="2.5"/>
+        <text x="395" y="60" font-size="10.5" fill="#4A1B0C" font-weight="700">Total cost</text>
+
+        <!-- Total revenue line: (0,0) to (160, 19200) => y=20 at x=430 -->
+        <line x1="50" y1="280" x2="430" y2="20" stroke="#1D9E75" stroke-width="2.5"/>
+        <text x="395" y="32" font-size="10.5" fill="#085041" font-weight="700">Total revenue</text>
+
+        <!-- BE point at 110 units, $13,200 => x = 50 + 110*2.375 = 311.25, y = 280 - (13200/19200)*260 = 280 - 178.75 = 101.25; using gridline y=106 for clarity -->
+        <circle cx="311.25" cy="106" r="5" fill="#3C3489" stroke="#fff" stroke-width="2"/>
+        <line x1="311.25" y1="106" x2="311.25" y2="280" stroke="#3C3489" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="311.25" y="98" font-size="10.5" fill="#3C3489" text-anchor="middle" font-weight="700">Break-even</text>
+        <text x="311.25" y="280" font-size="10" fill="#3C3489" text-anchor="middle" dy="-3"></text>
+        <text x="320" y="278" font-size="10" fill="#3C3489" font-weight="600">110 units</text>
+
+        <!-- Loss / Profit zone labels -->
+        <text x="175" y="248" font-size="10.5" fill="#4A1B0C" font-weight="700">LOSS zone</text>
+        <text x="365" y="78"  font-size="10.5" fill="#085041" font-weight="700">PROFIT zone</text>
+      </svg>
+      <div class="be-legend">
+        <span class="be-legend-item"><span class="be-legend-swatch" style="background:#1D9E75"></span>Total revenue (TR)</span>
+        <span class="be-legend-item"><span class="be-legend-swatch" style="background:#D85A30"></span>Total cost (TC)</span>
+        <span class="be-legend-item"><span class="be-legend-swatch" style="background:#888780"></span>Fixed cost (FC)</span>
+        <span class="be-legend-item"><span class="be-legend-swatch" style="background:#3C3489"></span>Break-even point</span>
+      </div>
+    </div>
+    <p class="box-note">&#128161; The break-even point is ALWAYS where the Total Revenue line crosses the Total Cost line &mdash; not where TR crosses FC. A common exam mistake is to label the FC&times;TR intersection as break-even.</p>
+  </div>
+</div>
+
+<!-- Panel 5: Income statement -> break-even (Reliable Golf Buggies) -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128203; From Income Statement to Break-even &mdash; Reliable Golf Buggies</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#085041;"><strong>Step 1:</strong> Read the income statement and identify each line as variable (cost of buggies) or fixed (other expenses).</p>
+    <div style="overflow-x:auto;">
+      <table class="is-table">
+        <tr class="is-head"><td colspan="2">Reliable Golf Buggies &mdash; Income Statement for month ended 31 March 2028</td></tr>
+        <tr><td>Sales of buggies (80 &times; $120)</td><td class="num">$9,600</td></tr>
+        <tr><td class="is-indent">Less Cost of buggies (variable: 80 &times; $80)</td><td class="num">$6,400</td></tr>
+        <tr class="is-sub"><td>Gross profit</td><td class="num">$3,200</td></tr>
+        <tr class="is-section"><td colspan="2">Less Other expenses (all fixed)</td></tr>
+        <tr><td class="is-indent">Salaries</td><td class="num">$1,600</td></tr>
+        <tr><td class="is-indent">Cleaning</td><td class="num">$400</td></tr>
+        <tr><td class="is-indent">Rent</td><td class="num">$2,400</td></tr>
+        <tr class="is-sub"><td>Total fixed costs</td><td class="num">$4,400</td></tr>
+        <tr class="is-loss"><td>Net loss</td><td class="num">($1,200)</td></tr>
+      </table>
+    </div>
+    <p style="font-size:12.5px; margin: 14px 0 8px; color:#085041;"><strong>Step 2:</strong> Pull out per-unit figures and apply the formulas.</p>
+    <div style="background:#fff; border:1px solid #5DCAA5; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:12.5px; color:#085041; line-height:1.8;">
+        Selling price per buggy = $9,600 &divide; 80 = <strong>$120</strong><br>
+        Variable cost per buggy = $6,400 &divide; 80 = <strong>$80</strong><br>
+        Contribution per buggy = $120 &minus; $80 = <strong>$40</strong><br>
+        Fixed costs = $1,600 + $400 + $2,400 = <strong>$4,400</strong><br>
+        Break-even units = $4,400 &divide; $40 = <strong>110 buggies</strong><br>
+        Break-even sales = 110 &times; $120 = <strong>$13,200</strong>
+      </div>
+    </div>
+    <p style="font-size:12.5px; margin: 14px 0 8px; color:#085041;"><strong>Step 3:</strong> Reconcile the loss against the shortfall in units.</p>
+    <div style="background:#fff; border:1px solid #D85A30; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:12.5px; color:#4A1B0C; line-height:1.8;">
+        Sold 80 buggies, needed 110 to break even &mdash; shortfall = <strong>30 buggies</strong><br>
+        30 buggies &times; $40 contribution = <strong>$1,200</strong> &mdash; matches the net loss exactly.
+      </div>
+    </div>
+    <p class="box-note">&#128161; Whenever the question gives you an income statement plus a unit price, you can always derive per-unit variable cost &mdash; and from there everything else. Don&apos;t try to break-even from totals alone.</p>
+  </div>
+</div>
+
+<!-- Panel 6: Setting price factors -->
+<div class="box-wrap gray">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129504; Factors to consider when setting a selling price</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Factor</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Cost of the goods/service</strong></td><td>The price must cover at least the variable cost per unit or every sale loses money.</td></tr>
+          <tr><td><strong>Fixed costs &amp; volume expected</strong></td><td>The contribution per unit must be enough to cover fixed costs across realistic sales volumes.</td></tr>
+          <tr><td><strong>Competitor prices</strong></td><td>Pricing well above competitors loses customers; pricing too far below sacrifices margin and signals low quality.</td></tr>
+          <tr><td><strong>Recommended retail price</strong></td><td>The supplier&apos;s suggested price acts as a sensible benchmark, especially in retail.</td></tr>
+          <tr><td><strong>Target customer</strong></td><td>Premium customers will pay more for service or branding; price-sensitive customers shop on price alone.</td></tr>
+          <tr><td><strong>Market conditions</strong></td><td>Seasons, trends, scarcity and competitor moves all shift what the market will accept.</td></tr>
+          <tr><td><strong>Profit goal</strong></td><td>The owner&apos;s required profit drives the minimum acceptable contribution margin.</td></tr>
+          <tr><td><strong>Ethics</strong></td><td>Inflating &quot;was&quot; prices to fake a discount, or charging extreme mark-ups on essentials, damages trust and may breach consumer law.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; A pricing answer that mentions BOTH cost-based factors (cost, contribution, profit goal) AND market-based factors (competitors, customer, conditions) will score better than one that names only one side.</p>
+  </div>
+</div>
+
+<p class="section-label">&#128218; Key Terms by Section</p>
+
+<div id="list"></div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &middot; Neville Box 7th ed. &middot; Chapter 12</p>
+
+<script>
+var data = [
+  { cat: "12.1 Setting Selling Prices", color: "gray", hot: false, items: [
+    { term: "Selling price", def: "The price a business charges customers for one unit of its goods or services.", eg: "Reliable Golf Buggies sells each buggy for $120." },
+    { term: "Recommended retail price (RRP)", def: "The price a manufacturer or supplier suggests a retailer should charge consumers.", eg: "A book wholesaler prints $29.95 RRP on the cover &mdash; the retailer can sell at, above or below this.", note: "RRP is a guide only &mdash; the retailer is free to set its own price. In the textbook&apos;s Slavich bookstore example he charges below RRP on some items to stay competitive." },
+    { term: "Cost-based pricing", def: "Setting the selling price by adding a mark-up or fixed dollar margin on top of the cost of the goods.", eg: "Cost $40 + 90% mark-up = $76 selling price." },
+    { term: "Percentage mark-up", def: "A fixed percentage added to the cost of an item to arrive at its selling price.", eg: "Cookbook costs $18, retailer applies a 60% mark-up: $18 &times; 1.60 = $28.80 selling price.", note: "Mark-up % is calculated on the COST price, not the selling price &mdash; this is the most common confusion in mark-up questions." },
+    { term: "Market-based pricing", def: "Setting the selling price by looking at what customers are willing to pay and what competitors charge, rather than just the cost.", eg: "A new cafe checks all the nearby cafes are pricing flat whites at $5.50 and sets its own price at $5.50 even though its cost would allow $4.50.", note: "Market-based pricing risks selling below cost if competitors are aggressive &mdash; always check the price still covers variable cost." },
+    { term: "Competitor pricing", def: "Choosing a price by reference to what direct competitors are charging for the same or similar product.", eg: "Templar Tablet City prices tablets in line with rival electronics stores rather than pure cost-plus." },
+    { term: "Promotional / sale pricing", def: "Temporarily reducing the selling price to attract customers, clear stock, or respond to competitors.", eg: "Half-price sale: $80 shirts now $40 &mdash; designed to clear stock and drive foot traffic.", note: "Inflating a &quot;was&quot; price just to make the sale look bigger is misleading and may breach Australian Consumer Law." },
+    { term: "Ethical pricing", def: "Setting prices in a way that is honest, transparent and fair to the customer &mdash; not manipulating &quot;was&quot; tags or exploiting essentials.", eg: "Lonsdale&apos;s menswear shop genuinely lowers $80 shirts to $40, rather than inflating the &quot;was&quot; tag from $50 to $80 to fake a discount." },
+    { term: "Factors affecting selling price", def: "The mix of cost-based and market-based inputs an owner weighs when setting a price.", eg: "Cost of buggies, competitor pricing, customer willingness to pay, owner&apos;s profit goal, seasonal demand, RRP from the manufacturer.", note: "VCE pricing questions reward answers that mention BOTH cost factors and market factors &mdash; a one-sided answer caps your marks." }
+  ]},
+  { cat: "12.2 Cost Behaviour &amp; Break-even", color: "amber", hot: true, items: [
+    { term: "Fixed costs (FC)", def: "Costs that stay the same in total no matter how many units are produced or sold during the period.", eg: "Reliable Golf Buggies pays $2,400 rent, $1,600 salaries and $400 cleaning every month &mdash; $4,400 fixed costs.", note: "Per-unit fixed cost FALLS as more units are sold &mdash; this is why volume matters so much for a fixed-cost-heavy business." },
+    { term: "Variable costs (VC)", def: "Costs that change in direct proportion to the number of units produced or sold.", eg: "Each golf buggy costs $80 in materials &mdash; sell 80 buggies, variable cost = $6,400; sell 110 buggies, variable cost = $8,800." },
+    { term: "Semi-variable costs", def: "Costs with both a fixed and a variable component &mdash; a base fee plus a per-unit charge.", eg: "Electricity bill: $30 daily service charge + 25c per kWh used; phone plan: $40 monthly base + call charges.", note: "For break-even, split a semi-variable cost into its fixed and variable parts before plugging into the formula." },
+    { term: "Total costs", def: "Fixed costs plus variable costs at a given level of activity.", eg: "At 80 buggies: $4,400 FC + (80 &times; $80) VC = $10,800 total cost." },
+    { term: "Contribution margin per unit", def: "Selling price per unit minus variable cost per unit &mdash; the dollars from each unit that go toward covering fixed costs, then profit.", eg: "$120 selling price &minus; $80 variable cost = $40 contribution per buggy." },
+    { term: "Break-even point", def: "The sales level at which total revenue exactly equals total costs &mdash; no profit, no loss.", eg: "Reliable Golf Buggies breaks even at 110 buggies (or $13,200 in sales).", note: "Use this exact phrasing in answers: &quot;the level of sales at which total revenue equals total costs and the business makes neither a profit nor a loss&quot;." },
+    { term: "Break-even formula (units)", def: "Fixed costs divided by contribution margin per unit.", eg: "$4,400 &divide; $40 = 110 buggies." },
+    { term: "Break-even formula (sales $)", def: "Break-even units multiplied by the selling price &mdash; the dollar revenue needed to break even.", eg: "110 buggies &times; $120 = $13,200 in sales." },
+    { term: "Target profit", def: "A specific profit figure the owner wants to achieve. Add it on top of fixed costs in the break-even formula.", eg: "Want $2,000 profit on top of $4,400 fixed costs: ($4,400 + $2,000) &divide; $40 = 160 buggies." },
+    { term: "Margin of safety", def: "The difference between actual or budgeted sales and the break-even sales level &mdash; how far sales could fall before the business loses money.", eg: "Selling 160 buggies vs a break-even of 110 = margin of safety of 50 buggies (or $6,000).", note: "A small margin of safety = high risk. Use it as evidence when evaluating how robust a pricing or volume strategy is." },
+    { term: "Below-cost selling", def: "Setting a price under variable cost per unit &mdash; every sale increases the loss.", eg: "If buggies cost $80 each but are sold at $75 to clear stock, every buggy adds $5 to the loss before fixed costs are even considered.", note: "Pricing below variable cost is only justified as a short-term clearance &mdash; never as an ongoing strategy." }
+  ]},
+  { cat: "12.3 Break-even Graphs", color: "blue", hot: true, items: [
+    { term: "Break-even graph", def: "A line graph plotting total revenue, total costs and fixed costs against units sold &mdash; used to visualise the break-even point.", eg: "See the &quot;Break-even Graph &mdash; Reliable Golf Buggies&quot; panel above for a fully labelled example." },
+    { term: "Total revenue (TR) line", def: "A straight line starting at the origin, sloping up at the selling price per unit.", eg: "Slopes at $120 per buggy &mdash; passes through (80 units, $9,600), (110, $13,200), (160, $19,200)." },
+    { term: "Total cost (TC) line", def: "A straight line starting at the fixed cost on the Y-axis, sloping up at the variable cost per unit.", eg: "Starts at $4,400 (FC), rises by $80 per buggy &mdash; passes through (80, $10,800), (110, $13,200), (160, $17,200)." },
+    { term: "Fixed cost (FC) line", def: "A horizontal line at the fixed cost dollar amount &mdash; same total cost regardless of units sold.", eg: "Horizontal line at $4,400 across the full graph.", note: "Always shown as a dashed or distinct style so it isn&apos;t confused with TC." },
+    { term: "Break-even intersection", def: "The point where the TR line crosses the TC line &mdash; the break-even point in units and dollars.", eg: "TR = TC at 110 buggies and $13,200 &mdash; the same numbers calculated by formula.", note: "A common error is labelling the FC &times; TR intersection as break-even &mdash; it isn&apos;t. Break-even is always TR meets TC." },
+    { term: "Loss zone", def: "The area between the TC line (above) and the TR line (below) before break-even &mdash; costs exceed revenue.", eg: "Selling 80 buggies sits in the loss zone; the vertical gap between TC and TR at 80 units is the $1,200 net loss." },
+    { term: "Profit zone", def: "The area between the TR line (above) and the TC line (below) after break-even &mdash; revenue exceeds costs.", eg: "Selling 160 buggies sits in the profit zone; the vertical gap (160 &times; $40 contribution &minus; FC = $2,000) is the net profit." },
+    { term: "Graph axes", def: "X-axis = Units sold (or activity level); Y-axis = Dollars (revenue and cost).", eg: "Reliable Golf Buggies graph: X runs 0&ndash;160 units, Y runs $0&ndash;$19,200.", note: "Label both axes &mdash; an unlabelled graph loses presentation marks even if the lines are correct." },
+    { term: "Reading off the graph", def: "Drop a vertical line from any sales volume on the X-axis to read profit or loss off the Y-axis gap between TR and TC.", eg: "Vertical at 150 units: TR = $18,000, TC = $16,400, gap = $1,600 profit." }
+  ]},
+  { cat: "12.4 Income Statements &amp; Break-even", color: "teal", hot: false, items: [
+    { term: "Linking the IS to break-even", def: "An income statement contains the same dollar information needed for break-even &mdash; separate variable cost (Cost of goods) from fixed costs (Other expenses), then derive per-unit figures.", eg: "Reliable Golf Buggies IS: Sales $9,600, Cost of buggies $6,400, Other expenses $4,400 &mdash; derive $120 SP, $80 VC, $4,400 FC, then break-even = 110 buggies." },
+    { term: "Cost of goods sold (variable)", def: "Treated as a variable cost in break-even analysis &mdash; rises and falls in line with sales volume.", eg: "Selling 80 buggies generates $6,400 cost of buggies; selling 120 would generate $9,600.", note: "&quot;Cost of goods&quot; in retail/manufacturing is the most common variable line. Wages can be variable too if they&apos;re paid per unit or per sale." },
+    { term: "Other expenses (fixed)", def: "Operating expenses in an income statement that do not move with sales volume &mdash; rent, salaries, insurance, advertising, cleaning.", eg: "Salaries $1,600 + cleaning $400 + rent $2,400 = $4,400 fixed costs." },
+    { term: "Deriving variable cost per unit from an IS", def: "Total variable cost &divide; units sold &mdash; gives the variable cost per unit needed for the break-even formulas.", eg: "Cost of buggies $6,400 &divide; 80 buggies sold = $80 per buggy." },
+    { term: "Net profit / (loss) from beyond break-even", def: "Profit = (actual units &minus; break-even units) &times; contribution per unit.", eg: "Selling 160 buggies = (160 &minus; 110) &times; $40 = $2,000 profit. Selling 80 = (80 &minus; 110) &times; $40 = ($1,200) loss." },
+    { term: "Selling price needed for target profit", def: "(Fixed costs + target profit) &divide; expected units sold + variable cost per unit &mdash; used when units are capped and price is the variable.", eg: "FC $4,400 + target profit $2,000 = $6,400 &divide; 100 units = $64 + $80 VC = $144 selling price per buggy." },
+    { term: "Units needed at the current price", def: "(Fixed costs + target profit) &divide; current contribution per unit &mdash; used when the price is set and volume is the variable.", eg: "At $120 with $40 contribution: ($4,400 + $2,000) &divide; $40 = 160 buggies needed for $2,000 profit." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

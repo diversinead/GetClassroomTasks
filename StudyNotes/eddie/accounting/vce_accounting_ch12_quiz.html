@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 12 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;font-size:14px;line-height:1.6}
+h1{font-size:1.4em;font-weight:700;color:#3C3489;padding:16px 16px 4px}
+.subtitle{font-size:0.86em;color:#5F5E5A;padding:0 16px 14px}
+
+/* Tabs */
+.tab-bar{display:flex;border-bottom:2px solid #D3D1C7;background:#fff;padding:0 16px;gap:4px}
+.tab-btn{padding:10px 18px;border:none;background:none;font-family:inherit;font-size:0.9em;font-weight:600;color:#5F5E5A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:#3C3489;border-bottom-color:#3C3489}
+.tab-btn:hover:not(.active){color:#1a1a18;background:#F5F4F0}
+.tab-pane{display:none;padding:16px}
+.tab-pane.active{display:block}
+
+/* Score bar */
+.score-bar{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score-text{font-size:0.86em;color:#1a1a18}
+.score-text strong{color:#3C3489;font-size:1.1em}
+.progress-track{flex:1;min-width:100px;height:8px;background:#E5E3DC;border-radius:4px;overflow:hidden}
+.progress-bar{height:100%;background:#7F77DD;border-radius:4px;width:0%;transition:width .4s}
+.reset-btn{background:#fff;border:1px solid #D3D1C7;color:#1a1a18;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em}
+.reset-btn:hover{background:#F5F4F0}
+
+/* Question cards */
+.q-section-head{background:#3C3489;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 10px;font-size:0.88em;font-weight:700}
+.q-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:16px;margin-bottom:12px}
+.q-card.correct{border-color:#1D9E75;background:#F0FBF6}
+.q-card.wrong{border-color:#D85A30;background:#FDF3EF}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.q-num{font-size:0.79em;font-weight:700;color:#5F5E5A;text-transform:uppercase;letter-spacing:.3px}
+.q-hot{background:#E24B4A;color:#fff;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-marks{background:#EEEDFE;color:#3C3489;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-text{font-size:0.93em;font-weight:600;margin-bottom:12px;color:#1a1a18}
+
+/* MC options */
+.mc-options{display:flex;flex-direction:column;gap:7px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid #D3D1C7;border-radius:6px;cursor:pointer;font-size:0.86em;transition:background .15s}
+.mc-opt:hover{background:#F5F4F0}
+.mc-opt.selected-correct{background:#E1F5EE;border-color:#1D9E75;font-weight:600;color:#085041}
+.mc-opt.selected-wrong{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+.mc-opt.reveal-correct{background:#E1F5EE;border-color:#1D9E75}
+.mc-opt.disabled{cursor:default;pointer-events:none}
+.opt-letter{font-weight:700;color:#3C3489;min-width:16px;flex-shrink:0}
+
+/* Feedback */
+.q-feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:6px;font-size:0.82em;line-height:1.6}
+.q-feedback.show{display:block}
+.q-feedback.correct-fb{background:#E1F5EE;border-left:3px solid #1D9E75;color:#085041}
+.q-feedback.wrong-fb{background:#FAECE7;border-left:3px solid #D85A30;color:#4A1B0C}
+
+/* Exam practice tab */
+.eq-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.eq-head{background:#F5F4F0;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #D3D1C7}
+.eq-type{background:#3C3489;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-marks{background:#EEEDFE;color:#3C3489;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-hot{background:#E24B4A;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-stimulus{background:#EEEDFE;border-left:3px solid #3C3489;padding:10px 14px;margin:12px 14px 0;font-size:0.86em;border-radius:0 6px 6px 0;color:#1a1a18}
+.eq-stimulus table{width:100%;border-collapse:collapse;font-size:0.9em;margin-top:6px;font-family:"SF Mono",Consolas,monospace}
+.eq-stimulus table td{padding:3px 6px;border-bottom:1px solid #D3CFE6}
+.eq-stimulus table td.num{text-align:right;white-space:nowrap}
+.eq-stimulus table tr.sub td{font-weight:700;border-top:1px solid #7F77DD}
+.eq-q{padding:12px 14px 4px;font-weight:600;font-size:0.93em;color:#1a1a18}
+.eq-body{padding:10px 14px 14px}
+.eq-answer-area{width:100%;min-height:80px;border:1px solid #D3D1C7;border-radius:6px;padding:9px;font-family:inherit;font-size:0.86em;resize:vertical;background:#fff}
+.eq-reveal-btn{margin-top:9px;background:#fff;border:1px solid #3C3489;color:#3C3489;padding:7px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em;font-weight:600}
+.eq-reveal-btn:hover{background:#3C3489;color:#fff}
+.eq-model{display:none;margin-top:10px;border:1px solid #D3D1C7;border-radius:6px;overflow:hidden}
+.eq-model.open{display:block}
+.eq-model-head{background:#EEEDFE;padding:8px 12px;font-weight:700;color:#3C3489;font-size:0.86em}
+.eq-model-body{padding:10px 14px;font-size:0.86em;line-height:1.7;color:#1a1a18}
+.eq-model-body p{margin-bottom:6px}
+.eq-model-body p:last-child{margin-bottom:0}
+.mark-scheme{background:#FAEEDA;border-left:3px solid #BA7517;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#412402;font-style:italic}
+.examiner-tip{background:#EEEDFE;border-left:3px solid #7F77DD;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#26215C}
+
+.footer{text-align:center;font-size:0.79em;color:#888780;margin-top:28px;padding:12px 16px 24px;border-top:1px solid #D3D1C7}
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 12 Quiz</h1>
+<p class="subtitle">Price-setting strategies &middot; Multiple choice + exam practice &middot; Hot topics focus</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('mc')">&#127919; Multiple Choice</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<!-- ===== MULTIPLE CHOICE TAB ===== -->
+<div id="tab-mc" class="tab-pane active">
+
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetMC()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#128181; Setting Selling Prices (12.1)</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-meta"><span class="q-num">Q1</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A clothing retailer pays $40 for a pair of jeans and applies a 90% mark-up. What is the selling price?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span>$36</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span>$44</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span>$76</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span>$80</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-meta"><span class="q-num">Q2</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A bookstore buys a cookbook for $18 and sells it for $29. The actual mark-up percentage applied is closest to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span>37.9% (the discount %)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span>61.1%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span>62.1%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span>161.1%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-meta"><span class="q-num">Q3</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Carlton Tablet City sells its tablets at $450 because that is the price charged by every other electronics shop in the area. This pricing approach is BEST described as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span>Cost-based pricing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span>Market-based / competitor pricing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span>Percentage mark-up pricing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span>Promotional pricing</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-meta"><span class="q-num">Q4</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Andy Lonsdale&apos;s menswear shop has always sold business shirts at $50. His friend Rick suggests putting up a sign saying &quot;SPECIAL: WERE $80, NOW HALF PRICE $40&quot; to clear stock. The MAIN ethical concern with Rick&apos;s suggestion is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span>The $40 price is below the cost of the shirts ($25), so Lonsdale loses money on every shirt</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span>The &quot;was&quot; price of $80 is inflated &mdash; customers are deceived into thinking they are receiving a bigger discount than is real</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span>Half-price discounts are illegal in Australia</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span>The shop will lose long-standing customers who paid $50</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-section-head">&#129518; Cost Behaviour &amp; Break-even (12.2)</div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-meta"><span class="q-num">Q5</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which of the following is a FIXED cost for a small bakery?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span>Flour and butter used per loaf</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span>Monthly bakery rent</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span>Packaging supplied per loaf sold</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span>Casual wages paid per shift worked</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-meta"><span class="q-num">Q6</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">An electricity bill consists of a $30 monthly service charge plus 25 cents per kWh used. This cost is BEST classified as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span>Fixed</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span>Variable</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span>Semi-variable</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span>Discretionary</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-meta"><span class="q-num">Q7</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A gaming table sells for $150. Timber costs $45 per table and stain costs $15 per table. The contribution margin per table is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span>$60</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span>$75</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span>$90</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span>$135</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-meta"><span class="q-num">Q8</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Matthew Hewitt rents a workshop for $450 per week to build gaming tables. Each table generates $90 of contribution margin. How many tables must Hewitt sell per week to break even?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span>3 tables</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span>4 tables</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span>5 tables</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span>6 tables</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-card" id="mc9">
+    <div class="q-meta"><span class="q-num">Q9</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Following on from Q8: how many gaming tables would Hewitt have to sell each week to earn a profit of $900?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc9','A')"><span class="opt-letter">A</span>10 tables</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','B')"><span class="opt-letter">B</span>12 tables</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','C')"><span class="opt-letter">C</span>15 tables</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','D')"><span class="opt-letter">D</span>18 tables</div>
+    </div>
+    <div class="q-feedback" id="fb-mc9"></div>
+  </div>
+
+  <div class="q-card" id="mc10">
+    <div class="q-meta"><span class="q-num">Q10</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business sells 200 units in a typical month. Its break-even point is 140 units. The margin of safety is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc10','A')"><span class="opt-letter">A</span>60 units &mdash; the buffer before sales fall into the loss zone</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','B')"><span class="opt-letter">B</span>140 units &mdash; the level needed to break even</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','C')"><span class="opt-letter">C</span>200 units &mdash; the current sales volume</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','D')"><span class="opt-letter">D</span>340 units &mdash; the sum of current sales and break-even</div>
+    </div>
+    <div class="q-feedback" id="fb-mc10"></div>
+  </div>
+
+  <div class="q-section-head">&#128200; Break-even Graphs (12.3)</div>
+
+  <div class="q-card" id="mc11">
+    <div class="q-meta"><span class="q-num">Q11</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">On a break-even graph, the Total Cost (TC) line:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc11','A')"><span class="opt-letter">A</span>Starts at the origin and slopes up at the selling price per unit</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','B')"><span class="opt-letter">B</span>Starts at the fixed cost level on the Y-axis and slopes up at the variable cost per unit</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','C')"><span class="opt-letter">C</span>Is a horizontal line at the level of fixed costs</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','D')"><span class="opt-letter">D</span>Is a vertical line at the break-even point</div>
+    </div>
+    <div class="q-feedback" id="fb-mc11"></div>
+  </div>
+
+  <div class="q-card" id="mc12">
+    <div class="q-meta"><span class="q-num">Q12</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The break-even point on a break-even graph is found at the point where:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc12','A')"><span class="opt-letter">A</span>The Fixed Cost line meets the Total Revenue line</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','B')"><span class="opt-letter">B</span>The Total Revenue line meets the Total Cost line</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','C')"><span class="opt-letter">C</span>The Total Cost line meets the Y-axis</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','D')"><span class="opt-letter">D</span>The Fixed Cost line meets the Total Cost line</div>
+    </div>
+    <div class="q-feedback" id="fb-mc12"></div>
+  </div>
+
+  <div class="q-card" id="mc13">
+    <div class="q-meta"><span class="q-num">Q13</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">At a sales volume BELOW the break-even point, the vertical distance between the Total Cost line and the Total Revenue line represents:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc13','A')"><span class="opt-letter">A</span>The contribution margin per unit</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','B')"><span class="opt-letter">B</span>The fixed cost at that volume</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','C')"><span class="opt-letter">C</span>The amount of loss being made</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','D')"><span class="opt-letter">D</span>The variable cost per unit</div>
+    </div>
+    <div class="q-feedback" id="fb-mc13"></div>
+  </div>
+
+  <div class="q-section-head">&#128203; Income Statements &amp; Break-even (12.4)</div>
+
+  <div class="q-card" id="mc14">
+    <div class="q-meta"><span class="q-num">Q14</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Reliable Golf Buggies&apos; March income statement shows Cost of buggies $6,400 against sales of 80 buggies. The variable cost per buggy is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc14','A')"><span class="opt-letter">A</span>$80</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','B')"><span class="opt-letter">B</span>$120</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','C')"><span class="opt-letter">C</span>$6,400 (it is a single fixed cost)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','D')"><span class="opt-letter">D</span>Cannot be calculated without the selling price</div>
+    </div>
+    <div class="q-feedback" id="fb-mc14"></div>
+  </div>
+
+  <div class="q-card" id="mc15">
+    <div class="q-meta"><span class="q-num">Q15</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Reliable Golf Buggies breaks even at 110 buggies, with a contribution margin of $40 per buggy. If 130 buggies are sold in a month, net profit will be:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc15','A')"><span class="opt-letter">A</span>$400</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','B')"><span class="opt-letter">B</span>$800</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','C')"><span class="opt-letter">C</span>$4,400</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','D')"><span class="opt-letter">D</span>$5,200</div>
+    </div>
+    <div class="q-feedback" id="fb-mc15"></div>
+  </div>
+
+</div>
+
+<!-- ===== EXAM PRACTICE TAB ===== -->
+<div id="tab-exam" class="tab-pane">
+
+  <div class="q-section-head">&#128203; Short Answer Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">
+      A clothing store sells three product lines. The owner is considering a uniform 90% mark-up across all items.
+      <table>
+        <tr><td>Jeans</td><td class="num">cost $40</td></tr>
+        <tr><td>T-shirts</td><td class="num">cost $10</td></tr>
+        <tr><td>Baseball caps</td><td class="num">cost $5</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">Calculate the selling price of each item under a 90% mark-up. (3 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Jeans (1 mark):</strong> $40 &times; 1.90 = <strong>$76</strong></p>
+          <p><strong>T-shirts (1 mark):</strong> $10 &times; 1.90 = <strong>$19</strong></p>
+          <p><strong>Baseball caps (1 mark):</strong> $5 &times; 1.90 = <strong>$9.50</strong></p>
+          <div class="mark-scheme">&#9888; Mark-up percentage is applied to the COST price (not the selling price). Multiply by 1.90, not 0.90 &mdash; students who multiply by 0.90 and report $36 / $9 / $4.50 lose all three marks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      The Year 12 Students&apos; Representative Council (SRC) is planning to make and sell rugby tops to raise funds. The school will charge the SRC $60 per week to rent a room for production. Each rugby top will cost $45 in materials to make, and is intended to retail for $50.
+    </div>
+    <div class="eq-q">
+      a. Calculate the contribution margin per rugby top. (1 mark)<br>
+      b. Calculate how many rugby tops the SRC must sell each week to break even. (2 marks)<br>
+      c. How many tops would the SRC need to sell in a week to make a profit of $100? (1 mark)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Contribution margin (1 mark):</strong> $50 selling price &minus; $45 variable cost = <strong>$5 per top</strong>.</p>
+          <p><strong>(b) Break-even units (2 marks):</strong> Fixed costs &divide; contribution per unit (1 mark for formula) = $60 &divide; $5 = <strong>12 rugby tops per week</strong> (1 mark for answer).</p>
+          <p><strong>(c) Target profit units (1 mark):</strong> ($60 fixed + $100 target) &divide; $5 contribution = <strong>32 tops</strong>.</p>
+          <div class="examiner-tip">&#128161; Always state the formula in words (or symbols) BEFORE plugging in numbers &mdash; examiners award a method mark for the right formula even when the arithmetic is wrong.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      Reliable Golf Buggies incurred the following costs during March 2028:
+      <table>
+        <tr><td>Cost of each buggy (materials)</td><td class="num">$80 per buggy</td></tr>
+        <tr><td>Monthly salaries</td><td class="num">$1,600</td></tr>
+        <tr><td>Monthly cleaning</td><td class="num">$400</td></tr>
+        <tr><td>Monthly rent</td><td class="num">$2,400</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Classify each cost as fixed or variable, with a brief reason. (2 marks)<br>
+      b. State the total fixed costs and the variable cost per buggy. (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Classification (2 marks):</strong></p>
+          <p>&bull; <strong>Cost of each buggy ($80)</strong> &mdash; <strong>variable</strong>: total cost rises and falls in direct proportion to the number of buggies sold (1 mark).</p>
+          <p>&bull; <strong>Salaries, cleaning, rent</strong> &mdash; <strong>fixed</strong>: each is paid in full regardless of how many buggies are sold during the month (1 mark).</p>
+          <p><strong>(b) Totals (2 marks):</strong> Total fixed costs = $1,600 + $400 + $2,400 = <strong>$4,400</strong> (1 mark). Variable cost per buggy = <strong>$80</strong> (1 mark).</p>
+          <div class="mark-scheme">&#9888; A classification answer that simply labels each line as &quot;fixed&quot; or &quot;variable&quot; without justification will typically lose 1 of the 2 marks &mdash; examiners want to see the behavioural reason.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-section-head">&#128218; Extended Response Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      Chris Biffin owns Reliable Golf Buggies, a small business that sells golf buggies at $120 each. The following income statement was prepared for March 2028.
+      <table>
+        <tr><td colspan="2"><strong>Reliable Golf Buggies &mdash; Income Statement for month ended 31 March 2028</strong></td></tr>
+        <tr><td>Sales of buggies</td><td class="num">$9,600</td></tr>
+        <tr><td>Less Cost of buggies</td><td class="num">$6,400</td></tr>
+        <tr class="sub"><td>Gross profit</td><td class="num">$3,200</td></tr>
+        <tr><td>Less Salaries</td><td class="num">$1,600</td></tr>
+        <tr><td>Less Cleaning</td><td class="num">$400</td></tr>
+        <tr><td>Less Rent</td><td class="num">$2,400</td></tr>
+        <tr class="sub"><td>Net loss</td><td class="num">($1,200)</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. How many golf buggies did Biffin sell during March? (1 mark)<br>
+      b. State the variable cost per buggy. (1 mark)<br>
+      c. Calculate the contribution margin per buggy. (1 mark)<br>
+      d. Calculate the break-even point in units. (2 marks)<br>
+      e. Explain why the business suffered a loss in March, supporting your answer with reference to the break-even point. (3 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Units sold (1 mark):</strong> $9,600 &divide; $120 = <strong>80 buggies</strong>.</p>
+          <p><strong>(b) Variable cost per buggy (1 mark):</strong> $6,400 &divide; 80 = <strong>$80</strong>.</p>
+          <p><strong>(c) Contribution margin per buggy (1 mark):</strong> $120 &minus; $80 = <strong>$40</strong>.</p>
+          <p><strong>(d) Break-even units (2 marks):</strong> Total fixed costs = $1,600 + $400 + $2,400 = $4,400 (1 mark). Break-even = $4,400 &divide; $40 = <strong>110 buggies</strong> (1 mark).</p>
+          <p><strong>(e) Explanation of the loss (3 marks):</strong></p>
+          <p>&bull; Biffin sold only 80 buggies, which is 30 below the break-even point of 110 (1 mark).</p>
+          <p>&bull; Each buggy contributes $40 toward covering fixed costs &mdash; meaning the business needed 110 buggies just to cover the $4,400 of fixed expenses (1 mark).</p>
+          <p>&bull; The shortfall of 30 buggies &times; $40 contribution = <strong>$1,200</strong>, which matches the net loss shown on the income statement exactly (1 mark).</p>
+          <div class="examiner-tip">&#128161; Reconciling the loss back to the formula (&quot;30 buggies short &times; $40 = $1,200&quot;) is the gold-standard answer &mdash; it proves the student understands both the formula and the income statement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      Ebony Rea runs Classic Barstools. The following income statement was prepared for May 2028, during which Rea sold 48 barstools.
+      <table>
+        <tr><td colspan="2"><strong>Classic Barstools &mdash; Income Statement for month ended 31 May 2028</strong></td></tr>
+        <tr><td>Sales of barstools</td><td class="num">$7,200</td></tr>
+        <tr><td>Less Cost of barstools</td><td class="num">$3,840</td></tr>
+        <tr class="sub"><td>Gross profit</td><td class="num">$3,360</td></tr>
+        <tr><td>Less Wages</td><td class="num">$2,000</td></tr>
+        <tr><td>Less Electricity</td><td class="num">$130</td></tr>
+        <tr><td>Less Telephone</td><td class="num">$120</td></tr>
+        <tr><td>Less Advertising</td><td class="num">$200</td></tr>
+        <tr class="sub"><td>Net profit</td><td class="num">$910</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Calculate the selling price per barstool, the variable cost per barstool, and the contribution margin per barstool. (3 marks)<br>
+      b. Calculate the break-even point in units. (2 marks)<br>
+      c. If Rea wants to earn a profit of $3,500 per month, how many barstools must she sell at the current price? (1 mark)<br>
+      d. If Rea can only produce and sell 70 barstools per month, what selling price would she need to charge to earn $3,500 profit? (Assume the cost per barstool stays at the current variable cost.) (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Per-unit figures (3 marks):</strong></p>
+          <p>&bull; Selling price = $7,200 &divide; 48 = <strong>$150</strong> per barstool (1 mark).</p>
+          <p>&bull; Variable cost = $3,840 &divide; 48 = <strong>$80</strong> per barstool (1 mark).</p>
+          <p>&bull; Contribution margin = $150 &minus; $80 = <strong>$70</strong> per barstool (1 mark).</p>
+          <p><strong>(b) Break-even units (2 marks):</strong> Total fixed costs = $2,000 + $130 + $120 + $200 = $2,450 (1 mark). Break-even = $2,450 &divide; $70 = <strong>35 barstools</strong> (1 mark).</p>
+          <p><strong>(c) Units for $3,500 profit (1 mark):</strong> ($2,450 + $3,500) &divide; $70 = $5,950 &divide; $70 = <strong>85 barstools</strong>.</p>
+          <p><strong>(d) Selling price at capped volume (2 marks):</strong> Required contribution per barstool = ($2,450 + $3,500) &divide; 70 = $85 (1 mark). Required selling price = $85 + $80 variable cost = <strong>$165 per barstool</strong> (1 mark).</p>
+          <div class="examiner-tip">&#128161; When the question caps the unit volume, the lever is PRICE, not volume. Use the formula ((FC + target profit) &divide; units) + VC per unit &mdash; do not try to use the standard break-even units formula.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      Kira owns Kira&apos;s Kebabs. She currently charges $10 per kebab. Each kebab costs $4 in ingredients to make. Her weekly fixed expenses are casual wages $500 and rent $300. Over the last few months Kira has averaged sales of 500 kebabs per week. She is considering three options:
+      <table>
+        <tr><td><strong>Option 1</strong></td><td>Drop selling price to $8 per kebab &mdash; expects sales to rise 20% to 600/week.</td></tr>
+        <tr><td><strong>Option 2</strong></td><td>Keep $10 price, give a free soft drink with each kebab. Drinks cost 80c each. Expects sales to rise 10% to 550/week.</td></tr>
+        <tr><td><strong>Option 3</strong></td><td>Run an advertising campaign costing $400/week. Expects sales to rise 10% to 550/week, no other extra costs.</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Calculate the anticipated weekly profit under each of the three options. (5 marks)<br>
+      b. Compare the results and comment briefly on each option. (1 mark)<br>
+      c. Recommend which option (if any) Kira should choose, and explain why. (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Baseline (for comparison):</strong> contribution per kebab = $10 &minus; $4 = $6. Profit = (500 &times; $6) &minus; $800 fixed = <strong>$2,200/week</strong>.</p>
+          <p><strong>(a) Three options (5 marks):</strong></p>
+          <p>&bull; <strong>Option 1 (1 mark):</strong> contribution = $8 &minus; $4 = $4 per kebab. Profit = (600 &times; $4) &minus; $800 = <strong>$1,600</strong>.</p>
+          <p>&bull; <strong>Option 2 (2 marks):</strong> contribution = $10 &minus; $4 &minus; $0.80 drink = $5.20 (1 mark). Profit = (550 &times; $5.20) &minus; $800 = $2,860 &minus; $800 = <strong>$2,060</strong> (1 mark).</p>
+          <p>&bull; <strong>Option 3 (2 marks):</strong> contribution = $10 &minus; $4 = $6 (1 mark). Profit = (550 &times; $6) &minus; $800 &minus; $400 ad spend = $3,300 &minus; $1,200 = <strong>$2,100</strong> (1 mark).</p>
+          <p><strong>(b) Comparison (1 mark):</strong> Option 1 destroys margin and drops profit by $600 even with the volume lift; Option 2 recovers most of the lost contribution but the drink cost erodes margin; Option 3 produces the highest profit of the three because the campaign is a known fixed cost and the unit margin is preserved.</p>
+          <p><strong>(c) Recommendation (2 marks):</strong> None of the three options exceeds the current $2,200/week baseline (1 mark). Kira&apos;s best course is to leave pricing unchanged. If forced to pick among the three, Option 3 produces the highest projected profit ($2,100) and carries the lowest margin risk because the $400 ad spend is a fixed, known commitment &mdash; whereas Option 2&apos;s profit depends on customers actually taking the free drink (1 mark).</p>
+          <div class="mark-scheme">&#9888; A common student error here is to compare only the three options to each other and miss that the baseline is best. Always benchmark against the current position before recommending a change.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &middot; Neville Box 7th ed. &middot; Chapter 12 Quiz</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'mc' ? 0 : 1].className = 'tab-btn active';
+}
+
+var totalMC = 15;
+var mcAnswered = 0;
+var mcCorrect = 0;
+var mcAnswers = {};
+
+function updateScore(gotIt) {
+  mcAnswered++;
+  if (gotIt) mcCorrect++;
+  document.getElementById('score-correct').textContent = mcCorrect;
+  document.getElementById('score-total').textContent = mcAnswered;
+  document.getElementById('progress-bar').style.width = Math.round((mcAnswered / totalMC) * 100) + '%';
+}
+
+var mcData = {
+  mc1: { correct: 'C', fb: 'Correct: C &mdash; $40 &times; 1.90 = $76. Apply the mark-up as a multiplier on COST (1 + mark-up%). Option A ($36) multiplies by 0.90 as a discount; Option B ($44) adds a flat $4; Option D ($80) doubles the cost.' },
+  mc2: { correct: 'B', fb: 'Correct: B &mdash; mark-up % = (selling &minus; cost) &divide; cost &times; 100 = ($29 &minus; $18) &divide; $18 &times; 100 = 61.1%. Option A divides by the selling price (a discount %), C uses $11 / $18.5 (no such reference), and D ratios the whole selling price to the cost.' },
+  mc3: { correct: 'B', fb: 'Correct: B &mdash; the price is being set by reference to what competitors charge, not by adding a mark-up to cost. This is market-based / competitor pricing. Cost-based pricing (A) would start with cost + mark-up; promotional pricing (D) is a temporary discount.' },
+  mc4: { correct: 'B', fb: 'Correct: B &mdash; inflating a &quot;was&quot; price to fake a bigger discount is misleading conduct under Australian Consumer Law and breaches honest-pricing ethics. Option A is true but is a profitability concern, not the main ethical issue; C is incorrect (genuine half-price sales are legal); D is a side-effect, not the ethical core.' },
+  mc5: { correct: 'B', fb: 'Correct: B &mdash; monthly rent is paid in full regardless of how many loaves are baked. Flour/butter (A) and packaging (C) rise per loaf so are variable; casual wages paid per shift (D) are variable when shifts scale with sales.' },
+  mc6: { correct: 'C', fb: 'Correct: C &mdash; semi-variable. The $30 service charge is fixed (paid regardless of usage), and the 25c per kWh is variable (rises with consumption). A cost with both a fixed and a variable component is by definition semi-variable.' },
+  mc7: { correct: 'C', fb: 'Correct: C &mdash; contribution margin per unit = selling price &minus; variable cost per unit = $150 &minus; ($45 + $15) = $90. Option A subtracts only $45 + $45 (doubled timber); B uses $75 (no clear derivation); D forgets to subtract the stain.' },
+  mc8: { correct: 'C', fb: 'Correct: C &mdash; break-even units = fixed costs &divide; contribution margin per unit = $450 &divide; $90 = 5 tables. Hewitt&apos;s workshop rent is fixed; each table contributes $90 toward covering it.' },
+  mc9: { correct: 'C', fb: 'Correct: C &mdash; units for target profit = (fixed costs + target profit) &divide; contribution per unit = ($450 + $900) &divide; $90 = 15 tables. Treat target profit as an additional fixed cost to clear.' },
+  mc10: { correct: 'A', fb: 'Correct: A &mdash; margin of safety = actual sales &minus; break-even sales = 200 &minus; 140 = 60 units. This is the buffer that can be lost before sales fall into the loss zone &mdash; a key risk measure when evaluating pricing decisions.' },
+  mc11: { correct: 'B', fb: 'Correct: B &mdash; the Total Cost line starts at the fixed cost level on the Y-axis (because even at zero units, fixed costs still apply) and slopes upward at the variable cost per unit. Option A describes the Total Revenue line; C describes the Fixed Cost line; D is incorrect &mdash; no line on a break-even graph is vertical.' },
+  mc12: { correct: 'B', fb: 'Correct: B &mdash; the break-even point is the volume at which Total Revenue = Total Cost, so it is the intersection of those two lines. Labelling the FC&times;TR intersection (Option A) as break-even is one of the most common mistakes &mdash; it occurs much earlier and only covers fixed costs, not variable costs.' },
+  mc13: { correct: 'C', fb: 'Correct: C &mdash; below break-even, Total Cost is above Total Revenue, so the vertical gap measures the loss. Above break-even, the same vertical gap (now with TR above TC) measures profit. The size of the gap times nothing else IS the dollar profit/loss directly.' },
+  mc14: { correct: 'A', fb: 'Correct: A &mdash; variable cost per unit = total variable cost &divide; units sold = $6,400 &divide; 80 = $80. Cost of goods sold scales directly with units sold, so it is the variable cost on the income statement.' },
+  mc15: { correct: 'B', fb: 'Correct: B &mdash; profit beyond break-even = (actual units &minus; break-even units) &times; contribution margin = (130 &minus; 110) &times; $40 = $800. Option C multiplies all 130 units by the margin (forgetting that the first 110 only cover fixed costs); D multiplies 110 by $40 (the break-even contribution, which by definition produces zero profit).' }
+};
+
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = mcData[qid];
+  var correct = (chosen === ans.correct);
+  var opts = card.querySelectorAll('.mc-opt');
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.innerHTML = ans.fb;
+  fb.className = 'q-feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+  updateScore(correct);
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetMC() {
+  mcAnswered = 0; mcCorrect = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>
