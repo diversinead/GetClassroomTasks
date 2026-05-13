@@ -116,8 +116,50 @@
     }
   }
 
+  // Shuffle the option order inside matching-question dropdowns so the correct
+  // answer isn't always in the same position as the question. Runs once per
+  // page load BEFORE restore — restore then overrides innerHTML on subsequent
+  // visits, so the first shuffle is what persists for that user's session.
+  function shuffleMatchOptions() {
+    var cards = document.querySelectorAll('.q-card[id^="match"]');
+    for (var c = 0; c < cards.length; c++) {
+      var selects = cards[c].querySelectorAll('select.match-select');
+      if (selects.length === 0) continue;
+      var first = selects[0];
+      var opts = [];
+      for (var i = 0; i < first.options.length; i++) {
+        if (first.options[i].value !== '') opts.push(first.options[i].text);
+      }
+      // Fisher-Yates shuffle. Reject any permutation that leaves the options
+      // in their original sequence (which would defeat the point).
+      var original = opts.slice();
+      var attempts = 0;
+      do {
+        for (var i = opts.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = opts[i]; opts[i] = opts[j]; opts[j] = tmp;
+        }
+        attempts++;
+      } while (attempts < 5 && opts.join('|') === original.join('|'));
+      // Apply the shuffled order to every select in this matching card.
+      for (var s = 0; s < selects.length; s++) {
+        var sel = selects[s];
+        while (sel.options.length > 0) sel.remove(0);
+        var ph = document.createElement('option');
+        ph.value = ''; ph.text = '-- select --';
+        sel.add(ph);
+        for (var k = 0; k < opts.length; k++) {
+          var o = document.createElement('option');
+          o.text = opts[k];
+          sel.add(o);
+        }
+      }
+    }
+  }
+
   function init() {
     assignIds();
+    shuffleMatchOptions();
     restore();
     // Replace any page-defined resetQuiz with a version that also clears storage.
     window.resetQuiz = function () {

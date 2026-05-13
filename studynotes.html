@@ -1096,15 +1096,19 @@
       const chLabel = subject.chapterLabel || 'Chapter';
 
       if (subject.layout === 'table') {
-        // For table-layout subjects: only show popout-style index entries as compact link buttons
+        // For table-layout subjects: show popout-style index entries and external links as compact buttons
         // (the iframe-style "Index" landing page is replaced by the table search).
+        const buttonHtml = [];
         if (Array.isArray(subject.index)) {
-          const popoutItems = subject.index.filter(idx => idx.popout);
-          if (popoutItems.length > 0) {
-            bodyHtml += '<div class="index-buttons">' + popoutItems.map(idx =>
-              `<a class="index-button" href="/studynotes/${idx.file}" target="_blank">&#128218; ${idx.title} &nearr;</a>`
-            ).join('') + '</div>';
+          for (const idx of subject.index.filter(i => i.popout)) {
+            buttonHtml.push(`<a class="index-button" href="/studynotes/${idx.file}" target="_blank">&#128218; ${idx.title} &nearr;</a>`);
           }
+        }
+        for (const lnk of links) {
+          buttonHtml.push(`<a class="index-button" href="${lnk.url}" target="_blank" rel="noopener">&#x1F517; ${lnk.title} &nearr;</a>`);
+        }
+        if (buttonHtml.length > 0) {
+          bodyHtml += '<div class="index-buttons">' + buttonHtml.join('') + '</div>';
         }
       } else {
         // Links section
