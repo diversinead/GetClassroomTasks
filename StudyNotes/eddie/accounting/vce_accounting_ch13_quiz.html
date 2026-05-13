@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 13 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;font-size:14px;line-height:1.6}
+h1{font-size:1.4em;font-weight:700;color:#3C3489;padding:16px 16px 4px}
+.subtitle{font-size:0.86em;color:#5F5E5A;padding:0 16px 14px}
+
+/* Tabs */
+.tab-bar{display:flex;border-bottom:2px solid #D3D1C7;background:#fff;padding:0 16px;gap:4px}
+.tab-btn{padding:10px 18px;border:none;background:none;font-family:inherit;font-size:0.9em;font-weight:600;color:#5F5E5A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:#3C3489;border-bottom-color:#3C3489}
+.tab-btn:hover:not(.active){color:#1a1a18;background:#F5F4F0}
+.tab-pane{display:none;padding:16px}
+.tab-pane.active{display:block}
+
+/* Score bar */
+.score-bar{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score-text{font-size:0.86em;color:#1a1a18}
+.score-text strong{color:#3C3489;font-size:1.1em}
+.progress-track{flex:1;min-width:100px;height:8px;background:#E5E3DC;border-radius:4px;overflow:hidden}
+.progress-bar{height:100%;background:#7F77DD;border-radius:4px;width:0%;transition:width .4s}
+.reset-btn{background:#fff;border:1px solid #D3D1C7;color:#1a1a18;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em}
+.reset-btn:hover{background:#F5F4F0}
+
+/* Question cards */
+.q-section-head{background:#3C3489;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 10px;font-size:0.88em;font-weight:700}
+.q-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:16px;margin-bottom:12px}
+.q-card.correct{border-color:#1D9E75;background:#F0FBF6}
+.q-card.wrong{border-color:#D85A30;background:#FDF3EF}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.q-num{font-size:0.79em;font-weight:700;color:#5F5E5A;text-transform:uppercase;letter-spacing:.3px}
+.q-hot{background:#E24B4A;color:#fff;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-marks{background:#EEEDFE;color:#3C3489;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-text{font-size:0.93em;font-weight:600;margin-bottom:12px;color:#1a1a18}
+
+/* MC options */
+.mc-options{display:flex;flex-direction:column;gap:7px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid #D3D1C7;border-radius:6px;cursor:pointer;font-size:0.86em;transition:background .15s}
+.mc-opt:hover{background:#F5F4F0}
+.mc-opt.selected-correct{background:#E1F5EE;border-color:#1D9E75;font-weight:600;color:#085041}
+.mc-opt.selected-wrong{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+.mc-opt.reveal-correct{background:#E1F5EE;border-color:#1D9E75}
+.mc-opt.disabled{cursor:default;pointer-events:none}
+.opt-letter{font-weight:700;color:#3C3489;min-width:16px;flex-shrink:0}
+
+/* Feedback */
+.q-feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:6px;font-size:0.82em;line-height:1.6}
+.q-feedback.show{display:block}
+.q-feedback.correct-fb{background:#E1F5EE;border-left:3px solid #1D9E75;color:#085041}
+.q-feedback.wrong-fb{background:#FAECE7;border-left:3px solid #D85A30;color:#4A1B0C}
+
+/* Exam practice tab */
+.eq-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.eq-head{background:#F5F4F0;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #D3D1C7}
+.eq-type{background:#3C3489;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-marks{background:#EEEDFE;color:#3C3489;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-hot{background:#E24B4A;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-stimulus{background:#EEEDFE;border-left:3px solid #3C3489;padding:10px 14px;margin:12px 14px 0;font-size:0.86em;border-radius:0 6px 6px 0;color:#1a1a18}
+.eq-stimulus table{width:100%;border-collapse:collapse;font-size:0.9em;margin-top:6px;font-family:"SF Mono",Consolas,monospace}
+.eq-stimulus table td{padding:3px 6px;border-bottom:1px solid #D3CFE6}
+.eq-stimulus table th{padding:3px 6px;background:#D3CFE6;color:#3C3489;font-size:0.85em;text-align:right}
+.eq-stimulus table th:first-child{text-align:left}
+.eq-stimulus table td.num{text-align:right;white-space:nowrap}
+.eq-stimulus table tr.sub td{font-weight:700;border-top:1px solid #7F77DD}
+.eq-q{padding:12px 14px 4px;font-weight:600;font-size:0.93em;color:#1a1a18}
+.eq-body{padding:10px 14px 14px}
+.eq-answer-area{width:100%;min-height:80px;border:1px solid #D3D1C7;border-radius:6px;padding:9px;font-family:inherit;font-size:0.86em;resize:vertical;background:#fff}
+.eq-reveal-btn{margin-top:9px;background:#fff;border:1px solid #3C3489;color:#3C3489;padding:7px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em;font-weight:600}
+.eq-reveal-btn:hover{background:#3C3489;color:#fff}
+.eq-model{display:none;margin-top:10px;border:1px solid #D3D1C7;border-radius:6px;overflow:hidden}
+.eq-model.open{display:block}
+.eq-model-head{background:#EEEDFE;padding:8px 12px;font-weight:700;color:#3C3489;font-size:0.86em}
+.eq-model-body{padding:10px 14px;font-size:0.86em;line-height:1.7;color:#1a1a18}
+.eq-model-body p{margin-bottom:6px}
+.eq-model-body p:last-child{margin-bottom:0}
+.mark-scheme{background:#FAEEDA;border-left:3px solid #BA7517;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#412402;font-style:italic}
+.examiner-tip{background:#EEEDFE;border-left:3px solid #7F77DD;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#26215C}
+
+.footer{text-align:center;font-size:0.79em;color:#888780;margin-top:28px;padding:12px 16px 24px;border-top:1px solid #D3D1C7}
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 13 Quiz</h1>
+<p class="subtitle">Evaluating the performance of a service business &middot; Multiple choice + exam practice &middot; Hot topics focus</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('mc')">&#127919; Multiple Choice</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<!-- ===== MULTIPLE CHOICE TAB ===== -->
+<div id="tab-mc" class="tab-pane active">
+
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetMC()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#128203; Analysing &amp; Presenting an Income Statement (13.1)</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-meta"><span class="q-num">Q1</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which of the following would NOT appear on a service business&apos;s income statement?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span>Wages paid to staff</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span>Cash sales revenue</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span>Drawings taken by the owner</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span>Insurance expense</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-meta"><span class="q-num">Q2</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Warrnambool Trailer Hire earned $125,000 in sales with total expenses of $97,500. Its net profit margin is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span>22.0%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span>28.2%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span>78.0%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span>454.5%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-meta"><span class="q-num">Q3</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">FX DJ Hire pays $27,000 in wages out of $150,000 sales. Wages as a percentage of sales revenue is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span>9%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span>15%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span>18%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span>22%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-section-head">&#129518; Profitability Indicators (13.2)</div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-meta"><span class="q-num">Q4</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The net profit margin tells the business owner:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span>How much total profit was earned in dollars</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span>The cents of profit retained from every $1 of sales</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span>The percentage of assets funded by the owner</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span>The return on the owner&apos;s capital investment</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-meta"><span class="q-num">Q5</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business reports net profit of $90,000. The owner&apos;s capital was $400,000 at both the start and end of the year. The return on owner&apos;s investment (ROI) is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span>18.0%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span>20.0%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span>22.5%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span>25.0%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-meta"><span class="q-num">Q6</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Bernie&apos;s Electricals earned net profit of $124,000 with average total assets of $620,000. The rate of return on assets is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span>14%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span>18%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span>20%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span>22%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-meta"><span class="q-num">Q7</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business owner is told their ROI for the year was 4%. The current term deposit rate is 5%. The MOST appropriate conclusion is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span>The business is performing well</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span>The owner would have earned a higher return leaving the money in a term deposit, and is not being adequately rewarded for the risk of running the business</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span>The ROI calculation must be wrong</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span>The business needs to take on more debt</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-meta"><span class="q-num">Q8</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Eddie&apos;s Electricals earned $135,000 net profit on average assets of $750,000. Bernie&apos;s Electricals earned $124,000 on average assets of $620,000. Which business is the MORE efficient operator on the rate of return on assets measure?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span>Eddie&apos;s, because dollar profit is higher</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span>Bernie&apos;s, because ROA is 20% vs Eddie&apos;s 18%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span>Eddie&apos;s, because asset base is larger</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span>They are equally efficient</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-card" id="mc9">
+    <div class="q-meta"><span class="q-num">Q9</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business has ROI of 25% and ROA of 15%. The 10-percentage-point gap is BEST explained by:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc9','A')"><span class="opt-letter">A</span>Strong revenue growth in the period</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','B')"><span class="opt-letter">B</span>The business has used debt to amplify the owner&apos;s return &mdash; positive gearing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','C')"><span class="opt-letter">C</span>The owner has invested too little capital</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','D')"><span class="opt-letter">D</span>Asset values on the balance sheet are too high</div>
+    </div>
+    <div class="q-feedback" id="fb-mc9"></div>
+  </div>
+
+  <div class="q-section-head">&#128202; Liquidity &amp; Stability (13.3)</div>
+
+  <div class="q-card" id="mc10">
+    <div class="q-meta"><span class="q-num">Q10</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Bill&apos;s Mowing reports current assets of $24,000 and current liabilities of $16,000. Its working capital ratio is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc10','A')"><span class="opt-letter">A</span>0.67 : 1</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','B')"><span class="opt-letter">B</span>1.5 : 1</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','C')"><span class="opt-letter">C</span>2 : 1</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','D')"><span class="opt-letter">D</span>40 : 1</div>
+    </div>
+    <div class="q-feedback" id="fb-mc10"></div>
+  </div>
+
+  <div class="q-card" id="mc11">
+    <div class="q-meta"><span class="q-num">Q11</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The textbook benchmark for a healthy working capital ratio is approximately:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc11','A')"><span class="opt-letter">A</span>0.5 : 1</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','B')"><span class="opt-letter">B</span>1 : 1</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','C')"><span class="opt-letter">C</span>2 : 1</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','D')"><span class="opt-letter">D</span>10 : 1</div>
+    </div>
+    <div class="q-feedback" id="fb-mc11"></div>
+  </div>
+
+  <div class="q-card" id="mc12">
+    <div class="q-meta"><span class="q-num">Q12</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">City Car Hire has total liabilities of $330,000 against total assets of $550,000. The debt ratio is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc12','A')"><span class="opt-letter">A</span>30%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','B')"><span class="opt-letter">B</span>40%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','C')"><span class="opt-letter">C</span>50%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','D')"><span class="opt-letter">D</span>60%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc12"></div>
+  </div>
+
+  <div class="q-card" id="mc13">
+    <div class="q-meta"><span class="q-num">Q13</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Carnegie Car Wash&apos;s debt ratio has risen from 45% (2026) to 67% (2027) to 75% (2028). Net profit has been steady. The BEST description of the trend is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc13','A')"><span class="opt-letter">A</span>The business is more profitable because of the higher gearing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','B')"><span class="opt-letter">B</span>The business is becoming more financially fragile &mdash; increasingly reliant on debt and exposed to rising interest rates or a small profit dip</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','C')"><span class="opt-letter">C</span>The business is paying down its debt</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','D')"><span class="opt-letter">D</span>The business is selling off assets</div>
+    </div>
+    <div class="q-feedback" id="fb-mc13"></div>
+  </div>
+
+  <div class="q-section-head">&#129504; Non-financial Indicators (13.4)</div>
+
+  <div class="q-card" id="mc14">
+    <div class="q-meta"><span class="q-num">Q14</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which of the following is a NON-financial indicator suitable for evaluating a restaurant?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc14','A')"><span class="opt-letter">A</span>Net profit margin</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','B')"><span class="opt-letter">B</span>Working capital ratio</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','C')"><span class="opt-letter">C</span>Average customer review score (out of 5 stars)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','D')"><span class="opt-letter">D</span>Debt ratio</div>
+    </div>
+    <div class="q-feedback" id="fb-mc14"></div>
+  </div>
+
+  <div class="q-card" id="mc15">
+    <div class="q-meta"><span class="q-num">Q15</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The MAIN benefit of using non-financial indicators alongside financial ones is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc15','A')"><span class="opt-letter">A</span>They are easier to calculate</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','B')"><span class="opt-letter">B</span>They are required by Australian accounting standards</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','C')"><span class="opt-letter">C</span>They often act as leading indicators &mdash; exposing problems before they reach the financial reports</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','D')"><span class="opt-letter">D</span>They eliminate the need for accurate bookkeeping</div>
+    </div>
+    <div class="q-feedback" id="fb-mc15"></div>
+  </div>
+
+</div>
+
+<!-- ===== EXAM PRACTICE TAB ===== -->
+<div id="tab-exam" class="tab-pane">
+
+  <div class="q-section-head">&#128203; Short Answer Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">
+      David Foss owns Dynamic Gym in Essendon. From his records for the year ended 31 August 2028 he has provided the following data (extract):
+      <table>
+        <tr><td>Capital</td><td class="num">$20,000</td></tr>
+        <tr><td>Loan from bank</td><td class="num">$10,000</td></tr>
+        <tr><td>Drawings</td><td class="num">$35,000</td></tr>
+        <tr><td>Casual wages</td><td class="num">$18,800</td></tr>
+        <tr><td>Laptop computer purchased</td><td class="num">$2,600</td></tr>
+        <tr><td>Rent</td><td class="num">$4,100</td></tr>
+        <tr><td>Interest on loans</td><td class="num">$1,200</td></tr>
+        <tr><td>Sales</td><td class="num">$95,400</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">List THREE items from David&apos;s data that should NOT appear on the income statement, and give a brief reason for each. (3 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p>Any three of the following, each correctly identified with a reason (1 mark each):</p>
+          <p><strong>&bull; Capital ($20,000):</strong> an owner&apos;s equity contribution, recorded on the balance sheet &mdash; not revenue.</p>
+          <p><strong>&bull; Loan from bank ($10,000):</strong> a liability the business must repay, recorded on the balance sheet &mdash; not revenue.</p>
+          <p><strong>&bull; Drawings ($35,000):</strong> an owner&apos;s equity withdrawal that reduces capital, not an expense.</p>
+          <p><strong>&bull; Laptop computer ($2,600):</strong> a non-current asset, recorded on the balance sheet &mdash; not an expense for the period.</p>
+          <div class="mark-scheme">&#9888; Listing the items alone earns half marks. The question asks for a brief reason &mdash; an answer of &quot;Capital, Loan, Drawings&quot; with no justification typically scores 1.5/3, not 3/3.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      Warrnambool Trailer Hire reports the following for the year:
+      <table>
+        <tr><td>Sales revenue</td><td class="num">$125,000</td></tr>
+        <tr><td>Trailer repairs</td><td class="num">$24,250</td></tr>
+        <tr><td>Wages</td><td class="num">$61,250</td></tr>
+        <tr><td>Office expenses</td><td class="num">$12,000</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Calculate the net profit margin. (2 marks)<br>
+      b. The owner says: &quot;I&apos;m happy &mdash; I made $27,500 profit.&quot; Using your NPM, comment on whether this view is sufficient. (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) NPM (2 marks):</strong> Net profit = $125,000 &minus; $24,250 &minus; $61,250 &minus; $12,000 = $27,500 (1 mark). NPM = $27,500 &divide; $125,000 &times; 100 = <strong>22%</strong> (1 mark).</p>
+          <p><strong>(b) Comment (2 marks):</strong></p>
+          <p>&bull; The owner is right that $27,500 is a positive dollar profit (1 mark).</p>
+          <p>&bull; However, the 22% NPM means 78c of every sales dollar is consumed by expenses. To know whether 22% is healthy, the owner must compare it to a benchmark &mdash; prior year, industry average or budget. Without that comparison, the dollar profit on its own does not reveal whether margin is trending up or down (1 mark).</p>
+          <div class="examiner-tip">&#128161; &quot;Compare to a benchmark&quot; is the key phrase examiners are looking for &mdash; an answer that just quotes the 22% without explaining it needs context will be capped at 1/2 on the comment part.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      Bill&apos;s Mowing and Lucy&apos;s Lawn Services have reported the following information:
+      <table>
+        <tr><th>Item</th><th>Bill&apos;s Mowing</th><th>Lucy&apos;s Lawn Services</th></tr>
+        <tr><td>Current assets</td><td class="num">$24,000</td><td class="num">$38,000</td></tr>
+        <tr><td>Current liabilities</td><td class="num">$16,000</td><td class="num">$29,000</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Calculate the working capital ratio for each business. (2 marks)<br>
+      b. Which business has the better liquidity, and why? (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Working capital ratios (2 marks):</strong></p>
+          <p>&bull; Bill&apos;s: $24,000 &divide; $16,000 = <strong>1.5 : 1</strong> (1 mark)</p>
+          <p>&bull; Lucy&apos;s: $38,000 &divide; $29,000 = <strong>1.31 : 1</strong> (1 mark)</p>
+          <p><strong>(b) Better liquidity (2 marks):</strong></p>
+          <p>&bull; <strong>Bill&apos;s Mowing</strong> has the better liquidity at 1.5 : 1 vs Lucy&apos;s 1.31 : 1 (1 mark).</p>
+          <p>&bull; Bill&apos;s holds $1.50 of current assets for every $1 of current liabilities, whereas Lucy&apos;s holds only $1.31 &mdash; so Bill&apos;s has more headroom to meet short-term obligations. The higher dollar amount of current assets at Lucy&apos;s ($38k vs $24k) is irrelevant because liabilities are also proportionately higher (1 mark).</p>
+          <div class="mark-scheme">&#9888; A common error is to assume Lucy&apos;s is better because her current assets are bigger in dollar terms. The RATIO is what measures liquidity &mdash; absolute dollar size doesn&apos;t.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-section-head">&#128218; Extended Response Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      The owner of Bendigo Tractor Repairs has provided the following information about her business. She is pleased because net profit has risen each year.
+      <table>
+        <tr><th>Item</th><th>31 Dec 2025</th><th>31 Dec 2026</th><th>31 Dec 2027</th><th>31 Dec 2028</th></tr>
+        <tr><td>Net profit</td><td class="num">$80,000</td><td class="num">$90,000</td><td class="num">$110,000</td><td class="num">$120,000</td></tr>
+        <tr><td>Owner&apos;s capital</td><td class="num">$400,000</td><td class="num">$400,000</td><td class="num">$450,000</td><td class="num">$460,000</td></tr>
+        <tr><td>Total assets</td><td class="num">$600,000</td><td class="num">$620,000</td><td class="num">$700,000</td><td class="num">$800,000</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Calculate the return on owner&apos;s investment (ROI) and rate of return on assets (ROA) for the years ended 31 December 2026, 2027 and 2028. Use average capital and average total assets. (4 marks)<br>
+      b. The owner is pleased that profit has risen every year. Using your calculations, comment on whether the trend supports her satisfaction. (3 marks)<br>
+      c. Identify one additional financial indicator the owner could use to evaluate her business, with a brief justification. (1 mark)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) ROI and ROA (4 marks &mdash; 0.5 each):</strong></p>
+          <p>&bull; <strong>2026 ROI</strong> = $90,000 &divide; avg($400k, $400k) = 90,000 &divide; 400,000 = <strong>22.5%</strong></p>
+          <p>&bull; <strong>2026 ROA</strong> = $90,000 &divide; avg($600k, $620k) = 90,000 &divide; 610,000 = <strong>14.75%</strong></p>
+          <p>&bull; <strong>2027 ROI</strong> = $110,000 &divide; avg($400k, $450k) = 110,000 &divide; 425,000 = <strong>25.88%</strong></p>
+          <p>&bull; <strong>2027 ROA</strong> = $110,000 &divide; avg($620k, $700k) = 110,000 &divide; 660,000 = <strong>16.67%</strong></p>
+          <p>&bull; <strong>2028 ROI</strong> = $120,000 &divide; avg($450k, $460k) = 120,000 &divide; 455,000 = <strong>26.37%</strong></p>
+          <p>&bull; <strong>2028 ROA</strong> = $120,000 &divide; avg($700k, $800k) = 120,000 &divide; 750,000 = <strong>16.00%</strong></p>
+          <p><strong>(b) Comment on trend (3 marks):</strong></p>
+          <p>&bull; The owner is correct that net profit AND ROI have both risen every year &mdash; each dollar of her capital is earning a higher return, so she is being better rewarded for her investment (1 mark).</p>
+          <p>&bull; However ROA rose from 14.75% to 16.67% between 2026 and 2027, then FELL to 16.00% in 2028 &mdash; the business is becoming less efficient at using its assets to generate profit (1 mark).</p>
+          <p>&bull; The 2028 dip is explained by total assets jumping $100k (from $700k to $800k) while profit only rose $10k. The new assets are not yet generating proportional returns. Her satisfaction with rising dollar profit is therefore incomplete &mdash; profit must keep pace with the growing asset base for the business to be improving (1 mark).</p>
+          <p><strong>(c) Additional indicator (1 mark):</strong></p>
+          <p>&bull; <strong>Working capital ratio</strong> &mdash; to check whether the business can meet its short-term debts (the indicators above all measure long-term profitability, not liquidity). <strong>OR Debt ratio</strong> &mdash; to see whether the growing asset base has been funded by debt, increasing financial risk.</p>
+          <div class="examiner-tip">&#128161; The trick to this question is spotting that the ASSET base grew faster than profit. Students who notice only the rising ROI and miss the ROA fall typically cap at 5/8.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      The owner of Carnegie Car Wash has calculated the following debt ratios for her business. She is happy with performance because profit has been steady over the past few years.
+      <table>
+        <tr><th>Year</th><th>2026</th><th>2027</th><th>2028</th></tr>
+        <tr><td>Debt ratio</td><td class="num">45%</td><td class="num">67%</td><td class="num">75%</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Explain what the trend in the debt ratio indicates to the owner. (2 marks)<br>
+      b. Describe one ADVANTAGE for a small business of increasing the debt ratio. (2 marks)<br>
+      c. Describe one DISADVANTAGE of an increasing debt ratio. (2 marks)<br>
+      d. Despite steady profit, explain why the trend in the debt ratio is a concern. (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Trend (2 marks):</strong></p>
+          <p>&bull; The debt ratio has risen sharply from 45% to 75% over three years &mdash; a 30-percentage-point increase (1 mark).</p>
+          <p>&bull; 75c of every $1 of assets is now funded by debt rather than the owner. The business is becoming increasingly geared and financially fragile (1 mark).</p>
+          <p><strong>(b) Advantage (2 marks):</strong></p>
+          <p>&bull; Higher debt allows the business to acquire more assets and grow faster than the owner could fund alone (1 mark).</p>
+          <p>&bull; In profitable years, borrowed funds amplify the return on the owner&apos;s capital &mdash; leverage boosts ROI (positive gearing) (1 mark).</p>
+          <p><strong>(c) Disadvantage (2 marks):</strong></p>
+          <p>&bull; Interest expense is fixed regardless of trading conditions, so high gearing magnifies losses if profit falls (1 mark).</p>
+          <p>&bull; The business may struggle to obtain further finance &mdash; lenders see the existing debt load and limited asset buffer (1 mark).</p>
+          <p><strong>(d) Why the trend is a concern (2 marks):</strong></p>
+          <p>&bull; Although profit is steady today, the business now relies heavily on debt &mdash; a small rise in interest rates or a profit dip could leave Carnegie unable to meet interest commitments (1 mark).</p>
+          <p>&bull; At 75% debt ratio, there is little asset buffer remaining; banks may refuse further borrowing, leaving the business unable to fund any unexpected shortfall &mdash; a stable-looking present masks a fragile future (1 mark).</p>
+          <div class="mark-scheme">&#9888; &quot;Steady profit&quot; tempts students to defend the owner&apos;s view. The question is testing whether you can argue against the surface signal using the trend.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      A restaurant owner has calculated her financial indicators for the year: net profit margin 15%, ROI 12%, working capital ratio 1.8 : 1, debt ratio 52%. She asks for help interpreting them and is open to additional ways to evaluate the business.
+    </div>
+    <div class="eq-q">
+      a. Explain why benchmarks are important when evaluating profit performance, and identify THREE suitable benchmarks for the restaurant owner. (3 marks)<br>
+      b. State and describe TWO non-financial indicators the restaurant owner could use to evaluate business performance. (4 marks)<br>
+      c. Explain how a non-financial indicator can warn the owner of a problem BEFORE it shows in the financial reports. (1 mark)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Benchmarks (3 marks):</strong></p>
+          <p>&bull; Indicators only have meaning in COMPARISON &mdash; a 15% NPM is good or bad depending on context. Benchmarks supply that context (1 mark).</p>
+          <p>&bull; Three suitable benchmarks for the restaurant: (i) the restaurant&apos;s own PRIOR YEARS (trend over time); (ii) the INDUSTRY AVERAGE for restaurants of similar size; (iii) the owner&apos;s BUDGET or TARGETS for the year (2 marks &mdash; any 3 valid, with brief justification).</p>
+          <p><strong>(b) Two non-financial indicators (4 marks):</strong></p>
+          <p>&bull; <strong>Customer satisfaction</strong> (1 mark) &mdash; measured by review scores, repeat-customer %, or net promoter score. Falling satisfaction predicts falling revenue 1&ndash;2 quarters later, so tracking it lets the owner act before sales drop (1 mark).</p>
+          <p>&bull; <strong>Staff turnover</strong> (1 mark) &mdash; the % of staff leaving per year. High turnover costs recruitment and training, disrupts service quality, and often signals deeper culture problems that erode performance (1 mark).</p>
+          <p style="font-size:0.9em; color:#5F5E5A;">(Other acceptable indicators: time to deliver service, food waste %, environmental performance, market share.)</p>
+          <p><strong>(c) Leading indicator (1 mark):</strong></p>
+          <p>&bull; A drop in customer satisfaction this month typically shows up as falling revenue several months later. By the time the income statement reflects the damage, it is too late to prevent. Tracking customer feedback gives the owner an earlier signal and time to act on service quality (1 mark).</p>
+          <div class="examiner-tip">&#128161; For full marks on (b), pick indicators from DIFFERENT categories &mdash; one customer-related, one staff/ops-related. Two customer indicators in the same answer often cost 1 mark for lacking breadth.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &middot; Neville Box 7th ed. &middot; Chapter 13 Quiz</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'mc' ? 0 : 1].className = 'tab-btn active';
+}
+
+var totalMC = 15;
+var mcAnswered = 0;
+var mcCorrect = 0;
+var mcAnswers = {};
+
+function updateScore(gotIt) {
+  mcAnswered++;
+  if (gotIt) mcCorrect++;
+  document.getElementById('score-correct').textContent = mcCorrect;
+  document.getElementById('score-total').textContent = mcAnswered;
+  document.getElementById('progress-bar').style.width = Math.round((mcAnswered / totalMC) * 100) + '%';
+}
+
+var mcData = {
+  mc1: { correct: 'C', fb: 'Correct: C &mdash; drawings reduce the owner&apos;s equity (balance sheet) but are not an expense, so they never appear on the income statement. Wages, sales revenue and insurance are all genuine IS items.' },
+  mc2: { correct: 'A', fb: 'Correct: A &mdash; net profit = $125,000 &minus; $97,500 = $27,500. NPM = $27,500 &divide; $125,000 &times; 100 = 22%. Option C reports total expenses as a % of sales (the complement of NPM); D inverts the ratio.' },
+  mc3: { correct: 'C', fb: 'Correct: C &mdash; $27,000 &divide; $150,000 &times; 100 = 18%. Wages consume 18 cents of every sales dollar at FX DJ Hire &mdash; the basis for the wages slice in a pie chart of expenses.' },
+  mc4: { correct: 'B', fb: 'Correct: B &mdash; NPM is a per-dollar profitability measure: for every $1 of sales, how many cents are kept as profit after all expenses. Option A is the absolute profit, C is the debt-to-equity relationship, D is ROI.' },
+  mc5: { correct: 'C', fb: 'Correct: C &mdash; ROI = net profit &divide; average capital &times; 100. Average capital = ($400,000 + $400,000) &divide; 2 = $400,000. ROI = $90,000 &divide; $400,000 &times; 100 = 22.5%. The averaging step still applies even when opening and closing capital are equal &mdash; never skip it.' },
+  mc6: { correct: 'C', fb: 'Correct: C &mdash; ROA = net profit &divide; average total assets &times; 100 = $124,000 &divide; $620,000 &times; 100 = 20%. Bernie&apos;s squeezes 20c of profit from every $1 of assets &mdash; a strong efficiency result.' },
+  mc7: { correct: 'B', fb: 'Correct: B &mdash; the owner is earning a return below what is available risk-free in a term deposit. Running a business carries far more risk than a term deposit, so the ROI should comfortably EXCEED the deposit rate to compensate. At 4% vs 5%, the owner is being inadequately rewarded for the risk.' },
+  mc8: { correct: 'B', fb: 'Correct: B &mdash; Eddie&apos;s ROA = $135k &divide; $750k = 18%. Bernie&apos;s ROA = $124k &divide; $620k = 20%. Bernie&apos;s is more efficient even though Eddie&apos;s makes more dollar profit. Higher dollar profit on a bigger asset base does NOT necessarily mean better efficiency &mdash; the ratio is what reveals it.' },
+  mc9: { correct: 'B', fb: 'Correct: B &mdash; positive gearing. When debt-funded assets earn more than the cost of debt, the surplus flows to the owner and amplifies ROI. The 10-point gap between ROI (25%) and ROA (15%) is the leverage effect from borrowing.' },
+  mc10: { correct: 'B', fb: 'Correct: B &mdash; working capital ratio = current assets &divide; current liabilities = $24,000 &divide; $16,000 = 1.5 : 1. Bill&apos;s has $1.50 of current assets for every $1 of current liabilities &mdash; below the 2:1 textbook benchmark but still positive.' },
+  mc11: { correct: 'C', fb: 'Correct: C &mdash; the textbook benchmark for a healthy WCR is 2 : 1. Below 1 : 1 is a serious liquidity warning; 1&ndash;2 : 1 is tight; 2 : 1 is the comfortable target.' },
+  mc12: { correct: 'D', fb: 'Correct: D &mdash; debt ratio = total liabilities &divide; total assets &times; 100 = $330,000 &divide; $550,000 &times; 100 = 60%. City has 60c of every $1 of assets funded by debt.' },
+  mc13: { correct: 'B', fb: 'Correct: B &mdash; profit being steady doesn&apos;t mean the business is safe. A rising debt ratio (45% &rarr; 67% &rarr; 75%) means the business is increasingly leveraged. At 75% there is little asset buffer for shocks, interest costs are fixed regardless of trading, and lenders may refuse further borrowing &mdash; the trend signals growing fragility even when profit looks healthy today.' },
+  mc14: { correct: 'C', fb: 'Correct: C &mdash; customer review scores are NOT measured in dollars and are not from the IS / balance sheet, so they are a non-financial indicator. NPM, WCR and DR are all financial indicators.' },
+  mc15: { correct: 'C', fb: 'Correct: C &mdash; financial indicators look BACKWARD at last period&apos;s result; non-financial indicators (customer satisfaction, staff turnover, service speed) often expose problems early so the owner can act before damage reaches the financial reports. This early-warning role is the main reason for using them alongside financial measures.' }
+};
+
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = mcData[qid];
+  var correct = (chosen === ans.correct);
+  var opts = card.querySelectorAll('.mc-opt');
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.innerHTML = ans.fb;
+  fb.className = 'q-feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+  updateScore(correct);
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetMC() {
+  mcAnswered = 0; mcCorrect = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>

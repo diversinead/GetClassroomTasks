@@ -146,6 +146,7 @@
   .legend-group { margin-top: 8px; }
   .legend-group:first-child { margin-top: 0; }
   .legend-unit { font-size: 11px; font-weight: 700; color: #2a7a7a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .legend-unit-desc { font-weight: 600; color: #555; }
   .legend-row { display: flex; gap: 8px; align-items: baseline; padding: 2px 0 2px 6px; font-size: 12px; }
   .legend-short { font-weight: 700; color: #3C3489; min-width: 56px; flex-shrink: 0; }
   .legend-full { color: #555; }
@@ -769,21 +770,25 @@
          </div>
        </div>`;
 
-    // Build the AOS legend panel (grouped by Unit)
+    // Build the AOS/Unit legend panel (grouped by Unit)
     const legendItems = (subject.aos || []).map(aos => {
       const subs = aos.subsections && aos.subsections.length ? aos.subsections : [];
       const aosList = subs.map(s => {
         const sh = shortAosLabel(s.name);
         const rest = s.name.substring(sh.length).replace(/^[\s:\-]+/, '').trim();
-        return `<div class="legend-row"><span class="legend-short">${escapeHtml(sh)}</span><span class="legend-full">${escapeHtml(rest || s.name)}</span></div>`;
+        const fullText = s.description || rest || s.name;
+        return `<div class="legend-row"><span class="legend-short">${escapeHtml(sh)}</span><span class="legend-full">${escapeHtml(fullText)}</span></div>`;
       }).join('');
-      return aosList ? `<div class="legend-group"><div class="legend-unit">${escapeHtml(aos.name)}</div>${aosList}</div>` : '';
+      const unitHeader = aos.description
+        ? `${escapeHtml(aos.name)} <span class="legend-unit-desc">&mdash; ${escapeHtml(aos.description)}</span>`
+        : escapeHtml(aos.name);
+      return aosList ? `<div class="legend-group"><div class="legend-unit">${unitHeader}</div>${aosList}</div>` : '';
     }).filter(Boolean).join('');
 
     const legendHtml = legendItems
       ? `<div class="aos-legend ${state.legendOpen ? 'open' : ''}">
            <div class="aos-legend-header" onclick="toggleAosLegend('${sn}')">
-             <span>&#128218; AOS reference</span>
+             <span>&#128218; AOS/Unit reference</span>
              <span class="aos-legend-arrow">&#x25B6;</span>
            </div>
            <div class="aos-legend-body">${legendItems}</div>

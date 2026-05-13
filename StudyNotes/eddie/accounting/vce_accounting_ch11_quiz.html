@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 11 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;font-size:14px;line-height:1.6}
+h1{font-size:1.4em;font-weight:700;color:#3C3489;padding:16px 16px 4px}
+.subtitle{font-size:0.86em;color:#5F5E5A;padding:0 16px 14px}
+
+/* Tabs */
+.tab-bar{display:flex;border-bottom:2px solid #D3D1C7;background:#fff;padding:0 16px;gap:4px}
+.tab-btn{padding:10px 18px;border:none;background:none;font-family:inherit;font-size:0.9em;font-weight:600;color:#5F5E5A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:#3C3489;border-bottom-color:#3C3489}
+.tab-btn:hover:not(.active){color:#1a1a18;background:#F5F4F0}
+.tab-pane{display:none;padding:16px}
+.tab-pane.active{display:block}
+
+/* Score bar */
+.score-bar{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score-text{font-size:0.86em;color:#1a1a18}
+.score-text strong{color:#3C3489;font-size:1.1em}
+.progress-track{flex:1;min-width:100px;height:8px;background:#E5E3DC;border-radius:4px;overflow:hidden}
+.progress-bar{height:100%;background:#7F77DD;border-radius:4px;width:0%;transition:width .4s}
+.reset-btn{background:#fff;border:1px solid #D3D1C7;color:#1a1a18;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em}
+.reset-btn:hover{background:#F5F4F0}
+
+/* Question cards */
+.q-section-head{background:#3C3489;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 10px;font-size:0.88em;font-weight:700}
+.q-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:16px;margin-bottom:12px}
+.q-card.correct{border-color:#1D9E75;background:#F0FBF6}
+.q-card.wrong{border-color:#D85A30;background:#FDF3EF}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.q-num{font-size:0.79em;font-weight:700;color:#5F5E5A;text-transform:uppercase;letter-spacing:.3px}
+.q-hot{background:#E24B4A;color:#fff;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-marks{background:#EEEDFE;color:#3C3489;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-text{font-size:0.93em;font-weight:600;margin-bottom:12px;color:#1a1a18}
+
+/* MC options */
+.mc-options{display:flex;flex-direction:column;gap:7px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid #D3D1C7;border-radius:6px;cursor:pointer;font-size:0.86em;transition:background .15s}
+.mc-opt:hover{background:#F5F4F0}
+.mc-opt.selected-correct{background:#E1F5EE;border-color:#1D9E75;font-weight:600;color:#085041}
+.mc-opt.selected-wrong{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+.mc-opt.reveal-correct{background:#E1F5EE;border-color:#1D9E75}
+.mc-opt.disabled{cursor:default;pointer-events:none}
+.opt-letter{font-weight:700;color:#3C3489;min-width:16px;flex-shrink:0}
+
+/* Feedback */
+.q-feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:6px;font-size:0.82em;line-height:1.6}
+.q-feedback.show{display:block}
+.q-feedback.correct-fb{background:#E1F5EE;border-left:3px solid #1D9E75;color:#085041}
+.q-feedback.wrong-fb{background:#FAECE7;border-left:3px solid #D85A30;color:#4A1B0C}
+
+/* Exam practice tab */
+.eq-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.eq-head{background:#F5F4F0;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #D3D1C7}
+.eq-type{background:#3C3489;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-marks{background:#EEEDFE;color:#3C3489;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-hot{background:#E24B4A;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-stimulus{background:#EEEDFE;border-left:3px solid #3C3489;padding:10px 14px;margin:12px 14px 0;font-size:0.86em;border-radius:0 6px 6px 0;color:#1a1a18}
+.eq-stimulus table{width:100%;border-collapse:collapse;font-size:0.9em;margin-top:6px;font-family:"SF Mono",Consolas,monospace}
+.eq-stimulus table td{padding:3px 6px;border-bottom:1px solid #D3CFE6}
+.eq-stimulus table th{padding:3px 6px;background:#D3CFE6;color:#3C3489;font-size:0.85em;text-align:right}
+.eq-stimulus table th:first-child{text-align:left}
+.eq-stimulus table td.num{text-align:right;white-space:nowrap}
+.eq-stimulus table tr.sub td{font-weight:700;border-top:1px solid #7F77DD}
+.eq-q{padding:12px 14px 4px;font-weight:600;font-size:0.93em;color:#1a1a18}
+.eq-body{padding:10px 14px 14px}
+.eq-answer-area{width:100%;min-height:80px;border:1px solid #D3D1C7;border-radius:6px;padding:9px;font-family:inherit;font-size:0.86em;resize:vertical;background:#fff}
+.eq-reveal-btn{margin-top:9px;background:#fff;border:1px solid #3C3489;color:#3C3489;padding:7px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em;font-weight:600}
+.eq-reveal-btn:hover{background:#3C3489;color:#fff}
+.eq-model{display:none;margin-top:10px;border:1px solid #D3D1C7;border-radius:6px;overflow:hidden}
+.eq-model.open{display:block}
+.eq-model-head{background:#EEEDFE;padding:8px 12px;font-weight:700;color:#3C3489;font-size:0.86em}
+.eq-model-body{padding:10px 14px;font-size:0.86em;line-height:1.7;color:#1a1a18}
+.eq-model-body p{margin-bottom:6px}
+.eq-model-body p:last-child{margin-bottom:0}
+.mark-scheme{background:#FAEEDA;border-left:3px solid #BA7517;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#412402;font-style:italic}
+.examiner-tip{background:#EEEDFE;border-left:3px solid #7F77DD;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#26215C}
+
+.footer{text-align:center;font-size:0.79em;color:#888780;margin-top:28px;padding:12px 16px 24px;border-top:1px solid #D3D1C7}
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 11 Quiz</h1>
+<p class="subtitle">Cash Flow Statements &middot; Multiple choice + exam practice &middot; Hot topics focus</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('mc')">&#127919; Multiple Choice</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<!-- ===== MULTIPLE CHOICE TAB ===== -->
+<div id="tab-mc" class="tab-pane active">
+
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetMC()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#128181; Purpose &amp; Role of the CFS (11.1)</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-meta"><span class="q-num">Q1</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The main purpose of preparing a Cash Flow Statement is to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span>Show the business&apos;s profit for the period</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span>List all assets and liabilities at a point in time</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span>Classify and summarise cash inflows and outflows during the period</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span>Show what the owner contributed to the business</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-meta"><span class="q-num">Q2</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business reports $50,000 net profit on its Income Statement but only $15,000 net cash from operating activities on its CFS. The MOST LIKELY explanation is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span>The bookkeeper has made an error</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span>Profit and cash are different &mdash; credit sales increase profit immediately, but the cash arrives later</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span>The business has too many fixed costs</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span>Net cash from operating cannot exceed profit by accounting standards</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-meta"><span class="q-num">Q3</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The correct heading for a Cash Flow Statement is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span>&quot;Cash Flow Statement as at 30 June 2028&quot;</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span>&quot;Cash Flow Statement for the year ended 30 June 2028&quot;</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span>&quot;Cash Flow Statement on 30 June 2028&quot;</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span>&quot;Cash Flow Statement &mdash; closing balance 30 June 2028&quot;</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-section-head">&#128202; Operating, Investing &amp; Financing Activities (11.2)</div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-meta"><span class="q-num">Q4</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Cash received from customers during the period is classified on the CFS as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span>Operating inflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span>Investing inflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span>Financing inflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span>Does not appear on the CFS</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-meta"><span class="q-num">Q5</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Sarah pays $18,000 to buy a new commercial coffee roaster for her cafe. On the Cash Flow Statement this is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span>Operating outflow &mdash; a day-to-day business expense</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span>Investing outflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span>Financing outflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span>Operating inflow because it generates future sales</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-meta"><span class="q-num">Q6</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Sarah&apos;s drawings of $15,000 during the year are shown on the CFS as a:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span>Operating outflow &mdash; like a wage to the owner</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span>Investing outflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span>Financing outflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span>Does not appear on the CFS &mdash; they reduce profit instead</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-meta"><span class="q-num">Q7</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Sarah pays $1,200 in interest expense plus $6,000 in loan principal repayments during the year. On the Cash Flow Statement:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span>Both interest and principal are Financing outflows</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span>Both interest and principal are Operating outflows</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span>Interest is Operating; principal is Financing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span>Interest is Investing; principal is Financing</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-meta"><span class="q-num">Q8</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Sarah transfers $10,000 from her personal savings into the cafe&apos;s bank account. On the CFS this is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span>Operating inflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span>Investing inflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span>Financing inflow</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span>Does not appear on the CFS &mdash; it is a balance sheet adjustment</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-card" id="mc9">
+    <div class="q-meta"><span class="q-num">Q9</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Sarah&apos;s cousin contributes a second-hand fridge worth $5,000 to the business in exchange for a share of equity. No cash changes hands. On the CFS this transaction:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc9','A')"><span class="opt-letter">A</span>Is an Investing inflow of $5,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','B')"><span class="opt-letter">B</span>Is a Financing inflow of $5,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','C')"><span class="opt-letter">C</span>Does not appear because it does not involve cash</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','D')"><span class="opt-letter">D</span>Is an Operating outflow of $5,000</div>
+    </div>
+    <div class="q-feedback" id="fb-mc9"></div>
+  </div>
+
+  <div class="q-section-head">&#128221; Preparing a Cash Flow Statement (11.3)</div>
+
+  <div class="q-card" id="mc10">
+    <div class="q-meta"><span class="q-num">Q10</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">On a properly prepared Cash Flow Statement, brackets ( ) around a figure indicate:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc10','A')"><span class="opt-letter">A</span>A correction to a prior figure</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','B')"><span class="opt-letter">B</span>A negative number &mdash; cash outflow or net cash used</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','C')"><span class="opt-letter">C</span>A subtotal of cash flows for that section</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','D')"><span class="opt-letter">D</span>An estimated or budgeted figure</div>
+    </div>
+    <div class="q-feedback" id="fb-mc10"></div>
+  </div>
+
+  <div class="q-card" id="mc11">
+    <div class="q-meta"><span class="q-num">Q11</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">On a correctly prepared Cash Flow Statement, the closing cash held figure should equal:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc11','A')"><span class="opt-letter">A</span>Net profit on the Income Statement</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','B')"><span class="opt-letter">B</span>The closing Bank balance on the Balance Sheet</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','C')"><span class="opt-letter">C</span>The opening capital figure</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','D')"><span class="opt-letter">D</span>Total cash inflows for the period</div>
+    </div>
+    <div class="q-feedback" id="fb-mc11"></div>
+  </div>
+
+  <div class="q-card" id="mc12">
+    <div class="q-meta"><span class="q-num">Q12</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">During the year Sarah&apos;s Cafe records: Receipts from customers $92,000; GST collected $9,200; Payments to suppliers $48,000; Wages $22,500; GST paid $5,420. Net cash provided by operating activities is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc12','A')"><span class="opt-letter">A</span>$9,800</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','B')"><span class="opt-letter">B</span>$25,280</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','C')"><span class="opt-letter">C</span>$30,700</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','D')"><span class="opt-letter">D</span>$36,120</div>
+    </div>
+    <div class="q-feedback" id="fb-mc12"></div>
+  </div>
+
+  <div class="q-section-head">&#128269; Analysis of Cash Flow Statements (11.4)</div>
+
+  <div class="q-card" id="mc13">
+    <div class="q-meta"><span class="q-num">Q13</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The clearest sign that a business is sustainable in the long term is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc13','A')"><span class="opt-letter">A</span>Net cash from operating activities is positive across multiple years</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','B')"><span class="opt-letter">B</span>Net cash from financing activities is positive</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','C')"><span class="opt-letter">C</span>Net cash from investing activities is positive</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','D')"><span class="opt-letter">D</span>Closing cash held has risen this year</div>
+    </div>
+    <div class="q-feedback" id="fb-mc13"></div>
+  </div>
+
+  <div class="q-card" id="mc14">
+    <div class="q-meta"><span class="q-num">Q14</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which CFS pattern is the BIGGEST warning sign of trouble?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc14','A')"><span class="opt-letter">A</span>Operating positive, Investing negative, Financing modest</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','B')"><span class="opt-letter">B</span>Operating negative, with Financing inflows propping up trading shortfalls</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','C')"><span class="opt-letter">C</span>Operating positive, Financing negative (loan repayments + drawings)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','D')"><span class="opt-letter">D</span>All three sections positive in a single year</div>
+    </div>
+    <div class="q-feedback" id="fb-mc14"></div>
+  </div>
+
+  <div class="q-card" id="mc15">
+    <div class="q-meta"><span class="q-num">Q15</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business reports rising profit on its Income Statement but FALLING net cash from operating activities. The MOST LIKELY explanation is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc15','A')"><span class="opt-letter">A</span>Sales are falling &mdash; despite what the IS says</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','B')"><span class="opt-letter">B</span>Accounts receivable have grown &mdash; the business is making more credit sales but customers have not yet paid</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','C')"><span class="opt-letter">C</span>The business has stopped offering credit to customers</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','D')"><span class="opt-letter">D</span>The business has paid down significant loan principal</div>
+    </div>
+    <div class="q-feedback" id="fb-mc15"></div>
+  </div>
+
+</div>
+
+<!-- ===== EXAM PRACTICE TAB ===== -->
+<div id="tab-exam" class="tab-pane">
+
+  <div class="q-section-head">&#128203; Short Answer Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">
+      The following items appear in the cash journals of Sarah&apos;s Cafe for the year ended 30 June 2028.
+      <table>
+        <tr><td>1. Loan principal repayment</td><td class="num">$6,000</td></tr>
+        <tr><td>2. Sale of old espresso machine</td><td class="num">$2,000</td></tr>
+        <tr><td>3. Interest expense paid</td><td class="num">$1,200</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">Classify each of the three items by both ACTIVITY (Operating / Investing / Financing) and DIRECTION (Inflow / Outflow). (3 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>1. Loan principal repayment $6,000 (1 mark):</strong> <strong>Financing outflow</strong> &mdash; the principal portion of a loan repayment changes the financial structure of the business.</p>
+          <p><strong>2. Sale of old espresso machine $2,000 (1 mark):</strong> <strong>Investing inflow</strong> &mdash; proceeds from selling a non-current asset.</p>
+          <p><strong>3. Interest expense paid $1,200 (1 mark):</strong> <strong>Operating outflow</strong> &mdash; interest is a day-to-day cost of doing business, classified as Operating even though the underlying loan is Financing.</p>
+          <div class="mark-scheme">&#9888; A common mistake is to classify interest as Financing alongside the loan principal. Only the principal portion is Financing &mdash; interest goes in Operating. This is one of the most frequent exam traps.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      Sarah&apos;s Cafe records the following cash movements during the year ended 30 June 2028 (extract):
+      <table>
+        <tr><td>Receipts from customers</td><td class="num">$92,000</td></tr>
+        <tr><td>GST collected</td><td class="num">$9,200</td></tr>
+        <tr><td>Payments to suppliers</td><td class="num">$48,000</td></tr>
+        <tr><td>Wages paid</td><td class="num">$22,500</td></tr>
+        <tr><td>GST paid</td><td class="num">$5,420</td></tr>
+        <tr><td>Interest expense paid</td><td class="num">$1,800</td></tr>
+        <tr><td>Drawings</td><td class="num">$15,000</td></tr>
+        <tr><td>Sale of old espresso machine</td><td class="num">$2,000</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">Calculate the net cash provided by operating activities for the year. Show your workings clearly. (4 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Step 1 &mdash; Operating inflows (1 mark):</strong></p>
+          <p>&bull; Receipts from customers $92,000 + GST collected $9,200 = <strong>$101,200</strong></p>
+          <p><strong>Step 2 &mdash; Operating outflows (2 marks):</strong></p>
+          <p>&bull; Payments to suppliers $48,000 + Wages $22,500 + GST paid $5,420 + Interest paid $1,800 = <strong>$77,720</strong> (1 mark for recognising interest as Operating, 1 mark for total)</p>
+          <p><strong>Step 3 &mdash; Net cash from operating (1 mark):</strong></p>
+          <p>&bull; $101,200 &minus; $77,720 = <strong>$23,480</strong> net cash provided by operating activities.</p>
+          <div class="mark-scheme">&#9888; Drawings $15,000 are Financing, not Operating. Sale of espresso machine $2,000 is Investing, not Operating. Including either in the operating total is an automatic 1-mark deduction.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      A small business reports $50,000 net profit on its Income Statement, but its Cash Flow Statement shows only $15,000 net cash from operating activities for the same year.
+    </div>
+    <div class="eq-q">Explain THREE possible reasons why profit and net cash from operating activities can differ. (4 marks &mdash; 1 mark per reason + 1 mark for clarity)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p>Any three of the following, each with a specific explanation (1 mark each):</p>
+          <p><strong>&bull; Credit sales:</strong> revenue is recognised when the sale occurs, but cash only arrives when the customer pays. If accounts receivable grew during the year, profit will exceed cash from trading.</p>
+          <p><strong>&bull; Depreciation:</strong> reduces profit on the Income Statement but uses no cash in the current period &mdash; so reported profit is lower than the actual cash generated, OR vice versa depending on whether the question gives profit higher or lower.</p>
+          <p><strong>&bull; Credit purchases / accruals:</strong> expenses recognised on the IS but not yet paid in cash widen the gap, as do prepayments &mdash; cash paid out before being recognised as an expense reduces cash without reducing profit.</p>
+          <p><strong>&bull; Inventory build-up:</strong> cash spent buying stock that has not yet been sold reduces cash without reducing profit.</p>
+          <p>+ 1 mark for clear, organised explanation linking each reason back to the profit-cash gap.</p>
+          <div class="examiner-tip">&#128161; Tie each reason to a specific dollar mechanism (&quot;AR grew by $35k&quot; rather than just &quot;credit sales&quot;) to score full marks. Abstract one-liners typically cap at 1 mark per reason regardless of how many you list.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-section-head">&#128218; Extended Response Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      Sarah Wong owns Sarah&apos;s Cafe. The following cash movements were recorded for the year ended 30 June 2028. Opening cash held at 1 July 2027 was $8,000.
+      <table>
+        <tr><td>Receipts from customers</td><td class="num">$92,000</td></tr>
+        <tr><td>GST collected</td><td class="num">$9,200</td></tr>
+        <tr><td>Payments to suppliers</td><td class="num">$48,000</td></tr>
+        <tr><td>Wages paid</td><td class="num">$22,500</td></tr>
+        <tr><td>GST paid</td><td class="num">$5,420</td></tr>
+        <tr><td>Sale of old espresso machine</td><td class="num">$2,000</td></tr>
+        <tr><td>Purchase of new coffee roaster</td><td class="num">$18,000</td></tr>
+        <tr><td>Capital contribution from owner</td><td class="num">$10,000</td></tr>
+        <tr><td>Loan principal repayments</td><td class="num">$6,000</td></tr>
+        <tr><td>Drawings</td><td class="num">$15,000</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">Prepare a classified Cash Flow Statement for Sarah&apos;s Cafe for the year ended 30 June 2028. Calculate the net change in cash held and the closing cash position. (8 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Sarah&apos;s Cafe &mdash; Cash Flow Statement for year ended 30 June 2028</strong></p>
+          <p><strong>Cash flows from operating activities (2 marks):</strong></p>
+          <p>&bull; Receipts from customers $92,000</p>
+          <p>&bull; GST collected $9,200</p>
+          <p>&bull; Payments to suppliers ($48,000)</p>
+          <p>&bull; Wages ($22,500)</p>
+          <p>&bull; GST paid ($5,420)</p>
+          <p>&bull; <strong>Net cash provided by operating activities = $25,280</strong></p>
+          <p><strong>Cash flows from investing activities (2 marks):</strong></p>
+          <p>&bull; Sale of espresso machine $2,000</p>
+          <p>&bull; Purchase of new coffee roaster ($18,000)</p>
+          <p>&bull; <strong>Net cash used in investing activities = ($16,000)</strong></p>
+          <p><strong>Cash flows from financing activities (2 marks):</strong></p>
+          <p>&bull; Capital contribution from owner $10,000</p>
+          <p>&bull; Loan principal repayments ($6,000)</p>
+          <p>&bull; Drawings ($15,000)</p>
+          <p>&bull; <strong>Net cash used in financing activities = ($11,000)</strong></p>
+          <p><strong>Reconciliation (2 marks):</strong></p>
+          <p>&bull; Net decrease in cash held = $25,280 &minus; $16,000 &minus; $11,000 = <strong>($1,720)</strong> (1 mark)</p>
+          <p>&bull; Cash held at start of year $8,000 &minus; $1,720 = <strong>$6,280 closing cash held</strong> (1 mark)</p>
+          <div class="examiner-tip">&#128161; Mark each transaction with O / I / F on your working paper BEFORE writing the statement &mdash; this catches misclassifications (especially interest and loan principal) before they cost marks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      Sarah&apos;s Cafe Cash Flow Statement for the year ended 30 June 2028 showed the following section totals.
+      <table>
+        <tr><td>Net cash provided by operating activities</td><td class="num">$25,280</td></tr>
+        <tr><td>Net cash used in investing activities</td><td class="num">($16,000)</td></tr>
+        <tr><td>Net cash used in financing activities</td><td class="num">($11,000)</td></tr>
+        <tr class="sub"><td>Net decrease in cash held</td><td class="num">($1,720)</td></tr>
+        <tr><td>Cash held at start of year</td><td class="num">$8,000</td></tr>
+        <tr class="sub"><td>Cash held at end of year</td><td class="num">$6,280</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Comment on the sustainability of Sarah&apos;s business by referring to EACH of the three sections of the CFS. (4 marks)<br>
+      b. The closing cash held has fallen from $8,000 to $6,280. Should Sarah be concerned? Explain. (2 marks)<br>
+      c. Suggest two specific actions Sarah could take to improve her cash position. (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Sustainability commentary (4 marks):</strong></p>
+          <p>&bull; <strong>Operating $25,280 positive:</strong> the cafe generates enough cash from trading to fund itself &mdash; a strong sign of underlying sustainability (1 mark).</p>
+          <p>&bull; <strong>Investing ($16,000) used:</strong> Sarah has invested in a new commercial coffee roaster (partly offset by selling the old espresso machine). Net cash used in investing is usually a positive sign &mdash; the business is replacing/upgrading assets to support future growth (1 mark).</p>
+          <p>&bull; <strong>Financing ($11,000) used:</strong> drawings ($15,000) plus loan repayments ($6,000) outweighed the $10,000 capital contribution. Sarah is taking cash out faster than she is putting it in (1 mark).</p>
+          <p>&bull; <strong>Overall:</strong> trading is healthy, investing is growth-related, but financing outflows (driven by aggressive drawings) consumed the trading surplus and produced a small net decrease in cash. The business is sustainable for now, but the owner&apos;s drawings policy is the concern (1 mark).</p>
+          <p><strong>(b) Concern about closing cash (2 marks):</strong></p>
+          <p>&bull; Mild concern only. Cash fell by 21.5% but the absolute drop ($1,720) is small, and operating cash remained strongly positive. The business has not exhausted its cash buffer in one year (1 mark).</p>
+          <p>&bull; However, if drawings continue to exceed the trading surplus left over after investing, cash will keep falling. One year is not a crisis, but two or three years of this pattern would be (1 mark).</p>
+          <p><strong>(c) Actions to improve cash (2 marks &mdash; any two):</strong></p>
+          <p>&bull; <strong>Reduce drawings</strong> &mdash; pay herself less or take drawings only out of the trading surplus after investing needs.</p>
+          <p>&bull; <strong>Tighten accounts receivable collection</strong> &mdash; if any credit sales exist, shorten the terms or chase overdue debtors to bring cash in faster.</p>
+          <p>&bull; <strong>Defer further asset purchases</strong> &mdash; delay the next major investment until cash position recovers.</p>
+          <p>&bull; <strong>Negotiate longer supplier credit terms</strong> &mdash; hold onto cash for longer before paying suppliers.</p>
+          <div class="mark-scheme">&#9888; A common error is to focus on Operating alone and ignore the other sections. The CFS analysis question almost always wants commentary on ALL THREE sections &mdash; only naming one will cap you at 1&ndash;2 marks for part (a).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">7 marks</span></div>
+    <div class="eq-stimulus">
+      Sarah&apos;s Cafe CFS section totals across two consecutive years are summarised below.
+      <table>
+        <tr><th>Section</th><th>Year ended 30/6/2027</th><th>Year ended 30/6/2028</th></tr>
+        <tr><td>Net cash from operating</td><td class="num">$35,000</td><td class="num">$25,280</td></tr>
+        <tr><td>Net cash from investing</td><td class="num">($8,000)</td><td class="num">($16,000)</td></tr>
+        <tr><td>Net cash from financing</td><td class="num">$4,000</td><td class="num">($11,000)</td></tr>
+        <tr class="sub"><td>Net change in cash</td><td class="num">$31,000</td><td class="num">($1,720)</td></tr>
+        <tr><td>Closing cash held</td><td class="num">$8,000</td><td class="num">$6,280</td></tr>
+      </table>
+    </div>
+    <div class="eq-q">
+      a. Identify and quantify the THREE most significant changes between the two years&apos; cash flow patterns. (3 marks)<br>
+      b. Explain what these changes reveal about how the business funded itself across the two years. (2 marks)<br>
+      c. Should Sarah be more or less worried at the end of 2028 than she was at the end of 2027? Justify your answer. (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Three significant changes (3 marks &mdash; 1 each):</strong></p>
+          <p>&bull; Net cash from <strong>Operating fell by $9,720</strong> ($35,000 &rarr; $25,280, a ~28% drop).</p>
+          <p>&bull; Net cash used in <strong>Investing doubled</strong> from ($8,000) to ($16,000) &mdash; the cafe&apos;s asset spend increased significantly.</p>
+          <p>&bull; <strong>Financing swung $15,000</strong> from a $4,000 inflow to an $11,000 outflow &mdash; the owner shifted from contributing capital to taking large drawings + loan repayments.</p>
+          <p><strong>(b) How the business funded itself (2 marks):</strong></p>
+          <p>&bull; In 2027, operating cash easily funded the modest investing spend, and the owner also added capital &mdash; producing a $31,000 net gain in cash. The business was self-sufficient and growing its cash buffer (1 mark).</p>
+          <p>&bull; In 2028, operating cash fell while investing demands rose. Instead of receiving capital from the owner, the business paid out drawings + loan repayments. Operating cash was no longer sufficient to cover the combined investing and financing outflows &mdash; resulting in a small overall cash decline (1 mark).</p>
+          <p><strong>(c) More or less worried (2 marks):</strong></p>
+          <p>&bull; <strong>More worried</strong> at the end of 2028 than 2027 (1 mark).</p>
+          <p>&bull; All three sections moved in the wrong direction: operating cash fell, investing doubled, and financing flipped to a heavy outflow. If the 2028 pattern continues into 2029, the cash buffer could be exhausted &mdash; the trend is clearly negative even if the absolute cash position remains positive for now (1 mark).</p>
+          <div class="examiner-tip">&#128161; Trend analysis answers must include the DIRECTION and a QUANTIFIED change (dollars or percentage) for each indicator. Stating only that something has &quot;decreased&quot; without quantification typically caps at 0.5 marks per point.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &middot; Neville Box 7th ed. &middot; Chapter 11 Quiz</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'mc' ? 0 : 1].className = 'tab-btn active';
+}
+
+var totalMC = 15;
+var mcAnswered = 0;
+var mcCorrect = 0;
+var mcAnswers = {};
+
+function updateScore(gotIt) {
+  mcAnswered++;
+  if (gotIt) mcCorrect++;
+  document.getElementById('score-correct').textContent = mcCorrect;
+  document.getElementById('score-total').textContent = mcAnswered;
+  document.getElementById('progress-bar').style.width = Math.round((mcAnswered / totalMC) * 100) + '%';
+}
+
+var mcData = {
+  mc1: { correct: 'C', fb: 'Correct: C &mdash; the CFS classifies and summarises cash inflows and outflows during a period into Operating, Investing and Financing sections. Option A is the role of the Income Statement; B is the role of the Balance Sheet; D would be the Statement of Changes in Equity.' },
+  mc2: { correct: 'B', fb: 'Correct: B &mdash; profit and cash are different. Credit sales boost revenue (and profit) immediately, but the cash only arrives when customers pay. Depreciation, accruals and timing differences also drive a gap between profit and operating cash.' },
+  mc3: { correct: 'B', fb: 'Correct: B &mdash; the CFS covers a PERIOD of time (e.g. a year), so the heading must use &quot;for the year ended...&quot;. &quot;As at&quot; (Option A) is the heading used for the Balance Sheet, which captures a single point in time.' },
+  mc4: { correct: 'A', fb: 'Correct: A &mdash; cash from customers is from day-to-day trading and is the central Operating inflow. This sits at the top of the Operating section of the CFS.' },
+  mc5: { correct: 'B', fb: 'Correct: B &mdash; the coffee roaster is a non-current asset Sarah will use to operate her business. Buying it is an Investing outflow, NOT an Operating outflow. Operating outflows are day-to-day costs like wages and supplier payments.' },
+  mc6: { correct: 'C', fb: 'Correct: C &mdash; drawings reduce the owner&apos;s equity (a change in financial structure), so they sit in the Financing section. Drawings are NOT a wage to the owner, and they DO appear on the CFS because they involve cash.' },
+  mc7: { correct: 'C', fb: 'Correct: C &mdash; this is one of the most common exam traps. The INTEREST portion of a loan payment is Operating (a day-to-day cost of doing business), while the PRINCIPAL portion is Financing (it changes the financial structure). Splitting them correctly is essential.' },
+  mc8: { correct: 'C', fb: 'Correct: C &mdash; capital contributions from the owner are Financing inflows because they increase owner&apos;s equity. The transfer does involve cash (savings &rarr; business bank), so it DOES appear on the CFS.' },
+  mc9: { correct: 'C', fb: 'Correct: C &mdash; the CFS only records actual cash movements. A non-cash contribution (asset for equity) does not appear on the CFS at all, even though it would affect the Balance Sheet and the Statement of Changes in Equity.' },
+  mc10: { correct: 'B', fb: 'Correct: B &mdash; brackets indicate a negative number in accounting convention (outflows in their relevant section, and net cash used at section totals). Never use both a minus sign AND brackets &mdash; pick one. Standard practice uses brackets.' },
+  mc11: { correct: 'B', fb: 'Correct: B &mdash; the closing cash held on the CFS must match the closing Bank balance on the Balance Sheet. If it doesn&apos;t, either a transaction has been missed, misclassified, or counted twice &mdash; always check this reconciliation before finalising.' },
+  mc12: { correct: 'B', fb: 'Correct: B &mdash; inflows ($92,000 + $9,200 = $101,200) minus outflows ($48,000 + $22,500 + $5,420 = $75,920) = $25,280. Option A only nets receipts vs supplier payments and ignores wages/GST; Options C and D omit different outflows.' },
+  mc13: { correct: 'A', fb: 'Correct: A &mdash; sustained positive operating cash means the business funds itself from trading. Option B is just borrowing or capital injection; C is unusual and may signal asset sales for cash; D could happen for one year due to a one-off loan but is not the underlying measure of sustainability.' },
+  mc14: { correct: 'B', fb: 'Correct: B &mdash; negative operating cash means the core business is not funding itself. Plugging that gap with borrowed money or owner capital can work short-term, but ongoing reliance signals possible insolvency. This is the textbook &quot;death spiral&quot; pattern.' },
+  mc15: { correct: 'B', fb: 'Correct: B &mdash; rising profit with falling operating cash typically points to credit sales outpacing collections. The IS recognises the revenue when the sale occurs; the CFS only records cash, so growing AR drives a wedge between the two. Option D is about Financing, not Operating cash.' }
+};
+
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = mcData[qid];
+  var correct = (chosen === ans.correct);
+  var opts = card.querySelectorAll('.mc-opt');
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.innerHTML = ans.fb;
+  fb.className = 'q-feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+  updateScore(correct);
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetMC() {
+  mcAnswered = 0; mcCorrect = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>

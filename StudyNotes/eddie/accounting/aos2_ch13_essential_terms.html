@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 13: Evaluating a service business</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F7F5EF; color: #2C2C2A; line-height: 1.5; padding: 16px 0 40px; }
+h1 { font-size: 22px; font-weight: 800; color: #2C2C2A; padding: 0 14px; letter-spacing: -0.3px; }
+.subtitle { font-size: 13px; color: #6E6D67; padding: 2px 14px 14px; }
+#search { display: block; width: calc(100% - 28px); margin: 0 14px 14px; padding: 10px 14px; border: 1.5px solid #D8D5CA; border-radius: 10px; font-size: 14px; background: #fff; outline: none; }
+#search:focus { border-color: #3C3489; }
+.section-label { margin: 16px 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; }
+.footer { font-size: 11px; color: #888; text-align: center; padding: 24px 14px 0; }
+
+/* Category accordion */
+.cat { margin: 10px 10px; border-radius: 12px; overflow: hidden; border: 1.5px solid #ccc; background: #fff; }
+.cat.purple { border-color: #AFA9EC; }
+.cat.teal { border-color: #5DCAA5; }
+.cat.coral { border-color: #D85A30; }
+.cat.amber { border-color: #BA7517; }
+.cat.blue { border-color: #378ADD; }
+.cat.pink { border-color: #D4537E; }
+.cat.gray { border-color: #888780; }
+
+.cat-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; cursor: pointer; font-weight: 700; font-size: 14px; gap: 10px; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); color: #4B1528; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+.cat-head-text { flex: 1; min-width: 0; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head small { font-size: 11px; font-weight: 600; opacity: 0.7; }
+.cat-arrow { font-size: 11px; }
+
+.cat-body { max-height: 4000px; transition: max-height 0.3s ease; overflow: hidden; }
+.cat-body.collapsed { max-height: 0; }
+
+/* Hot badge */
+.hot-badge { position: relative; display: inline-flex; align-items: center; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; font-weight: 500; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* Term */
+.term { border-top: 1px solid #EEEAE0; }
+.term:first-child { border-top: none; }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: #2C2C2A; gap: 10px; }
+.term-title span:first-child { flex: 1; }
+.arrow { font-size: 10px; color: #888; }
+.term-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 14px; }
+.term-body.open { max-height: 800px; padding: 0 14px 12px; }
+.term-def { font-size: 13px; color: #3D3D3A; margin-bottom: 8px; }
+.term-eg { display: block; font-size: 12px; color: #555; font-style: italic; padding: 7px 10px; border-left: 3px solid #D8D5CA; background: #F7F5EF; border-radius: 0 6px 6px 0; }
+.term-note { display: block; font-size: 12px; font-style: italic; padding: 7px 10px; margin-top: 7px; background: #FFF4E3; border-left: 3px solid #BA7517; color: #412402; border-radius: 0 6px 6px 0; }
+
+.cat.purple .term-eg { background: #EEEDFE; border-left-color: #AFA9EC; color: #3C3489; }
+.cat.teal .term-eg { background: #E1F5EE; border-left-color: #5DCAA5; color: #085041; }
+.cat.coral .term-eg { background: #FAECE7; border-left-color: #D85A30; color: #4A1B0C; }
+.cat.amber .term-eg { background: #FAEEDA; border-left-color: #BA7517; color: #412402; }
+.cat.blue .term-eg { background: #E6F1FB; border-left-color: #378ADD; color: #042C53; }
+.cat.pink .term-eg { background: #FBEAF0; border-left-color: #D4537E; color: #4B1528; }
+.cat.gray .term-eg { background: #F1EFE8; border-left-color: #888780; color: #2C2C2A; }
+
+/* Collapsible panels */
+.box-wrap { margin: 10px; border-radius: 12px; border: 1.5px solid #ccc; background: #fff; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-wrap.gray { border-color: #888780; }
+
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 13.5px; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); color: #3C3489; }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.18); color: #412402; }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.22); color: #042C53; }
+.box-wrap.gray .box-toggle { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+.box-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 14px; }
+.box-body.open { max-height: 4500px; padding: 12px 14px 14px; }
+.box-note { margin-top: 10px; font-size: 12px; font-style: italic; padding: 8px 10px; background: #FFF8E3; border-left: 3px solid #BA7517; border-radius: 0 6px 6px 0; color: #412402; }
+
+/* Comparison table */
+.ct { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ct th, .ct td { padding: 8px 9px; text-align: left; border-bottom: 1px solid #EEEAE0; vertical-align: top; }
+.ct th { background: #F1EFE8; font-weight: 700; color: #2C2C2A; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+.ct td strong { color: #3C3489; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 1.5px 6px; border-radius: 4px; margin-right: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+.tag-r { background: #FAECE7; color: #4A1B0C; }
+.tag-g { background: #E1F5EE; color: #085041; }
+.tag-y { background: #FAEEDA; color: #412402; }
+.tag-b { background: #E6F1FB; color: #042C53; }
+.tag-p { background: #EEEDFE; color: #3C3489; }
+
+/* Formula cards */
+.formula-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.fcard { background: #fff; border: 1px solid #E8E4D5; border-radius: 8px; padding: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.fcard h3 { font-size: 13.5px; color: #2C2C2A; margin-bottom: 8px; font-weight: 700; }
+.fcard .formula { background: #F7F5EF; color: #2C2C2A; border: 1px solid #E8E4D5; padding: 9px 12px; border-radius: 6px; font-family: "SF Mono", Consolas, monospace; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 9px; }
+.fcard p { font-size: 12px; color: #555; margin-bottom: 9px; }
+.fcard .worked { background: #F7F5EF; border-left: 3px solid #BA7517; padding: 8px 10px; font-size: 12px; color: #412402; border-radius: 0 6px 6px 0; }
+@media (min-width: 640px) { .formula-grid { grid-template-columns: 1fr 1fr; } }
+
+/* Income statement template */
+.is-table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-family: "SF Mono", Consolas, monospace; }
+.is-table td { padding: 5px 8px; vertical-align: top; }
+.is-table td.num { text-align: right; white-space: nowrap; font-weight: 600; }
+.is-table td.pct { text-align: right; white-space: nowrap; font-weight: 600; color: #3C3489; }
+.is-table tr.is-head td { background: #E1F5EE; color: #085041; font-weight: 700; padding: 7px 8px; border-top: 1px solid #5DCAA5; border-bottom: 1px solid #5DCAA5; text-transform: uppercase; font-size: 11px; letter-spacing: 0.4px; }
+.is-table tr.is-section td { background: rgba(159,225,203,0.18); color: #085041; font-weight: 700; padding: 6px 8px; font-size: 11.5px; }
+.is-table tr.is-sub td { border-top: 1px solid #5DCAA5; font-weight: 700; padding-top: 7px; padding-bottom: 7px; color: #085041; }
+.is-table tr.is-net td { border-top: 2px solid #BA7517; border-bottom: 2px solid #BA7517; background: #FFF4E3; font-weight: 700; padding: 8px; color: #412402; }
+.is-indent { padding-left: 18px !important; }
+
+/* Trend table */
+.trendtbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.trendtbl th, .trendtbl td { padding: 7px 6px; text-align: right; border-bottom: 1px solid #EEEAE0; }
+.trendtbl th:first-child, .trendtbl td:first-child { text-align: left; font-weight: 700; }
+.trendtbl th { background: #E6F1FB; color: #042C53; font-weight: 700; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1.3; }
+.trendtbl .up { color: #085041; font-weight: 700; }
+.trendtbl .down { color: #4A1B0C; font-weight: 700; }
+.trendtbl .indicator-row { background: #F0F6FC; }
+.trendtbl .indicator-row td:first-child { color: #042C53; font-weight: 700; }
+
+/* Comparison highlight */
+.comp-tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.comp-tbl th, .comp-tbl td { padding: 8px 10px; border-bottom: 1px solid #EEEAE0; }
+.comp-tbl th:first-child, .comp-tbl td:first-child { text-align: left; font-weight: 600; }
+.comp-tbl th { background: #EEEDFE; color: #3C3489; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; text-align: right; }
+.comp-tbl td { text-align: right; }
+.comp-tbl .winner { background: #E1F5EE; color: #085041; font-weight: 700; }
+.comp-tbl .loser { color: #4A1B0C; }
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 13</h1>
+<p class="subtitle">Evaluating the performance of a service business &middot; tap any term to expand</p>
+<input id="search" placeholder="Search terms or definitions..." oninput="filterTerms(this.value)">
+
+<p class="section-label">&#128202; Visual Reference Panels</p>
+
+<!-- Panel 1: Performance indicator formulas -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129518; Key Formulas &mdash; profitability, liquidity &amp; stability indicators</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div class="formula-grid">
+      <div class="fcard">
+        <h3>Net profit margin (NPM)</h3>
+        <div class="formula">(Net profit &divide; Sales revenue) &times; 100</div>
+        <p>Cents of profit retained from every $1 of sales after all expenses are paid.</p>
+        <div class="worked">Warrnambool Trailer Hire: NP $27,500, Sales $125,000<br>
+          <strong>= 27,500 &divide; 125,000 &times; 100 = 22%</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Return on owner&apos;s investment (ROI)</h3>
+        <div class="formula">(Net profit &divide; Average capital) &times; 100</div>
+        <p>Return earned for every $1 the owner has invested in the business &mdash; compare to a term deposit.</p>
+        <div class="worked">Bendigo 2027: NP $110k, avg capital $425k<br>
+          <strong>= 110 &divide; 425 &times; 100 = 25.9%</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Rate of return on assets (ROA)</h3>
+        <div class="formula">(Net profit &divide; Average total assets) &times; 100</div>
+        <p>How efficiently the business converts its assets into profit, regardless of how those assets were funded.</p>
+        <div class="worked">Bernie&apos;s: NP $124k, avg assets $620k<br>
+          <strong>= 124 &divide; 620 &times; 100 = 20%</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Working capital ratio (WCR)</h3>
+        <div class="formula">Current assets &divide; Current liabilities</div>
+        <p>Ability to pay short-term debts as they fall due. Result is expressed as X : 1.</p>
+        <div class="worked">Bill&apos;s Mowing: CA $24k, CL $16k<br>
+          <strong>= 24 &divide; 16 = 1.5 : 1</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Debt ratio (DR)</h3>
+        <div class="formula">(Total liabilities &divide; Total assets) &times; 100</div>
+        <p>Proportion of the business&apos;s assets that have been financed by debt (rather than the owner).</p>
+        <div class="worked">City Car Hire: TL $330k, TA $550k<br>
+          <strong>= 330 &divide; 550 &times; 100 = 60%</strong></div>
+      </div>
+      <div class="fcard">
+        <h3>Percentage of sales (expense)</h3>
+        <div class="formula">(Expense &divide; Sales revenue) &times; 100</div>
+        <p>How much of every sales dollar is consumed by a particular expense line &mdash; used in pie charts and IS percentage breakdowns.</p>
+        <div class="worked">Wages $61,250 of $125,000 sales<br>
+          <strong>= 61,250 &divide; 125,000 &times; 100 = 49%</strong></div>
+      </div>
+    </div>
+    <p class="box-note">&#128161; Always use <strong>average</strong> capital and average total assets where opening and closing figures are given &mdash; using year-end alone is a common mark deduction.</p>
+  </div>
+</div>
+
+<!-- Panel 2: Indicator interpretation -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128202; What does a &quot;good&quot; number look like? &mdash; indicator interpretation</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Indicator</th><th>Healthy</th><th>Warning</th><th>What to compare to</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Net profit margin</strong></td>
+            <td><span class="tag tag-g">higher</span>Rising margin over time, beating the industry average</td>
+            <td><span class="tag tag-r">falling</span>Margin shrinking year-on-year &mdash; expenses growing faster than revenue</td>
+            <td>Prior years, industry average, budget</td>
+          </tr>
+          <tr>
+            <td><strong>Return on investment</strong></td>
+            <td><span class="tag tag-g">above</span>Comfortably above a term deposit rate &mdash; rewards the owner for taking risk</td>
+            <td><span class="tag tag-r">below</span>Below the term deposit rate &mdash; the owner would earn more leaving the cash in the bank</td>
+            <td>Term deposit rate, prior years, alternative investments</td>
+          </tr>
+          <tr>
+            <td><strong>Rate of return on assets</strong></td>
+            <td><span class="tag tag-g">rising</span>Rising trend &mdash; the business is becoming more efficient with its assets</td>
+            <td><span class="tag tag-r">falling</span>Falling trend &mdash; new assets are not generating proportional profit yet</td>
+            <td>Prior years, industry average, similar businesses</td>
+          </tr>
+          <tr>
+            <td><strong>Working capital ratio</strong></td>
+            <td><span class="tag tag-g">2 : 1</span>Around 2 : 1 is the textbook benchmark &mdash; comfortable liquidity</td>
+            <td><span class="tag tag-r">&lt; 1 : 1</span>Below 1 : 1 means current liabilities exceed current assets &mdash; cannot pay short-term debts</td>
+            <td>Industry average, prior years</td>
+          </tr>
+          <tr>
+            <td><strong>Debt ratio</strong></td>
+            <td><span class="tag tag-g">low</span>50% or below &mdash; the owner has funded most of the business; manageable risk</td>
+            <td><span class="tag tag-r">high</span>Above ~65% indicates rising financial risk &mdash; lenders may refuse further finance</td>
+            <td>Industry average, prior years, comfort of the owner</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; There is no single &quot;correct&quot; number for any indicator &mdash; what matters is the COMPARISON. Always compare a figure to a benchmark (prior year, industry average, or budget) before drawing a conclusion.</p>
+  </div>
+</div>
+
+<!-- Panel 3: Worked example - Warrnambool Trailer Hire IS percentage breakdown -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128203; Income Statement percentage breakdown &mdash; Warrnambool Trailer Hire</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#085041;"><strong>Scenario:</strong> Warrnambool Trailer Hire&apos;s income statement for the year, with each expense shown as a percentage of sales revenue &mdash; the basis for a pie chart of where the sales dollar goes.</p>
+    <div style="overflow-x:auto;">
+      <table class="is-table">
+        <tr class="is-head"><td>Warrnambool Trailer Hire &mdash; Income Statement</td><td class="num">$</td><td class="pct">% of sales</td></tr>
+        <tr><td>Sales revenue</td><td class="num">$125,000</td><td class="pct">100%</td></tr>
+        <tr class="is-section"><td colspan="3">Less Expenses</td></tr>
+        <tr><td class="is-indent">Trailer repairs</td><td class="num">$24,250</td><td class="pct">19.4%</td></tr>
+        <tr><td class="is-indent">Wages</td><td class="num">$61,250</td><td class="pct">49.0%</td></tr>
+        <tr><td class="is-indent">Office expenses</td><td class="num">$12,000</td><td class="pct">9.6%</td></tr>
+        <tr class="is-sub"><td>Total expenses</td><td class="num">$97,500</td><td class="pct">78.0%</td></tr>
+        <tr class="is-net"><td>Net profit</td><td class="num">$27,500</td><td class="pct">22.0%</td></tr>
+      </table>
+    </div>
+    <p style="font-size:12.5px; margin: 14px 0 8px; color:#085041;"><strong>Reading the result:</strong></p>
+    <div style="background:#fff; border:1px solid #5DCAA5; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:12.5px; color:#085041; line-height:1.8;">
+        Every $1 of sales is split as: <strong>22c profit</strong>, 49c wages, 19.4c trailer repairs, 9.6c office expenses.<br>
+        The wages line consumes almost half of all sales revenue &mdash; if the owner wants to lift the net profit margin, that is the line to investigate first.
+      </div>
+    </div>
+    <p class="box-note">&#128161; Percentage breakdowns translate the IS into a pie chart and immediately reveal which expense lines are eating the most of each sales dollar.</p>
+  </div>
+</div>
+
+<!-- Panel 4: Trend analysis - Bendigo Tractor Repairs -->
+<div class="box-wrap blue">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128200; Trend Analysis &mdash; Bendigo Tractor Repairs (2026&ndash;2028)</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#042C53;"><strong>Scenario:</strong> The owner is pleased that profit has risen every year. But trends in ROI and ROA tell the fuller story &mdash; are the higher profits actually delivering a better return on the growing asset base?</p>
+    <div style="overflow-x:auto;">
+      <table class="trendtbl">
+        <thead><tr>
+          <th>Item</th>
+          <th>31 Dec 2026</th>
+          <th>31 Dec 2027</th>
+          <th>31 Dec 2028</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Net profit ($000)</td><td>$90</td><td>$110</td><td>$120</td></tr>
+          <tr><td>Owner&apos;s capital ($000, year-end)</td><td>$400</td><td>$450</td><td>$460</td></tr>
+          <tr><td>Total assets ($000, year-end)</td><td>$620</td><td>$700</td><td>$800</td></tr>
+          <tr class="indicator-row"><td>ROI (NP &divide; avg capital)</td><td class="up">22.5%</td><td class="up">25.9%</td><td class="up">26.4%</td></tr>
+          <tr class="indicator-row"><td>ROA (NP &divide; avg assets)</td><td class="up">14.8%</td><td class="up">16.7%</td><td class="down">16.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px; margin: 14px 0 8px; color:#042C53;"><strong>What to write in a comment:</strong></p>
+    <div style="background:#fff; border:1px solid #378ADD; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:12.5px; color:#042C53; line-height:1.8;">
+        Profit IS rising every year &mdash; the owner is correct to be pleased on that measure alone.<br>
+        <strong>ROI</strong> has risen steadily from 22.5% to 26.4% &mdash; each dollar of capital is earning more, so the owner is being better rewarded for their investment.<br>
+        <strong>ROA</strong> rose then fell from 16.7% to 16.0% in 2028 &mdash; the business added $100k of assets in 2028 but profit only rose $10k. New assets are not yet generating proportional returns.
+      </div>
+    </div>
+    <p class="box-note">&#128161; Rising profit on its own can be misleading. Always test rising profit against the asset base &mdash; if assets grew faster than profit, ROA falls and efficiency is dropping.</p>
+  </div>
+</div>
+
+<!-- Panel 5: Comparison - Eddie's vs Bernie's Electricals -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9876; ROA comparison &mdash; Eddie&apos;s vs Bernie&apos;s Electricals</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#3C3489;"><strong>Scenario:</strong> Two electrical contractors look very different in raw dollar terms &mdash; but the ratio tells a different story about which business is more efficient.</p>
+    <div style="overflow-x:auto;">
+      <table class="comp-tbl">
+        <thead><tr><th>Indicator</th><th>Eddie&apos;s Electricals</th><th>Bernie&apos;s Electricals</th></tr></thead>
+        <tbody>
+          <tr><td>Net profit</td><td class="winner">$135,000</td><td class="loser">$124,000</td></tr>
+          <tr><td>Average total assets</td><td>$750,000</td><td>$620,000</td></tr>
+          <tr><td><strong>Rate of return on assets</strong></td><td class="loser">18.0%</td><td class="winner">20.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px; margin: 14px 0 8px; color:#3C3489;"><strong>What this tells us:</strong></p>
+    <div style="background:#fff; border:1px solid #AFA9EC; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:12.5px; color:#3C3489; line-height:1.8;">
+        Eddie&apos;s makes more profit ($135k vs $124k) but also has more assets working.<br>
+        <strong>Bernie&apos;s squeezes 20c of profit from every $1 of assets</strong> vs Eddie&apos;s 18c &mdash; Bernie&apos;s is the more efficient operator.<br>
+        Bernie&apos;s could be more efficient because of leaner asset use, better pricing, or tighter cost control &mdash; the ratio flags WHERE to look, not WHY.
+      </div>
+    </div>
+    <p class="box-note">&#128161; A ratio doesn&apos;t explain itself &mdash; it tells you which business is more efficient, but the &quot;why&quot; needs investigation (asset utilisation, pricing, costs). Examiners reward answers that name the gap AND suggest possible reasons.</p>
+  </div>
+</div>
+
+<!-- Panel 6: Non-financial indicators -->
+<div class="box-wrap gray">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#129504; Non-financial indicators &mdash; what to look at beyond the numbers</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Category</th><th>Indicator</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Customer</strong></td><td>Customer satisfaction surveys, net promoter score, repeat customer %, online reviews</td><td>Future revenue depends on customers coming back &mdash; rising complaints predict falling sales.</td></tr>
+          <tr><td><strong>Customer</strong></td><td>Number of new customers, customer retention rate</td><td>Growth in a service business comes from acquiring AND retaining customers, not just billing more per visit.</td></tr>
+          <tr><td><strong>Employees</strong></td><td>Staff turnover, sick leave, training hours, engagement scores</td><td>High turnover signals poor culture and adds recruitment/training cost; high training hours often precede service-quality improvements.</td></tr>
+          <tr><td><strong>Operations</strong></td><td>Time taken to deliver service, error/rework rates, first-time-fix rate</td><td>Efficient delivery directly affects margin &mdash; reworking a job consumes labour twice without earning twice.</td></tr>
+          <tr><td><strong>Environmental / social</strong></td><td>Waste recycled, energy use per service, supplier ethics</td><td>Increasingly important to customers, suppliers and regulators; can also reduce costs (e.g. lower energy bills).</td></tr>
+          <tr><td><strong>Market position</strong></td><td>Market share, brand awareness, competitor pricing comparison</td><td>Helps the owner understand whether financial trends are due to internal performance or wider market shifts.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; A typical 4-mark exam question asks for two non-financial indicators &mdash; pick one customer-related AND one operations/employee-related to demonstrate breadth, and always explain WHY each matters for that specific business.</p>
+  </div>
+</div>
+
+<p class="section-label">&#128218; Key Terms by Section</p>
+
+<div id="list"></div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &middot; Neville Box 7th ed. &middot; Chapter 13</p>
+
+<script>
+var data = [
+  { cat: "13.1 Analysing &amp; Presenting an Income Statement", color: "gray", hot: false, items: [
+    { term: "Service business", def: "A business that earns revenue by providing a service rather than selling stock &mdash; no &quot;cost of goods sold&quot; line on the income statement.", eg: "Laura&apos;s Therapeutic Massage, JT&apos;s Car Repairs, Bendigo Tractor Repairs &mdash; each charges fees for labour and expertise, not for inventory." },
+    { term: "Income statement (service business)", def: "Lists sales (service) revenue at the top, deducts all expenses, and reports net profit &mdash; no gross profit step because there is no cost of goods sold.", eg: "Warrnambool Trailer Hire: Sales $125,000 less Trailer repairs $24,250, Wages $61,250 and Office expenses $12,000 = Net profit $27,500." },
+    { term: "Service revenue / fees", def: "The total amount the business earned from providing services during the period.", eg: "JT&apos;s Car Repairs combines cash sales ($138,000) and credit sales ($110,000) to give total revenue of $248,000 in 2028." },
+    { term: "Percentage breakdown of revenue", def: "Each line of the income statement expressed as a percentage of sales revenue &mdash; the basis for a pie chart.", eg: "Warrnambool wages of $61,250 &divide; sales $125,000 &times; 100 = 49% &mdash; nearly half of every sales dollar is consumed by wages." },
+    { term: "Pie chart of expenses", def: "A circular chart showing how each $1 of sales is split between profit and the various expense categories.", eg: "FX DJ Hire&apos;s sales-dollar pie shows slices for wages, rent, advertising, equipment repairs, and the net profit slice." },
+    { term: "Bar graph of expenses", def: "A graph comparing the dollar (or percentage) size of each expense category &mdash; quicker for spotting the biggest expense than reading the IS line-by-line.", eg: "Warrnambool&apos;s expense bar graph: tall wages bar ($61k), shorter trailer repairs bar ($24k), shortest office expenses bar ($12k)." },
+    { term: "Items not in the income statement", def: "Cash items, capital, drawings, loan principal, and balance-sheet items belong on other reports &mdash; they are NOT expenses or revenue.", eg: "From Dynamic Gym&apos;s journals: Capital $20,000, Loan $10,000, GST collected $9,540, Loan repayments $20,800, Drawings $35,000, GST paid $2,239, Laptop computer $2,600 &mdash; none belong on the income statement.", note: "A common exam question asks you to LIST items that are irrelevant to the IS. Capital, drawings, GST, loan amounts, asset purchases &mdash; all balance-sheet or cash-flow items, never IS." }
+  ]},
+  { cat: "13.2 Profitability Indicators", color: "amber", hot: true, items: [
+    { term: "Performance indicator", def: "A calculated number that summarises a feature of business performance &mdash; profitability, liquidity, or stability &mdash; in a way that can be compared across time or against benchmarks.", eg: "Net profit margin, ROI, ROA, working capital ratio, debt ratio.", note: "Indicators only have meaning in COMPARISON. A 22% NPM is good or bad depending on the industry average and the prior year." },
+    { term: "Net profit margin (NPM)", def: "Net profit as a percentage of sales revenue &mdash; cents of profit kept from every $1 of sales.", eg: "Warrnambool Trailer Hire: $27,500 &divide; $125,000 &times; 100 = 22%. Every $1 of sales delivers 22c of profit." },
+    { term: "Interpreting NPM", def: "Higher is better; compare to prior years and industry averages. A falling NPM means expenses are growing faster than revenue.", eg: "Laura&apos;s Massage: NPM 15% &rarr; 17.5% &rarr; 15% &mdash; the dip in 2028 suggests expenses grew while revenue stagnated, despite higher dollar profit." },
+    { term: "Return on owner&apos;s investment (ROI)", def: "Net profit as a percentage of average owner&apos;s capital &mdash; the % return the owner earned on the money tied up in the business.", eg: "Bendigo 2027: NP $110k, average capital $425k, ROI = 25.9%." },
+    { term: "Average capital", def: "(Opening capital + Closing capital) &divide; 2 &mdash; used in the ROI denominator because capital changes during the year via profit, drawings and contributions.", eg: "Bendigo 2027: ($400k + $450k) &divide; 2 = $425k.", note: "Using year-end capital alone instead of the average is a common student error &mdash; examiners explicitly look for the averaging step." },
+    { term: "Comparing ROI to a term deposit", def: "ROI should comfortably exceed the term deposit rate to justify the risk and effort of running a business.", eg: "If a term deposit pays 5% but the business&apos;s ROI is 8%, the extra 3% is the &quot;risk premium&quot; the owner is earning. If ROI falls below 5%, the owner is better off leaving the cash in the bank." },
+    { term: "Rate of return on assets (ROA)", def: "Net profit as a percentage of average total assets &mdash; how efficiently the business converts its asset base into profit.", eg: "Bernie&apos;s Electricals: $124k &divide; $620k &times; 100 = 20%." },
+    { term: "Average total assets", def: "(Opening total assets + Closing total assets) &divide; 2 &mdash; used in the ROA denominator.", eg: "Bendigo 2028: ($700k + $800k) &divide; 2 = $750k." },
+    { term: "ROI vs ROA &mdash; what each measures", def: "ROI measures return to the OWNER (capital); ROA measures return on ALL resources (capital + debt). The gap between them reflects the impact of borrowing.", eg: "A highly geared firm with low equity can show high ROI but only modest ROA &mdash; the leverage amplifies the owner&apos;s return.", note: "When ROI &gt; ROA, debt is working in the owner&apos;s favour (positive gearing). When ROI &lt; ROA, debt is dragging down owner returns." },
+    { term: "Industry average", def: "The average performance of similar businesses in the same industry &mdash; a key external benchmark for the indicators.", eg: "If the trailer-hire industry averages a 25% NPM and Warrnambool is at 22%, the business is below industry standard and should investigate why." },
+    { term: "Benchmark", def: "Any reference point a business uses to evaluate its results &mdash; prior year, budget, industry average, or competitor.", eg: "Carnegie Car Wash compares its 75% debt ratio against industry average (~50%) and its own prior years (45% &rarr; 67% &rarr; 75%) &mdash; both benchmarks suggest the gearing is becoming a concern." }
+  ]},
+  { cat: "13.3 Liquidity &amp; Stability", color: "blue", hot: true, items: [
+    { term: "Liquidity", def: "The ability of a business to meet its short-term obligations as they fall due &mdash; can it pay next month&apos;s bills?", eg: "Bree Semini at Superior Graphic Design has profit but worries about cash &mdash; profit and liquidity are different questions, and the CFS / WCR answer the cash one.", note: "A business can be highly profitable on paper but still go under if it can&apos;t pay current liabilities &mdash; cash is king." },
+    { term: "Working capital ratio (WCR)", def: "Current assets divided by current liabilities, expressed as X : 1. The textbook benchmark is 2 : 1 for comfortable liquidity.", eg: "Bill&apos;s Mowing: CA $24k &divide; CL $16k = 1.5 : 1." },
+    { term: "Reading the WCR", def: "Above 2 : 1 = comfortable; 1 : 1 to 2 : 1 = tight; below 1 : 1 = current liabilities exceed current assets, a serious liquidity warning.", eg: "Lucy&apos;s Lawn Services: CA $38k &divide; CL $29k = 1.31 : 1 &mdash; tighter than Bill&apos;s 1.5 : 1 even though Lucy holds more total current assets." },
+    { term: "Trends in liquidity", def: "Direction matters as much as the absolute number &mdash; a steadily falling WCR is a warning even if it is still above 1 : 1.", eg: "Jimmy Iles BBQ food truck WCR: 12k/6k = 2 : 1 (2025), 14k/8k = 1.75 : 1 (2026), 18k/11k = 1.64 : 1 (2027), 29k/15k = 1.93 : 1 (2028) &mdash; falling for three years then partial recovery.", note: "Always test BOTH the level and the trend &mdash; an answer that names only one will lose marks on a 3+ mark question." },
+    { term: "Financial stability", def: "The business&apos;s ability to meet ALL its debts in the long term &mdash; measured by the debt ratio.", eg: "A business with $330k of liabilities funded against $550k of assets has 60% of its asset base funded by debt." },
+    { term: "Debt ratio (DR)", def: "Total liabilities as a percentage of total assets &mdash; the proportion of the business&apos;s assets that have been financed by debt rather than the owner.", eg: "City Car Hire: $330k &divide; $550k &times; 100 = 60%." },
+    { term: "Reading the debt ratio", def: "Low (around 50% or below) = lower risk, but possibly under-leveraged. High (above ~65%) = higher financial risk, vulnerable in downturns, may struggle to borrow further.", eg: "Suburban Car Hire: $350k &divide; $800k = 43.75% &mdash; lower risk than City&apos;s 60%, with more capacity to take on further debt if needed." },
+    { term: "Trends in gearing", def: "A rising debt ratio over time signals growing reliance on debt &mdash; even if profits are stable, the business is becoming more financially fragile.", eg: "Carnegie Car Wash: 45% &rarr; 67% &rarr; 75% over three years &mdash; profit is steady but the business is now highly geared and vulnerable to rising interest rates." },
+    { term: "Advantage of higher debt", def: "Allows the business to acquire more assets and grow faster than the owner could fund alone; in profitable years, borrowed funds amplify the return on the owner&apos;s capital.", eg: "Carnegie could not have funded its expansion from owner contributions alone &mdash; without debt, growth would have stalled." },
+    { term: "Disadvantage of higher debt", def: "Interest payments are fixed regardless of trading conditions; high gearing magnifies losses in bad years and may make further borrowing impossible.", eg: "Carnegie at 75% debt ratio: a profit downturn could leave the business unable to meet interest commitments, and banks unlikely to approve additional finance." }
+  ]},
+  { cat: "13.4 Non-Financial Indicators", color: "teal", hot: false, items: [
+    { term: "Non-financial indicator", def: "A measure of business performance that is not expressed in dollars &mdash; customer satisfaction, staff turnover, service delivery time, environmental impact.", eg: "A restaurant tracking online review scores (1&ndash;5 stars), repeat customer %, average wait time, and food waste %.", note: "Exam favourite: &quot;Name TWO non-financial indicators and explain why each matters.&quot; Pick from different categories (one customer, one staff/ops) for breadth." },
+    { term: "Customer satisfaction", def: "How happy customers are with the service &mdash; measured via surveys, reviews, NPS, repeat-purchase rate.", eg: "Bree at Superior Graphic Design tracks design-revision counts and client survey ratings &mdash; rising rework signals declining satisfaction even when revenue is steady." },
+    { term: "Staff turnover &amp; engagement", def: "The rate at which employees leave the business, plus measures of how engaged remaining staff are.", eg: "A hairdressing salon losing three of its five stylists in a year (60% turnover) flags major problems even if revenue hasn&apos;t fallen yet." },
+    { term: "Service quality &amp; delivery time", def: "How fast and accurately the service is delivered &mdash; turnaround time, error/rework rates, first-time-fix rate.", eg: "JT&apos;s Car Repairs measures average time-to-fix per job &mdash; faster turnaround = more jobs per week = higher revenue from the same labour cost." },
+    { term: "Environmental and social", def: "Performance against environmental targets, supplier ethics, and community impact.", eg: "A cafe tracks coffee-cup recycling %, % of organic suppliers, and community donations &mdash; relevant to customer choice and increasingly to regulators.", note: "Environmental and social metrics matter to younger customers and corporate clients; ignoring them can quietly erode market position." },
+    { term: "Why use non-financial alongside financial", def: "Financial indicators look BACKWARD at last period&apos;s result; non-financial indicators often look FORWARD by exposing problems before they reach the IS.", eg: "Falling customer satisfaction this quarter usually shows up as falling sales 2&ndash;3 quarters later &mdash; spotting it early gives the owner time to act." },
+    { term: "Strengths, weaknesses and opportunities", def: "Non-financial indicators highlight where a business has competitive advantages, areas to improve, and untapped market opportunities.", eg: "A restaurant with a 4.8-star review average has a competitive strength to advertise; a 50% staff turnover is a weakness; a long waitlist is an opportunity to expand seating." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>

@@ -99,6 +99,12 @@
   .dates-list { display: none; margin: 0; padding: 0; list-style: none; }
   .dates-card.open .dates-list { display: block; }
 
+  /* Link-style card (e.g. Uni Open Days — opens in new tab, no expand) */
+  a.dates-card.link-card { display: block; text-decoration: none; color: inherit; }
+  a.dates-card.link-card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+  a.dates-card.link-card .dates-header { margin-bottom: 0; }
+  .link-chevron { font-size: 14px; color: #888; font-weight: 700; }
+
   .date-row { display: flex; align-items: center; gap: 12px; padding: 8px 4px;
               border-top: 1px solid #f0f0f0; }
   .date-row:first-child { border-top: none; }
@@ -127,7 +133,7 @@
   <p class="subtitle">Albert Park College – 2026</p>
 
   <!-- Important Dates -->
-  <div class="dates-card open" id="dates-card">
+  <div class="dates-card" id="dates-card">
     <div class="dates-header" id="dates-header">
       <div class="dates-header-left">
         <span class="dates-icon">📅</span>
@@ -138,6 +144,17 @@
     </div>
     <ul class="dates-list" id="dates-list"></ul>
   </div>
+
+  <!-- Uni Open Days 2026 (opens in a new tab) -->
+  <a class="dates-card link-card" href="/importantdates/uni_open_days_2026_bydate.html" target="_blank" rel="noopener">
+    <div class="dates-header">
+      <div class="dates-header-left">
+        <span class="dates-icon">🎓</span>
+        <span class="dates-title">Uni Open Days 2026</span>
+      </div>
+      <span class="dates-chevron link-chevron">↗</span>
+    </div>
+  </a>
 
   <div class="sections">
 

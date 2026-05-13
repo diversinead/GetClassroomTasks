@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 14 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;font-size:14px;line-height:1.6}
+h1{font-size:1.4em;font-weight:700;color:#3C3489;padding:16px 16px 4px}
+.subtitle{font-size:0.86em;color:#5F5E5A;padding:0 16px 14px}
+
+/* Tabs */
+.tab-bar{display:flex;border-bottom:2px solid #D3D1C7;background:#fff;padding:0 16px;gap:4px}
+.tab-btn{padding:10px 18px;border:none;background:none;font-family:inherit;font-size:0.9em;font-weight:600;color:#5F5E5A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:#3C3489;border-bottom-color:#3C3489}
+.tab-btn:hover:not(.active){color:#1a1a18;background:#F5F4F0}
+.tab-pane{display:none;padding:16px}
+.tab-pane.active{display:block}
+
+/* Score bar */
+.score-bar{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score-text{font-size:0.86em;color:#1a1a18}
+.score-text strong{color:#3C3489;font-size:1.1em}
+.progress-track{flex:1;min-width:100px;height:8px;background:#E5E3DC;border-radius:4px;overflow:hidden}
+.progress-bar{height:100%;background:#7F77DD;border-radius:4px;width:0%;transition:width .4s}
+.reset-btn{background:#fff;border:1px solid #D3D1C7;color:#1a1a18;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em}
+.reset-btn:hover{background:#F5F4F0}
+
+/* Question cards */
+.q-section-head{background:#3C3489;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 10px;font-size:0.88em;font-weight:700}
+.q-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:16px;margin-bottom:12px}
+.q-card.correct{border-color:#1D9E75;background:#F0FBF6}
+.q-card.wrong{border-color:#D85A30;background:#FDF3EF}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.q-num{font-size:0.79em;font-weight:700;color:#5F5E5A;text-transform:uppercase;letter-spacing:.3px}
+.q-hot{background:#E24B4A;color:#fff;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-marks{background:#EEEDFE;color:#3C3489;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-text{font-size:0.93em;font-weight:600;margin-bottom:12px;color:#1a1a18}
+
+/* MC options */
+.mc-options{display:flex;flex-direction:column;gap:7px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid #D3D1C7;border-radius:6px;cursor:pointer;font-size:0.86em;transition:background .15s}
+.mc-opt:hover{background:#F5F4F0}
+.mc-opt.selected-correct{background:#E1F5EE;border-color:#1D9E75;font-weight:600;color:#085041}
+.mc-opt.selected-wrong{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+.mc-opt.reveal-correct{background:#E1F5EE;border-color:#1D9E75}
+.mc-opt.disabled{cursor:default;pointer-events:none}
+.opt-letter{font-weight:700;color:#3C3489;min-width:16px;flex-shrink:0}
+
+/* Feedback */
+.q-feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:6px;font-size:0.82em;line-height:1.6}
+.q-feedback.show{display:block}
+.q-feedback.correct-fb{background:#E1F5EE;border-left:3px solid #1D9E75;color:#085041}
+.q-feedback.wrong-fb{background:#FAECE7;border-left:3px solid #D85A30;color:#4A1B0C}
+
+/* Exam practice tab */
+.eq-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.eq-head{background:#F5F4F0;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #D3D1C7}
+.eq-type{background:#3C3489;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-marks{background:#EEEDFE;color:#3C3489;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-hot{background:#E24B4A;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-stimulus{background:#EEEDFE;border-left:3px solid #3C3489;padding:10px 14px;margin:12px 14px 0;font-size:0.86em;border-radius:0 6px 6px 0;color:#1a1a18}
+.eq-q{padding:12px 14px 4px;font-weight:600;font-size:0.93em;color:#1a1a18}
+.eq-body{padding:10px 14px 14px}
+.eq-answer-area{width:100%;min-height:80px;border:1px solid #D3D1C7;border-radius:6px;padding:9px;font-family:inherit;font-size:0.86em;resize:vertical;background:#fff}
+.eq-reveal-btn{margin-top:9px;background:#fff;border:1px solid #3C3489;color:#3C3489;padding:7px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em;font-weight:600}
+.eq-reveal-btn:hover{background:#3C3489;color:#fff}
+.eq-model{display:none;margin-top:10px;border:1px solid #D3D1C7;border-radius:6px;overflow:hidden}
+.eq-model.open{display:block}
+.eq-model-head{background:#EEEDFE;padding:8px 12px;font-weight:700;color:#3C3489;font-size:0.86em}
+.eq-model-body{padding:10px 14px;font-size:0.86em;line-height:1.7;color:#1a1a18}
+.eq-model-body p{margin-bottom:6px}
+.eq-model-body p:last-child{margin-bottom:0}
+.mark-scheme{background:#FAEEDA;border-left:3px solid #BA7517;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#412402;font-style:italic}
+.examiner-tip{background:#EEEDFE;border-left:3px solid #7F77DD;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#26215C}
+
+.footer{text-align:center;font-size:0.79em;color:#888780;margin-top:28px;padding:12px 16px 24px;border-top:1px solid #D3D1C7}
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 14 Quiz</h1>
+<p class="subtitle">Internal control &middot; Multiple choice + exam practice &middot; Concept &amp; scenario focus</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('mc')">&#127919; Multiple Choice</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<!-- ===== MULTIPLE CHOICE TAB ===== -->
+<div id="tab-mc" class="tab-pane active">
+
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetMC()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#128737; What is Internal Control? (14.1)</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-meta"><span class="q-num">Q1</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Internal control is BEST described as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span>A government regulation small businesses must comply with</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span>A system of procedures within the business designed to protect assets, prevent fraud, and ensure accurate records</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span>The role of the external auditor</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span>A type of business insurance policy</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-meta"><span class="q-num">Q2</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The primary purposes of internal control are to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span>Reduce the tax payable by the business</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span>Protect business assets AND ensure accurate financial records</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span>Increase sales revenue</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span>Reduce staff numbers</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-meta"><span class="q-num">Q3</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A limitation of any internal control system is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span>It costs nothing to implement</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span>It eliminates the need for an income statement</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span>Collusion between staff, or the owner overriding procedures, can defeat even well-designed controls</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span>It improves the rate of return on assets</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-section-head">&#128181; Cash Controls (14.2)</div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-meta"><span class="q-num">Q4</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The internal control principle of &quot;separation of duties&quot; over cash means:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span>Cash should always be banked daily</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span>No single employee should handle a cash transaction from collection through to recording and banking</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span>Cash should always be stored in a safe</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span>Customers must not see the till being opened</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-meta"><span class="q-num">Q5</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Louder issues pre-numbered tickets at the entrance of his amusement park. The MAIN internal control benefit is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span>The tickets look more professional than wristbands</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span>The number of tickets used can be reconciled to cash banked &mdash; any gap signals tickets sold without cash, or rides given without tickets</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span>Tickets are cheaper than wristbands</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span>Customers prefer numbered tickets</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-meta"><span class="q-num">Q6</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">At the end of each shift, the till tape should be compared to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span>The total cash sales recorded in the books for the year</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span>The actual cash in the till drawer (less the opening float)</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span>Customer feedback received during the day</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span>The previous shift&apos;s till tape</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-meta"><span class="q-num">Q7</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Karen Withers&apos; staff borrow up to $20 from the till and leave IOU notes. The BIGGEST internal control problem with this practice is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span>The IOU notes look unprofessional</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span>The till reconciliation no longer works &mdash; cash plus unverified IOUs in the till create cover for unrecorded theft</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span>The IOU paper might fade or be misplaced</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span>It is illegal under Australian law for staff to borrow from a till</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-meta"><span class="q-num">Q8</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A bank reconciliation involves:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span>Counting cash in the till at the end of each shift</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span>Comparing the business&apos;s cash records to the bank statement and adjusting for timing differences such as deposits in transit and unpresented cheques</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span>Reviewing customer credit limits</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span>Auditing the staff payroll</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-section-head">&#128202; Inventory &amp; Asset Controls (14.3)</div>
+
+  <div class="q-card" id="mc9">
+    <div class="q-meta"><span class="q-num">Q9</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The PRIMARY purpose of a stocktake is to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc9','A')"><span class="opt-letter">A</span>Determine how much stock to order next week</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','B')"><span class="opt-letter">B</span>Compare physical inventory to records and identify discrepancies caused by theft, damage or recording errors</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','C')"><span class="opt-letter">C</span>Train new staff on product knowledge</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','D')"><span class="opt-letter">D</span>Calculate the cost of goods sold for the period</div>
+    </div>
+    <div class="q-feedback" id="fb-mc9"></div>
+  </div>
+
+  <div class="q-card" id="mc10">
+    <div class="q-meta"><span class="q-num">Q10</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Requiring a manager to authorise any refund over $100 is an example of:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc10','A')"><span class="opt-letter">A</span>Bank reconciliation</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','B')"><span class="opt-letter">B</span>Authorisation control &mdash; significant transactions are approved by someone above the person initiating them</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','C')"><span class="opt-letter">C</span>A stocktake procedure</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','D')"><span class="opt-letter">D</span>Separation of duties only</div>
+    </div>
+    <div class="q-feedback" id="fb-mc10"></div>
+  </div>
+
+  <div class="q-card" id="mc11">
+    <div class="q-meta"><span class="q-num">Q11</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Charlie Ross&apos;s market workers operate on a cash-only basis with no receipts issued and no cash register. The KEY internal control weakness this creates is:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc11','A')"><span class="opt-letter">A</span>Cash takes longer to count than card payments</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','B')"><span class="opt-letter">B</span>There is no documentation linking sales to cash received &mdash; workers can pocket cash from sold tomatoes without being detected</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','C')"><span class="opt-letter">C</span>Tomatoes were sometimes damaged in transit</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','D')"><span class="opt-letter">D</span>The market is open only on Saturdays</div>
+    </div>
+    <div class="q-feedback" id="fb-mc11"></div>
+  </div>
+
+  <div class="q-card" id="mc12">
+    <div class="q-meta"><span class="q-num">Q12</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">An asset register is a control over:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc12','A')"><span class="opt-letter">A</span>Cash inflows from customers</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','B')"><span class="opt-letter">B</span>Non-current assets &mdash; each asset is listed with serial numbers and locations so missing items are quickly noticed</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','C')"><span class="opt-letter">C</span>Accounts receivable balances</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','D')"><span class="opt-letter">D</span>The owner&apos;s drawings</div>
+    </div>
+    <div class="q-feedback" id="fb-mc12"></div>
+  </div>
+
+  <div class="q-section-head">&#9878; Ethics &amp; Privacy (14.4)</div>
+
+  <div class="q-card" id="mc13">
+    <div class="q-meta"><span class="q-num">Q13</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A supermarket owner installs visible security cameras at all entrances. This control is GENERALLY:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc13','A')"><span class="opt-letter">A</span>Acceptable &mdash; customers expect cameras in retail, and footage supports both deterrence and police reports</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','B')"><span class="opt-letter">B</span>Unacceptable &mdash; cameras violate customer privacy</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','C')"><span class="opt-letter">C</span>Acceptable only if hidden from view</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','D')"><span class="opt-letter">D</span>Unacceptable unless the local council approves first</div>
+    </div>
+    <div class="q-feedback" id="fb-mc13"></div>
+  </div>
+
+  <div class="q-card" id="mc14">
+    <div class="q-meta"><span class="q-num">Q14</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The supermarket plans to display photos of SUSPECTED (but not convicted) shoplifters at its entrance. This is BEST described as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc14','A')"><span class="opt-letter">A</span>An effective deterrent that all businesses should adopt</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','B')"><span class="opt-letter">B</span>Likely to breach privacy law, expose the business to defamation, and unfair to anyone misidentified &mdash; not an acceptable control</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','C')"><span class="opt-letter">C</span>Acceptable as long as the photos are blurred</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','D')"><span class="opt-letter">D</span>A standard practice across Australian retail</div>
+    </div>
+    <div class="q-feedback" id="fb-mc14"></div>
+  </div>
+
+  <div class="q-card" id="mc15">
+    <div class="q-meta"><span class="q-num">Q15</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Kamala&apos;s salon switches to contactless-only payments. The new system processes customer card data. The internal control obligation that comes with this is to:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc15','A')"><span class="opt-letter">A</span>Use the data for targeted marketing</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','B')"><span class="opt-letter">B</span>Protect customer payment data securely and not share or use it without consent</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','C')"><span class="opt-letter">C</span>Share the data with the local police for fraud prevention</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','D')"><span class="opt-letter">D</span>Publicly advertise the cashless policy</div>
+    </div>
+    <div class="q-feedback" id="fb-mc15"></div>
+  </div>
+
+</div>
+
+<!-- ===== EXAM PRACTICE TAB ===== -->
+<div id="tab-exam" class="tab-pane">
+
+  <div class="q-section-head">&#128203; Short Answer Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      Karen Withers is the owner of Stacks of Wax, a small business that sells candle products and oil burners. She has three casual employees working in the shop. Withers likes to have good working relationships with her staff. She even lets them borrow up to $20 from the till to pay for lunch or takeaway coffees, if they leave an IOU note in the cash register.
+    </div>
+    <div class="eq-q">State and explain TWO reasons why Withers should NOT be allowing her staff to complete their own IOUs and then take cash from the cash register. (4 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Reason 1 &mdash; The till reconciliation fails (2 marks):</strong> At the end of the shift, the cash drawer plus any IOUs should equal the till tape sales total plus the float. But IOUs are self-written and unverified &mdash; a staff member can write an IOU, take the cash, then quietly destroy the note. A genuine theft is now indistinguishable from an unpaid IOU. The reconciliation control no longer detects loss.</p>
+          <p><strong>Reason 2 &mdash; No audit trail for repayment (2 marks):</strong> If an IOU is repaid the cash reappears and the note is torn up &mdash; leaving no record of either the loan or the repayment. If it&apos;s NOT repaid, the loss is simply hidden by ignoring the unpaid IOU. Either way, the business cannot track who owes what, and small losses can accumulate without detection.</p>
+          <p style="font-size:0.88em;color:#5F5E5A;">(Other acceptable reasons: it normalises taking cash from the till for personal use; it sets a precedent that staff may abuse; it makes it hard to distinguish loans from theft if questioned by an auditor or owner.)</p>
+          <div class="mark-scheme">&#9888; Just stating the reason without explanation caps at 1 mark each (so 2/4 max). The question is &quot;state AND explain&quot; &mdash; both halves are required for full marks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      Charlie Ross is a tomato grower from Yarrawonga. He sells through six workers at several local markets. To keep things simple, his workers operate on a cash-only basis with no receipts issued and no cash register at the market sites. Last summer, the workers returned 20 kg of tomatoes &mdash; well under what was sent. Ross is concerned about the gap between tomatoes sent to market and cash takings.
+    </div>
+    <div class="eq-q">
+      a. Identify TWO internal control problems with the way Ross runs the market operation. (2 marks)<br>
+      b. Suggest TWO specific procedures Ross should introduce. (2 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Problems (2 marks):</strong></p>
+          <p>&bull; <strong>No documentation linking cash to sales</strong> &mdash; without receipts, there is no record of what was sold for what price. A worker can sell tomatoes and keep the cash without any trace (1 mark).</p>
+          <p>&bull; <strong>No stocktake reconciliation</strong> &mdash; with no count at start of day or end, the business cannot tell whether the 20 kg difference is from theft, damage, or unsold returned tomatoes. Losses can accumulate before they are detected (1 mark).</p>
+          <p><strong>(b) Procedures (2 marks):</strong></p>
+          <p>&bull; <strong>Issue pre-numbered receipts</strong> for every sale &mdash; receipts torn from a numbered book provide a sales total that can be reconciled to cash banked. Missing numbers signal cash taken without sale (1 mark).</p>
+          <p>&bull; <strong>Stocktake at start and end of each market day</strong> &mdash; count tomatoes out, count tomatoes returned, compare to receipts. Discrepancies investigated immediately (1 mark).</p>
+          <p style="font-size:0.88em;color:#5F5E5A;">(Other acceptable procedures: provide a cash register at each market site; rotate which worker bags the cash; have two workers count and sign off takings; require receipts to be matched against banked cash by Ross himself.)</p>
+          <div class="examiner-tip">&#128161; Tie each procedure to the specific problem it solves. A procedure named in isolation (&quot;use a stocktake&quot;) scores worse than one that references the gap it closes (&quot;use a stocktake at start AND end of market day to identify whether the 20 kg shortfall is theft or unsold stock&quot;).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">
+      Kamala Khan runs a hair salon with four hairdressers. She has decided to stop accepting cash entirely &mdash; from now on, all customers must use contactless card payment.
+    </div>
+    <div class="eq-q">Discuss ONE advantage and ONE disadvantage of moving to a contactless-only system from an internal control perspective. (3 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Advantage (1.5 marks):</strong> The most significant internal control risks &mdash; staff pocketing cash, miscounted floats, IOUs from the till, robbery on the way to the bank &mdash; all disappear because no cash physically changes hands. Every transaction is automatically captured by the POS system, giving Kamala a complete audit trail without daily reconciliation effort.</p>
+          <p><strong>Disadvantage (1.5 marks):</strong> The salon now depends entirely on the card terminal and internet connection. If either fails the business cannot transact &mdash; whereas a cash backup would keep trading. Some customers (older clients, customers without cards) may also be lost. New control risks emerge around card data security and the potential for chargebacks.</p>
+          <div class="mark-scheme">&#9888; A common error is to give an advantage but no disadvantage (or vice versa). The question asks for both &mdash; missing one halves the marks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-section-head">&#128218; Extended Response Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">8 marks</span></div>
+    <div class="eq-stimulus">
+      Nick Louder owns the Happy Valley Amusement Park, which operates six different rides at $6 per ride. One employee looks after each ride. Customers pay the cash to the ride attendant when they first get on, which eliminates the cost of tickets. Louder wants to know how much each ride earns. He has instructed the ride attendants to count the cash received at the end of the day, write the total in an exercise book in the office, and then put the money in the top drawer of his desk. Louder is satisfied with this system because it has helped him identify and replace the least popular rides.
+    </div>
+    <div class="eq-q">
+      a. List FOUR internal control problems with the way Louder is running his business. (4 marks)<br>
+      b. Write a step-by-step plan for how Louder should operate the cash side of his business, from selling tickets through to banking the money. (4 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Problems (4 marks &mdash; 1 each):</strong></p>
+          <p>&bull; <strong>No pre-numbered tickets</strong> &mdash; there is no way to verify how many rides each attendant actually gave compared to how much cash was taken. An attendant can give a free ride to a friend, or pocket cash without any independent record.</p>
+          <p>&bull; <strong>No separation of duties</strong> &mdash; each ride attendant collects cash, counts cash, and records cash. A single employee handles end-to-end, which is the textbook failure mode for cash internal control.</p>
+          <p>&bull; <strong>Self-reported takings in an exercise book</strong> &mdash; the attendants control the only record of revenue. They can under-report cash and pocket the difference and Louder has nothing to cross-check against.</p>
+          <p>&bull; <strong>Cash held overnight in an unsecured desk drawer</strong> &mdash; no safe, no daily banking, no insurance protection. A burglary, fire, or after-hours theft destroys the day&apos;s takings with no recovery.</p>
+          <p><strong>(b) Step-by-step plan (4 marks):</strong></p>
+          <p>&bull; <strong>Step 1 (1 mark):</strong> Set up a central ticket booth at the park entrance, staffed by a different employee from the ride attendants. Customers buy pre-numbered tickets at the booth, not from the attendant.</p>
+          <p>&bull; <strong>Step 2 (1 mark):</strong> Customers surrender tickets to ride attendants who do not handle cash. Attendants drop torn tickets into a locked box at the ride.</p>
+          <p>&bull; <strong>Step 3 (1 mark):</strong> At end of day, a supervisor reconciles tickets sold (booth records) against tickets torn (locked box) against cash collected. Discrepancies investigated immediately.</p>
+          <p>&bull; <strong>Step 4 (1 mark):</strong> Two staff members count and sign off the day&apos;s takings; cash is banked using a night safe (or at the bank next morning) &mdash; never left in an office desk overnight.</p>
+          <div class="examiner-tip">&#128161; The cleanest extended-response answers here name the internal control pillar invoked (separation of duties, documentation, physical security, reconciliation) AND apply it to the specific business context. Examiners reward this structure consistently.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-stimulus">
+      The owner of a local supermarket has noticed that there have been several customers attempting to shoplift from the store recently. He is now considering installing multiple security cameras. If he detects shoplifters on the footage, he plans to print images of the thieves and display them at the entrance of the shop as a &quot;wall of shame&quot;.
+    </div>
+    <div class="eq-q">
+      a. Are security cameras an acceptable form of internal control in a retail setting? Explain your answer. (3 marks)<br>
+      b. A friend of the owner has stated that the &quot;wall of shame&quot; is a breach of privacy and unethical. Do you agree? Discuss. (3 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Security cameras &mdash; acceptable? (3 marks):</strong></p>
+          <p>&bull; Yes, security cameras are an acceptable internal control in a retail setting (1 mark).</p>
+          <p>&bull; They deter theft (visible cameras discourage shoplifting before it happens) and provide independent evidence if an incident occurs &mdash; supporting police reports and insurance claims (1 mark).</p>
+          <p>&bull; This is acceptable provided customers are clearly informed of the recording via signage at entry, footage is stored securely, and access is restricted to legitimate purposes. Hidden cameras in private areas (e.g. changing rooms) would NOT be acceptable (1 mark).</p>
+          <p><strong>(b) Wall of shame &mdash; agree with the friend? (3 marks):</strong></p>
+          <p>&bull; Yes, the friend is correct &mdash; displaying photos of suspected shoplifters publicly is both unethical and likely unlawful (1 mark).</p>
+          <p>&bull; Suspected shoplifters have NOT been convicted in court. Publicly displaying their image breaches privacy norms, exposes the business to defamation if anyone is misidentified, and amounts to extra-judicial punishment by the owner (1 mark).</p>
+          <p>&bull; The legitimate alternative is to file a police report with the CCTV footage as evidence &mdash; the justice system, not the supermarket, is the right body to determine guilt and impose consequences. The owner has every right to use cameras and call police; he has no right to publicly shame an unconvicted person (1 mark).</p>
+          <div class="mark-scheme">&#9888; The strongest answers identify the TENSION: the owner has a legitimate interest in preventing theft, BUT customers retain privacy rights and the right to be presumed innocent. Acceptable controls protect assets WITHOUT publicly punishing the unconvicted &mdash; that distinction earns top marks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-marks">4 marks</span></div>
+    <div class="eq-stimulus">
+      The owner of a small suburban bakery wants to put internal control procedures in place for the first time.
+    </div>
+    <div class="eq-q">
+      a. Explain what is meant by the term &quot;internal control&quot;. (1 mark)<br>
+      b. Describe TWO specific internal control procedures the bakery owner should implement over CASH, and explain what each procedure protects against. (3 marks)
+    </div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Definition (1 mark):</strong> Internal control is a system of procedures put in place within the structure of a business to protect its assets, prevent fraud and error, and ensure that financial records accurately capture what has happened.</p>
+          <p><strong>(b) Two cash procedures (3 marks):</strong></p>
+          <p>&bull; <strong>Separation of duties</strong> (1.5 marks) &mdash; the person operating the till during the day should not also be the person who counts end-of-day takings and banks the cash. This means no single employee can both steal cash AND cover it up in the records. At the bakery, the morning staff handle the till; the owner counts and banks at end of day.</p>
+          <p>&bull; <strong>Daily till reconciliation</strong> (1.5 marks) &mdash; the cash in the till at end of each shift must equal the till tape total plus the opening float. Any discrepancy is investigated immediately. This catches small thefts before they accumulate, and surfaces honest errors quickly so they can be corrected.</p>
+          <p style="font-size:0.88em;color:#5F5E5A;">(Other acceptable procedures: pre-numbered receipts; daily banking; banning IOUs from the till; monthly bank reconciliations; locked cash drawer between transactions.)</p>
+          <div class="examiner-tip">&#128161; For full marks, every procedure named must be linked to the risk it controls. &quot;Separation of duties&quot; alone is worth 0.5 marks; &quot;separation of duties so no single employee can steal AND hide it&quot; is worth 1.5.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &middot; Neville Box 7th ed. &middot; Chapter 14 Quiz</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'mc' ? 0 : 1].className = 'tab-btn active';
+}
+
+var totalMC = 15;
+var mcAnswered = 0;
+var mcCorrect = 0;
+var mcAnswers = {};
+
+function updateScore(gotIt) {
+  mcAnswered++;
+  if (gotIt) mcCorrect++;
+  document.getElementById('score-correct').textContent = mcCorrect;
+  document.getElementById('score-total').textContent = mcAnswered;
+  document.getElementById('progress-bar').style.width = Math.round((mcAnswered / totalMC) * 100) + '%';
+}
+
+var mcData = {
+  mc1: { correct: 'B', fb: 'Correct: B &mdash; internal control is a SYSTEM of procedures inside the business. Option A confuses it with external regulation; C with the external auditor&apos;s role; D with insurance, which transfers risk rather than controlling it.' },
+  mc2: { correct: 'B', fb: 'Correct: B &mdash; internal control has two equally important aims: protecting assets AND ensuring accurate records. Answers that mention only fraud prevention typically lose half marks on full-mark exam questions.' },
+  mc3: { correct: 'C', fb: 'Correct: C &mdash; no system is foolproof. Collusion between staff defeats separation of duties; owner override defeats authorisation. Internal control reduces risk but cannot eliminate it.' },
+  mc4: { correct: 'B', fb: 'Correct: B &mdash; separation of duties means no single employee handles a transaction end-to-end. The aim is that any theft would require two staff members to collude, making it dramatically less likely.' },
+  mc5: { correct: 'B', fb: 'Correct: B &mdash; pre-numbered tickets are an audit trail. Every number must be accounted for &mdash; sold, voided, or unused &mdash; so missing numbers signal cash taken without sale. Without numbering, there is no way to detect either skimming or free rides.' },
+  mc6: { correct: 'B', fb: 'Correct: B &mdash; daily till reconciliation compares actual cash in the drawer (less float) against the till tape total of sales. If they don&apos;t match, investigate immediately &mdash; the longer a discrepancy is left, the harder it is to trace.' },
+  mc7: { correct: 'B', fb: 'Correct: B &mdash; the till reconciliation breaks down. Cash plus unverified IOUs creates cover for theft: a staff member can write an IOU, take cash, and destroy the note later. Genuine theft is now indistinguishable from an unpaid IOU.' },
+  mc8: { correct: 'B', fb: 'Correct: B &mdash; bank reconciliation compares the business&apos;s cash records to the bank statement, adjusting for legitimate timing differences (deposits in transit, unpresented cheques). It provides INDEPENDENT external evidence that the books match reality &mdash; the single most important monthly control over cash.' },
+  mc9: { correct: 'B', fb: 'Correct: B &mdash; a stocktake reconciles physical stock to records, surfacing discrepancies caused by theft, damage or error. It is a detective control &mdash; identifying loss that has already occurred so the cause can be addressed.' },
+  mc10: { correct: 'B', fb: 'Correct: B &mdash; authorisation requires that significant transactions are approved by someone above the person initiating them. This prevents a junior employee from approving (e.g.) a fraudulent refund to a friend, because someone else has to sign it off.' },
+  mc11: { correct: 'B', fb: 'Correct: B &mdash; without receipts, there is no audit trail linking sales to cash. The worker can sell tomatoes and pocket the cash with no evidence of either the sale or the missing money. This is the textbook example of why every sale needs documentation.' },
+  mc12: { correct: 'B', fb: 'Correct: B &mdash; an asset register lists each non-current asset with serial numbers and locations. A physical audit against the register surfaces missing items quickly. Common targets for theft: laptops, tools, POS terminals.' },
+  mc13: { correct: 'A', fb: 'Correct: A &mdash; visible cameras are widely accepted in retail. Customers expect them; signage at entry serves as notice; footage supports police and insurance reports. Hidden cameras in private areas (changing rooms, toilets) would NOT be acceptable but the question is about visible entrance cameras.' },
+  mc14: { correct: 'B', fb: 'Correct: B &mdash; SUSPECTED is the key word. The suspects have not been convicted; publicly displaying their image breaches privacy, risks defamation, and amounts to extra-judicial punishment. The legitimate channel is to file a police report and let the legal system handle prosecution.' },
+  mc15: { correct: 'B', fb: 'Correct: B &mdash; processing customer card data carries a duty of care. The salon must store it securely and not use or share it without consent. Privacy obligations sit ON TOP of internal control &mdash; protecting business assets cannot come at the cost of breaching customer trust.' }
+};
+
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = mcData[qid];
+  var correct = (chosen === ans.correct);
+  var opts = card.querySelectorAll('.mc-opt');
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.innerHTML = ans.fb;
+  fb.className = 'q-feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+  updateScore(correct);
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetMC() {
+  mcAnswered = 0; mcCorrect = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>

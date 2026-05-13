@@ -521,6 +521,20 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path == '/api/importantdates/data':
             data = read_json(IMPORTANT_DATES_FILE)
             self.send_json(json.dumps(data, ensure_ascii=False))
+        elif self.path.startswith('/importantdates/'):
+            rel = self.path[len('/importantdates/'):]
+            if '..' in rel or rel.startswith('/'):
+                self.send_response(403)
+                self.end_headers()
+                return
+            ext = os.path.splitext(rel)[1].lower()
+            ct = {
+                '.html': 'text/html',
+                '.css': 'text/css',
+                '.js': 'application/javascript',
+                '.json': 'application/json',
+            }.get(ext, 'application/octet-stream')
+            self.serve_file(os.path.join('ImportantDates', rel), ct)
         elif self.path == '/api/todos/data':
             data = read_json(TODOS_FILE)
             if data.get('last_reset') != date.today().isoformat():

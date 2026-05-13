@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 14: Internal control</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F7F5EF; color: #2C2C2A; line-height: 1.5; padding: 16px 0 40px; }
+h1 { font-size: 22px; font-weight: 800; color: #2C2C2A; padding: 0 14px; letter-spacing: -0.3px; }
+.subtitle { font-size: 13px; color: #6E6D67; padding: 2px 14px 14px; }
+#search { display: block; width: calc(100% - 28px); margin: 0 14px 14px; padding: 10px 14px; border: 1.5px solid #D8D5CA; border-radius: 10px; font-size: 14px; background: #fff; outline: none; }
+#search:focus { border-color: #3C3489; }
+.section-label { margin: 16px 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #888; }
+.footer { font-size: 11px; color: #888; text-align: center; padding: 24px 14px 0; }
+
+/* Category accordion */
+.cat { margin: 10px 10px; border-radius: 12px; overflow: hidden; border: 1.5px solid #ccc; background: #fff; }
+.cat.purple { border-color: #AFA9EC; }
+.cat.teal { border-color: #5DCAA5; }
+.cat.coral { border-color: #D85A30; }
+.cat.amber { border-color: #BA7517; }
+.cat.blue { border-color: #378ADD; }
+.cat.pink { border-color: #D4537E; }
+.cat.gray { border-color: #888780; }
+
+.cat-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; cursor: pointer; font-weight: 700; font-size: 14px; gap: 10px; }
+.cat.purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
+.cat.teal .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
+.cat.coral .cat-head { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.cat.amber .cat-head { background: rgba(239,159,39,0.18); color: #412402; }
+.cat.blue .cat-head { background: rgba(133,183,235,0.22); color: #042C53; }
+.cat.pink .cat-head { background: rgba(237,147,177,0.2); color: #4B1528; }
+.cat.gray .cat-head { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+.cat-head-text { flex: 1; min-width: 0; }
+.cat-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.cat-head small { font-size: 11px; font-weight: 600; opacity: 0.7; }
+.cat-arrow { font-size: 11px; }
+
+.cat-body { max-height: 4000px; transition: max-height 0.3s ease; overflow: hidden; }
+.cat-body.collapsed { max-height: 0; }
+
+/* Hot badge */
+.hot-badge { position: relative; display: inline-flex; align-items: center; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 700; border-radius: 5px; padding: 2px 7px; cursor: help; white-space: nowrap; }
+.hot-badge .tip { display: none; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #501313; color: #fff; font-size: 11px; border-radius: 6px; padding: 5px 9px; width: 190px; text-align: center; line-height: 1.4; z-index: 50; pointer-events: none; font-weight: 500; }
+.hot-badge .tip::after { content: ""; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-bottom-color: #501313; }
+.hot-badge:hover .tip { display: block; }
+
+/* Term */
+.term { border-top: 1px solid #EEEAE0; }
+.term:first-child { border-top: none; }
+.term-title { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: #2C2C2A; gap: 10px; }
+.term-title span:first-child { flex: 1; }
+.arrow { font-size: 10px; color: #888; }
+.term-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 14px; }
+.term-body.open { max-height: 800px; padding: 0 14px 12px; }
+.term-def { font-size: 13px; color: #3D3D3A; margin-bottom: 8px; }
+.term-eg { display: block; font-size: 12px; color: #555; font-style: italic; padding: 7px 10px; border-left: 3px solid #D8D5CA; background: #F7F5EF; border-radius: 0 6px 6px 0; }
+.term-note { display: block; font-size: 12px; font-style: italic; padding: 7px 10px; margin-top: 7px; background: #FFF4E3; border-left: 3px solid #BA7517; color: #412402; border-radius: 0 6px 6px 0; }
+
+.cat.purple .term-eg { background: #EEEDFE; border-left-color: #AFA9EC; color: #3C3489; }
+.cat.teal .term-eg { background: #E1F5EE; border-left-color: #5DCAA5; color: #085041; }
+.cat.coral .term-eg { background: #FAECE7; border-left-color: #D85A30; color: #4A1B0C; }
+.cat.amber .term-eg { background: #FAEEDA; border-left-color: #BA7517; color: #412402; }
+.cat.blue .term-eg { background: #E6F1FB; border-left-color: #378ADD; color: #042C53; }
+.cat.pink .term-eg { background: #FBEAF0; border-left-color: #D4537E; color: #4B1528; }
+.cat.gray .term-eg { background: #F1EFE8; border-left-color: #888780; color: #2C2C2A; }
+
+/* Collapsible panels */
+.box-wrap { margin: 10px; border-radius: 12px; border: 1.5px solid #ccc; background: #fff; overflow: hidden; }
+.box-wrap.green { border-color: #5DCAA5; }
+.box-wrap.red { border-color: #D85A30; }
+.box-wrap.purple { border-color: #AFA9EC; }
+.box-wrap.amber { border-color: #BA7517; }
+.box-wrap.teal { border-color: #5DCAA5; }
+.box-wrap.blue { border-color: #378ADD; }
+.box-wrap.pink { border-color: #D4537E; }
+.box-wrap.gray { border-color: #888780; }
+
+.box-toggle { display: flex; justify-content: space-between; align-items: center; padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 13.5px; }
+.box-wrap.green .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.red .box-toggle { background: rgba(240,153,123,0.22); color: #4A1B0C; }
+.box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); color: #3C3489; }
+.box-wrap.amber .box-toggle { background: rgba(239,159,39,0.18); color: #412402; }
+.box-wrap.teal .box-toggle { background: rgba(159,225,203,0.25); color: #085041; }
+.box-wrap.blue .box-toggle { background: rgba(133,183,235,0.22); color: #042C53; }
+.box-wrap.pink .box-toggle { background: rgba(237,147,177,0.2); color: #4B1528; }
+.box-wrap.gray .box-toggle { background: rgba(180,178,169,0.18); color: #2C2C2A; }
+
+.box-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 14px; }
+.box-body.open { max-height: 4500px; padding: 12px 14px 14px; }
+.box-note { margin-top: 10px; font-size: 12px; font-style: italic; padding: 8px 10px; background: #FFF8E3; border-left: 3px solid #BA7517; border-radius: 0 6px 6px 0; color: #412402; }
+
+/* Comparison table */
+.ct { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ct th, .ct td { padding: 8px 9px; text-align: left; border-bottom: 1px solid #EEEAE0; vertical-align: top; }
+.ct th { background: #F1EFE8; font-weight: 700; color: #2C2C2A; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+.ct td strong { color: #3C3489; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 1.5px 6px; border-radius: 4px; margin-right: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+.tag-r { background: #FAECE7; color: #4A1B0C; }
+.tag-g { background: #E1F5EE; color: #085041; }
+.tag-y { background: #FAEEDA; color: #412402; }
+.tag-b { background: #E6F1FB; color: #042C53; }
+.tag-p { background: #EEEDFE; color: #3C3489; }
+.tag-pink { background: #FBEAF0; color: #4B1528; }
+
+/* Bank rec table */
+.brec { width: 100%; border-collapse: collapse; font-size: 12px; font-family: "SF Mono", Consolas, monospace; }
+.brec td { padding: 5px 8px; vertical-align: top; }
+.brec td.num { text-align: right; white-space: nowrap; font-weight: 600; }
+.brec tr.brec-head td { background: #E1F5EE; color: #085041; font-weight: 700; padding: 7px 8px; border-top: 1px solid #5DCAA5; border-bottom: 1px solid #5DCAA5; text-transform: uppercase; font-size: 11px; letter-spacing: 0.4px; }
+.brec tr.brec-add td { background: rgba(159,225,203,0.18); color: #085041; }
+.brec tr.brec-sub td { background: rgba(240,153,123,0.16); color: #4A1B0C; }
+.brec tr.brec-total td { border-top: 2px solid #BA7517; border-bottom: 2px solid #BA7517; background: #FFF4E3; font-weight: 700; padding: 8px; color: #412402; }
+
+/* Risk/control table */
+.rctbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.rctbl th, .rctbl td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #EEEAE0; vertical-align: top; }
+.rctbl th { background: #FAEEDA; color: #412402; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+.rctbl td.risk { color: #4A1B0C; }
+.rctbl td.ctrl { color: #085041; }
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 14</h1>
+<p class="subtitle">Internal control &middot; tap any term to expand</p>
+<input id="search" placeholder="Search terms or definitions..." oninput="filterTerms(this.value)">
+
+<p class="section-label">&#128202; Visual Reference Panels</p>
+
+<!-- Panel 1: The five pillars of internal control -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128737; The Five Pillars of Internal Control</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Pillar</th><th>What it means</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Separation of duties</strong></td>
+            <td>No single person should handle a transaction from start to finish &mdash; the staff who handle cash should not also do the books.</td>
+            <td>One employee operates the till; a different employee counts cash takings; a third employee banks them.</td>
+          </tr>
+          <tr>
+            <td><strong>Authorisation</strong></td>
+            <td>Significant transactions need approval from someone above the person initiating them.</td>
+            <td>Refunds over $100 require the manager&apos;s signature; staff cannot self-approve them.</td>
+          </tr>
+          <tr>
+            <td><strong>Physical security</strong></td>
+            <td>Restrict access to cash, stock and records using locks, safes, alarms, CCTV and secure storage.</td>
+            <td>Locked till keys, end-of-day cash secured in a safe, security tags on high-value stock, CCTV at entrances.</td>
+          </tr>
+          <tr>
+            <td><strong>Documentation &amp; records</strong></td>
+            <td>Every transaction generates a receipt or invoice; records are kept securely and reviewed regularly.</td>
+            <td>Numbered receipt books; matching cash takings to till tape totals; backing up accounting software nightly.</td>
+          </tr>
+          <tr>
+            <td><strong>Reconciliation &amp; review</strong></td>
+            <td>Cross-check business records against external evidence regularly &mdash; discrepancies show up early.</td>
+            <td>Monthly bank reconciliations, stocktakes against inventory records, daily till reconciliation against till tape.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; A well-written internal control answer names at least 2&ndash;3 pillars and ties each to the specific business in the question. &quot;Separate the till staff from the bookkeeping staff&quot; scores better than just &quot;separation of duties&quot;.</p>
+  </div>
+</div>
+
+<!-- Panel 2: Common cash risks and controls -->
+<div class="box-wrap amber">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128181; Cash &mdash; common risks and matching controls</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#412402;"><strong>Scenario context:</strong> Happy Valley Amusement Park &mdash; Louder runs ride attendants who collect cash from customers. Owner can&apos;t see every transaction.</p>
+    <div style="overflow-x:auto;">
+      <table class="rctbl">
+        <thead><tr><th>Risk</th><th>Control procedure</th></tr></thead>
+        <tbody>
+          <tr><td class="risk">Staff pocket cash without ringing up the sale</td><td class="ctrl">Pre-numbered tickets issued from a roll &mdash; reconcile ticket numbers used to cash banked each day.</td></tr>
+          <tr><td class="risk">Staff give friends free rides</td><td class="ctrl">Every customer must surrender a ticket before riding; ride attendant cannot enter without one.</td></tr>
+          <tr><td class="risk">Cash skimmed from the till between sales</td><td class="ctrl">Till tape captures every transaction; reconcile cash drawer to till tape totals at end of each shift.</td></tr>
+          <tr><td class="risk">Staff borrow from the till and replace later (or don&apos;t)</td><td class="ctrl">No cash withdrawals from the till permitted &mdash; IOU notes banned; written advance procedure required instead.</td></tr>
+          <tr><td class="risk">Cash held overnight on premises</td><td class="ctrl">Bank takings daily; use night safe drops for late closes; never leave cash on site overnight.</td></tr>
+          <tr><td class="risk">Single staff member handles takings end-to-end</td><td class="ctrl">Separation of duties &mdash; one person collects, a second counts, a third banks. No employee touches all three steps.</td></tr>
+          <tr><td class="risk">Owner has no visibility of daily takings</td><td class="ctrl">Owner reviews till reconciliation reports daily; bank reconciliation prepared monthly to cross-check the books to the bank statement.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; The textbook&apos;s Stacks of Wax exam-style question (staff borrowing $20 from the till and leaving IOUs) is testing this exact category &mdash; the answer must explain why IOU practice undermines the till reconciliation and creates opportunity for unrecorded losses.</p>
+  </div>
+</div>
+
+<!-- Panel 3: Bank reconciliation process -->
+<div class="box-wrap teal">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#128203; Bank Reconciliation &mdash; the 3-step check</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#085041;"><strong>Scenario:</strong> A small business&apos;s books show a Bank balance of $6,280. The bank statement at the same date shows $5,950. Why the gap, and is the difference legitimate?</p>
+    <div style="overflow-x:auto;">
+      <table class="brec">
+        <tr class="brec-head"><td colspan="2">Bank Reconciliation as at 30 June 2028</td></tr>
+        <tr><td>Bank balance per bank statement</td><td class="num">$5,950</td></tr>
+        <tr class="brec-add"><td>Add: Deposits in transit (banked after cutoff)</td><td class="num">$1,200</td></tr>
+        <tr class="brec-sub"><td>Less: Unpresented cheques (issued but not yet cashed)</td><td class="num">($870)</td></tr>
+        <tr class="brec-total"><td>Adjusted bank balance</td><td class="num">$6,280</td></tr>
+        <tr><td colspan="2" style="padding-top:10px;">&mdash; matches the books&apos; closing Bank balance &mdash; reconciled.</td></tr>
+      </table>
+    </div>
+    <p style="font-size:12.5px; margin: 14px 0 8px; color:#085041;"><strong>The 3 steps:</strong></p>
+    <div style="background:#fff; border:1px solid #5DCAA5; border-radius:6px; padding:10px 12px;">
+      <div style="font-size:12.5px; color:#085041; line-height:1.8;">
+        <strong>1. Start with the bank statement balance</strong> (the bank&apos;s independent record).<br>
+        <strong>2. Add deposits in transit</strong> (cash banked but not yet cleared) and <strong>subtract unpresented cheques</strong> (issued but not yet cashed).<br>
+        <strong>3. Compare to your books</strong> &mdash; the adjusted bank balance must equal your closing Bank balance. If it doesn&apos;t, investigate: error, missed transaction, or possible fraud.
+      </div>
+    </div>
+    <p class="box-note">&#128161; Bank reconciliation is the single most important monthly control over cash &mdash; it provides INDEPENDENT external evidence that your records match reality. A business that does not reconcile is essentially trusting its own bookkeeping with no cross-check.</p>
+  </div>
+</div>
+
+<!-- Panel 4: Ethics, privacy & surveillance -->
+<div class="box-wrap pink">
+  <div class="box-toggle" onclick="toggleB(this)">
+    <span>&#9878; Ethics &amp; privacy in internal control &mdash; how far is too far?</span>
+    <span class="cat-arrow">&#9660;</span>
+  </div>
+  <div class="box-body">
+    <p style="font-size:12.5px; margin-bottom:10px; color:#4B1528;"><strong>Scenario:</strong> A local supermarket plans to install multiple cameras AND post photos of suspected shoplifters at the entrance as a deterrent &mdash; a &quot;wall of shame&quot;.</p>
+    <div style="overflow-x:auto;">
+      <table class="ct">
+        <thead><tr><th>Measure</th><th>Generally acceptable?</th><th>Why / concerns</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Security cameras</strong></td>
+            <td><span class="tag tag-g">yes</span>Acceptable</td>
+            <td>Cameras are common, well-understood, and customers expect them in retail. Footage helps reconcile suspected losses and supports police action when needed.</td>
+          </tr>
+          <tr>
+            <td><strong>Bag checks at exit</strong></td>
+            <td><span class="tag tag-y">conditional</span>Acceptable if voluntary, signed and respectful</td>
+            <td>Cannot be forced &mdash; only police can compel a search. Notices at entry advising of bag checks must be visible; staff must be trained on how to ask politely.</td>
+          </tr>
+          <tr>
+            <td><strong>EFTPOS/contactless-only payment</strong></td>
+            <td><span class="tag tag-g">yes</span>Acceptable</td>
+            <td>Removes cash-related risks (theft, robbery, errors) entirely. Some customers may object on privacy or accessibility grounds &mdash; consider edge cases (cash-only customers).</td>
+          </tr>
+          <tr>
+            <td><strong>Posting photos of suspected shoplifters</strong></td>
+            <td><span class="tag tag-r">no</span>Not acceptable</td>
+            <td>Likely breaches privacy law &mdash; suspects have not been convicted. Risk of defamation. Damages reputation if a misidentification occurs. The supermarket has no legal authority to publicly shame customers.</td>
+          </tr>
+          <tr>
+            <td><strong>Naming &amp; banning known thieves</strong></td>
+            <td><span class="tag tag-y">conditional</span>Only after conviction or with strong evidence and legal advice</td>
+            <td>Trespass notices on convicted shoplifters are legitimate; public &quot;wanted&quot;-style posters of unconvicted suspects are not.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="box-note">&#128161; Ethics questions reward answers that recognise the tension: the business owner has a legitimate interest in preventing theft, BUT customers have privacy rights and the right to be presumed innocent. Acceptable controls protect assets WITHOUT publicly punishing the unconvicted.</p>
+  </div>
+</div>
+
+<p class="section-label">&#128218; Key Terms by Section</p>
+
+<div id="list"></div>
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &middot; Neville Box 7th ed. &middot; Chapter 14</p>
+
+<script>
+var data = [
+  { cat: "14.1 What is Internal Control?", color: "gray", hot: false, items: [
+    { term: "Internal control", def: "A system of procedures put in place within the structure of a business to protect its assets, prevent loss or theft, and ensure that records accurately capture every transaction.", eg: "Locking the till, banking takings daily, requiring two signatures for large payments, monthly bank reconciliations, stocktakes &mdash; all internal control procedures." },
+    { term: "Purpose of internal control", def: "To protect business assets, prevent fraud and error, and produce records reliable enough for decision-making and reporting.", eg: "A cafe owner with no internal control can lose cash to staff, give product away for free, and have inaccurate records &mdash; making profit / loss reports unreliable.", note: "Internal control answers should ALWAYS mention both protecting assets AND ensuring accurate records &mdash; not just theft prevention." },
+    { term: "Why a small business needs it", def: "Even very small businesses face risk &mdash; one or two employees with access to cash and stock can cause significant loss if procedures are absent.", eg: "Kamala Khan&apos;s hair salon (4 hairdressers) decided contactless-only after recognising her staff have direct access to till cash she cannot monitor in real time." },
+    { term: "Cost vs benefit of controls", def: "Each control has a cost (staff time, equipment, paperwork) and a benefit (loss prevented or detected). The benefit must outweigh the cost.", eg: "A $30 lockbox is worth installing if it prevents even one $50 loss; a $20,000 surveillance system is overkill for a market stall.", note: "Always weigh the cost of the control against the cost of the risk &mdash; the most secure system isn&apos;t always the most efficient." },
+    { term: "Limitations of internal control", def: "No system is foolproof &mdash; collusion between staff, owner override, or breakdowns under pressure can defeat the best procedures.", eg: "If the cashier and the bookkeeper conspire, separation of duties no longer works. If the owner ignores their own rules during busy periods, controls fail." }
+  ]},
+  { cat: "14.2 Cash Controls", color: "amber", hot: true, items: [
+    { term: "Separation of duties (cash)", def: "Different staff handle different stages of a cash transaction &mdash; collecting, counting, banking and recording &mdash; so no one person can both steal cash AND cover it up in the books.", eg: "At Happy Valley Amusement Park, the ride attendant collects ticket money, a supervisor counts at end of shift, and the owner banks the takings the next morning. No single employee handles all three." },
+    { term: "Pre-numbered receipts / tickets", def: "Receipts or tickets issued from a sequentially numbered roll &mdash; every number must be accounted for (used, voided, or unused).", eg: "Louder issues sequentially numbered ride tickets. At end of day, tickets sold &times; ride price = expected cash. Any gap signals tickets sold without cash, or cash taken without ticket.", note: "&quot;Pre-numbered&quot; is the key word &mdash; numbering after the fact does not control anything because numbers can be skipped or rewritten." },
+    { term: "Daily till reconciliation", def: "Physical cash in the drawer at end of each shift is counted and compared to the till tape (or POS report) total.", eg: "Till tape shows $1,247 in sales for the shift. Cash drawer plus float should equal $1,247 plus float. Discrepancies investigated immediately." },
+    { term: "Banking takings promptly", def: "Cash is banked daily (or at minimum, taken to a night safe) rather than held on premises overnight.", eg: "Ross at Yarrawonga banks takings the next morning rather than leaving cash on site. Even a $100 till float is enough to attract opportunistic theft." },
+    { term: "No cash withdrawals from till (no IOUs)", def: "Staff cannot borrow from the till &mdash; even with a written note &mdash; because IOU notes invalidate the till reconciliation and can be used to cover unrecorded losses.", eg: "Karen Withers&apos; Stacks of Wax has staff borrowing $20 from the till and leaving IOU notes. This creates two problems: the cash count no longer matches sales, and there is no audit trail for whether the IOUs are actually repaid.", note: "If staff need cash advances, issue them through formal payroll/advances against wages &mdash; never from the till." },
+    { term: "Bank reconciliation", def: "Monthly process of comparing the business&apos;s cash records to the bank statement, adjusting for timing differences and ensuring no errors or unauthorised transactions exist.", eg: "Books show Bank $6,280. Statement shows $5,950. Add deposits in transit ($1,200), subtract unpresented cheques ($870) &mdash; adjusted balance $6,280, matches the books.", note: "Unexplained differences in a bank reconciliation are often the FIRST sign of fraud or error &mdash; investigate immediately, do not just plug the difference." },
+    { term: "Cashless / contactless-only", def: "Eliminating cash payments entirely &mdash; customers pay by card, phone or transfer only &mdash; removes most cash-handling risks.", eg: "Kamala Khan&apos;s salon moves to contactless-only payments after observing the difficulty of monitoring four hairdressers&apos; cash handling.", note: "Cashless trade-offs: lower internal control risk, but higher merchant fees, less customer accessibility, and total dependency on card terminals working." }
+  ]},
+  { cat: "14.3 Inventory &amp; Other Asset Controls", color: "purple", hot: true, items: [
+    { term: "Stocktake", def: "Physically counting inventory on hand and comparing to records to identify discrepancies caused by theft, damage, or recording errors.", eg: "Ross counts unsold tomatoes and reconciles against what was sent to market and what was reported as sold. The 20 kg shortfall last summer signalled either theft or recording errors at the market stall.", note: "Stocktakes are most effective when done WITHOUT WARNING to the staff being monitored &mdash; scheduled counts give thieves time to cover discrepancies." },
+    { term: "Cash-only / no credit policy (small operators)", def: "For small businesses where invoicing is difficult to track, accepting cash on delivery removes the receivables risk but creates a cash-handling risk that needs its own controls.", eg: "Ross runs cash-only because his market stalls don&apos;t have time to record credit sales. The trade-off: simpler bookkeeping but more cash to manage securely.", note: "Switching to cashless (Kamala) and switching to cash-only (Ross) are two opposite responses to internal control problems &mdash; the right choice depends on the business model." },
+    { term: "Receipt requirement for every sale", def: "Every transaction generates a documented record &mdash; cash receipt, EFTPOS slip, or POS entry &mdash; so total sales can be reconciled to cash banked.", eg: "Ross instructed his market workers to issue receipts for every sale. Where the cash register is impractical, pre-numbered receipt books serve the same purpose." },
+    { term: "Restricted access to stock", def: "Inventory is stored securely &mdash; locked rooms, security tags, CCTV in storage areas &mdash; with only authorised staff allowed access.", eg: "Stacks of Wax stores its expensive oil burners in a locked back room; only the owner and senior staff hold a key. The standard-priced candles are on open display." },
+    { term: "Asset register", def: "A list of all non-current assets owned by the business, with serial numbers, locations and condition &mdash; checked against physical inventory at regular intervals.", eg: "A salon keeps a register of styling chairs, hair dryers, computers, and POS terminals. An annual audit ensures none have walked out the back door." },
+    { term: "Authorisation of significant transactions", def: "Above a defined threshold, transactions require approval from a manager or the owner &mdash; not just the staff member making the transaction.", eg: "Refunds above $50 require manager signature; large supplier payments require dual signature. Stops a junior staff member from approving a fraudulent refund to a friend." }
+  ]},
+  { cat: "14.4 Ethics, Privacy &amp; Surveillance", color: "pink", hot: false, items: [
+    { term: "Security cameras (CCTV)", def: "Cameras at entrances, behind counters and in stock areas deter theft and provide evidence when incidents occur.", eg: "The local supermarket installing multiple cameras after suspected shoplifting events. Generally accepted as a reasonable control measure.", note: "CCTV is acceptable provided customers are informed (signage at entry) and footage is stored and accessed responsibly. Hidden cameras in private areas (changing rooms, toilets) are not permissible." },
+    { term: "Privacy and the &apos;wall of shame&apos;", def: "Publicly displaying photos of suspected (not convicted) shoplifters is not an acceptable internal control &mdash; it breaches privacy norms and exposes the business to defamation claims.", eg: "The supermarket&apos;s plan to display thieves&apos; photos at the entrance &mdash; even with strong CCTV evidence, the suspect has not been convicted in court. A misidentification could destroy an innocent customer&apos;s reputation.", note: "An acceptable analogue is filing a police report with the CCTV footage &mdash; the legal system, not the business, is the right venue for accusation and punishment." },
+    { term: "Customer privacy in payment data", def: "Card data, transaction history and customer details must be protected and not used for purposes outside the transaction.", eg: "Kamala&apos;s salon using contactless cards must store transaction data securely and never share it with third parties without consent.", note: "Privacy obligations sit on top of internal control &mdash; protecting assets cannot come at the cost of breaching customer trust." },
+    { term: "Staff monitoring &amp; trust", def: "Internal controls protect against staff error and theft, but excessive surveillance damages morale and signals distrust.", eg: "Mandatory bag checks of staff at the end of every shift may catch a theft but will lose good employees who feel insulted. Balance is the goal." },
+    { term: "Whistleblowing &amp; reporting", def: "Good internal control includes a confidential channel for staff to report suspected fraud or breaches without fear of retaliation.", eg: "A staff member spotting a manager skimming the till needs a way to report it &mdash; ideally direct to the owner or an independent reviewer.", note: "Small businesses often skip this because they assume &quot;everyone trusts each other&quot; &mdash; but most fraud is committed by long-trusted insiders." }
+  ]}
+];
+
+function build(source) {
+  var list = document.getElementById("list");
+  list.innerHTML = "";
+  for (var i = 0; i < source.length; i++) {
+    var cat = source[i];
+    if (!cat.items.length) continue;
+    var div = document.createElement("div");
+    div.className = "cat " + cat.color;
+    var badge = cat.hot ? '<span class="hot-badge">&#9733; HOT TOPIC<span class="tip">High-frequency exam topic &mdash; appears in almost every exam</span></span>' : "";
+    var head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = '<span class="cat-head-text">' + cat.cat + '</span><div class="cat-head-right">' + badge + '<small>' + cat.items.length + ' terms</small><span class="cat-arrow">&#9660;</span></div>';
+    (function(d, h) {
+      h.onclick = function() {
+        var b = d.querySelector(".cat-body");
+        var a = h.querySelector(".cat-arrow");
+        var c = b.classList.toggle("collapsed");
+        a.innerHTML = c ? "&#9658;" : "&#9660;";
+      };
+    })(div, head);
+    div.appendChild(head);
+    var body = document.createElement("div");
+    body.className = "cat-body";
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      var t = document.createElement("div");
+      t.className = "term";
+      var note = item.note ? '<span class="term-note">&#9888; Exam tip: ' + item.note + '</span>' : "";
+      t.innerHTML = '<div class="term-title" onclick="toggle(this)"><span>' + item.term + '</span><span class="arrow">&#9660;</span></div><div class="term-body"><p class="term-def">' + item.def + '</p><span class="term-eg">Eg: ' + item.eg + '</span>' + note + '</div>';
+      body.appendChild(t);
+    }
+    div.appendChild(body);
+    list.appendChild(div);
+  }
+}
+
+function toggle(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function toggleB(el) {
+  var body = el.nextElementSibling;
+  var arr = el.querySelector(".cat-arrow");
+  var open = body.classList.toggle("open");
+  arr.innerHTML = open ? "&#9650;" : "&#9660;";
+}
+
+function filterTerms(q) {
+  q = q.toLowerCase();
+  var filtered = [];
+  for (var i = 0; i < data.length; i++) {
+    var cat = data[i];
+    var items = [];
+    for (var j = 0; j < cat.items.length; j++) {
+      var item = cat.items[j];
+      if (!q || item.term.toLowerCase().indexOf(q) > -1 || item.def.toLowerCase().indexOf(q) > -1) {
+        items.push(item);
+      }
+    }
+    filtered.push({ cat: cat.cat, color: cat.color, hot: cat.hot, items: items });
+  }
+  build(filtered);
+}
+
+build(data);
+</script>
+</body>
+</html>
