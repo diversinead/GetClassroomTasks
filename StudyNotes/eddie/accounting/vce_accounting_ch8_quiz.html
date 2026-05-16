@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Accounting — Chapter 8 Quiz</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#F5F4F0;color:#1a1a18;font-size:14px;line-height:1.6}
+h1{font-size:1.4em;font-weight:700;color:#3C3489;padding:16px 16px 4px}
+.subtitle{font-size:0.86em;color:#5F5E5A;padding:0 16px 14px}
+
+/* Tabs */
+.tab-bar{display:flex;border-bottom:2px solid #D3D1C7;background:#fff;padding:0 16px;gap:4px}
+.tab-btn{padding:10px 18px;border:none;background:none;font-family:inherit;font-size:0.9em;font-weight:600;color:#5F5E5A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:#3C3489;border-bottom-color:#3C3489}
+.tab-btn:hover:not(.active){color:#1a1a18;background:#F5F4F0}
+.tab-pane{display:none;padding:16px}
+.tab-pane.active{display:block}
+
+/* Score bar */
+.score-bar{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score-text{font-size:0.86em;color:#1a1a18}
+.score-text strong{color:#3C3489;font-size:1.1em}
+.progress-track{flex:1;min-width:100px;height:8px;background:#E5E3DC;border-radius:4px;overflow:hidden}
+.progress-bar{height:100%;background:#7F77DD;border-radius:4px;width:0%;transition:width .4s}
+.reset-btn{background:#fff;border:1px solid #D3D1C7;color:#1a1a18;padding:6px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em}
+.reset-btn:hover{background:#F5F4F0}
+
+/* Question cards */
+.q-section-head{background:#3C3489;color:#fff;padding:8px 14px;border-radius:6px;margin:18px 0 10px;font-size:0.88em;font-weight:700}
+.q-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;padding:16px;margin-bottom:12px}
+.q-card.correct{border-color:#1D9E75;background:#F0FBF6}
+.q-card.wrong{border-color:#D85A30;background:#FDF3EF}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.q-num{font-size:0.79em;font-weight:700;color:#5F5E5A;text-transform:uppercase;letter-spacing:.3px}
+.q-hot{background:#E24B4A;color:#fff;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-marks{background:#EEEDFE;color:#3C3489;font-size:0.71em;font-weight:700;border-radius:4px;padding:1px 6px}
+.q-text{font-size:0.93em;font-weight:600;margin-bottom:12px;color:#1a1a18}
+
+/* MC options */
+.mc-options{display:flex;flex-direction:column;gap:7px}
+.mc-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border:1px solid #D3D1C7;border-radius:6px;cursor:pointer;font-size:0.86em;transition:background .15s}
+.mc-opt:hover{background:#F5F4F0}
+.mc-opt.selected-correct{background:#E1F5EE;border-color:#1D9E75;font-weight:600;color:#085041}
+.mc-opt.selected-wrong{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+.mc-opt.reveal-correct{background:#E1F5EE;border-color:#1D9E75}
+.mc-opt.disabled{cursor:default;pointer-events:none}
+.opt-letter{font-weight:700;color:#3C3489;min-width:16px;flex-shrink:0}
+
+/* Feedback */
+.q-feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:6px;font-size:0.82em;line-height:1.6}
+.q-feedback.show{display:block}
+.q-feedback.correct-fb{background:#E1F5EE;border-left:3px solid #1D9E75;color:#085041}
+.q-feedback.wrong-fb{background:#FAECE7;border-left:3px solid #D85A30;color:#4A1B0C}
+
+/* Exam practice tab */
+.eq-card{background:#fff;border:1px solid #D3D1C7;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.eq-head{background:#F5F4F0;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #D3D1C7}
+.eq-type{background:#3C3489;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-marks{background:#EEEDFE;color:#3C3489;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-hot{background:#E24B4A;color:#fff;font-size:0.75em;font-weight:700;border-radius:4px;padding:2px 9px}
+.eq-stimulus{background:#EEEDFE;border-left:3px solid #3C3489;padding:10px 14px;margin:12px 14px 0;font-size:0.86em;border-radius:0 6px 6px 0;color:#1a1a18}
+.eq-q{padding:12px 14px 4px;font-weight:600;font-size:0.93em;color:#1a1a18}
+.eq-body{padding:10px 14px 14px}
+.eq-answer-area{width:100%;min-height:80px;border:1px solid #D3D1C7;border-radius:6px;padding:9px;font-family:inherit;font-size:0.86em;resize:vertical;background:#fff}
+.eq-reveal-btn{margin-top:9px;background:#fff;border:1px solid #3C3489;color:#3C3489;padding:7px 14px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:0.82em;font-weight:600}
+.eq-reveal-btn:hover{background:#3C3489;color:#fff}
+.eq-model{display:none;margin-top:10px;border:1px solid #D3D1C7;border-radius:6px;overflow:hidden}
+.eq-model.open{display:block}
+.eq-model-head{background:#EEEDFE;padding:8px 12px;font-weight:700;color:#3C3489;font-size:0.86em}
+.eq-model-body{padding:10px 14px;font-size:0.86em;line-height:1.7;color:#1a1a18}
+.eq-model-body p{margin-bottom:6px}
+.eq-model-body p:last-child{margin-bottom:0}
+.mark-scheme{background:#FAEEDA;border-left:3px solid #BA7517;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#412402;font-style:italic}
+.examiner-tip{background:#EEEDFE;border-left:3px solid #7F77DD;padding:8px 12px;margin-top:8px;font-size:0.82em;border-radius:0 4px 4px 0;color:#26215C}
+
+.footer{text-align:center;font-size:0.79em;color:#888780;margin-top:28px;padding:12px 16px 24px;border-top:1px solid #D3D1C7}
+</style>
+</head>
+<body>
+
+<h1>VCE Accounting &mdash; Chapter 8 Quiz</h1>
+<p class="subtitle">Income Statements for a Service Firm &middot; Multiple choice + exam practice &middot; Hot topics focus</p>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('mc')">&#127919; Multiple Choice</button>
+  <button class="tab-btn" onclick="switchTab('exam')">&#128221; Exam Practice</button>
+</div>
+
+<!-- ===== MULTIPLE CHOICE TAB ===== -->
+<div id="tab-mc" class="tab-pane active">
+
+  <div class="score-bar">
+    <div class="score-text">Score: <strong id="score-correct">0</strong> / <strong id="score-total">0</strong> answered</div>
+    <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+    <button class="reset-btn" onclick="resetMC()">&#8635; Reset</button>
+  </div>
+
+  <div class="q-section-head">&#128202; Understanding the Income Statement (8.1)</div>
+
+  <div class="q-card" id="mc1">
+    <div class="q-meta"><span class="q-num">Q1</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which statement BEST describes the purpose of an Income Statement?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc1','A')"><span class="opt-letter">A</span>To show what a business owns and owes at a point in time</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','B')"><span class="opt-letter">B</span>To measure financial performance over a period &mdash; revenue earned minus expenses incurred</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','C')"><span class="opt-letter">C</span>To list every cash receipt and payment in a period</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc1','D')"><span class="opt-letter">D</span>To record the owner&apos;s contributions and drawings for the period</div>
+    </div>
+    <div class="q-feedback" id="fb-mc1"></div>
+  </div>
+
+  <div class="q-card" id="mc2">
+    <div class="q-meta"><span class="q-num">Q2</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which heading is correct for an Income Statement?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc2','A')"><span class="opt-letter">A</span>Sarah&apos;s Caf&eacute; &mdash; Income Statement &mdash; <em>as at</em> 30 June 2025</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','B')"><span class="opt-letter">B</span>Sarah&apos;s Caf&eacute; &mdash; Income Statement &mdash; <em>for the year ended</em> 30 June 2025</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','C')"><span class="opt-letter">C</span>Sarah&apos;s Caf&eacute; &mdash; Balance Sheet &mdash; <em>for the year ended</em> 30 June 2025</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc2','D')"><span class="opt-letter">D</span>Sarah&apos;s Caf&eacute; &mdash; Statement of Receipts and Payments &mdash; <em>as at</em> 30 June 2025</div>
+    </div>
+    <div class="q-feedback" id="fb-mc2"></div>
+  </div>
+
+  <div class="q-card" id="mc3">
+    <div class="q-meta"><span class="q-num">Q3</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business reports total revenue of $40,000 and total expenses of $47,000 for the year. What is the result?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc3','A')"><span class="opt-letter">A</span>Net profit of $7,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','B')"><span class="opt-letter">B</span>Net loss of $7,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','C')"><span class="opt-letter">C</span>Net profit of $87,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc3','D')"><span class="opt-letter">D</span>Cannot be calculated without cash figures</div>
+    </div>
+    <div class="q-feedback" id="fb-mc3"></div>
+  </div>
+
+  <div class="q-section-head">&#128176; Cash vs Profit &amp; What Belongs on the Income Statement (8.2)</div>
+
+  <div class="q-card" id="mc4">
+    <div class="q-meta"><span class="q-num">Q4</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Why can a business show a healthy profit yet still run short of cash?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc4','A')"><span class="opt-letter">A</span>Cash is recorded only when revenue is invoiced</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','B')"><span class="opt-letter">B</span>Profit is calculated on revenue earned and expenses incurred &mdash; not on when cash is received or paid</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','C')"><span class="opt-letter">C</span>Profit always includes drawings</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc4','D')"><span class="opt-letter">D</span>Cash never includes credit sales, but profit ignores cash sales entirely</div>
+    </div>
+    <div class="q-feedback" id="fb-mc4"></div>
+  </div>
+
+  <div class="q-card" id="mc5">
+    <div class="q-meta"><span class="q-num">Q5</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which of the following cash inflows IS revenue for the period?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc5','A')"><span class="opt-letter">A</span>$5,000 owner&apos;s capital contribution</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','B')"><span class="opt-letter">B</span>$10,000 received from a bank loan</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','C')"><span class="opt-letter">C</span>$850 cash sale of coffee and food</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc5','D')"><span class="opt-letter">D</span>$2,000 receipt from a debtor who was invoiced last month</div>
+    </div>
+    <div class="q-feedback" id="fb-mc5"></div>
+  </div>
+
+  <div class="q-card" id="mc6">
+    <div class="q-meta"><span class="q-num">Q6</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which of the following cash outflows is NOT an expense?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc6','A')"><span class="opt-letter">A</span>$1,200 insurance premium paid for the year</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','B')"><span class="opt-letter">B</span>$4,000 repayment of loan principal</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','C')"><span class="opt-letter">C</span>$1,800 wages paid to part-time staff</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc6','D')"><span class="opt-letter">D</span>$400 electricity bill paid</div>
+    </div>
+    <div class="q-feedback" id="fb-mc6"></div>
+  </div>
+
+  <div class="q-card" id="mc7">
+    <div class="q-meta"><span class="q-num">Q7</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A business pays $8,000 cash for a new delivery van. How should this transaction be treated for reporting purposes?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc7','A')"><span class="opt-letter">A</span>Record the full $8,000 as an expense in this period&apos;s Income Statement</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','B')"><span class="opt-letter">B</span>Record as the purchase of a non-current asset &mdash; not an expense; cost is spread over its useful life via depreciation</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','C')"><span class="opt-letter">C</span>Record as revenue when the van is eventually sold</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc7','D')"><span class="opt-letter">D</span>Record as drawings by the owner</div>
+    </div>
+    <div class="q-feedback" id="fb-mc7"></div>
+  </div>
+
+  <div class="q-card" id="mc8">
+    <div class="q-meta"><span class="q-num">Q8</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Depreciation is BEST described as:</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc8','A')"><span class="opt-letter">A</span>A cash expense paid each year to the supplier of the asset</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','B')"><span class="opt-letter">B</span>A non-cash expense that spreads the cost of a non-current asset over its useful life</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','C')"><span class="opt-letter">C</span>Revenue earned from selling old assets</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc8','D')"><span class="opt-letter">D</span>A liability owed for the use of equipment</div>
+    </div>
+    <div class="q-feedback" id="fb-mc8"></div>
+  </div>
+
+  <div class="q-card" id="mc9">
+    <div class="q-meta"><span class="q-num">Q9</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which of the following would appear on the Income Statement?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc9','A')"><span class="opt-letter">A</span>$500 drawings withdrawn by the owner</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','B')"><span class="opt-letter">B</span>$200 GST collected from customers</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','C')"><span class="opt-letter">C</span>$1,500 interest paid on a business loan</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc9','D')"><span class="opt-letter">D</span>$25,000 cost of new shop fittings purchased</div>
+    </div>
+    <div class="q-feedback" id="fb-mc9"></div>
+  </div>
+
+  <div class="q-section-head">&#128221; Preparing an Income Statement (8.3)</div>
+
+  <div class="q-card" id="mc10">
+    <div class="q-meta"><span class="q-num">Q10</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A caf&eacute; reports Sales $85,000 and Cost of Goods Sold $32,000 for the year. What is its Gross Profit?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc10','A')"><span class="opt-letter">A</span>$32,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','B')"><span class="opt-letter">B</span>$53,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','C')"><span class="opt-letter">C</span>$85,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc10','D')"><span class="opt-letter">D</span>$117,000</div>
+    </div>
+    <div class="q-feedback" id="fb-mc10"></div>
+  </div>
+
+  <div class="q-card" id="mc11">
+    <div class="q-meta"><span class="q-num">Q11</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The same caf&eacute; in Q10 has total operating expenses of $37,000. What is its Net Profit?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc11','A')"><span class="opt-letter">A</span>$16,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','B')"><span class="opt-letter">B</span>$32,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','C')"><span class="opt-letter">C</span>$48,000</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc11','D')"><span class="opt-letter">D</span>$53,000</div>
+    </div>
+    <div class="q-feedback" id="fb-mc11"></div>
+  </div>
+
+  <div class="q-card" id="mc12">
+    <div class="q-meta"><span class="q-num">Q12</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">The caf&eacute; has Net Profit of $16,000 on Sales of $85,000. What is its Net Profit Margin?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc12','A')"><span class="opt-letter">A</span>5.3%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','B')"><span class="opt-letter">B</span>18.8%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','C')"><span class="opt-letter">C</span>30.2%</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc12','D')"><span class="opt-letter">D</span>62.4%</div>
+    </div>
+    <div class="q-feedback" id="fb-mc12"></div>
+  </div>
+
+  <div class="q-card" id="mc13">
+    <div class="q-meta"><span class="q-num">Q13</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">Which scenario describes an ACCRUED expense?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc13','A')"><span class="opt-letter">A</span>Insurance paid in advance covering the next 12 months</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','B')"><span class="opt-letter">B</span>Electricity used during June but not yet billed at 30 June</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','C')"><span class="opt-letter">C</span>A bad debt written off in June</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc13','D')"><span class="opt-letter">D</span>Depreciation of a delivery van</div>
+    </div>
+    <div class="q-feedback" id="fb-mc13"></div>
+  </div>
+
+  <div class="q-card" id="mc14">
+    <div class="q-meta"><span class="q-num">Q14</span><span class="q-hot">&#9733; HOT</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">A customer who owes the business $800 declares bankruptcy and will not pay. How is this treated on the Income Statement?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc14','A')"><span class="opt-letter">A</span>$800 is recorded as a bad debt expense, reducing net profit</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','B')"><span class="opt-letter">B</span>$800 is removed from sales revenue for the current period</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','C')"><span class="opt-letter">C</span>$800 is added to drawings</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc14','D')"><span class="opt-letter">D</span>$800 is recorded as a new asset</div>
+    </div>
+    <div class="q-feedback" id="fb-mc14"></div>
+  </div>
+
+  <div class="q-card" id="mc15">
+    <div class="q-meta"><span class="q-num">Q15</span><span class="q-marks">1 mark</span></div>
+    <div class="q-text">On 1 January, a business pays $1,200 cash for an annual insurance policy covering the next 12 months. What is the insurance EXPENSE for the financial year ending 30 June?</div>
+    <div class="mc-options">
+      <div class="mc-opt" onclick="checkMC(this,'mc15','A')"><span class="opt-letter">A</span>$0 &mdash; insurance is treated as an asset</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','B')"><span class="opt-letter">B</span>$600 &mdash; only six months of cover have been used by 30 June</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','C')"><span class="opt-letter">C</span>$1,200 &mdash; the full amount paid in cash this period</div>
+      <div class="mc-opt" onclick="checkMC(this,'mc15','D')"><span class="opt-letter">D</span>$1,800 &mdash; six months for this year plus the prepaid remaining twelve months</div>
+    </div>
+    <div class="q-feedback" id="fb-mc15"></div>
+  </div>
+
+</div><!-- end mc tab -->
+
+<!-- ===== EXAM PRACTICE TAB ===== -->
+<div id="tab-exam" class="tab-pane">
+
+  <div class="q-section-head">&#128203; Short Answer Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">2 marks</span></div>
+    <div class="eq-q">Distinguish between <strong>cash</strong> and <strong>profit</strong>, giving ONE example of each. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..."></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Distinction (1 mark):</strong> Cash is the actual money in the business&apos;s bank account &mdash; recorded only when money physically moves in or out. Profit is revenue earned minus expenses incurred during a period &mdash; recorded when the activity happens, regardless of when cash is paid or received.</p>
+          <p><strong>Examples (1 mark):</strong> A $1,000 sale made in June but paid by the customer in August counts as <em>revenue (profit)</em> in June, but only appears as <em>cash</em> in August. Likewise, a $500 electricity bill for June received in July is a June expense (profit) but a July cash outflow.</p>
+          <div class="examiner-tip">&#128161; Strong answers always link the distinction to <em>timing</em> &mdash; when the activity happens vs when the money moves.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">Sarah&apos;s Caf&eacute; reports the following figures for the year ended 30 June 2025: Sales $85,000; Cost of goods sold $32,000; Wages $18,000; Rent $12,000; Electricity $2,400; Advertising $1,800; Insurance $1,200; Depreciation &mdash; Equipment $1,600.</div>
+    <div class="eq-q">(a) Calculate Gross Profit. (1 mark)<br>(b) Calculate Total Operating Expenses. (1 mark)<br>(c) Calculate Net Profit. (1 mark)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:100px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Gross Profit (1 mark):</strong> Sales $85,000 &minus; Cost of goods sold $32,000 = <strong>$53,000</strong>.</p>
+          <p><strong>(b) Total Operating Expenses (1 mark):</strong> $18,000 + $12,000 + $2,400 + $1,800 + $1,200 + $1,600 = <strong>$37,000</strong>.</p>
+          <p><strong>(c) Net Profit (1 mark):</strong> Gross Profit $53,000 &minus; Total Operating Expenses $37,000 = <strong>$16,000</strong>.</p>
+          <div class="mark-scheme">&#9888; Always show formula AND calculation. A bare "$16,000" with no working risks losing the calculation mark.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">Explain why <strong>depreciation</strong> appears as an expense on the Income Statement but does NOT appear in the Statement of Receipts and Payments. Refer to the difference between cash and profit in your answer. (3 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:100px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>Why it&apos;s an expense (1 mark):</strong> Depreciation is the gradual using-up of a non-current asset (such as equipment or a delivery van) as it generates revenue over its useful life. Under accrual accounting, the cost of that asset must be matched against the revenue it helps earn each period &mdash; so a portion of the asset&apos;s cost is recorded as an expense every year.</p>
+          <p><strong>Why no cash moves (1 mark):</strong> The cash outflow happened once, at the time of purchase, and was recorded then as a payment for a non-current asset. Each year&apos;s depreciation expense is just a paper allocation of that original cost &mdash; no further cash leaves the bank account.</p>
+          <p><strong>Link to cash vs profit (1 mark):</strong> This is why depreciation reduces profit (Income Statement) but never appears in the Statement of Receipts and Payments &mdash; profit and cash measure different things. It is one reason a business can show low profit yet have healthy cash, or vice versa.</p>
+          <div class="examiner-tip">&#128161; Top answers explicitly name <em>accrual accounting</em> and the <em>matching</em> idea &mdash; matching the cost of an asset against the revenue it helps earn.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-q">For each of the following, state whether it would appear on the Income Statement (yes / no) and explain in ONE sentence why. (3 marks)<br>(a) Owner&apos;s capital contribution of $10,000<br>(b) Cash sale of $850 in coffee and food<br>(c) Repayment of $4,000 of loan principal</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:110px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) NO (1 mark):</strong> An owner&apos;s capital contribution is an increase in <em>equity</em>, not income &mdash; the business has not earned anything; the owner has simply added funds. It belongs in the Cash Flow Statement (financing activities) and on the Balance Sheet, not the Income Statement.</p>
+          <p><strong>(b) YES (1 mark):</strong> A cash sale is operating <em>revenue</em> &mdash; the business has earned income by providing goods or services. It is recorded in full as revenue on the Income Statement.</p>
+          <p><strong>(c) NO (1 mark):</strong> Repaying loan principal reduces a <em>liability</em> &mdash; the business is not using up resources to earn revenue. Only the <em>interest</em> portion of loan repayments is an expense; the principal portion is a financing cash outflow only.</p>
+          <div class="mark-scheme">&#9888; The yes/no alone is worth nothing without the reason. Always link the answer to the definition of revenue (earned) or expense (resources used to earn revenue).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Short Answer</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">3 marks</span></div>
+    <div class="eq-stimulus">Sarah&apos;s Caf&eacute; reports Net Profit of $16,000 on Sales of $85,000 for the year ended 30 June 2025.</div>
+    <div class="eq-q">(a) Calculate the Net Profit Margin. (1 mark)<br>(b) Comment on whether this margin is strong for a caf&eacute;, identifying ONE factor that could be limiting it. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:100px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Net Profit Margin (1 mark):</strong> $16,000 / $85,000 x 100 = <strong>18.8%</strong>.</p>
+          <p><strong>(b) Comment (2 marks):</strong> An 18.8% margin is reasonable but not exceptional for a caf&eacute; &mdash; for every $1 of sales, the business keeps about 19 cents after all expenses. Limiting factors might include high wage costs (cafes are labour-intensive), rising rent or utility bills, or significant cost of goods sold (premium coffee, fresh produce). To improve, Sarah could review her pricing, reduce stock waste, or look at staff rostering during quieter periods.</p>
+          <div class="examiner-tip">&#128161; High-scoring answers always link the number to a <em>specific business reality</em> (high wages, rent, stock costs) rather than vague phrases like "expenses are too high".</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-section-head">&#128218; Extended Response Questions</div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">6 marks</span></div>
+    <div class="eq-stimulus">Sammy&apos;s Detailing is a small car-detailing service. For the year ended 30 June 2027, the records show: Service revenue $72,000; Wages $28,000; Rent $9,600; Insurance $2,400; Advertising $1,500; Electricity $1,800; Depreciation &mdash; Equipment $3,200.</div>
+    <div class="eq-q">(a) Prepare a complete Income Statement for Sammy&apos;s Detailing for the year ended 30 June 2027. (3 marks)<br>(b) Calculate the Net Profit Margin. (1 mark)<br>(c) Comment on the profitability of the business, identifying ONE strength and ONE potential concern. (2 marks)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:150px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Income Statement (3 marks):</strong></p>
+          <p><em>Sammy&apos;s Detailing &mdash; Income Statement &mdash; for the year ended 30 June 2027</em><br>
+          <strong>Revenue:</strong> Service revenue = <strong>$72,000</strong><br>
+          <strong>Less Expenses:</strong> Wages $28,000 + Rent $9,600 + Insurance $2,400 + Advertising $1,500 + Electricity $1,800 + Depreciation $3,200 = <strong>$46,500</strong><br>
+          <strong>Net Profit = $72,000 &minus; $46,500 = $25,500</strong></p>
+          <p><strong>(b) Net Profit Margin (1 mark):</strong> $25,500 / $72,000 x 100 = <strong>35.4%</strong>.</p>
+          <p><strong>(c) Comment (2 marks):</strong> <em>Strength:</em> A 35.4% margin is strong for a small service business &mdash; Sammy keeps about 35 cents of every dollar earned, which leaves a healthy buffer for slow months and reinvestment. <em>Concern:</em> Wages of $28,000 are the largest single expense (about 39% of revenue), so the business is heavily dependent on labour productivity &mdash; if Sammy needs to hire additional staff or pay overtime, the margin could shrink quickly. The fixed costs (rent, insurance, depreciation) also mean revenue must stay above roughly $46,500 each year just to break even.</p>
+          <div class="mark-scheme">&#9888; (a) MUST use the correct heading format ("for the year ended"). Service firms have no Cost of Goods Sold &mdash; do not invent one. (c) Both a strength AND a concern needed for full marks &mdash; answers that only list one side score 1.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eq-card">
+    <div class="eq-head"><span class="eq-type">Extended Response</span><span class="eq-hot">&#9733; HOT</span><span class="eq-marks">5 marks</span></div>
+    <div class="eq-stimulus">Sarah&apos;s Caf&eacute; reports a Net Profit of $20,000 for the year ended 30 June 2025. Despite this, by year-end Sarah is struggling to pay her own bills on time. A review of the year&apos;s activity shows: (i) $18,000 of sales remain unpaid by credit customers; (ii) Sarah paid $8,000 cash for a new espresso machine in May; (iii) the owner withdrew $7,000 in drawings during the year.</div>
+    <div class="eq-q">(a) Explain how a business can report a $20,000 profit yet struggle to pay bills. (2 marks)<br>(b) From the three items above, identify which are NOT expenses, and explain why they are excluded from the Income Statement. (2 marks)<br>(c) Suggest ONE action Sarah could take to improve her cash position WITHOUT affecting reported profit. (1 mark)</div>
+    <div class="eq-body">
+      <textarea class="eq-answer-area" placeholder="Write your answer here..." style="min-height:150px"></textarea>
+      <button class="eq-reveal-btn" onclick="toggleModel(this)">&#128065; Show Model Answer</button>
+      <div class="eq-model">
+        <div class="eq-model-head">&#9989; Model Answer</div>
+        <div class="eq-model-body">
+          <p><strong>(a) Profit vs cash (2 marks):</strong> Profit is calculated on revenue <em>earned</em> and expenses <em>incurred</em>, regardless of when cash moves. Sarah&apos;s $20,000 profit reflects sales she has made and expenses she has used up &mdash; but a large slice of those sales ($18,000) is sitting in unpaid customer invoices, and significant cash has gone to items that are NOT expenses (a new espresso machine, owner drawings). The result is a profitable business that cannot pay its bills because its cash is tied up in receivables and in non-expense outflows.</p>
+          <p><strong>(b) Non-expenses (2 marks):</strong> The <em>$8,000 espresso machine</em> is the purchase of a non-current asset &mdash; it is not consumed in the current period, so its cost is spread over its useful life as depreciation; only depreciation appears as an expense, not the full $8,000. The <em>$7,000 drawings</em> reduce owner&apos;s equity &mdash; they are not a business resource used to earn revenue, so they never appear on the Income Statement.</p>
+          <p><strong>(c) Action (1 mark):</strong> Sarah could chase up her overdue credit customers more aggressively (or tighten credit terms going forward) to convert the $18,000 in receivables into cash. This brings cash in without changing revenue or expenses, so profit is unaffected but the bank balance recovers.</p>
+          <div class="examiner-tip">&#128161; For (c), other valid answers include arranging a short-term overdraft, leasing equipment instead of buying outright, or pausing drawings &mdash; provided the action doesn&apos;t change reported revenue or expenses.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end exam tab -->
+
+<p class="footer">VCE Accounting Units 1 &amp; 2 &mdash; Chapter 8 Quiz &middot; Neville Box 7th ed. &middot; For study use only</p>
+
+<script>
+function switchTab(name) {
+  var panes = document.querySelectorAll('.tab-pane');
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < panes.length; i++) panes[i].className = 'tab-pane';
+  for (var i = 0; i < btns.length; i++) btns[i].className = 'tab-btn';
+  document.getElementById('tab-' + name).className = 'tab-pane active';
+  btns[name === 'mc' ? 0 : 1].className = 'tab-btn active';
+}
+
+var totalMC = 15;
+var mcAnswered = 0;
+var mcCorrect = 0;
+
+function updateScore(gotIt) {
+  mcAnswered++;
+  if (gotIt) mcCorrect++;
+  document.getElementById('score-correct').textContent = mcCorrect;
+  document.getElementById('score-total').textContent = mcAnswered;
+  document.getElementById('progress-bar').style.width = Math.round((mcAnswered / totalMC) * 100) + '%';
+}
+
+var mcData = {
+  mc1:  { correct: 'B', fb: 'Correct: B &mdash; The Income Statement measures financial <em>performance over a period</em> &mdash; revenue earned minus expenses incurred. A describes a Balance Sheet, C describes a Statement of Receipts and Payments, D describes a Statement of Changes in Equity.' },
+  mc2:  { correct: 'B', fb: 'Correct: B &mdash; Income Statements cover a <em>period of time</em>, so use "for the year ended". "As at" is for the Balance Sheet, which reports a position at a single point in time.' },
+  mc3:  { correct: 'B', fb: 'Correct: B &mdash; Revenue $40,000 minus Expenses $47,000 = Net Loss of $7,000. When expenses exceed revenue, the business has spent more than it earned.' },
+  mc4:  { correct: 'B', fb: 'Correct: B &mdash; Under accrual accounting, profit recognises revenue when earned and expenses when incurred, even if no cash has changed hands. So a business with large unpaid customer invoices can have a strong profit but no cash to pay its bills.' },
+  mc5:  { correct: 'C', fb: 'Correct: C &mdash; The cash sale is revenue earned this period. A is an owner&apos;s contribution (equity, not income). B is a liability (loan must be repaid). D was already recorded as revenue last month when the credit sale was made &mdash; the cash arrival now is just settlement.' },
+  mc6:  { correct: 'B', fb: 'Correct: B &mdash; Loan principal repayments reduce a <em>liability</em>, they are not an expense. Only the <em>interest</em> portion is an expense. A, C and D are all genuine expenses incurred to operate the business.' },
+  mc7:  { correct: 'B', fb: 'Correct: B &mdash; A delivery van is a non-current asset that will be used to generate revenue over multiple years. Its cost goes on the Balance Sheet, and is spread over its useful life as depreciation expense each year. Treating the full $8,000 as a current-year expense (A) would massively understate profit.' },
+  mc8:  { correct: 'B', fb: 'Correct: B &mdash; Depreciation is a non-cash expense &mdash; no money leaves the bank account &mdash; that allocates the cost of a non-current asset across the periods that benefit from using it. It reduces profit, but never appears in the Statement of Receipts and Payments.' },
+  mc9:  { correct: 'C', fb: 'Correct: C &mdash; Interest paid is an expense incurred to use borrowed funds. A (drawings) reduces equity, not an expense. B (GST collected) is a liability owed to the ATO. D (shop fittings) is an asset purchase &mdash; only annual depreciation on it would appear as an expense.' },
+  mc10: { correct: 'B', fb: 'Correct: B &mdash; Gross Profit = Sales $85,000 &minus; Cost of Goods Sold $32,000 = $53,000. Gross Profit shows the result <em>before</em> deducting operating expenses.' },
+  mc11: { correct: 'A', fb: 'Correct: A &mdash; Net Profit = Gross Profit $53,000 &minus; Operating Expenses $37,000 = $16,000. Be careful not to subtract operating expenses from Sales directly &mdash; you have to go via Gross Profit.' },
+  mc12: { correct: 'B', fb: 'Correct: B &mdash; Net Profit Margin = Net Profit / Sales x 100 = $16,000 / $85,000 x 100 = 18.8%. Option D (62.4%) is the Gross Profit Margin &mdash; a common trap.' },
+  mc13: { correct: 'B', fb: 'Correct: B &mdash; An accrued expense is incurred (used up) in the period but not yet paid or billed. Electricity used in June is a June expense, even though the bill arrives later. A is a prepaid expense (asset), C is a bad debt, D is depreciation.' },
+  mc14: { correct: 'A', fb: 'Correct: A &mdash; A bad debt is recorded as an expense in the period it is written off, reducing net profit. The original sale stays recorded as revenue (B is wrong) &mdash; you don&apos;t reverse the sale, you record the loss of the receivable as an expense.' },
+  mc15: { correct: 'B', fb: 'Correct: B &mdash; Under accrual accounting, only the portion actually <em>used up</em> during the period is an expense. From 1 January to 30 June is 6 months, so $1,200 x 6/12 = $600 is the insurance expense; the remaining $600 sits on the Balance Sheet as a prepaid expense (current asset).' }
+};
+
+function checkMC(el, qid, chosen) {
+  var card = document.getElementById(qid);
+  if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+  var ans = mcData[qid];
+  var correct = (chosen === ans.correct);
+  var opts = card.querySelectorAll('.mc-opt');
+  var letters = ['A','B','C','D'];
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].classList.add('disabled');
+    if (letters[i] === ans.correct) opts[i].classList.add('reveal-correct');
+  }
+  el.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+  card.classList.add(correct ? 'correct' : 'wrong');
+  var fb = document.getElementById('fb-' + qid);
+  fb.innerHTML = ans.fb;
+  fb.className = 'q-feedback show ' + (correct ? 'correct-fb' : 'wrong-fb');
+  updateScore(correct);
+}
+
+function toggleModel(btn) {
+  var model = btn.nextElementSibling;
+  var open = model.classList.toggle('open');
+  btn.innerHTML = open ? '&#128065; Hide Model Answer' : '&#128065; Show Model Answer';
+}
+
+function resetMC() {
+  mcAnswered = 0; mcCorrect = 0;
+  document.getElementById('score-correct').textContent = '0';
+  document.getElementById('score-total').textContent = '0';
+  document.getElementById('progress-bar').style.width = '0%';
+  var cards = document.querySelectorAll('.q-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('correct','wrong');
+    var opts = cards[i].querySelectorAll('.mc-opt');
+    for (var j = 0; j < opts.length; j++) {
+      opts[j].className = 'mc-opt';
+      opts[j].onclick = (function(o,id,l){return function(){checkMC(o,id,l);};})(opts[j],cards[i].id,['A','B','C','D'][j]);
+    }
+    var fbs = cards[i].querySelectorAll('.q-feedback');
+    for (var j = 0; j < fbs.length; j++) { fbs[j].className = 'q-feedback'; fbs[j].innerHTML = ''; }
+  }
+}
+</script>
+<script src="../quiz_persist.js"></script>
+</body>
+</html>
