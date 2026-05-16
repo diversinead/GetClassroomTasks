@@ -77,6 +77,30 @@
   .purple { border-color: #AFA9EC; }
   .purple .cat-head { background: rgba(206,203,246,0.3); color: #3C3489; }
   .purple .term-eg { background: #EEEDFE; color: #3C3489; }
+
+  /* "What goes on the Income Statement" panel */
+  .box-wrap.purple { border-color: #AFA9EC; }
+  .box-wrap.purple .box-toggle { background: rgba(206,203,246,0.3); color: #3C3489; }
+  .incl-section { padding: 12px 12px 6px; background: #fff; }
+  .incl-section.excl { border-top: 1px solid rgba(0,0,0,0.07); }
+  .incl-head { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .incl-section.excl .incl-head { color: #4A1B0C; }
+  .incl-section.incl .incl-head { color: #085041; }
+  .incl-sub { font-size: 11.5px; color: #666; margin-bottom: 10px; font-style: italic; }
+  .incl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 6px; }
+  .incl-card { border-radius: 7px; padding: 10px 12px; }
+  .incl-section.excl .incl-card { background: #FAECE7; border: 1px solid #D85A30; }
+  .incl-section.incl .incl-card { background: #E1F5EE; border: 1px solid #5DCAA5; }
+  .incl-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+  .incl-section.excl .incl-card h4 { color: #4A1B0C; }
+  .incl-section.incl .incl-card h4 { color: #085041; }
+  .incl-card ul { list-style: none; padding: 0; }
+  .incl-card li { padding: 3px 0 3px 12px; position: relative; line-height: 1.45; color: #333; font-size: 11.5px; }
+  .incl-card li + li { border-top: 1px solid rgba(0,0,0,0.05); }
+  .incl-card li::before { content: "•"; position: absolute; left: 2px; opacity: 0.6; }
+  .incl-principle { padding: 12px 14px; background: rgba(239,159,39,0.12); border-top: 1px solid #BA7517; font-size: 12px; color: #412402; line-height: 1.6; }
+  .incl-principle strong { color: #2c1804; }
+  @media (max-width: 480px) { .incl-grid { grid-template-columns: 1fr; } }
   .teal   { border-color: #5DCAA5; }
   .teal   .cat-head { background: rgba(159,225,203,0.25); color: #085041; }
   .teal   .term-eg { background: #E1F5EE; color: #085041; }
@@ -160,6 +184,79 @@
       <strong>A business can be profitable but still run out of cash!</strong><br>
       <span style="color:#666;">Eg: Net profit = $20,000 but $18,000 is tied up in unpaid customer invoices → only $2,000 actual cash available to pay bills.</span><br><br>
       <span style="color:#888;font-style:italic;">💡 This is why both an Income Statement AND a Statement of Receipts &amp; Payments are needed.</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT GOES ON THE INCOME STATEMENT -->
+<div class="box-wrap purple">
+  <div class="box-toggle" onclick="toggleBox(this)">
+    <span>🎯 What goes on the Income Statement (and what doesn't)?</span>
+    <span class="cat-arrow">▼</span>
+  </div>
+  <div class="box-body">
+
+    <div class="incl-section incl">
+      <div class="incl-head">✅ Cash flows that ARE revenue or expenses</div>
+      <div class="incl-sub">These are included in the Income Statement — they reflect what the business earned and used up.</div>
+      <div class="incl-grid">
+        <div class="incl-card">
+          <h4>↓ Revenue (inflows)</h4>
+          <ul>
+            <li>Cash sales of goods or services</li>
+            <li>Interest received on a business bank account</li>
+            <li>Rent received (if subletting part of the premises)</li>
+            <li>Commission earned</li>
+          </ul>
+        </div>
+        <div class="incl-card">
+          <h4>↑ Expenses (outflows)</h4>
+          <ul>
+            <li>Wages and salaries paid to staff</li>
+            <li>Rent paid for premises</li>
+            <li>Electricity, gas, water, internet</li>
+            <li>Advertising</li>
+            <li>Interest paid on a loan (interest portion only)</li>
+            <li>Insurance</li>
+            <li><strong>Depreciation</strong> — non-cash, but IS an expense</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="incl-section excl">
+      <div class="incl-head">🚫 Cash flows that are NOT revenue or expenses</div>
+      <div class="incl-sub">Cash is moving, but the business is not earning or consuming resources — excluded from the Income Statement.</div>
+      <div class="incl-grid">
+        <div class="incl-card">
+          <h4>↓ Inflows that are NOT revenue</h4>
+          <ul>
+            <li><strong>Owner's capital contribution</strong> — equity, not income</li>
+            <li><strong>Loan received from a bank</strong> — a liability to repay, not income</li>
+            <li><strong>GST collected from customers</strong> — owed to the ATO, just passing through</li>
+            <li><strong>Receipts from debtors</strong> — revenue was already recorded when the credit sale was made</li>
+            <li><strong>Sale of a non-current asset</strong> — affects assets, not revenue</li>
+          </ul>
+        </div>
+        <div class="incl-card">
+          <h4>↑ Outflows that are NOT expenses</h4>
+          <ul>
+            <li><strong>Drawings</strong> — reduces equity, not an expense</li>
+            <li><strong>Loan repayments (principal)</strong> — interest IS an expense; principal is not</li>
+            <li><strong>GST paid to the ATO</strong> — just passing the tax through</li>
+            <li><strong>Payments to creditors</strong> — expense was recorded when the credit purchase was made</li>
+            <li><strong>Purchase of a non-current asset</strong> — it's an asset; gets expensed gradually via depreciation</li>
+            <li><strong>Purchase of inventory</strong> — becomes an asset (stock on hand) until sold</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="incl-principle">
+      <strong>💡 The key principle</strong><br>
+      The Income Statement measures <em>performance</em> — did the business earn more than it consumed? It only includes revenue (earnings from operations) and expenses (resources used to generate that revenue).<br><br>
+      Cash flows linked to <strong>financing</strong> (loans, owner contributions, drawings) or <strong>investing</strong> (buying/selling non-current assets) belong in the <strong>Cash Flow Statement</strong> — not the Income Statement.<br><br>
+      <strong>Quick test:</strong> ask "did the business <em>earn</em> this?" or "did the business <em>use this up</em> to generate revenue?" If <em>no</em> to both → it's not on the Income Statement.
     </div>
   </div>
 </div>
