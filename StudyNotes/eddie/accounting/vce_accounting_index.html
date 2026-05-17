@@ -47,6 +47,14 @@ h1 { background: #1C1C1A; color: #fff; padding: 22px 20px 10px; font-size: 22px;
 
 .no-results { text-align: center; color: #888; padding: 40px 20px; font-size: 14px; }
 
+/* Cheat sheets quick links */
+.cheats { margin: 0 12px 10px; background: #fff; border: 1.5px solid #BA7517; border-radius: 10px; padding: 12px 14px; }
+.cheats-head { font-weight: 700; font-size: 13px; color: #412402; margin-bottom: 9px; display: flex; align-items: center; gap: 6px; }
+.cheats-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.cheat-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; background: #FFF4E3; border: 1px solid #EED09A; border-radius: 18px; color: #412402; text-decoration: none; font-size: 12.5px; font-weight: 600; transition: background 0.15s; }
+.cheat-link:hover, .cheat-link:active { background: #FAEEDA; }
+.cheat-link .ch-num { background: #BA7517; color: #fff; font-size: 10.5px; font-weight: 700; padding: 2px 6px; border-radius: 4px; min-width: 24px; text-align: center; }
+
 .footer { text-align: center; color: #AAA; font-size: 11px; padding: 20px; margin-top: 10px; }
 </style>
 </head>
@@ -64,6 +72,17 @@ h1 { background: #1C1C1A; color: #fff; padding: 22px 20px 10px; font-size: 22px;
   </select>
 </div>
 <div class="stats" id="stats"></div>
+
+<!-- Cheat sheets quick links -->
+<div class="cheats">
+  <div class="cheats-head">&#9889; Exam Cheat Sheets</div>
+  <div class="cheats-list">
+    <a class="cheat-link" href="accounting_three_reports_cheatsheet.md"><span class="ch-num">3R</span>The Three Reports</a>
+    <a class="cheat-link" href="accounting_ch10_cheatsheet.md"><span class="ch-num">10</span>Financing &amp; Gearing</a>
+    <a class="cheat-link" href="accounting_ch12_cheatsheet.md"><span class="ch-num">12</span>Pricing &amp; Break-even</a>
+    <a class="cheat-link" href="accounting_ch13_cheatsheet.md"><span class="ch-num">13</span>Performance Indicators</a>
+  </div>
+</div>
 
 <!-- Chapter legend -->
 <div class="legend">
